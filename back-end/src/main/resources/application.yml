@@ -1,0 +1,14 @@
+security:
+  jwt:
+    token:
+      secret-key: 53cr37
+      expire-length: 3600000
+spring:
+  profiles:
+    active: ${APP_PROFILE:test}
+spring-doc:
+  paths-to-match:
+    - /api/**/v1/**
+    - /auth/**
+  swagger-ui:
+    use-root-path: true
