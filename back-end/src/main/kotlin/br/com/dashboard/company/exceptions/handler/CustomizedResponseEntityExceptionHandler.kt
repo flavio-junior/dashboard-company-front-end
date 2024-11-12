@@ -1,5 +1,6 @@
 package br.com.dashboard.company.exceptions.handler
 
+import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
 import br.com.dashboard.company.exceptions.InvalidJwtAuthenticationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,6 +18,18 @@ class CustomizedResponseEntityExceptionHandler: ResponseEntityExceptionHandler()
     fun handleInvalidJwtAuthenticationExceptions(
         exception: Exception,
         request: WebRequest,
+    ): ResponseEntity<ExceptionResponse> {
+        val exceptionResponse = ExceptionResponse(
+            status = HttpStatus.FORBIDDEN.value(),
+            message = exception.message
+        )
+        return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.FORBIDDEN)
+    }
+
+    @ExceptionHandler(ForbiddenActionRequestException::class)
+    fun handleForbiddenActionRequestExceptions(
+        exception: Exception,
+        request: WebRequest
     ): ResponseEntity<ExceptionResponse> {
         val exceptionResponse = ExceptionResponse(
             status = HttpStatus.FORBIDDEN.value(),

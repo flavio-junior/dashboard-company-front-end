@@ -1,5 +1,6 @@
-package br.com.dashboard.company.vo
+package br.com.dashboard.company.vo.user
 
+import br.com.dashboard.company.utils.TypeAccount
 import java.util.*
 
 data class TokenVO(
