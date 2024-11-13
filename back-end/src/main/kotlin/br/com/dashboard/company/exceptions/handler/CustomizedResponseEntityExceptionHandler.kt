@@ -1,5 +1,6 @@
 package br.com.dashboard.company.exceptions.handler
 
+import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
 import br.com.dashboard.company.exceptions.InvalidJwtAuthenticationException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 @RestController
-class CustomizedResponseEntityExceptionHandler: ResponseEntityExceptionHandler() {
+class CustomizedResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(InvalidJwtAuthenticationException::class)
     fun handleInvalidJwtAuthenticationExceptions(
@@ -40,11 +41,26 @@ class CustomizedResponseEntityExceptionHandler: ResponseEntityExceptionHandler()
     }
 
     @ExceptionHandler(ResourceNotFoundException::class)
-    fun handleResourceNotFoundException(exception: Exception, request: WebRequest): ResponseEntity<ExceptionResponse> {
+    fun handleResourceNotFoundException(
+        exception: Exception,
+        request: WebRequest
+    ): ResponseEntity<ExceptionResponse> {
         val exceptionResponse = ExceptionResponse(
             status = HttpStatus.NOT_FOUND.value(),
             message = exception.message
         )
         return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(DuplicateNameException::class)
+    fun handleDuplicateNameException(
+        exception: Exception,
+        request: WebRequest
+    ): ResponseEntity<ExceptionResponse> {
+        val exceptionResponse = ExceptionResponse(
+            status = HttpStatus.CONFLICT.value(),
+            message = exception.message
+        )
+        return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.CONFLICT)
     }
 }
