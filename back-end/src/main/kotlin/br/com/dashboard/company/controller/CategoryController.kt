@@ -28,7 +28,7 @@ class CategoryController {
 
     @GetMapping(produces = [APPLICATION_JSON])
     @Operation(
-        summary = "List All Categories", description = "List All Categories",
+        summary = "Find All Categories", description = "Find All Categories",
         tags = ["Category"], responses = [
             ApiResponse(
                 description = "Success", responseCode = "200", content = [
@@ -66,6 +66,47 @@ class CategoryController {
         return ResponseEntity.ok(
             categoryService.findAllCategories()
         )
+    }
+
+    @GetMapping(
+        value = ["/{id}"],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Find Category By Id", description = "Find Category By Id",
+        tags = ["Category"],
+        responses = [
+            ApiResponse(
+                description = "Success", responseCode = "200", content = [
+                    Content(schema = Schema(implementation = CategoryResponseVO::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun findById(
+        @PathVariable(value = "id") id: Long
+    ): CategoryResponseVO {
+        return categoryService.findCategoryById(id)
     }
 
     @PostMapping(
@@ -120,5 +161,91 @@ class CategoryController {
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
         return ResponseEntity.created(uri).body(entity)
+    }
+
+    @PutMapping(
+        consumes = [APPLICATION_JSON],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Update Category", description = "Update Category",
+        tags = ["Category"],
+        responses = [
+            ApiResponse(
+                description = "Success", responseCode = "200", content = [
+                    Content(schema = Schema(implementation = CategoryResponseVO::class))
+                ]
+            ),
+            ApiResponse(
+                description = "No Content", responseCode = "204", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun updateCategory(
+        @RequestBody category: CategoryResponseVO
+    ): CategoryResponseVO {
+        return categoryService.updateCategory(category)
+    }
+
+    @DeleteMapping(
+        value = ["/{id}"],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Delete Category", description = "Delete Category",
+        tags = ["Category"],
+        responses = [
+            ApiResponse(
+                description = "No Content", responseCode = "204", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun deleteCategory(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
+        categoryService.deleteCategory(id)
+        return ResponseEntity.noContent().build<Any>()
     }
 }

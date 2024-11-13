@@ -2,6 +2,7 @@ package br.com.dashboard.company.exceptions.handler
 
 import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
 import br.com.dashboard.company.exceptions.InvalidJwtAuthenticationException
+import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -36,5 +37,14 @@ class CustomizedResponseEntityExceptionHandler: ResponseEntityExceptionHandler()
             message = exception.message
         )
         return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.FORBIDDEN)
+    }
+
+    @ExceptionHandler(ResourceNotFoundException::class)
+    fun handleResourceNotFoundException(exception: Exception, request: WebRequest): ResponseEntity<ExceptionResponse> {
+        val exceptionResponse = ExceptionResponse(
+            status = HttpStatus.NOT_FOUND.value(),
+            message = exception.message
+        )
+        return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND)
     }
 }

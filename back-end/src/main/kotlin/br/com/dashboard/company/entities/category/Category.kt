@@ -9,5 +9,5 @@ data class Category(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
     @Column(name = "name", nullable = false, unique = true)
-    var name: String? = ""
+    var name: String = ""
 )
