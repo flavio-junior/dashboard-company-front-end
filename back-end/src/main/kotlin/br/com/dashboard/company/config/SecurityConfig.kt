@@ -46,19 +46,15 @@ class SecurityConfig {
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers(
-                        "/api/auth/v1/confirm-email-address",
-                        "/api/auth/v1/check-code-existent/{code}",
-                        "/api/auth/v1/update-code-verification-email/{email}",
-                        "/api/auth/v1/signUp",
                         "/api/auth/v1/signIn",
                         "/api/auth/v1/recover-password",
                         "/api/auth/v1/check-recover-password/{code}",
                         "/api/auth/v1/new-password",
-                        "/api/auth/v1/refresh/{email}",
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
-                        "/api/number/telephone/**"
                     ).permitAll()
+                    .requestMatchers("api/dashboard/company/categories/v1**").hasRole("ADMIN")
+                    .anyRequest().authenticated()
             }
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter::class.java)
             .cors { _: CorsConfigurer<HttpSecurity?>? -> }

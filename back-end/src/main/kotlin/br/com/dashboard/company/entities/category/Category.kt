@@ -8,6 +8,6 @@ data class Category(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
-    @Column(name = "created_at", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     var name: String? = ""
 )

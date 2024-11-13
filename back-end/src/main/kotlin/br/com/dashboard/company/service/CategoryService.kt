@@ -1,5 +1,6 @@
 package br.com.dashboard.company.service
 
+import br.com.dashboard.company.entities.category.Category
 import br.com.dashboard.company.repository.CategoryRepository
 import br.com.dashboard.company.utils.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.category.CategoryResponseVO
@@ -17,5 +18,12 @@ class CategoryService {
     fun findAllCategories(): List<CategoryResponseVO> {
         val categories = categoryRepository.findAll()
         return categories.map { category -> parseObject(category, CategoryResponseVO::class.java) }
+    }
+
+    fun createNewCategory(
+        category: CategoryResponseVO
+    ): CategoryResponseVO {
+        val categoryResult: Category = parseObject(category, Category::class.java)
+        return parseObject(categoryRepository.save(categoryResult), CategoryResponseVO::class.java)
     }
 }

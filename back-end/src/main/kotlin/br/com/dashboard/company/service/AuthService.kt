@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
@@ -39,5 +40,15 @@ class AuthService {
         } catch (e: AuthenticationException) {
             throw ForbiddenActionRequestException(exception = "invalid credentials")
         }
+    }
+
+    fun refreshToken(email: String, refreshToken: String): TokenVO {
+        val user: User? = userRepository.fetchByEmail(email)
+        val tokenResponse: TokenVO = if (user != null) {
+            tokenProvider.refreshToken(refreshToken)
+        } else {
+            throw UsernameNotFoundException("Username $email not found")
+        }
+        return (tokenResponse)
     }
 }
