@@ -10,7 +10,7 @@ data class Product(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
-    @Column(name = "created_at", nullable = false, unique = true)
+    @Column(name = "created_at", nullable = false)
     var createdAt: Instant? = null,
     var name: String = "",
     var description: String = "",

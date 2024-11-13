@@ -44,6 +44,10 @@ class ProductService {
         if (!checkNameProductAlreadyExists(name = product.name)) {
             val productResult: Product = parseObject(product, Product::class.java)
             productResult.createdAt = Instant.now()
+            product.categories?.forEach {
+                val category = Category(id = it.id, name = it.name)
+                productResult.categories?.add(element = category)
+            }
             return parseObject(productRepository.save(productResult), ProductResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_PRODUCT)
