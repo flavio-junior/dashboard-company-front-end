@@ -4,8 +4,10 @@ import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
 import br.com.dashboard.company.service.ProductService
 import br.com.dashboard.company.utils.ConstantsUtils.EMPTY_FIELDS
 import br.com.dashboard.company.utils.MediaType.APPLICATION_JSON
+import br.com.dashboard.company.vo.product.PriceRequestVO
 import br.com.dashboard.company.vo.product.ProductRequestVO
 import br.com.dashboard.company.vo.product.ProductResponseVO
+import br.com.dashboard.company.vo.product.RestockProductRequestVO
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -209,6 +211,107 @@ class ProductController {
         return productService.updateProduct(product)
     }
 
+    @PatchMapping(
+        value = ["update/price/product/{id}"],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Update Price of Product", description = "Update Price of Product",
+        tags = ["Product"],
+        responses = [
+            ApiResponse(
+                description = "No Content", responseCode = "204", content = [
+                    Content(schema = Schema(implementation = PriceRequestVO::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Operation Unauthorized", responseCode = "403", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Conflict", responseCode = "409", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun updatePriceProduct(
+        @PathVariable(value = "id") id: Long,
+        @RequestBody price: PriceRequestVO
+    ): ResponseEntity<*> {
+        productService.updatePriceProduct(idProduct = id, price = price)
+        return ResponseEntity.noContent().build<Any>()
+    }
+
+    @PatchMapping(
+        value = ["restock/product/{id}"],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Restock Product", description = "Restock Product",
+        tags = ["Product"],
+        responses = [
+            ApiResponse(
+                description = "No Content", responseCode = "204", content = [
+                    Content(schema = Schema(implementation = RestockProductRequestVO::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Operation Unauthorized", responseCode = "403", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun restockProduct(
+        @PathVariable(value = "id") id: Long,
+        @RequestBody restockProduct: RestockProductRequestVO
+    ): ResponseEntity<*> {
+        productService.restockProduct(idProduct = id, restockProduct = restockProduct)
+        return ResponseEntity.noContent().build<Any>()
+    }
+
     @DeleteMapping(
         value = ["/{id}"],
         produces = [APPLICATION_JSON]
@@ -245,8 +348,8 @@ class ProductController {
         ]
     )
     fun deleteProduct(
-        @PathVariable(value = "id") id: Long)
-    : ResponseEntity<*> {
+        @PathVariable(value = "id") id: Long
+    ): ResponseEntity<*> {
         productService.deleteProduct(id)
         return ResponseEntity.noContent().build<Any>()
     }

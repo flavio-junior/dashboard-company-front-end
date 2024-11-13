@@ -7,8 +7,10 @@ import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ProductRepository
 import br.com.dashboard.company.utils.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.category.CategoryResponseVO
+import br.com.dashboard.company.vo.product.PriceRequestVO
 import br.com.dashboard.company.vo.product.ProductRequestVO
 import br.com.dashboard.company.vo.product.ProductResponseVO
+import br.com.dashboard.company.vo.product.RestockProductRequestVO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -88,6 +90,24 @@ class ProductService {
             categoryService.getCategory(id = it.id)
         }?.toMutableList()
         return result
+    }
+
+    @Transactional
+    fun updatePriceProduct(
+        idProduct: Long,
+        price: PriceRequestVO
+    ) {
+        getProduct(id = idProduct)
+        productRepository.updatePriceProduct(idProduct = idProduct, price = price.price)
+    }
+
+    @Transactional
+    fun restockProduct(
+        idProduct: Long,
+        restockProduct: RestockProductRequestVO
+    ) {
+        getProduct(id = idProduct)
+        productRepository.restockProduct(idProduct = idProduct, quantity = restockProduct.quantity)
     }
 
     fun deleteProduct(id: Long) {
