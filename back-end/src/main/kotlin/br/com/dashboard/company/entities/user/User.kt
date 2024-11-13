@@ -16,10 +16,10 @@ class User: UserDetails {
     var id: Long = 0
     @Column(name = "created_at", nullable = false, unique = true)
     var createdAt: Instant? = null
-    var name: String? = ""
-    var surname: String? = ""
+    var name: String = ""
+    var surname: String = ""
     @Column(unique = true)
-    var email: String? = ""
+    var email: String = ""
     @Column(name = "password", nullable = false, unique = true)
     private var password: String? = ""
     @Column(name = "type_account", nullable = false)
@@ -27,16 +27,16 @@ class User: UserDetails {
     var typeAccount: TypeAccount? = null
 
     @Column(name = "account_non_expired")
-    var accountNonExpired: Boolean? = true
+    var accountNonExpired: Boolean = true
 
     @Column(name = "account_non_locked")
-    var accountNonLocked: Boolean? = true
+    var accountNonLocked: Boolean = true
 
     @Column(name = "credentials_non_expired")
-    var credentialsNonExpired: Boolean? = true
+    var credentialsNonExpired: Boolean = true
 
     @Column(name = "enabled")
-    var enabled: Boolean? = true
+    var enabled: Boolean = true
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         if (this.typeAccount == TypeAccount.ADMIN) {
@@ -54,22 +54,22 @@ class User: UserDetails {
     }
 
     override fun getUsername(): String {
-        return email!!
+        return email
     }
 
     override fun isAccountNonExpired(): Boolean {
-        return accountNonExpired!!
+        return accountNonExpired
     }
 
     override fun isAccountNonLocked(): Boolean {
-        return accountNonLocked!!
+        return accountNonLocked
     }
 
     override fun isCredentialsNonExpired(): Boolean {
-        return credentialsNonExpired!!
+        return credentialsNonExpired
     }
 
     override fun isEnabled(): Boolean {
-        return enabled!!
+        return enabled
     }
 }
