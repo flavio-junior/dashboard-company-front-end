@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.Instant
 
 data class ProductResponseVO(
-    var id: Long? = 0,
+    var id: Long = 0,
     @JsonProperty(value = "created_at")
     var createdAt: Instant? = null,
     var name: String = "",

@@ -54,6 +54,7 @@ class SecurityConfig {
                         "/swagger-ui/**",
                     ).permitAll()
                     .requestMatchers("api/dashboard/company/categories/v1**").hasRole("ADMIN")
+                    .requestMatchers("api/dashboard/company/products/v1**").hasRole("ADMIN")
                     .anyRequest().authenticated()
             }
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter::class.java)
