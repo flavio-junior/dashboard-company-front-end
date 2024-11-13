@@ -14,7 +14,7 @@ data class Product(
     var createdAt: Instant? = null,
     var name: String = "",
     var description: String = "",
-    @ManyToMany(cascade = [CascadeType.ALL])
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JoinTable(
         name = "tb_product_category",
         joinColumns = [JoinColumn(name = "fk_product", referencedColumnName = "id")],

@@ -30,7 +30,7 @@ class CategoryService {
         return parseObject(category, CategoryResponseVO::class.java)
     }
 
-    private fun getCategory(id: Long): Category {
+    fun getCategory(id: Long): Category {
         return categoryRepository.findById(id)
             .orElseThrow { ResourceNotFoundException(CATEGORY_NOT_FOUND) }
     }

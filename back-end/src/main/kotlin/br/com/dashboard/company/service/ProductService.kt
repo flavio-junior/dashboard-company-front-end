@@ -6,6 +6,7 @@ import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ProductRepository
 import br.com.dashboard.company.utils.ConverterUtils.parseObject
+import br.com.dashboard.company.vo.category.CategoryResponseVO
 import br.com.dashboard.company.vo.product.ProductRequestVO
 import br.com.dashboard.company.vo.product.ProductResponseVO
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,6 +19,9 @@ class ProductService {
 
     @Autowired
     private lateinit var productRepository: ProductRepository
+
+    @Autowired
+    private lateinit var categoryService: CategoryService
 
     @Transactional(readOnly = true)
     fun findAllProducts(): List<ProductResponseVO> {
@@ -38,16 +42,14 @@ class ProductService {
             .orElseThrow { ResourceNotFoundException(PRODUCT_NOT_FOUND) }
     }
 
+    @Transactional
     fun createNewProduct(
         product: ProductRequestVO
     ): ProductResponseVO {
         if (!checkNameProductAlreadyExists(name = product.name)) {
             val productResult: Product = parseObject(product, Product::class.java)
+            productResult.categories = converterCategories(categories = product.categories)
             productResult.createdAt = Instant.now()
-            product.categories?.forEach {
-                val category = Category(id = it.id, name = it.name)
-                productResult.categories?.add(element = category)
-            }
             return parseObject(productRepository.save(productResult), ProductResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_PRODUCT)
@@ -61,6 +63,7 @@ class ProductService {
         return productResult != null
     }
 
+    @Transactional
     fun updateProduct(
         product: ProductResponseVO
     ): ProductResponseVO {
@@ -69,10 +72,7 @@ class ProductService {
             productSaved.name = product.name
             productSaved.description = product.description
             productSaved.categories?.clear()
-            product.categories?.forEach { category ->
-                val newCategory = Category(id = category.id, name = category.name)
-                productSaved.categories?.add(newCategory)
-            }
+            productSaved.categories = converterCategories(categories = product.categories)
             productSaved.price = product.price
             productSaved.quantity = product.quantity
             return parseObject(productRepository.save(productSaved), ProductResponseVO::class.java)
@@ -81,8 +81,18 @@ class ProductService {
         }
     }
 
+    private fun converterCategories(
+        categories: MutableList<CategoryResponseVO>? = null
+    ): MutableList<Category>? {
+        val result = categories?.map {
+            categoryService.getCategory(id = it.id)
+        }?.toMutableList()
+        return result
+    }
+
     fun deleteProduct(id: Long) {
         val product = getProduct(id = id)
+        product.categories = null
         productRepository.delete(product)
     }
 
