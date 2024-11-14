@@ -19,20 +19,20 @@
   - **Description: ` Main Developer `**
   - **Contact: ` flaviojunior.work@gmail.com `**
 
-### Git - Accepted Commits and Pull Requests Standards:
-- **feat:** **` Used when is created or adding a new feature. `**
-- **fix:** **`  Used when fixing a bug in project. `**
-- **update:** **`  Used for updates to existing files... `**
-- **config:** **` Implementation and configuration in project. `**
-- **drop files:** **` Used when is deleted a file of the project. `**
-- **docs:** **` Indica que houver a criação, implementação ou alterações na documentação. `**
-- **test:** **` Used when adding or updating in test scenarios. `**
-- **refactor:** **` Refatoração que não alteram sua funcionalidade. `**
-- **build:** **` Indica que houver a criação, implementação ou alterações em arquivos de build ou dependências. `**
-- **chore:** **` Indica atualizações de tarefas de build, configurações de administrador,pacotes, etc. `**
-- **perf:** **` Alterações de código que estejam relacionadas à performance. `**
+### Git - Accepted Standards for Commits and Pull Requests:
+- **feat:** **` Used when creating or adding a new feature. `**
+- **fix:** **`  Used when fixing a bug in the project. `**
+- **update:** **`  Used for updates to existing files. `**
+- **config:** **` Implementation and configuration in the project. `**
+- **drop files:** **` Used when a file is deleted from the project. `**
+- **docs:** **` Indicates the creation, implementation, or changes in the documentation. `**
+- **test:** **` Used when adding or updating test scenarios. `**
+- **refactor:** **` Refactoring that does not change functionality. `**
+- **build:** **` Indicates the creation, implementation, or changes in build files or dependencies. `**
+- **chore:** **` Indicates updates to build tasks, admin configurations, packages, etc. `**
+- **perf:** **` Code changes related to performance. `**
 - **style:** **`  Used for changes in code formatting. `**
-- **revert:** **` Back to a specific commit. `**
+- **revert:** **` Reverts to a specific commit. `**
 
 **Example:** **` git commit -m "docs: adding instructions" `**
 
