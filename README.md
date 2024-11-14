@@ -11,12 +11,12 @@
   - **` Postman `**
   - **` Git `**
   - **` GitHub `**
-  - **` Postgresql `**
+  - **` pgAdmin 4 `**
   - **` CMD `**
 
 - **Contact Me:**
   - **Name: ` Flávio Júnior `**
-  - **Description: ` Founder of Guide Point Company and developer `**
+  - **Description: ` Main Developer `**
   - **Contact: ` flaviojunior.work@gmail.com `**
 
 ### Git - Accepted Commits and Pull Requests Standards:
