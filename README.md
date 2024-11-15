@@ -54,4 +54,4 @@
 - **Validade: ` mvn flyway:validate `**
 - **Undo: ` mvn flyway:undo `**
 - **Baseline: ` mvn flyway:baseline `**
-- **Repair: ` mvn flyway:baseline `**
+- **Repair: ` mvn flyway:repair `**
