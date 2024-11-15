@@ -169,6 +169,7 @@
 					<url>${env.FLYWAY_DB_URL}</url>
 					<user>${env.FLYWAY_DB_USER}</user>
 					<password>${env.FLYWAY_DB_PASSWORD}</password>
+					<cleanDisabled>false</cleanDisabled>
 					<schemas>
 						<schema>public</schema>
 					</schemas>
