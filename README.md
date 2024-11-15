@@ -46,3 +46,12 @@
 - **Generate jar and skip tests: ` mvn clean package -DskipTests `**
 - **Run project: ` java -jar target/pontoguia-0.0.1-SNAPSHOT.jar.jar `**
 - **Stop project: ` Ctrl + C `**
+
+### Commands of flyway:
+- **Migrate: ` mvn flyway:migrate `**
+- **Clean: ` mvn flyway:clean `**
+- **Info: ` mvn flyway:info `**
+- **Validade: ` mvn flyway:validate `**
+- **Undo: ` mvn flyway:undo `**
+- **Baseline: ` mvn flyway:baseline `**
+- **Repair: ` mvn flyway:baseline `**
