@@ -49,7 +49,7 @@
 
 ### Commands of flyway:
 - **Migrate: ` mvn flyway:migrate `**
-- **Clean: ` mvn flyway:clean `**
+- **Clean: ` mvn flyway:clean (Execute this command only in development or testing environments). `**
 - **Info: ` mvn flyway:info `**
 - **Validade: ` mvn flyway:validate `**
 - **Undo: ` mvn flyway:undo `**
