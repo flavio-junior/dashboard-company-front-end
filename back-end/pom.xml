@@ -48,6 +48,7 @@
 		<flywaydb.version>10.21.0</flywaydb.version>
 		<modelmapper.version>3.0.0</modelmapper.version>
 		<springdoc.version>2.6.0</springdoc.version>
+		<surefire.version>3.3.1</surefire.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -106,6 +107,11 @@
 			<version>${modelmapper.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>${surefire.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -141,11 +147,6 @@
 						<plugin>spring</plugin>
 						<plugin>jpa</plugin>
 					</compilerPlugins>
-					<pluginOptions>
-						<option>all-open:annotation=jakarta.persistence.Entity</option>
-						<option>all-open:annotation=jakarta.persistence.MappedSuperclass</option>
-						<option>all-open:annotation=jakarta.persistence.Embeddable</option>
-					</pluginOptions>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -159,6 +160,22 @@
 						<version>${kotlin.version}</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>${flywaydb.version}</version>
+				<configuration>
+					<url>${env.FLYWAY_DB_URL}</url>
+					<user>${env.FLYWAY_DB_USER}</user>
+					<password>${env.FLYWAY_DB_PASSWORD}</password>
+					<schemas>
+						<schema>public</schema>
+					</schemas>
+					<locations>
+						<location>classpath:db/migration</location>
+					</locations>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
