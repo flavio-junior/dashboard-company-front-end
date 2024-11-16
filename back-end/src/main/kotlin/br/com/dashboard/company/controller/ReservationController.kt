@@ -1,10 +1,11 @@
 package br.com.dashboard.company.controller
 
 import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
-import br.com.dashboard.company.service.CategoryService
+import br.com.dashboard.company.service.ReservationService
 import br.com.dashboard.company.utils.others.ConstantsUtils.EMPTY_FIELDS
 import br.com.dashboard.company.utils.others.MediaType.APPLICATION_JSON
-import br.com.dashboard.company.vo.category.CategoryResponseVO
+import br.com.dashboard.company.vo.reservation.ReservationRequestVO
+import br.com.dashboard.company.vo.reservation.ReservationResponseVO
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -25,21 +26,20 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
 
 @RestController
-@RequestMapping(value = ["/api/dashboard/company/categories/v1"])
-@Tag(name = "Category", description = "EndPoint For Managing All Categories")
-class CategoryController {
-
+@RequestMapping(value = ["/api/dashboard/company/reservations/v1"])
+@Tag(name = "Reservation", description = "EndPoint For Managing All Reservations")
+class ReservationController {
+    
     @Autowired
-    private lateinit var categoryService: CategoryService
-
+    private lateinit var reservationService: ReservationService
 
     @GetMapping(produces = [APPLICATION_JSON])
     @Operation(
-        summary = "Find All Categories", description = "Find All Categories",
-        tags = ["Category"], responses = [
+        summary = "List All Reservations", description = "List All Reservations",
+        tags = ["Reservation"], responses = [
             ApiResponse(
                 description = "Success", responseCode = "200", content = [
-                    Content(array = ArraySchema(schema = Schema(implementation = CategoryResponseVO::class)))
+                    Content(array = ArraySchema(schema = Schema(implementation = ReservationResponseVO::class)))
                 ]
             ),
             ApiResponse(
@@ -69,9 +69,9 @@ class CategoryController {
             )
         ]
     )
-    fun findAllCategories(): ResponseEntity<List<CategoryResponseVO>> {
+    fun findAllReservations(): ResponseEntity<List<ReservationResponseVO>> {
         return ResponseEntity.ok(
-            categoryService.findAllCategories()
+            reservationService.findAllReservations()
         )
     }
 
@@ -80,12 +80,12 @@ class CategoryController {
         produces = [APPLICATION_JSON]
     )
     @Operation(
-        summary = "Find Category By Id", description = "Find Category By Id",
-        tags = ["Category"],
+        summary = "Find Reservation By Id", description = "Find Reservation By Id",
+        tags = ["Reservation"],
         responses = [
             ApiResponse(
                 description = "Success", responseCode = "200", content = [
-                    Content(schema = Schema(implementation = CategoryResponseVO::class))
+                    Content(schema = Schema(implementation = ReservationResponseVO::class))
                 ]
             ),
             ApiResponse(
@@ -110,10 +110,10 @@ class CategoryController {
             )
         ]
     )
-    fun findById(
+    fun findReservationById(
         @PathVariable(value = "id") id: Long
-    ): CategoryResponseVO {
-        return categoryService.findCategoryById(id)
+    ): ReservationResponseVO {
+        return reservationService.findReservationById(id)
     }
 
     @PostMapping(
@@ -121,12 +121,12 @@ class CategoryController {
         produces = [APPLICATION_JSON]
     )
     @Operation(
-        summary = "Create New Category", description = "Create New Category",
-        tags = ["Category"],
+        summary = "Create New Reservation", description = "Create New Reservation",
+        tags = ["Reservation"],
         responses = [
             ApiResponse(
                 description = "Created", responseCode = "201", content = [
-                    Content(schema = Schema(implementation = CategoryResponseVO::class))
+                    Content(schema = Schema(implementation = ReservationResponseVO::class))
                 ]
             ),
             ApiResponse(
@@ -156,15 +156,15 @@ class CategoryController {
             )
         ]
     )
-    fun createNewCategory(
-        @RequestBody categoryResponseVO: CategoryResponseVO
-    ): ResponseEntity<CategoryResponseVO> {
+    fun createNewReservation(
+        @RequestBody reservation: ReservationRequestVO
+    ): ResponseEntity<ReservationResponseVO> {
         require(
-            value = categoryResponseVO.name.isNotBlank() && categoryResponseVO.name.isNotEmpty()
+            value = reservation.name.isNotBlank() && reservation.name.isNotEmpty()
         ) {
             throw ForbiddenActionRequestException(exception = EMPTY_FIELDS)
         }
-        val entity: CategoryResponseVO = categoryService.createNewCategory(category = categoryResponseVO)
+        val entity: ReservationResponseVO = reservationService.createNewReservation(reservation = reservation)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
         return ResponseEntity.created(uri).body(entity)
@@ -175,12 +175,12 @@ class CategoryController {
         produces = [APPLICATION_JSON]
     )
     @Operation(
-        summary = "Update Category", description = "Update Category",
-        tags = ["Category"],
+        summary = "Update Reservation", description = "Update Reservation",
+        tags = ["Reservation"],
         responses = [
             ApiResponse(
                 description = "Success", responseCode = "200", content = [
-                    Content(schema = Schema(implementation = CategoryResponseVO::class))
+                    Content(schema = Schema(implementation = ReservationResponseVO::class))
                 ]
             ),
             ApiResponse(
@@ -210,10 +210,10 @@ class CategoryController {
             )
         ]
     )
-    fun updateCategory(
-        @RequestBody category: CategoryResponseVO
-    ): CategoryResponseVO {
-        return categoryService.updateCategory(category)
+    fun updateReservation(
+        @RequestBody reservation: ReservationResponseVO
+    ): ReservationResponseVO {
+        return reservationService.updateReservation(reservation)
     }
 
     @DeleteMapping(
@@ -221,8 +221,8 @@ class CategoryController {
         produces = [APPLICATION_JSON]
     )
     @Operation(
-        summary = "Delete Category By Id", description = "Delete Category By Id",
-        tags = ["Category"],
+        summary = "Delete Reservation By Id", description = "Delete Reservation By Id",
+        tags = ["Reservation"],
         responses = [
             ApiResponse(
                 description = "No Content", responseCode = "204", content = [
@@ -251,8 +251,10 @@ class CategoryController {
             )
         ]
     )
-    fun deleteCategory(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
-        categoryService.deleteCategory(id)
+    fun deleteReservation(
+        @PathVariable(value = "id") id: Long
+    ): ResponseEntity<*> {
+        reservationService.deleteReservation(id)
         return ResponseEntity.noContent().build<Any>()
     }
 }

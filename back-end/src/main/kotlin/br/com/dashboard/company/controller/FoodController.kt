@@ -1,10 +1,13 @@
 package br.com.dashboard.company.controller
 
 import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
-import br.com.dashboard.company.service.CategoryService
+import br.com.dashboard.company.service.FoodService
 import br.com.dashboard.company.utils.others.ConstantsUtils.EMPTY_FIELDS
 import br.com.dashboard.company.utils.others.MediaType.APPLICATION_JSON
-import br.com.dashboard.company.vo.category.CategoryResponseVO
+import br.com.dashboard.company.vo.food.FoodRequestVO
+import br.com.dashboard.company.vo.food.FoodResponseVO
+import br.com.dashboard.company.utils.common.PriceRequestVO
+import br.com.dashboard.company.vo.food.RestockFoodRequestVO
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -25,21 +29,20 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
 
 @RestController
-@RequestMapping(value = ["/api/dashboard/company/categories/v1"])
-@Tag(name = "Category", description = "EndPoint For Managing All Categories")
-class CategoryController {
+@RequestMapping(value = ["/api/dashboard/company/foods/v1"])
+@Tag(name = "Food", description = "EndPoint For Managing All Foods")
+class FoodController {
 
     @Autowired
-    private lateinit var categoryService: CategoryService
-
-
+    private lateinit var foodService: FoodService
+    
     @GetMapping(produces = [APPLICATION_JSON])
     @Operation(
-        summary = "Find All Categories", description = "Find All Categories",
-        tags = ["Category"], responses = [
+        summary = "List All Foods", description = "List All Foods",
+        tags = ["Food"], responses = [
             ApiResponse(
                 description = "Success", responseCode = "200", content = [
-                    Content(array = ArraySchema(schema = Schema(implementation = CategoryResponseVO::class)))
+                    Content(array = ArraySchema(schema = Schema(implementation = FoodResponseVO::class)))
                 ]
             ),
             ApiResponse(
@@ -69,9 +72,9 @@ class CategoryController {
             )
         ]
     )
-    fun findAllCategories(): ResponseEntity<List<CategoryResponseVO>> {
+    fun findAllFoods(): ResponseEntity<List<FoodResponseVO>> {
         return ResponseEntity.ok(
-            categoryService.findAllCategories()
+            foodService.findAllFoods()
         )
     }
 
@@ -80,12 +83,12 @@ class CategoryController {
         produces = [APPLICATION_JSON]
     )
     @Operation(
-        summary = "Find Category By Id", description = "Find Category By Id",
-        tags = ["Category"],
+        summary = "Find Food By Id", description = "Find Food By Id",
+        tags = ["Food"],
         responses = [
             ApiResponse(
                 description = "Success", responseCode = "200", content = [
-                    Content(schema = Schema(implementation = CategoryResponseVO::class))
+                    Content(schema = Schema(implementation = FoodResponseVO::class))
                 ]
             ),
             ApiResponse(
@@ -110,10 +113,10 @@ class CategoryController {
             )
         ]
     )
-    fun findById(
+    fun findFoodById(
         @PathVariable(value = "id") id: Long
-    ): CategoryResponseVO {
-        return categoryService.findCategoryById(id)
+    ): FoodResponseVO {
+        return foodService.findFoodById(id)
     }
 
     @PostMapping(
@@ -121,12 +124,12 @@ class CategoryController {
         produces = [APPLICATION_JSON]
     )
     @Operation(
-        summary = "Create New Category", description = "Create New Category",
-        tags = ["Category"],
+        summary = "Create New Food", description = "Create New Food",
+        tags = ["Food"],
         responses = [
             ApiResponse(
                 description = "Created", responseCode = "201", content = [
-                    Content(schema = Schema(implementation = CategoryResponseVO::class))
+                    Content(schema = Schema(implementation = FoodResponseVO::class))
                 ]
             ),
             ApiResponse(
@@ -156,15 +159,15 @@ class CategoryController {
             )
         ]
     )
-    fun createNewCategory(
-        @RequestBody categoryResponseVO: CategoryResponseVO
-    ): ResponseEntity<CategoryResponseVO> {
+    fun createNewFood(
+        @RequestBody food: FoodRequestVO
+    ): ResponseEntity<FoodResponseVO> {
         require(
-            value = categoryResponseVO.name.isNotBlank() && categoryResponseVO.name.isNotEmpty()
+            value = food.name.isNotBlank() && food.name.isNotEmpty()
         ) {
             throw ForbiddenActionRequestException(exception = EMPTY_FIELDS)
         }
-        val entity: CategoryResponseVO = categoryService.createNewCategory(category = categoryResponseVO)
+        val entity: FoodResponseVO = foodService.createNewFood(food = food)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
         return ResponseEntity.created(uri).body(entity)
@@ -175,12 +178,12 @@ class CategoryController {
         produces = [APPLICATION_JSON]
     )
     @Operation(
-        summary = "Update Category", description = "Update Category",
-        tags = ["Category"],
+        summary = "Update Food", description = "Update Food",
+        tags = ["Food"],
         responses = [
             ApiResponse(
                 description = "Success", responseCode = "200", content = [
-                    Content(schema = Schema(implementation = CategoryResponseVO::class))
+                    Content(schema = Schema(implementation = FoodResponseVO::class))
                 ]
             ),
             ApiResponse(
@@ -210,10 +213,111 @@ class CategoryController {
             )
         ]
     )
-    fun updateCategory(
-        @RequestBody category: CategoryResponseVO
-    ): CategoryResponseVO {
-        return categoryService.updateCategory(category)
+    fun updateFood(
+        @RequestBody food: FoodResponseVO
+    ): FoodResponseVO {
+        return foodService.updateFood(food)
+    }
+
+    @PatchMapping(
+        value = ["update/price/Food/{id}"],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Update Price of Food", description = "Update Price of Food",
+        tags = ["Food"],
+        responses = [
+            ApiResponse(
+                description = "No Content", responseCode = "204", content = [
+                    Content(schema = Schema(implementation = PriceRequestVO::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Operation Unauthorized", responseCode = "403", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Conflict", responseCode = "409", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun updatePriceFood(
+        @PathVariable(value = "id") id: Long,
+        @RequestBody price: PriceRequestVO
+    ): ResponseEntity<*> {
+        foodService.updatePriceFood(idFood = id, price = price)
+        return ResponseEntity.noContent().build<Any>()
+    }
+
+    @PatchMapping(
+        value = ["restock/Food/{id}"],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Restock Food", description = "Restock Food",
+        tags = ["Food"],
+        responses = [
+            ApiResponse(
+                description = "No Content", responseCode = "204", content = [
+                    Content(schema = Schema(implementation = RestockFoodRequestVO::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Operation Unauthorized", responseCode = "403", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun restockFood(
+        @PathVariable(value = "id") id: Long,
+        @RequestBody restockFood: RestockFoodRequestVO
+    ): ResponseEntity<*> {
+        foodService.restockFood(idFood = id, restockFood = restockFood)
+        return ResponseEntity.noContent().build<Any>()
     }
 
     @DeleteMapping(
@@ -221,8 +325,8 @@ class CategoryController {
         produces = [APPLICATION_JSON]
     )
     @Operation(
-        summary = "Delete Category By Id", description = "Delete Category By Id",
-        tags = ["Category"],
+        summary = "Delete Food By Id", description = "Delete Food By Id",
+        tags = ["Food"],
         responses = [
             ApiResponse(
                 description = "No Content", responseCode = "204", content = [
@@ -251,8 +355,10 @@ class CategoryController {
             )
         ]
     )
-    fun deleteCategory(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
-        categoryService.deleteCategory(id)
+    fun deleteFood(
+        @PathVariable(value = "id") id: Long
+    ): ResponseEntity<*> {
+        foodService.deleteFood(id)
         return ResponseEntity.noContent().build<Any>()
     }
 }

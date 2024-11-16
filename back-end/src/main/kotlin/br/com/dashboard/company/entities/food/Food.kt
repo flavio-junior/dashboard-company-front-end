@@ -1,4 +1,4 @@
-package br.com.dashboard.company.entities.product
+package br.com.dashboard.company.entities.food
 
 import br.com.dashboard.company.entities.category.Category
 import jakarta.persistence.CascadeType
@@ -15,8 +15,8 @@ import jakarta.persistence.Table
 import java.time.Instant
 
 @Entity
-@Table(name = "tb_product")
-data class Product(
+@Table(name = "tb_food")
+data class Food(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
@@ -26,8 +26,8 @@ data class Product(
     var description: String = "",
     @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JoinTable(
-        name = "tb_product_category",
-        joinColumns = [JoinColumn(name = "fk_product", referencedColumnName = "id")],
+        name = "tb_food_category",
+        joinColumns = [JoinColumn(name = "fk_food", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "fk_category", referencedColumnName = "id")]
     )
     var categories: MutableList<Category>? = null,

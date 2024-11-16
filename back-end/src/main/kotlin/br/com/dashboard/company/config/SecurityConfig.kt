@@ -54,7 +54,11 @@ class SecurityConfig {
                         "/swagger-ui/**",
                     ).permitAll()
                     .requestMatchers("api/dashboard/company/categories/v1**").hasRole("ADMIN")
+                    .requestMatchers("api/dashboard/company/foods/v1**").hasRole("ADMIN")
+                    .requestMatchers("api/dashboard/company/items/v1**").hasRole("ADMIN")
+                    .requestMatchers("api/dashboard/company/orders/v1**").hasRole("ADMIN")
                     .requestMatchers("api/dashboard/company/products/v1**").hasRole("ADMIN")
+                    .requestMatchers("api/dashboard/company/reservations/v1**").hasRole("ADMIN")
                     .anyRequest().authenticated()
             }
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter::class.java)

@@ -1,8 +1,8 @@
-package br.com.dashboard.company.vo.product
+package br.com.dashboard.company.vo.order
 
 import br.com.dashboard.company.vo.category.CategoryResponseVO
 
-data class ProductRequestVO(
+data class OrderRequestVO(
     var name: String = "",
     var description: String = "",
     var categories: MutableList<CategoryResponseVO>? = null,

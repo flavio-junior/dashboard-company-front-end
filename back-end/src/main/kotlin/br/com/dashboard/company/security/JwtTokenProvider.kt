@@ -2,7 +2,7 @@ package br.com.dashboard.company.security
 
 import br.com.dashboard.company.exceptions.InvalidJwtAuthenticationException
 import br.com.dashboard.company.vo.user.TokenVO
-import br.com.dashboard.company.utils.TypeAccount
+import br.com.dashboard.company.utils.common.TypeAccount
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm

@@ -1,7 +1,7 @@
 package br.com.dashboard.company.controller
 
 import br.com.dashboard.company.entities.user.User
-import br.com.dashboard.company.utils.MediaType.APPLICATION_JSON
+import br.com.dashboard.company.utils.others.MediaType.APPLICATION_JSON
 import br.com.dashboard.company.vo.user.UserResponseVO
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema

@@ -5,9 +5,9 @@ import br.com.dashboard.company.entities.product.Product
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ProductRepository
-import br.com.dashboard.company.utils.ConverterUtils.parseObject
+import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.category.CategoryResponseVO
-import br.com.dashboard.company.vo.product.PriceRequestVO
+import br.com.dashboard.company.utils.common.PriceRequestVO
 import br.com.dashboard.company.vo.product.ProductRequestVO
 import br.com.dashboard.company.vo.product.ProductResponseVO
 import br.com.dashboard.company.vo.product.RestockProductRequestVO

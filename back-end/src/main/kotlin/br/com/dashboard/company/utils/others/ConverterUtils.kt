@@ -1,4 +1,4 @@
-package br.com.dashboard.company.utils
+package br.com.dashboard.company.utils.others
 
 import org.modelmapper.ModelMapper
 

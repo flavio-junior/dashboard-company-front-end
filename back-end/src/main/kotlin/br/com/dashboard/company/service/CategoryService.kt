@@ -4,7 +4,7 @@ import br.com.dashboard.company.entities.category.Category
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.CategoryRepository
-import br.com.dashboard.company.utils.ConverterUtils.parseObject
+import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.category.CategoryResponseVO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

@@ -1,8 +1,15 @@
 package br.com.dashboard.company.entities.payment
 
-import br.com.dashboard.company.utils.PaymentStatus
-import br.com.dashboard.company.utils.PaymentType
-import jakarta.persistence.*
+import br.com.dashboard.company.utils.common.PaymentStatus
+import br.com.dashboard.company.utils.common.PaymentType
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import java.time.Instant
 
 @Entity
