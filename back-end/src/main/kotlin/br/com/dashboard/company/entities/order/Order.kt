@@ -18,7 +18,7 @@ import jakarta.persistence.JoinTable
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import java.time.Instant
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tb_order")
@@ -27,7 +27,7 @@ data class Order(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
     @Column(name = "created_at", nullable = false)
-    var createdAt: Instant? = null,
+    var createdAt: LocalDateTime? = null,
     @Enumerated(EnumType.STRING)
     var type: TypeOrder? = null,
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
@@ -52,6 +52,7 @@ data class Order(
     )
     var objects: MutableList<Object>? = null,
     var total: Int = 0,
+    var price: Double = 0.0,
     @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinTable(
         name = "tb_order_payment",

@@ -35,6 +35,13 @@ class CategoryService {
             .orElseThrow { ResourceNotFoundException(CATEGORY_NOT_FOUND) }
     }
 
+    fun converterCategories(
+        categories: MutableList<CategoryResponseVO>? = null
+    ): MutableList<Category>? {
+        val result = categories?.map { getCategory(id = it.id) }?.toMutableList()
+        return result
+    }
+
     fun createNewCategory(
         category: CategoryResponseVO
     ): CategoryResponseVO {

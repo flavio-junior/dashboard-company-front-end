@@ -1,20 +1,17 @@
 package br.com.dashboard.company.service
 
-import br.com.dashboard.company.entities.category.Category
 import br.com.dashboard.company.entities.food.Food
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.FoodRepository
+import br.com.dashboard.company.utils.common.PriceRequestVO
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
-import br.com.dashboard.company.vo.category.CategoryResponseVO
 import br.com.dashboard.company.vo.food.FoodRequestVO
 import br.com.dashboard.company.vo.food.FoodResponseVO
-import br.com.dashboard.company.vo.food.RestockFoodRequestVO
-import br.com.dashboard.company.utils.common.PriceRequestVO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.Instant
+import java.time.LocalDateTime
 
 @Service
 class FoodService {
@@ -48,20 +45,21 @@ class FoodService {
     fun createNewFood(
         food: FoodRequestVO
     ): FoodResponseVO {
-        if (!checkNameFoodAlreadyExists(name = food.name)) {
+        if (!checkNameOrDescriptionFoodAlreadyExists(name = food.name, description = food.description)) {
             val foodResult: Food = parseObject(food, Food::class.java)
-            foodResult.categories = converterCategories(categories = food.categories)
-            foodResult.createdAt = Instant.now()
+            foodResult.categories = categoryService.converterCategories(categories = food.categories)
+            foodResult.createdAt = LocalDateTime.now()
             return parseObject(foodRepository.save(foodResult), FoodResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_FOOD)
         }
     }
 
-    private fun checkNameFoodAlreadyExists(
-        name: String
+    private fun checkNameOrDescriptionFoodAlreadyExists(
+        name: String,
+        description: String
     ): Boolean {
-        val foodResult = foodRepository.checkNameFoodAlreadyExists(name = name)
+        val foodResult = foodRepository.checkNameOrDescriptionFoodAlreadyExists(name = name, description = description)
         return foodResult != null
     }
 
@@ -69,27 +67,17 @@ class FoodService {
     fun updateFood(
         food: FoodResponseVO
     ): FoodResponseVO {
-        if (!checkNameFoodAlreadyExists(name = food.name)) {
+        if (!checkNameOrDescriptionFoodAlreadyExists(name = food.name, description = food.description)) {
             val foodSaved: Food = getFood(id = food.id)
             foodSaved.name = food.name
             foodSaved.description = food.description
             foodSaved.categories?.clear()
-            foodSaved.categories = converterCategories(categories = food.categories)
+            foodSaved.categories = categoryService.converterCategories(categories = food.categories)
             foodSaved.price = food.price
-            foodSaved.quantity = food.quantity
             return parseObject(foodRepository.save(foodSaved), FoodResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_FOOD)
         }
-    }
-
-    private fun converterCategories(
-        categories: MutableList<CategoryResponseVO>? = null
-    ): MutableList<Category>? {
-        val result = categories?.map {
-            categoryService.getCategory(id = it.id)
-        }?.toMutableList()
-        return result
     }
 
     @Transactional
@@ -99,15 +87,6 @@ class FoodService {
     ) {
         getFood(id = idFood)
         foodRepository.updatePriceFood(idFood = idFood, price = price.price)
-    }
-
-    @Transactional
-    fun restockFood(
-        idFood: Long,
-        restockFood: RestockFoodRequestVO
-    ) {
-        getFood(id = idFood)
-        foodRepository.restockFood(idFood = idFood, quantity = restockFood.quantity)
     }
 
     fun deleteFood(id: Long) {

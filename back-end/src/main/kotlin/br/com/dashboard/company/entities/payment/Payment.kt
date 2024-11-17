@@ -10,7 +10,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.Instant
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tb_payment")
@@ -19,7 +19,7 @@ data class Payment(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
     @Column(name = "created_at", nullable = false)
-    var createdAt: Instant? = null,
+    var createdAt: LocalDateTime? = null,
     @Enumerated(EnumType.STRING)
     var status: PaymentStatus? = null,
     @Enumerated(EnumType.STRING)

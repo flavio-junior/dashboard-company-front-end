@@ -1,11 +1,18 @@
 package br.com.dashboard.company.vo.order
 
-import br.com.dashboard.company.vo.category.CategoryResponseVO
+import br.com.dashboard.company.entities.payment.Payment
+import br.com.dashboard.company.utils.common.TypeOrder
+import br.com.dashboard.company.vo.address.AddressResponseVO
+import br.com.dashboard.company.vo.`object`.ObjectResponseVO
+import br.com.dashboard.company.vo.reservation.ReservationResponseVO
 
 data class OrderRequestVO(
     var name: String = "",
-    var description: String = "",
-    var categories: MutableList<CategoryResponseVO>? = null,
+    var type: TypeOrder? = null,
+    var reservation: MutableList<ReservationResponseVO>? = null,
+    var address: AddressResponseVO? = null,
+    var objects: MutableList<ObjectResponseVO>? = null,
+    var total: Int = 0,
     var price: Double = 0.0,
-    var quantity: Int = 0
+    var payment: Payment? = null
 )

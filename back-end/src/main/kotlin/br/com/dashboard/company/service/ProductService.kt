@@ -1,20 +1,18 @@
 package br.com.dashboard.company.service
 
-import br.com.dashboard.company.entities.category.Category
 import br.com.dashboard.company.entities.product.Product
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ProductRepository
-import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
-import br.com.dashboard.company.vo.category.CategoryResponseVO
 import br.com.dashboard.company.utils.common.PriceRequestVO
+import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.product.ProductRequestVO
 import br.com.dashboard.company.vo.product.ProductResponseVO
 import br.com.dashboard.company.vo.product.RestockProductRequestVO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.Instant
+import java.time.LocalDateTime
 
 @Service
 class ProductService {
@@ -50,8 +48,8 @@ class ProductService {
     ): ProductResponseVO {
         if (!checkNameProductAlreadyExists(name = product.name)) {
             val productResult: Product = parseObject(product, Product::class.java)
-            productResult.categories = converterCategories(categories = product.categories)
-            productResult.createdAt = Instant.now()
+            productResult.categories = categoryService.converterCategories(categories = product.categories)
+            productResult.createdAt = LocalDateTime.now()
             return parseObject(productRepository.save(productResult), ProductResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_PRODUCT)
@@ -74,22 +72,13 @@ class ProductService {
             productSaved.name = product.name
             productSaved.description = product.description
             productSaved.categories?.clear()
-            productSaved.categories = converterCategories(categories = product.categories)
+            productSaved.categories = categoryService.converterCategories(categories = product.categories)
             productSaved.price = product.price
             productSaved.quantity = product.quantity
             return parseObject(productRepository.save(productSaved), ProductResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_PRODUCT)
         }
-    }
-
-    private fun converterCategories(
-        categories: MutableList<CategoryResponseVO>? = null
-    ): MutableList<Category>? {
-        val result = categories?.map {
-            categoryService.getCategory(id = it.id)
-        }?.toMutableList()
-        return result
     }
 
     @Transactional

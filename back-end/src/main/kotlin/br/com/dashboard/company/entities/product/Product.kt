@@ -12,7 +12,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.JoinTable
 import jakarta.persistence.ManyToMany
 import jakarta.persistence.Table
-import java.time.Instant
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tb_product")
@@ -21,7 +21,7 @@ data class Product(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
     @Column(name = "created_at", nullable = false)
-    var createdAt: Instant? = null,
+    var createdAt: LocalDateTime? = null,
     var name: String = "",
     var description: String = "",
     @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)

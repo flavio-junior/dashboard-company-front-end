@@ -2,12 +2,11 @@ package br.com.dashboard.company.controller
 
 import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
 import br.com.dashboard.company.service.FoodService
+import br.com.dashboard.company.utils.common.PriceRequestVO
 import br.com.dashboard.company.utils.others.ConstantsUtils.EMPTY_FIELDS
 import br.com.dashboard.company.utils.others.MediaType.APPLICATION_JSON
 import br.com.dashboard.company.vo.food.FoodRequestVO
 import br.com.dashboard.company.vo.food.FoodResponseVO
-import br.com.dashboard.company.utils.common.PriceRequestVO
-import br.com.dashboard.company.vo.food.RestockFoodRequestVO
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -220,7 +219,7 @@ class FoodController {
     }
 
     @PatchMapping(
-        value = ["update/price/Food/{id}"],
+        value = ["update/price/food/{id}"],
         produces = [APPLICATION_JSON]
     )
     @Operation(
@@ -269,54 +268,6 @@ class FoodController {
         @RequestBody price: PriceRequestVO
     ): ResponseEntity<*> {
         foodService.updatePriceFood(idFood = id, price = price)
-        return ResponseEntity.noContent().build<Any>()
-    }
-
-    @PatchMapping(
-        value = ["restock/Food/{id}"],
-        produces = [APPLICATION_JSON]
-    )
-    @Operation(
-        summary = "Restock Food", description = "Restock Food",
-        tags = ["Food"],
-        responses = [
-            ApiResponse(
-                description = "No Content", responseCode = "204", content = [
-                    Content(schema = Schema(implementation = RestockFoodRequestVO::class))
-                ]
-            ),
-            ApiResponse(
-                description = "Bad Request", responseCode = "400", content = [
-                    Content(schema = Schema(implementation = Unit::class))
-                ]
-            ),
-            ApiResponse(
-                description = "Unauthorized", responseCode = "401", content = [
-                    Content(schema = Schema(implementation = Unit::class))
-                ]
-            ),
-            ApiResponse(
-                description = "Operation Unauthorized", responseCode = "403", content = [
-                    Content(schema = Schema(implementation = Unit::class))
-                ]
-            ),
-            ApiResponse(
-                description = "Not Found", responseCode = "404", content = [
-                    Content(schema = Schema(implementation = Unit::class))
-                ]
-            ),
-            ApiResponse(
-                description = "Internal Error", responseCode = "500", content = [
-                    Content(schema = Schema(implementation = Unit::class))
-                ]
-            )
-        ]
-    )
-    fun restockFood(
-        @PathVariable(value = "id") id: Long,
-        @RequestBody restockFood: RestockFoodRequestVO
-    ): ResponseEntity<*> {
-        foodService.restockFood(idFood = id, restockFood = restockFood)
         return ResponseEntity.noContent().build<Any>()
     }
 

@@ -6,6 +6,5 @@ data class FoodRequestVO(
     var name: String = "",
     var description: String = "",
     var categories: MutableList<CategoryResponseVO>? = null,
-    var price: Double = 0.0,
-    var quantity: Int = 0
+    var price: Double = 0.0
 )
