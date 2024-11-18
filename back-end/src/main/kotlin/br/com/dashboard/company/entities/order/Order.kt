@@ -36,7 +36,7 @@ data class Order(
         joinColumns = [JoinColumn(name = "fk_order", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "fk_reservation", referencedColumnName = "id")]
     )
-    var reservation: MutableList<Reservation>? = null,
+    var reservations: MutableList<Reservation>? = null,
     @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinTable(
         name = "tb_order_address",
@@ -51,7 +51,7 @@ data class Order(
         inverseJoinColumns = [JoinColumn(name = "fk_object", referencedColumnName = "id")]
     )
     var objects: MutableList<Object>? = null,
-    var total: Int = 0,
+    var quantity: Int = 0,
     var price: Double = 0.0,
     @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinTable(

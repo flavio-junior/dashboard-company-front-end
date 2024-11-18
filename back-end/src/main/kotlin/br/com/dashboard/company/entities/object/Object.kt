@@ -1,6 +1,7 @@
 package br.com.dashboard.company.entities.`object`
 
 import br.com.dashboard.company.utils.common.TypeItem
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
@@ -15,8 +16,12 @@ data class Object(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
+    var identifier: Long = 0,
     @Enumerated(EnumType.STRING)
-    var type: TypeItem,
+    @Column(columnDefinition = "varying")
+    var type: TypeItem? = null,
     var name: String = "",
-    var items: Int = 0
+    var price: Double = 0.0,
+    var quantity: Int = 0,
+    var total: Double = 0.0
 )

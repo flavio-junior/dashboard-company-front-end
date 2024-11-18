@@ -37,7 +37,9 @@ class ProductService {
         return parseObject(product, ProductResponseVO::class.java)
     }
 
-    private fun getProduct(id: Long): Product {
+    fun getProduct(
+        id: Long
+    ): Product {
         return productRepository.findById(id)
             .orElseThrow { ResourceNotFoundException(PRODUCT_NOT_FOUND) }
     }

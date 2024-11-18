@@ -66,3 +66,63 @@ INSERT INTO
     tb_product_category (fk_product, fk_category)
 VALUES
     (1, 1);
+
+INSERT INTO
+    tb_order (created_at, type, quantity, price)
+VALUES
+    (NOW(), 'DELIVERY', 4, 99.99),
+    (NOW(), 'ORDER', 5, 110.00),
+    (NOW(), 'RESERVATION',3, 62.00);
+
+INSERT INTO
+    tb_order_reservation (fk_order, fk_reservation)
+VALUES
+    (3, 1),
+    (3, 2),
+    (3, 3);
+
+INSERT INTO
+    tb_address (street, number, district, complement)
+VALUES
+    ('Frei Damião', 65, 'Centro', 'Ao lado da casa de Roberto Tavares');
+
+INSERT INTO
+    tb_order_address (fk_order, fk_address)
+VALUES
+    (1, 1);
+
+INSERT INTO
+    tb_object (identifier, type, name, price, quantity, total)
+VALUES
+    (9, 'FOOD', 'Camarão na Moranga', 30.00, 3, 90.0),
+    (1, 'PRODUCT', 'Coca Cola Zero',  9.99, 1, 9.99),
+    (6, 'PRODUCT', 'Moqueca de Peixe', 25.00, 4, 100.00),
+    (5, 'PRODUCT', 'Cuscuz Nordestino', 10.00, 1, 10.00),
+    (6, 'PRODUCT', 'Buchada de Bode', 20.00, 1, 20.00),
+    (7, 'PRODUCT', 'Camarão na Moranga', 30.00, 1, 30.00),
+    (8, 'PRODUCT', 'Paçoca de Carne de Sol', 12.00, 1, 12.00);
+
+INSERT INTO
+    tb_order_object (fk_order, fk_object)
+VALUES
+    (1, 1),
+    (1, 2),
+    (2, 3),
+    (2, 4),
+    (3, 5),
+    (3, 6),
+    (3, 7);
+
+INSERT INTO
+    tb_payment (created_at, status, type)
+VALUES
+    (NOW(), 'PENDING', null),
+    (NOW(), 'PENDING', null),
+    (NOW(), 'PENDING', null);
+
+INSERT INTO
+    tb_order_payment (fk_order, fk_payment)
+VALUES
+    (1, 1),
+    (2, 2),
+    (3, 3);

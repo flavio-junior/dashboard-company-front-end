@@ -36,7 +36,7 @@ class FoodService {
         return parseObject(food, FoodResponseVO::class.java)
     }
 
-    private fun getFood(id: Long): Food {
+    fun getFood(id: Long): Food {
         return foodRepository.findById(id)
             .orElseThrow { ResourceNotFoundException(FOOD_NOT_FOUND) }
     }

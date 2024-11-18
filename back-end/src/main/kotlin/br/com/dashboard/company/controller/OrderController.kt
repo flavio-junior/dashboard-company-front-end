@@ -157,11 +157,6 @@ class OrderController {
     fun createNewOrder(
         @RequestBody order: OrderRequestVO
     ): ResponseEntity<OrderResponseVO> {
-        require(
-            value = order.name.isNotBlank() && order.name.isNotEmpty()
-        ) {
-            throw ForbiddenActionRequestException(exception = EMPTY_FIELDS)
-        }
         val entity: OrderResponseVO = orderService.createNewOrder(order = order)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
