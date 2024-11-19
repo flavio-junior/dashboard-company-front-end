@@ -4,6 +4,7 @@ import br.com.dashboard.company.entities.order.Order
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.OrderRepository
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
+import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import br.com.dashboard.company.vo.order.OrderRequestVO
 import br.com.dashboard.company.vo.order.OrderResponseVO
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,6 +20,9 @@ class OrderService {
 
     @Autowired
     private lateinit var objectService: ObjectService
+
+    @Autowired
+    private lateinit var paymentService: PaymentService
 
     @Transactional(readOnly = true)
     fun findAllOrders(): List<OrderResponseVO> {
@@ -51,6 +55,13 @@ class OrderService {
         orderResult.price = objectsSaved.second
         orderResult.payment?.createdAt = LocalDateTime.now()
         return parseObject(orderRepository.save(orderResult), OrderResponseVO::class.java)
+    }
+
+    @Transactional
+    fun closeOrder(
+        closeOrder: CloseOrderRequestVO
+    ) {
+        paymentService.updatePayment(closeOrder = closeOrder)
     }
 
     fun deleteOrder(id: Long) {

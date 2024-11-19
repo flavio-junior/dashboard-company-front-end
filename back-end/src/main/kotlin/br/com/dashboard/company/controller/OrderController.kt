@@ -1,9 +1,8 @@
 package br.com.dashboard.company.controller
 
-import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
 import br.com.dashboard.company.service.OrderService
-import br.com.dashboard.company.utils.others.ConstantsUtils.EMPTY_FIELDS
 import br.com.dashboard.company.utils.others.MediaType.APPLICATION_JSON
+import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import br.com.dashboard.company.vo.order.OrderRequestVO
 import br.com.dashboard.company.vo.order.OrderResponseVO
 import io.swagger.v3.oas.annotations.Operation
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -31,6 +31,7 @@ class OrderController {
 
     @Autowired
     private lateinit var orderService: OrderService
+
     @GetMapping(produces = [APPLICATION_JSON])
     @Operation(
         summary = "List All Orders", description = "List All Orders",
@@ -161,6 +162,48 @@ class OrderController {
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
         return ResponseEntity.created(uri).body(entity)
+    }
+
+    @PutMapping(
+        value = ["/payment"],
+        consumes = [APPLICATION_JSON],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Close Order", description = "Close Order",
+        tags = ["Product", "PAYMENT"],
+        responses = [
+            ApiResponse(
+                description = "Success", responseCode = "200", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun closeOrder(
+        @RequestBody closeOrder: CloseOrderRequestVO
+    ) {
+        return orderService.closeOrder(closeOrder = closeOrder)
     }
 
     @DeleteMapping(

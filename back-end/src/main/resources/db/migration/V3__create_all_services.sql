@@ -90,7 +90,7 @@ CREATE TABLE tb_order_object (
 CREATE TABLE IF NOT EXISTS tb_payment (
     id SERIAL PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,
-    status varchar(30) check (type in ('CANCEL', 'PAID', 'PENDING')),
+    status varchar(30) check (status in ('CANCEL', 'PAID', 'PENDING')),
     type varchar(30) check (type in ('CREDIT_CAD', 'DEBIT_CAD', 'MONEY', 'PIX'))
 );
 
