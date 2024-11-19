@@ -30,7 +30,7 @@ data class Order(
     var createdAt: LocalDateTime? = null,
     @Enumerated(EnumType.STRING)
     var type: TypeOrder? = null,
-    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(cascade = [CascadeType.MERGE])
     @JoinTable(
         name = "tb_order_reservation",
         joinColumns = [JoinColumn(name = "fk_order", referencedColumnName = "id")],
