@@ -126,3 +126,14 @@ VALUES
     (1, 1),
     (2, 2),
     (3, 3);
+
+INSERT INTO tb_checkout_details (date, total) VALUES (CURRENT_DATE, 100.50);
+INSERT INTO tb_checkout_details (date, total) VALUES (CURRENT_DATE, 200.75);
+INSERT INTO tb_checkout_details (date, total) VALUES (CURRENT_DATE - INTERVAL '1 day', 150.00);
+INSERT INTO tb_checkout_details (date, total) VALUES (CURRENT_DATE - INTERVAL '1 day', 300.25);
+INSERT INTO tb_checkout_details (date, total) VALUES (CURRENT_DATE - INTERVAL '1 day', 50.00);
+INSERT INTO tb_checkout_details (date, total) VALUES (CURRENT_DATE - INTERVAL '1 day', 400.10);
+INSERT INTO tb_checkout_details (date, total) VALUES (CURRENT_DATE - INTERVAL '1 day', 250.40);
+INSERT INTO tb_checkout_details (date, total) VALUES (CURRENT_DATE - INTERVAL '1 day', 120.60);
+INSERT INTO tb_checkout_details (date, total) VALUES (CURRENT_DATE - INTERVAL '1 day', 80.90);
+INSERT INTO tb_checkout_details (date, total) VALUES (CURRENT_DATE - INTERVAL '1 day', 170.30);

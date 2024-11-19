@@ -27,6 +27,9 @@ class OrderService {
     @Autowired
     private lateinit var paymentService: PaymentService
 
+    @Autowired
+    private lateinit var checkoutService: CheckoutService
+
     @Transactional(readOnly = true)
     fun findAllOrders(
         status: Status
@@ -79,9 +82,10 @@ class OrderService {
         idOrder: Long,
         closeOrder: CloseOrderRequestVO
     ) {
-        getOrder(id = idOrder)
+        val order = getOrder(id = idOrder)
         updateStatusOrder(idOrder = idOrder, status = Status.CLOSED)
         paymentService.updatePayment(closeOrder = closeOrder)
+        checkoutService.saveCheckoutDetails(total = order.price)
     }
 
     @Transactional

@@ -100,3 +100,9 @@ CREATE TABLE tb_order_payment (
     fk_payment INT REFERENCES tb_payment(id),
     PRIMARY KEY (fk_order, fk_payment)
 );
+
+CREATE TABLE tb_checkout_details (
+    id SERIAL PRIMARY KEY,
+    date DATE NOT NULL,
+    total NUMERIC(10, 2) DEFAULT 0.0
+);
