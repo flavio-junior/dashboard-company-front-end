@@ -6,6 +6,7 @@ import br.com.dashboard.company.repository.OrderRepository
 import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.others.ConverterUtils.parseListObjects
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
+import br.com.dashboard.company.vo.`object`.UpdateObjectRequestVO
 import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import br.com.dashboard.company.vo.order.OrderRequestVO
 import br.com.dashboard.company.vo.order.OrderResponseVO
@@ -56,12 +57,21 @@ class OrderService {
         val orderResult: Order = parseObject(order, Order::class.java)
         orderResult.createdAt = LocalDateTime.now()
         orderResult.status = Status.OPEN
-        val objectsSaved = objectService.saveObject(objectsToSave = order.objects)
+        val objectsSaved = objectService.saveObjects(objectsToSave = order.objects)
         orderResult.objects = objectsSaved.first
         orderResult.quantity = order.objects?.size ?: 0
         orderResult.price = objectsSaved.second
         orderResult.payment?.createdAt = LocalDateTime.now()
         return parseObject(orderRepository.save(orderResult), OrderResponseVO::class.java)
+    }
+
+    @Transactional
+    fun updateObject(
+        idOrder: Long,
+        idObject: Long,
+        objectActual: UpdateObjectRequestVO
+    ) {
+        objectService.updateObject(idOrder = idOrder, idObject = idObject, objectActual = objectActual)
     }
 
     @Transactional

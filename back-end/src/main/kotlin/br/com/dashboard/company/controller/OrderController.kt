@@ -3,6 +3,7 @@ package br.com.dashboard.company.controller
 import br.com.dashboard.company.service.OrderService
 import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.others.MediaType.APPLICATION_JSON
+import br.com.dashboard.company.vo.`object`.UpdateObjectRequestVO
 import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import br.com.dashboard.company.vo.order.OrderRequestVO
 import br.com.dashboard.company.vo.order.OrderResponseVO
@@ -220,7 +221,7 @@ class OrderController {
     )
     @Operation(
         summary = "Close Order", description = "Close Order",
-        tags = ["Product", "PAYMENT"],
+        tags = ["ORDER", "PAYMENT"],
         responses = [
             ApiResponse(
                 description = "Success", responseCode = "200", content = [
@@ -254,6 +255,50 @@ class OrderController {
         @RequestBody closeOrder: CloseOrderRequestVO
     ) {
         return orderService.closeOrder(idOrder = idOrder, closeOrder = closeOrder)
+    }
+
+    @PutMapping(
+        value = ["{order}/update/object/{id}"],
+        consumes = [APPLICATION_JSON],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Update Order", description = "Close Order",
+        tags = ["ORDER", "OBJECT"],
+        responses = [
+            ApiResponse(
+                description = "Success", responseCode = "200", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun updateObject(
+        @PathVariable(value = "order") idOrder: Long,
+        @PathVariable(value = "id") idObject: Long,
+        @RequestBody updateObject: UpdateObjectRequestVO
+    ) {
+        return orderService.updateObject(idOrder = idOrder, idObject = idObject, updateObject)
     }
 
     @DeleteMapping(
