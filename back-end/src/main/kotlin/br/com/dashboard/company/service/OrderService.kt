@@ -3,6 +3,8 @@ package br.com.dashboard.company.service
 import br.com.dashboard.company.entities.order.Order
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.OrderRepository
+import br.com.dashboard.company.utils.common.Status
+import br.com.dashboard.company.utils.others.ConverterUtils.parseListObjects
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import br.com.dashboard.company.vo.order.OrderRequestVO
@@ -25,9 +27,13 @@ class OrderService {
     private lateinit var paymentService: PaymentService
 
     @Transactional(readOnly = true)
-    fun findAllOrders(): List<OrderResponseVO> {
-        val orders = orderRepository.findAll()
-        return orders.map { order -> parseObject(order, OrderResponseVO::class.java) }
+    fun findAllOrders(
+        status: Status
+    ): List<OrderResponseVO> {
+        return parseListObjects(
+            origin = orderRepository.findAllOrdersOpen(status = status),
+            destination = OrderResponseVO::class.java
+        )
     }
 
     @Transactional(readOnly = true)
@@ -49,6 +55,7 @@ class OrderService {
     ): OrderResponseVO {
         val orderResult: Order = parseObject(order, Order::class.java)
         orderResult.createdAt = LocalDateTime.now()
+        orderResult.status = Status.OPEN
         val objectsSaved = objectService.saveObject(objectsToSave = order.objects)
         orderResult.objects = objectsSaved.first
         orderResult.quantity = order.objects?.size ?: 0
@@ -59,9 +66,20 @@ class OrderService {
 
     @Transactional
     fun closeOrder(
+        idOrder: Long,
         closeOrder: CloseOrderRequestVO
     ) {
+        getOrder(id = idOrder)
+        updateStatusOrder(idOrder = idOrder, status = Status.CLOSED)
         paymentService.updatePayment(closeOrder = closeOrder)
+    }
+
+    @Transactional
+    fun updateStatusOrder(
+        idOrder: Long,
+        status: Status
+    ) {
+        orderRepository.updateStatusOrder(idOrder = idOrder, status = status)
     }
 
     fun deleteOrder(id: Long) {

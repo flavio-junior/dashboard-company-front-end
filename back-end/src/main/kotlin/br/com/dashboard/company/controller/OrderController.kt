@@ -1,6 +1,7 @@
 package br.com.dashboard.company.controller
 
 import br.com.dashboard.company.service.OrderService
+import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.others.MediaType.APPLICATION_JSON
 import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import br.com.dashboard.company.vo.order.OrderRequestVO
@@ -32,9 +33,12 @@ class OrderController {
     @Autowired
     private lateinit var orderService: OrderService
 
-    @GetMapping(produces = [APPLICATION_JSON])
+    @GetMapping(
+        value = ["/open"],
+        produces = [APPLICATION_JSON]
+    )
     @Operation(
-        summary = "List All Orders", description = "List All Orders",
+        summary = "Find All Orders Open", description = "Find All Orders Open",
         tags = ["Order"], responses = [
             ApiResponse(
                 description = "Success", responseCode = "200", content = [
@@ -68,9 +72,54 @@ class OrderController {
             )
         ]
     )
-    fun findAllOrders(): ResponseEntity<List<OrderResponseVO>> {
+    fun findAllOrdersOpen(): ResponseEntity<List<OrderResponseVO>> {
         return ResponseEntity.ok(
-            orderService.findAllOrders()
+            orderService.findAllOrders(status = Status.OPEN)
+        )
+    }
+
+    @GetMapping(
+        value = ["/closed"],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Find All Orders Closed", description = "Find All Orders Closed",
+        tags = ["Order"], responses = [
+            ApiResponse(
+                description = "Success", responseCode = "200", content = [
+                    Content(array = ArraySchema(schema = Schema(implementation = OrderResponseVO::class)))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Operation Unauthorized", responseCode = "403", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun findAllOrdersClosed(): ResponseEntity<List<OrderResponseVO>> {
+        return ResponseEntity.ok(
+            orderService.findAllOrders(status = Status.CLOSED)
         )
     }
 
@@ -165,7 +214,7 @@ class OrderController {
     }
 
     @PutMapping(
-        value = ["/payment"],
+        value = ["/payment/{id}"],
         consumes = [APPLICATION_JSON],
         produces = [APPLICATION_JSON]
     )
@@ -201,9 +250,10 @@ class OrderController {
         ]
     )
     fun closeOrder(
+        @PathVariable(value = "id") idOrder: Long,
         @RequestBody closeOrder: CloseOrderRequestVO
     ) {
-        return orderService.closeOrder(closeOrder = closeOrder)
+        return orderService.closeOrder(idOrder = idOrder, closeOrder = closeOrder)
     }
 
     @DeleteMapping(

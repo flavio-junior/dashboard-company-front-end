@@ -68,11 +68,11 @@ VALUES
     (1, 1);
 
 INSERT INTO
-    tb_order (created_at, type, quantity, price)
+    tb_order (created_at, type, status, quantity, price)
 VALUES
-    (NOW(), 'DELIVERY', 4, 99.99),
-    (NOW(), 'ORDER', 5, 110.00),
-    (NOW(), 'RESERVATION',3, 62.00);
+    (NOW(), 'DELIVERY', 'OPEN', 4, 99.99),
+    (NOW(), 'ORDER', 'OPEN', 5, 110.00),
+    (NOW(), 'RESERVATION', 'OPEN', 3, 62.00);
 
 INSERT INTO
     tb_order_reservation (fk_order, fk_reservation)

@@ -4,6 +4,7 @@ import br.com.dashboard.company.entities.address.Address
 import br.com.dashboard.company.entities.`object`.Object
 import br.com.dashboard.company.entities.payment.Payment
 import br.com.dashboard.company.entities.reservation.Reservation
+import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.common.TypeOrder
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -30,6 +31,8 @@ data class Order(
     var createdAt: LocalDateTime? = null,
     @Enumerated(EnumType.STRING)
     var type: TypeOrder? = null,
+    @Enumerated(EnumType.STRING)
+    var status: Status? = null,
     @OneToMany(cascade = [CascadeType.MERGE])
     @JoinTable(
         name = "tb_order_reservation",

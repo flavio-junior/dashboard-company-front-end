@@ -1,5 +1,6 @@
 package br.com.dashboard.company.vo.order
 
+import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.common.TypeOrder
 import br.com.dashboard.company.vo.address.AddressResponseVO
 import br.com.dashboard.company.vo.`object`.ObjectResponseVO
@@ -13,6 +14,7 @@ data class OrderResponseVO(
     @JsonProperty(value = "created_at")
     var createdAt: LocalDateTime? = null,
     var type: TypeOrder? = null,
+    var status: Status? = null,
     var reservations: MutableList<ReservationResponseVO>? = null,
     var address: AddressResponseVO? = null,
     var objects: MutableList<ObjectResponseVO>? = null,
