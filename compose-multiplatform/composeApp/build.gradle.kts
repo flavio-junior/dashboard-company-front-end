@@ -50,6 +50,8 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(libs.androidx.datastore.core)
+            implementation(libs.androidx.datastore.preferences)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.bundles.ktor)
@@ -65,11 +67,11 @@ kotlin {
 }
 
 android {
-    namespace = "br.com.digital.store"
+    namespace = NameSpace.APP
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "br.com.digital.store"
+        applicationId = NameSpace.APP
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -101,7 +103,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "br.com.digital.store"
+            packageName = NameSpace.APP
             packageVersion = "1.0.0"
         }
     }

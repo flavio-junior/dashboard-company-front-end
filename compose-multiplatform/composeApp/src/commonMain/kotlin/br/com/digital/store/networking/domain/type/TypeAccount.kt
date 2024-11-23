@@ -1,4 +1,4 @@
-package br.com.digital.store.data.dto
+package br.com.digital.store.networking.domain.type
 
 enum class TypeAccount {
     ADMIN,

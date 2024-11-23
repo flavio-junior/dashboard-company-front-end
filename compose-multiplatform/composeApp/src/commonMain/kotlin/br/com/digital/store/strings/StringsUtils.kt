@@ -21,4 +21,6 @@ object StringsUtils {
     const val HISTORY = "Histórico de Vendas"
     const val SETTINGS = "Configurações"
     const val EXIT = "Sair do Programa"
+    const val NOT_BLANK_OR_EMPTY = "Preencha todos os campos!"
+    const val INVALID_EMAIL = "Este email é inválido!"
 }

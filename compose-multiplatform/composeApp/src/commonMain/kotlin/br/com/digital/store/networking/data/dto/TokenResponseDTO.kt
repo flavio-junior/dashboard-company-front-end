@@ -1,5 +1,6 @@
-package br.com.digital.store.data.dto
+package br.com.digital.store.networking.data.dto
 
+import br.com.digital.store.networking.domain.type.TypeAccount
 import kotlinx.serialization.Serializable
 
 @Serializable
