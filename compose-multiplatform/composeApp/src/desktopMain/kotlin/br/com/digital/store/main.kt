@@ -10,6 +10,7 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import androidx.navigation.compose.rememberNavController
+import br.com.digital.store.di.desktopModule
 import br.com.digital.store.networking.di.networkModule
 import br.com.digital.store.strings.StringsUtils.MAIN_NAME
 import br.com.digital.store.theme.Themes
@@ -21,7 +22,7 @@ import org.koin.core.context.startKoin
 
 fun main() {
     startKoin {
-        modules(modules = networkModule)
+        modules(modules = listOf(desktopModule, networkModule))
     }
     application {
         Window(

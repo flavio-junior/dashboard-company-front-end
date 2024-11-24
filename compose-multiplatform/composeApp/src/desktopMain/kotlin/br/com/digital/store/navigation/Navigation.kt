@@ -5,17 +5,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import br.com.digital.store.ui.category.CategoryScreen
-import br.com.digital.store.ui.dashboard.DashboardScreen
-import br.com.digital.store.ui.food.FoodScreen
-import br.com.digital.store.ui.history.HistoryScreen
-import br.com.digital.store.ui.item.ItemScreen
-import br.com.digital.store.ui.order.OrderScreen
-import br.com.digital.store.ui.pdv.PdvScreen
-import br.com.digital.store.ui.product.ProductScreen
-import br.com.digital.store.ui.reservation.ReservationScreen
-import br.com.digital.store.ui.settings.SettingsScreen
-import br.com.digital.store.ui.login.SignInScreen
+import br.com.digital.store.ui.view.category.CategoryScreen
+import br.com.digital.store.ui.view.dashboard.DashboardScreen
+import br.com.digital.store.ui.view.food.FoodScreen
+import br.com.digital.store.ui.view.history.HistoryScreen
+import br.com.digital.store.ui.view.item.ItemScreen
+import br.com.digital.store.ui.view.order.OrderScreen
+import br.com.digital.store.ui.view.pdv.PdvScreen
+import br.com.digital.store.ui.view.product.ProductScreen
+import br.com.digital.store.ui.view.reservation.ReservationScreen
+import br.com.digital.store.ui.view.settings.SettingsScreen
+import br.com.digital.store.ui.view.login.SignInScreen
 
 @Composable
 fun Navigation(
@@ -33,7 +33,7 @@ fun NavGraphBuilder.signInNavigation(
 ) {
     composable(RouteApp.SignIn.item) {
         SignInScreen(
-            goToHomeScreen = {
+            goToDashboardScreen = {
                 navController.navigate(route = RouteApp.Dashboard.item) {
                     popUpTo(RouteApp.SignIn.item) {
                         inclusive = true

@@ -3,7 +3,6 @@ package br.com.digital.store.networking.di
 import br.com.digital.store.networking.data.repository.remote.ApiRemoteDataSource
 import br.com.digital.store.networking.data.repository.remote.ApiRepository
 import br.com.digital.store.networking.domain.converter.ConverterCommon
-import br.com.digital.store.networking.viewmodel.ApiViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -15,7 +14,6 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val networkModule = module {
@@ -40,5 +38,4 @@ val networkModule = module {
     single<ApiRepository> { ApiRemoteDataSource(get(), get()) }
     single { Dispatchers.IO }
     single { ConverterCommon() }
-    singleOf(::ApiViewModel)
 }
