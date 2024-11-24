@@ -20,6 +20,7 @@ object StringsUtils {
     const val RESERVATION = "Reservas"
     const val HISTORY = "Histórico de Vendas"
     const val SETTINGS = "Configurações"
+    const val CHANGE_TO_OTHER_ACCOUNT = "Trocar de conta"
     const val EXIT = "Sair do Programa"
     const val NOT_BLANK_OR_EMPTY = "Preencha todos os campos!"
     const val INVALID_EMAIL = "Este email é inválido!"

@@ -8,8 +8,6 @@ import br.com.digital.store.networking.data.dto.SignInRequestDTO
 import br.com.digital.store.networking.data.dto.TokenResponseDTO
 import br.com.digital.store.networking.data.repository.remote.ApiRepository
 import br.com.digital.store.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.strings.StringsUtils.INVALID_EMAIL
-import br.com.digital.store.strings.validateEmail
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -35,5 +33,9 @@ class ApiViewModel(
                     _signIn.value = it
                 }
         }
+    }
+
+    fun resetStateSignIn() {
+        _signIn.value = ObserveNetworkStateHandler.Loading(l = false)
     }
 }

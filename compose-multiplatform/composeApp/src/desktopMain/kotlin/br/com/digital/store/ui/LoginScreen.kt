@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.theme.Themes
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(
+    goToHomeScreen: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .background(color = Themes.colors.background)
@@ -18,6 +20,6 @@ fun SignInScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        HomeScreen()
+        CardSignIn(onClick = goToHomeScreen)
     }
 }

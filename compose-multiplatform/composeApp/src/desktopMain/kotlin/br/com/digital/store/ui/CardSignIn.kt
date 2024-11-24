@@ -43,10 +43,7 @@ import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun CardSignIn(
-    goToLoginScreen: (TypeAccount) -> Unit = {},
-    goToSendRecoverTokenScreen: () -> Unit = {},
-    goToSendCodeToConfirmEmailScreen: () -> Unit = {},
-    goToErrorScreen: () -> Unit = {}
+    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -100,8 +97,8 @@ fun CardSignIn(
                     isEnabled = it.second
                     errorMessage = it.third
                 },
-                goToLoginScreen = goToLoginScreen,
-                goToErrorScreen = goToErrorScreen
+                goToLoginScreen = { onClick() },
+                goToErrorScreen = {}
             )
             SimpleText(
                 text = FORGOT_PASS,
@@ -183,6 +180,7 @@ private fun ObserveStateSignIn(
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             accountState.result?.let {
+                viewModel.resetStateSignIn()
                 goToLoginScreen(it.type)
             }
         }

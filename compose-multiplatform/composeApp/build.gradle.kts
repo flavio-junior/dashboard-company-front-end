@@ -57,6 +57,7 @@ kotlin {
             implementation(libs.bundles.ktor)
             implementation(libs.koin.core)
             implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.navigation.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

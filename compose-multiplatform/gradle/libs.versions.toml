@@ -21,7 +21,7 @@ kotlin = "2.0.21"
 kotlinx-coroutines = "1.9.0"
 ktor = "3.0.1"
 lifecycleViewmodelCompose = "2.8.2"
-
+navigationCompose = "2.8.0-alpha10"
 
 [libraries]
 androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastoreCore" }
@@ -49,6 +49,7 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
