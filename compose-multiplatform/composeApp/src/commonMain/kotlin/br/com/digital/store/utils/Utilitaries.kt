@@ -1,6 +1,7 @@
 package br.com.digital.store.utils
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import br.com.digital.store.theme.SpaceSize
+import br.com.digital.store.theme.Themes
 
 fun Modifier.onClickable(
     onClick: () -> Unit
@@ -118,6 +120,17 @@ fun Modifier.scroll(scroll: Boolean): Modifier {
             Modifier.verticalScroll(state = rememberScrollState(), enabled = true)
         } else {
             Modifier
+        }
+    )
+}
+
+@Composable
+fun Modifier.changeColor(enabled: Boolean = false): Modifier {
+    return this.then(
+        if (enabled) {
+            Modifier.background(color = Themes.colors.success)
+        } else {
+            Modifier.background(color = Themes.colors.secondary)
         }
     )
 }

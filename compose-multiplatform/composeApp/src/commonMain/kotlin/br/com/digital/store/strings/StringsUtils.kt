@@ -11,6 +11,7 @@ object StringsUtils {
     const val ENTER_YOUR_ACCOUNT = "Acessar minha conta"
     const val OR = "ou"
     const val CREATE_ONE_ACCOUNT = "Criar uma conta"
+    const val DASHBOARD = "Dashboard"
     const val PDV = "PDV"
     const val CATEGORIES = "Categorias"
     const val ITEMS = "Items"

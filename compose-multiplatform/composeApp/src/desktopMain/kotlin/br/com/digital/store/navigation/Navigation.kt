@@ -49,9 +49,6 @@ fun NavGraphBuilder.dashboardNavigation(
 ) {
     composable(RouteApp.Dashboard.item) {
         DashboardScreen(
-            goToBackScreen = {
-                navController.popBackStack()
-            },
             goToNextScreen = { navigateBetweenMainRoutes(navGraph = navController, route = it) }
         )
     }
@@ -60,6 +57,13 @@ fun NavGraphBuilder.dashboardNavigation(
         PdvScreen(
             goToBackScreen = {
                 navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Pdv.item,
+                    nextScreen = it
+                )
             }
         )
     }
@@ -67,6 +71,13 @@ fun NavGraphBuilder.dashboardNavigation(
         CategoryScreen(
             goToBackScreen = {
                 navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Category.item,
+                    nextScreen = it
+                )
             }
         )
     }
@@ -74,6 +85,13 @@ fun NavGraphBuilder.dashboardNavigation(
         ItemScreen(
             goToBackScreen = {
                 navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Item.item,
+                    nextScreen = it
+                )
             }
         )
     }
@@ -81,6 +99,13 @@ fun NavGraphBuilder.dashboardNavigation(
         FoodScreen(
             goToBackScreen = {
                 navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Food.item,
+                    nextScreen = it
+                )
             }
         )
     }
@@ -88,6 +113,13 @@ fun NavGraphBuilder.dashboardNavigation(
         ProductScreen(
             goToBackScreen = {
                 navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Product.item,
+                    nextScreen = it
+                )
             }
         )
     }
@@ -95,6 +127,13 @@ fun NavGraphBuilder.dashboardNavigation(
         OrderScreen(
             goToBackScreen = {
                 navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Order.item,
+                    nextScreen = it
+                )
             }
         )
     }
@@ -102,6 +141,13 @@ fun NavGraphBuilder.dashboardNavigation(
         ReservationScreen(
             goToBackScreen = {
                 navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Reservation.item,
+                    nextScreen = it
+                )
             }
         )
     }

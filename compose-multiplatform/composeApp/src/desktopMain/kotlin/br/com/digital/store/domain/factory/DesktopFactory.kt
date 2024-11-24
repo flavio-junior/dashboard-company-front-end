@@ -1,9 +1,11 @@
 package br.com.digital.store.domain.factory
 
 import br.com.digital.store.components.model.Menu
+import br.com.digital.store.model.ItemService
 import br.com.digital.store.navigation.ItemNavigation
 import br.com.digital.store.strings.StringsUtils.CATEGORIES
 import br.com.digital.store.strings.StringsUtils.CHANGE_TO_OTHER_ACCOUNT
+import br.com.digital.store.strings.StringsUtils.DASHBOARD
 import br.com.digital.store.strings.StringsUtils.EXIT
 import br.com.digital.store.strings.StringsUtils.FOOD
 import br.com.digital.store.strings.StringsUtils.HISTORY
@@ -80,5 +82,40 @@ val menus = listOf(
         icon = Res.drawable.logout,
         label = EXIT,
         route = ItemNavigation.EXIT.name
+    )
+)
+
+val availableServices = listOf(
+    ItemService(
+        label = DASHBOARD,
+        route = ItemNavigation.DASHBOARD.name
+    ),
+    ItemService(
+        label = PDV,
+        route = ItemNavigation.PDV.name
+    ),
+    ItemService(
+        label = CATEGORIES,
+        route = ItemNavigation.CATEGORY.name
+    ),
+    ItemService(
+        label = ITEMS,
+        route = ItemNavigation.ITEM.name
+    ),
+    ItemService(
+        label = FOOD,
+        route = ItemNavigation.FOOD.name
+    ),
+    ItemService(
+        label = PRODUCTS,
+        route = ItemNavigation.PRODUCT.name
+    ),
+    ItemService(
+        label = ORDER,
+        route = ItemNavigation.ORDER.name
+    ),
+    ItemService(
+        label = RESERVATION,
+        route = ItemNavigation.RESERVATION.name
     )
 )

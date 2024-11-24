@@ -22,8 +22,6 @@ import kotlin.system.exitProcess
 
 @Composable
 fun DashboardScreen(
-    modifier: Modifier = Modifier,
-    goToBackScreen: () -> Unit = {},
     goToNextScreen: (String) -> Unit = {}
 ) {
     BodyPage(
