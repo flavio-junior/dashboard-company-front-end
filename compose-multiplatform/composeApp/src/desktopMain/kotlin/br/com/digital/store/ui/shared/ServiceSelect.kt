@@ -22,6 +22,7 @@ import lojavirtual.composeapp.generated.resources.box
 
 @Composable
 fun Services(
+    modifier: Modifier = Modifier,
     label: String,
     services: List<ItemService> = availableServices,
     goToBackScreen: () -> Unit = {},
@@ -29,8 +30,12 @@ fun Services(
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
-        modifier = Modifier
-            .padding(all = Themes.size.spaceSize16)
+        modifier = modifier
+            .padding(
+                top = Themes.size.spaceSize16,
+                bottom = Themes.size.spaceSize8,
+                end = Themes.size.spaceSize16
+            )
     ) {
         services.forEach { item ->
             if (item.label == label) Service(
