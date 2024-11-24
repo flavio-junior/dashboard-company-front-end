@@ -3,9 +3,11 @@ package br.com.digital.store.ui.view.login
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -16,11 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.components.ui.TextPassword
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.mail
 import br.com.digital.store.networking.data.dto.SignInRequestDTO
 import br.com.digital.store.networking.data.dto.TokenResponseDTO
 import br.com.digital.store.networking.data.vo.TokenResponseVO
@@ -38,10 +43,10 @@ import br.com.digital.store.strings.isNotBlankAndEmpty
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.viewmodel.ApiViewModel
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.DesktopUtils.VERSION
+import br.com.digital.store.utils.getVersionDetails
 import br.com.digital.store.utils.isTokenExpired
 import br.com.digital.store.utils.onBorder
-import lojavirtual.composeapp.generated.resources.Res
-import lojavirtual.composeapp.generated.resources.mail
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -58,7 +63,8 @@ fun CardSignIn(
             )
             .background(color = Themes.colors.background)
             .padding(all = Themes.size.spaceSize36)
-            .size(size = Themes.size.spaceSize400),
+            .width(width = Themes.size.spaceSize400)
+            .height(height = Themes.size.spaceSize500),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -125,6 +131,8 @@ fun CardSignIn(
                 label = CREATE_ONE_ACCOUNT,
                 onClick = {}
             )
+            Spacer(modifier = Modifier.height(height = Themes.size.spaceSize0))
+            Description(description = "$VERSION ${getVersionDetails()}")
             ObserveNetworkStateHandlerToken(
                 viewModel = viewModel,
                 goToDashboardScreen = goToDashboardScreen

@@ -1,6 +1,17 @@
 package br.com.digital.store.domain.factory
 
 import br.com.digital.store.components.model.Menu
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.box
+import br.com.digital.store.composeapp.generated.resources.data_usage
+import br.com.digital.store.composeapp.generated.resources.food
+import br.com.digital.store.composeapp.generated.resources.list
+import br.com.digital.store.composeapp.generated.resources.logout
+import br.com.digital.store.composeapp.generated.resources.order
+import br.com.digital.store.composeapp.generated.resources.refresh
+import br.com.digital.store.composeapp.generated.resources.reservation
+import br.com.digital.store.composeapp.generated.resources.settings
+import br.com.digital.store.composeapp.generated.resources.shopping_cart
 import br.com.digital.store.model.ItemService
 import br.com.digital.store.navigation.ItemNavigation
 import br.com.digital.store.strings.StringsUtils.CATEGORIES
@@ -15,17 +26,6 @@ import br.com.digital.store.strings.StringsUtils.PDV
 import br.com.digital.store.strings.StringsUtils.PRODUCTS
 import br.com.digital.store.strings.StringsUtils.RESERVATION
 import br.com.digital.store.strings.StringsUtils.SETTINGS
-import lojavirtual.composeapp.generated.resources.Res
-import lojavirtual.composeapp.generated.resources.box
-import lojavirtual.composeapp.generated.resources.data_usage
-import lojavirtual.composeapp.generated.resources.food
-import lojavirtual.composeapp.generated.resources.list
-import lojavirtual.composeapp.generated.resources.logout
-import lojavirtual.composeapp.generated.resources.order
-import lojavirtual.composeapp.generated.resources.refresh
-import lojavirtual.composeapp.generated.resources.reservation
-import lojavirtual.composeapp.generated.resources.settings
-import lojavirtual.composeapp.generated.resources.shopping_cart
 
 val menus = listOf(
     Menu(

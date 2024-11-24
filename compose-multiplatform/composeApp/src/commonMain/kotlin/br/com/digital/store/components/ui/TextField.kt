@@ -15,12 +15,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.strings.StringsUtils.CLEAN
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.theme.Typography
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import lojavirtual.composeapp.generated.resources.Res
-import lojavirtual.composeapp.generated.resources.close
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 

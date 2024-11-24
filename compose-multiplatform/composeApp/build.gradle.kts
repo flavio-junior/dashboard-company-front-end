@@ -11,6 +11,9 @@ plugins {
 }
 
 kotlin {
+    version = "1.0.0"
+    group = "br.com.digital.store"
+
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {

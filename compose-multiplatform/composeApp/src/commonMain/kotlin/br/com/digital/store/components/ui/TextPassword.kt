@@ -16,13 +16,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.lock
+import br.com.digital.store.composeapp.generated.resources.visibility
+import br.com.digital.store.composeapp.generated.resources.visibility_off
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.theme.Typography
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import lojavirtual.composeapp.generated.resources.Res
-import lojavirtual.composeapp.generated.resources.lock
-import lojavirtual.composeapp.generated.resources.visibility
-import lojavirtual.composeapp.generated.resources.visibility_off
 
 @Composable
 fun TextPassword(

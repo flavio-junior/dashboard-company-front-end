@@ -10,10 +10,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.TextUnit
-import lojavirtual.composeapp.generated.resources.Res
-import lojavirtual.composeapp.generated.resources.onest_bold
-import lojavirtual.composeapp.generated.resources.onest_medium
-import lojavirtual.composeapp.generated.resources.onest_regular
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.onest_bold
+import br.com.digital.store.composeapp.generated.resources.onest_medium
+import br.com.digital.store.composeapp.generated.resources.onest_regular
 import org.jetbrains.compose.resources.Font
 
 private val fontSize = FontSize

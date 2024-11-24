@@ -10,13 +10,13 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import androidx.navigation.compose.rememberNavController
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.logo
 import br.com.digital.store.di.desktopModule
 import br.com.digital.store.networking.di.networkModule
 import br.com.digital.store.strings.StringsUtils.MAIN_NAME
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.navigation.Navigation
-import lojavirtual.composeapp.generated.resources.Res
-import lojavirtual.composeapp.generated.resources.logo
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.startKoin
 
