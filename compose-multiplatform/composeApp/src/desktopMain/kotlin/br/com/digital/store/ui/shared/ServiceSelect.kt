@@ -1,4 +1,4 @@
-package br.com.digital.store.ui
+package br.com.digital.store.ui.shared
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,7 @@ import br.com.digital.store.strings.StringsUtils.DASHBOARD
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.changeColor
 import br.com.digital.store.utils.onBorder
+import br.com.digital.store.utils.onClickable
 import lojavirtual.composeapp.generated.resources.Res
 import lojavirtual.composeapp.generated.resources.box
 
@@ -53,13 +54,14 @@ fun Service(
     goToBackScreen: () -> Unit = {},
     goToNextScreen: (String) -> Unit = {}
 ) {
+    val goToNavigation = {
+        if (service.route == DASHBOARD) goToBackScreen() else goToNextScreen(service.route)
+    }
     Row(
         horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8),
         modifier = Modifier
             .onBorder(
-                onClick = {
-                    if (service.route == DASHBOARD) goToBackScreen() else goToNextScreen(service.route)
-                },
+                onClick = goToNavigation,
                 width = Themes.size.spaceSize2,
                 spaceSize = Themes.size.spaceSize8,
                 color = Themes.colors.primary
@@ -69,7 +71,7 @@ fun Service(
             .padding(all = Themes.size.spaceSize16),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconDefault(icon = Res.drawable.box)
-        Title(title = service.label)
+        IconDefault(icon = Res.drawable.box, onClick = goToNavigation)
+        Title(title = service.label, modifier = Modifier.onClickable(onClick = goToNavigation))
     }
 }

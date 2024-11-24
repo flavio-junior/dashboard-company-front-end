@@ -1,4 +1,4 @@
-package br.com.digital.store.ui
+package br.com.digital.store.ui.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

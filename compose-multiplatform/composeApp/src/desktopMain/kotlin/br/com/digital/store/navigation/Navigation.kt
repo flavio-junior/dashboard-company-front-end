@@ -5,17 +5,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import br.com.digital.store.ui.CategoryScreen
-import br.com.digital.store.ui.DashboardScreen
-import br.com.digital.store.ui.FoodScreen
-import br.com.digital.store.ui.HistoryScreen
-import br.com.digital.store.ui.ItemScreen
-import br.com.digital.store.ui.OrderScreen
-import br.com.digital.store.ui.PdvScreen
-import br.com.digital.store.ui.ProductScreen
-import br.com.digital.store.ui.ReservationScreen
-import br.com.digital.store.ui.SettingsScreen
-import br.com.digital.store.ui.SignInScreen
+import br.com.digital.store.ui.category.CategoryScreen
+import br.com.digital.store.ui.dashboard.DashboardScreen
+import br.com.digital.store.ui.food.FoodScreen
+import br.com.digital.store.ui.history.HistoryScreen
+import br.com.digital.store.ui.item.ItemScreen
+import br.com.digital.store.ui.order.OrderScreen
+import br.com.digital.store.ui.pdv.PdvScreen
+import br.com.digital.store.ui.product.ProductScreen
+import br.com.digital.store.ui.reservation.ReservationScreen
+import br.com.digital.store.ui.settings.SettingsScreen
+import br.com.digital.store.ui.login.SignInScreen
 
 @Composable
 fun Navigation(

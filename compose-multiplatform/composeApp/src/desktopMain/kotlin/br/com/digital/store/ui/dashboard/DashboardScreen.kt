@@ -1,4 +1,4 @@
-package br.com.digital.store.ui
+package br.com.digital.store.ui.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +16,7 @@ import br.com.digital.store.components.ui.ItemMenu
 import br.com.digital.store.domain.factory.menus
 import br.com.digital.store.navigation.ItemNavigation
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.ui.shared.BodyPage
 import br.com.digital.store.utils.NumbersUtils.NUMBER_FOUR
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import kotlin.system.exitProcess
