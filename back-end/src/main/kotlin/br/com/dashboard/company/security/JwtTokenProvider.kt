@@ -3,6 +3,7 @@ package br.com.dashboard.company.security
 import br.com.dashboard.company.exceptions.InvalidJwtAuthenticationException
 import br.com.dashboard.company.vo.user.TokenVO
 import br.com.dashboard.company.utils.common.TypeAccount
+import br.com.dashboard.company.utils.others.toDate
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
@@ -18,6 +19,9 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 @Service
@@ -40,8 +44,8 @@ class JwtTokenProvider {
     }
 
     fun createAccessToken(username: String, typeAccount: TypeAccount): TokenVO {
-        val now = Date()
-        val validity = Date(now.time + validityInMilliseconds)
+        val now = LocalDateTime.now()
+        val validity = now.plus(validityInMilliseconds, ChronoUnit.MILLIS)
         val accessToken = getAccessToken(username, typeAccount, now, validity)
         val refreshToken = getRefreshToken(username, typeAccount, now)
         return TokenVO(
@@ -65,20 +69,28 @@ class JwtTokenProvider {
         return createAccessToken(username, typeAccount)
     }
 
-    fun getAccessToken(username: String, typeAccount: TypeAccount, now: Date, validity: Date): String {
+    fun getAccessToken(
+        username: String,
+        typeAccount: TypeAccount,
+        now: LocalDateTime,
+        validity: LocalDateTime
+    ): String {
         val issuerURL: String = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()
         return JWT.create()
             .withClaim("type_account", typeAccount.toString())
-            .withIssuedAt(now)
-            .withExpiresAt(validity)
+            .withIssuedAt(now.toDate())
+            .withExpiresAt(validity.toDate())
             .withSubject(username)
             .withIssuer(issuerURL)
             .sign(algorithm)
             .trim()
     }
 
-    fun getRefreshToken(username: String, typeAccount: TypeAccount, now: Date): String {
-        val validRefreshToken = Date(now.time + validityInMilliseconds * 3)
+    fun getRefreshToken(username: String, typeAccount: TypeAccount, now: LocalDateTime): String {
+        val validRefreshToken = now.plus(validityInMilliseconds * 3, ChronoUnit.MILLIS)
+            .atZone(ZoneId.systemDefault())
+            .toInstant()
+            .let { Date.from(it) }
         return JWT.create()
             .withClaim("type_account", typeAccount.toString())
             .withExpiresAt(validRefreshToken)
