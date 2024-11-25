@@ -4,6 +4,8 @@ object StringsUtils {
     const val CLEAN = "Limpar"
     const val MAIN_NAME = "CANDEEIROS BAR"
     const val EMAIL = "Email"
+    const val CATEGORY_NAME = "Nome da categoria"
+    const val SAVE_CATEGORY = "Salvar categoria"
     const val PASSWORD = "Senha"
     const val CREATE_MY_ACCOUNT = "Criar minha conta"
     const val FORGOT_PASS = "Esqueceu sua senha?"
@@ -25,4 +27,5 @@ object StringsUtils {
     const val EXIT = "Sair do Programa"
     const val NOT_BLANK_OR_EMPTY = "Preencha todos os campos!"
     const val INVALID_EMAIL = "Este email é inválido!"
+    const val LOADING = "Carregando…"
 }

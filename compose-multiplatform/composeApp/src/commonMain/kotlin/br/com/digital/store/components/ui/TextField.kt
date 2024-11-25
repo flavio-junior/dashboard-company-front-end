@@ -1,6 +1,9 @@
 package br.com.digital.store.components.ui
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -38,58 +41,63 @@ fun TextField(
     onValueChange: (String) -> Unit,
     onGo: () -> Unit = {}
 ) {
-    var showClearButton by remember { mutableStateOf(value = false) }
-    if (enabled) {
-        if (value.isNotBlank()) showClearButton = true
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center
+    ) {
+        var showClearButton by remember { mutableStateOf(value = false) }
+        if (enabled) {
+            if (value.isNotBlank()) showClearButton = true
+        }
+        OutlinedTextField(
+            enabled = enabled,
+            value = value,
+            onValueChange = {
+                onValueChange(it)
+                showClearButton = it.isNotBlank()
+            },
+            singleLine = true,
+            label = {
+                Description(description = label, color = Themes.colors.primary)
+            },
+            isError = isError,
+            modifier = modifier.fillMaxWidth().wrapContentHeight(),
+            leadingIcon = {
+                icon?.let {
+                    Icon(
+                        painter = painterResource(resource = it),
+                        contentDescription = label,
+                        tint = Themes.colors.primary
+                    )
+                }
+            },
+            trailingIcon = {
+                if (showClearButton) {
+                    IconDefault(
+                        icon = Res.drawable.close,
+                        contentDescription = CLEAN,
+                        onClick = {
+                            onValueChange(EMPTY_TEXT)
+                        }
+                    )
+                }
+            },
+            textStyle = Typography(color = Themes.colors.primary).simpleText(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+                imeAction = imeAction
+            ),
+            keyboardActions = KeyboardActions(onGo = {
+                onGo()
+            }),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Themes.colors.background,
+                cursorColor = Themes.colors.primary,
+                focusedIndicatorColor = Themes.colors.primary,
+                unfocusedIndicatorColor = Themes.colors.primary
+            ),
+            shape = RoundedCornerShape(size = Themes.size.spaceSize16)
+        )
+        IsErrorMessage(isError = isError, message = message)
     }
-    OutlinedTextField(
-        enabled = enabled,
-        value = value,
-        onValueChange = {
-            onValueChange(it)
-            showClearButton = it.isNotBlank()
-        },
-        singleLine = true,
-        label = {
-            Description(description = label, color = Themes.colors.primary)
-        },
-        isError = isError,
-        modifier = modifier.fillMaxWidth(),
-        leadingIcon = {
-            icon?.let {
-                Icon(
-                    painter = painterResource(resource =  it),
-                    contentDescription = label,
-                    tint = Themes.colors.primary
-                )
-            }
-        },
-        trailingIcon = {
-            if (showClearButton) {
-                IconDefault(
-                    icon = Res.drawable.close,
-                    contentDescription = CLEAN,
-                    onClick = {
-                        onValueChange(EMPTY_TEXT)
-                    }
-                )
-            }
-        },
-        textStyle = Typography(color = Themes.colors.primary).simpleText(),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType,
-            imeAction = imeAction
-        ),
-        keyboardActions = KeyboardActions(onGo = {
-            onGo()
-        }),
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Themes.colors.background,
-            cursorColor = Themes.colors.primary,
-            focusedIndicatorColor = Themes.colors.primary,
-            unfocusedIndicatorColor = Themes.colors.primary
-        ),
-        shape = RoundedCornerShape(size = Themes.size.spaceSize16)
-    )
-    IsErrorMessage(isError = isError, message = message)
 }
