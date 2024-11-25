@@ -1,4 +1,4 @@
-package br.com.digital.store.networking.utils
+package br.com.digital.store.features.networking.utils
 
 sealed class ObserveNetworkStateHandler<T>(
     val status: NetworkStatus,

@@ -1,7 +1,7 @@
-package br.com.digital.store.data.repository.loal
+package br.com.digital.store.data.repository.local
 
-import br.com.digital.store.networking.repository.local.LocalStorageImp
 import br.com.digital.store.common.account.TokenResponseVO
+import br.com.digital.store.features.account.data.LocalStorageImp
 import java.util.prefs.Preferences
 
 class DesktopLocalStorage : LocalStorageImp {

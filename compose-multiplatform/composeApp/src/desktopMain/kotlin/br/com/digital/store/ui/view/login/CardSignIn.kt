@@ -29,9 +29,9 @@ import br.com.digital.store.composeapp.generated.resources.mail
 import br.com.digital.store.common.account.SignInRequestDTO
 import br.com.digital.store.common.account.TokenResponseDTO
 import br.com.digital.store.common.account.TokenResponseVO
-import br.com.digital.store.networking.domain.type.TypeAccount
-import br.com.digital.store.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.networking.utils.errorResult
+import br.com.digital.store.features.account.domain.type.TypeAccount
+import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.errorResult
 import br.com.digital.store.strings.StringsUtils.CREATE_ONE_ACCOUNT
 import br.com.digital.store.strings.StringsUtils.EMAIL
 import br.com.digital.store.strings.StringsUtils.ENTER_YOUR_ACCOUNT

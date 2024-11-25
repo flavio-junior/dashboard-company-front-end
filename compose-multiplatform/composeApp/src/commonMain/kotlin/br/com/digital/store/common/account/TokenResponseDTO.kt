@@ -1,6 +1,6 @@
 package br.com.digital.store.common.account
 
-import br.com.digital.store.networking.domain.type.TypeAccount
+import br.com.digital.store.features.account.domain.type.TypeAccount
 import kotlinx.serialization.Serializable
 
 @Serializable

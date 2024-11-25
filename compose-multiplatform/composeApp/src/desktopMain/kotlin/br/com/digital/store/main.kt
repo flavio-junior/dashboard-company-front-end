@@ -13,7 +13,9 @@ import androidx.navigation.compose.rememberNavController
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.logo
 import br.com.digital.store.di.desktopModule
-import br.com.digital.store.networking.di.networkModule
+import br.com.digital.store.features.account.di.accountModule
+import br.com.digital.store.features.category.di.categoryModule
+import br.com.digital.store.features.networking.di.networkModule
 import br.com.digital.store.strings.StringsUtils.MAIN_NAME
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.navigation.Navigation
@@ -22,7 +24,14 @@ import org.koin.core.context.startKoin
 
 fun main() {
     startKoin {
-        modules(modules = listOf(desktopModule, networkModule))
+        modules(
+            modules = listOf(
+                accountModule,
+                categoryModule,
+                desktopModule,
+                networkModule
+            )
+        )
     }
     application {
         Window(

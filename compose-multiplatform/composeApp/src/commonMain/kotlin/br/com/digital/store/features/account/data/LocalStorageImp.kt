@@ -1,4 +1,4 @@
-package br.com.digital.store.networking.repository.local
+package br.com.digital.store.features.account.data
 
 import br.com.digital.store.common.account.TokenResponseVO
 

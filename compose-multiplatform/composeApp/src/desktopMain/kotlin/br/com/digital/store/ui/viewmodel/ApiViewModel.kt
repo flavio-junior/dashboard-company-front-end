@@ -6,18 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.common.account.SignInRequestDTO
 import br.com.digital.store.common.account.TokenResponseDTO
-import br.com.digital.store.data.repository.loal.DesktopLocalStorage
-import br.com.digital.store.networking.repository.remote.ApiRepository
+import br.com.digital.store.data.repository.local.DesktopLocalStorage
+import br.com.digital.store.features.account.data.AccountRepository
 import br.com.digital.store.common.account.TokenResponseVO
-import br.com.digital.store.networking.domain.converter.ConverterCommon
-import br.com.digital.store.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.account.domain.converter.ConverterAccount
+import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class ApiViewModel(
     private val localStorage: DesktopLocalStorage,
-    private val repository: ApiRepository,
-    private val converter: ConverterCommon
+    private val repository: AccountRepository,
+    private val converter: ConverterAccount
 ) : ViewModel() {
 
     private val _signIn =
@@ -49,7 +49,7 @@ class ApiViewModel(
         }
     }
 
-    fun saveToken(token: TokenResponseDTO) {
+    private fun saveToken(token: TokenResponseDTO) {
         viewModelScope.launch {
             localStorage.saveToken(
                 converter.converterTokenRequestDTOToTokenResponseVO(

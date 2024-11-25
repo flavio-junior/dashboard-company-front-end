@@ -1,7 +1,7 @@
 package br.com.digital.store.components.ui
 
 import androidx.compose.runtime.Composable
-import br.com.digital.store.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 
 @Composable
 fun <R : ObserveNetworkStateHandler<*>> ObserveNetworkStateHandler(

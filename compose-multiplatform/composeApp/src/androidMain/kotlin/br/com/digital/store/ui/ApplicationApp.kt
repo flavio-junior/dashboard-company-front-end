@@ -2,7 +2,8 @@ package br.com.digital.store.ui
 
 import android.app.Application
 import br.com.digital.store.di.androidModule
-import br.com.digital.store.networking.di.networkModule
+import br.com.digital.store.features.account.di.accountModule
+import br.com.digital.store.features.networking.di.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -14,7 +15,7 @@ class ApplicationApp : Application() {
         startKoin {
             androidContext(this@ApplicationApp)
             androidLogger(Level.INFO)
-            modules(modules = listOf(androidModule, networkModule))
+            modules(modules = listOf(accountModule, androidModule, networkModule))
         }
     }
 }

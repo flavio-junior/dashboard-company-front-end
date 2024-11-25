@@ -1,10 +1,10 @@
-package br.com.digital.store.networking.repository.remote
+package br.com.digital.store.features.account.data
 
 import br.com.digital.store.common.account.SignInRequestDTO
 import br.com.digital.store.common.account.TokenResponseDTO
-import br.com.digital.store.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import kotlinx.coroutines.flow.Flow
 
-interface ApiRepository {
+interface AccountRepository {
     suspend fun signIn(signIn: SignInRequestDTO): Flow<ObserveNetworkStateHandler<TokenResponseDTO>>
 }
