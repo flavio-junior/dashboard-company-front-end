@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.*
 
@@ -44,8 +45,11 @@ class JwtTokenProvider {
     }
 
     fun createAccessToken(username: String, typeAccount: TypeAccount): TokenVO {
-        val now = LocalDateTime.now()
-        val validity = now.plus(validityInMilliseconds, ChronoUnit.MILLIS)
+        val now = LocalDateTime.now().withNano(0)
+        val validity = now.plus(validityInMilliseconds, ChronoUnit.MILLIS).withNano(0)
+        val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+        val createdFormatted = now.format(formatter)
+        val expirationFormatted = validity.format(formatter)
         val accessToken = getAccessToken(username, typeAccount, now, validity)
         val refreshToken = getRefreshToken(username, typeAccount, now)
         return TokenVO(
@@ -54,8 +58,8 @@ class JwtTokenProvider {
             type = typeAccount,
             accessToken = accessToken,
             refreshToken = refreshToken,
-            created = now,
-            expiration = validity
+            created = createdFormatted,
+            expiration = expirationFormatted
         )
     }
 

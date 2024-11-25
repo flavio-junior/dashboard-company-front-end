@@ -6,9 +6,9 @@ import java.time.LocalDateTime
 data class TokenVO(
     val user: String? = null,
     val authenticated: Boolean? = null,
-    val created: LocalDateTime? = null,
+    val created: String? = null,
     val type: TypeAccount? = null,
-    val expiration: LocalDateTime? = null,
+    val expiration: String? = null,
     val accessToken: String? = null,
     val refreshToken: String? = null,
 )
