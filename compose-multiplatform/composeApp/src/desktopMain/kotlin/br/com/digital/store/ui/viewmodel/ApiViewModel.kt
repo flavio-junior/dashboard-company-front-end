@@ -4,11 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.digital.store.networking.data.dto.SignInRequestDTO
-import br.com.digital.store.networking.data.dto.TokenResponseDTO
-import br.com.digital.store.networking.data.repository.local.DesktopLocalStorage
-import br.com.digital.store.networking.data.repository.remote.ApiRepository
-import br.com.digital.store.networking.data.vo.TokenResponseVO
+import br.com.digital.store.common.account.SignInRequestDTO
+import br.com.digital.store.common.account.TokenResponseDTO
+import br.com.digital.store.data.repository.loal.DesktopLocalStorage
+import br.com.digital.store.networking.repository.remote.ApiRepository
+import br.com.digital.store.common.account.TokenResponseVO
 import br.com.digital.store.networking.domain.converter.ConverterCommon
 import br.com.digital.store.networking.utils.ObserveNetworkStateHandler
 import kotlinx.coroutines.flow.onStart

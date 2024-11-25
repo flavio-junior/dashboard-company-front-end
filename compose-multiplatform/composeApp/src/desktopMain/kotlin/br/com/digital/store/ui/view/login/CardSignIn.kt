@@ -26,9 +26,9 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.components.ui.TextPassword
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.mail
-import br.com.digital.store.networking.data.dto.SignInRequestDTO
-import br.com.digital.store.networking.data.dto.TokenResponseDTO
-import br.com.digital.store.networking.data.vo.TokenResponseVO
+import br.com.digital.store.common.account.SignInRequestDTO
+import br.com.digital.store.common.account.TokenResponseDTO
+import br.com.digital.store.common.account.TokenResponseVO
 import br.com.digital.store.networking.domain.type.TypeAccount
 import br.com.digital.store.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.networking.utils.errorResult

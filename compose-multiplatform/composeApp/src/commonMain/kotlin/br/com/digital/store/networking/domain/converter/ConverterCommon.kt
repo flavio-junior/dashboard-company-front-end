@@ -1,7 +1,7 @@
 package br.com.digital.store.networking.domain.converter
 
-import br.com.digital.store.networking.data.dto.TokenResponseDTO
-import br.com.digital.store.networking.data.vo.TokenResponseVO
+import br.com.digital.store.common.account.TokenResponseDTO
+import br.com.digital.store.common.account.TokenResponseVO
 
 class ConverterCommon {
 

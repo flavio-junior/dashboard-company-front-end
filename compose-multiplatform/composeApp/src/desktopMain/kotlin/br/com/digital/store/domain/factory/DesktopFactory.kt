@@ -12,7 +12,7 @@ import br.com.digital.store.composeapp.generated.resources.refresh
 import br.com.digital.store.composeapp.generated.resources.reservation
 import br.com.digital.store.composeapp.generated.resources.settings
 import br.com.digital.store.composeapp.generated.resources.shopping_cart
-import br.com.digital.store.model.ItemService
+import br.com.digital.store.utils.ItemService
 import br.com.digital.store.navigation.ItemNavigation
 import br.com.digital.store.strings.StringsUtils.CATEGORIES
 import br.com.digital.store.strings.StringsUtils.CHANGE_TO_OTHER_ACCOUNT

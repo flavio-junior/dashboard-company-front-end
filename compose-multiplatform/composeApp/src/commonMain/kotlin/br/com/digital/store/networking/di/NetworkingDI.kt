@@ -1,7 +1,7 @@
 package br.com.digital.store.networking.di
 
-import br.com.digital.store.networking.data.repository.remote.ApiRemoteDataSource
-import br.com.digital.store.networking.data.repository.remote.ApiRepository
+import br.com.digital.store.networking.repository.remote.ApiRemoteDataSource
+import br.com.digital.store.networking.repository.remote.ApiRepository
 import br.com.digital.store.networking.domain.converter.ConverterCommon
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest

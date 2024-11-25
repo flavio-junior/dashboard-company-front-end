@@ -1,6 +1,6 @@
 package br.com.digital.store.di
 
-import br.com.digital.store.networking.data.repository.local.DesktopLocalStorage
+import br.com.digital.store.data.repository.loal.DesktopLocalStorage
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import br.com.digital.store.ui.viewmodel.ApiViewModel

@@ -13,7 +13,7 @@ import br.com.digital.store.components.ui.Title
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.box
 import br.com.digital.store.domain.factory.availableServices
-import br.com.digital.store.model.ItemService
+import br.com.digital.store.utils.ItemService
 import br.com.digital.store.strings.StringsUtils.DASHBOARD
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.changeColor
