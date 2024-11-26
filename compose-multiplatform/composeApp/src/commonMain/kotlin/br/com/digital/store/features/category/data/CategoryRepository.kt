@@ -10,7 +10,7 @@ interface CategoryRepository {
     fun findAllCategories(
         name: String = "",
         page: Int = 0,
-        size: Int = 12,
+        size: Int = 60,
         sort: String
     ): Flow<ObserveNetworkStateHandler<CategoriesResponseDTO>>
     fun createNewCategory(category: CategoryRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>

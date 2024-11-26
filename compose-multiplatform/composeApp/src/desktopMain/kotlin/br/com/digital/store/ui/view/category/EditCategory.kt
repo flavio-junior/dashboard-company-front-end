@@ -25,7 +25,6 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.mail
-import br.com.digital.store.composeapp.generated.resources.search
 import br.com.digital.store.features.category.viewmodel.CategoryViewModel
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.strings.StringsUtils.ACTUAL_NAME
@@ -78,14 +77,12 @@ fun EditCategory(
                 enabled = false,
                 label = ID,
                 value = categoryVO.id.toString(),
-                icon = Res.drawable.search,
                 modifier = Modifier.weight(weight = WEIGHT_SIZE),
             )
             TextField(
                 enabled = false,
                 label = ACTUAL_NAME,
                 value = categoryVO.name,
-                icon = Res.drawable.search,
                 modifier = Modifier.weight(weight = WEIGHT_SIZE_3),
             )
             IconDefault(

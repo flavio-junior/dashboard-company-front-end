@@ -16,7 +16,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import br.com.digital.store.common.category.vo.CategoryResponseVO
-import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.Search
 import br.com.digital.store.components.ui.SortBy
@@ -27,7 +26,6 @@ import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.onBorder
-import br.com.digital.store.utils.onClickable
 
 @Composable
 fun ListCategories(
@@ -72,16 +70,10 @@ fun ListCategories(
                 }
             )
         }
-        Column(
-            modifier = modifier
-                .weight(weight = WEIGHT_SIZE)
-                .background(color = Themes.colors.success)
-        ) {
-            categories.forEach {
-                Description(
-                    description = it.name,
-                    modifier = modifier.onClickable { onItemSelected(it) })
-            }
-        }
+        CategoriesPanel(
+            modifier = modifier.padding(top = Themes.size.spaceSize16),
+            categories = categories,
+            onItemSelected = onItemSelected
+        )
     }
 }

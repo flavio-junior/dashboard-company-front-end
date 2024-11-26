@@ -6,6 +6,7 @@ object StringsUtils {
     const val EMAIL = "Email"
     const val PASSWORD = "Senha"
     const val ID = "Id"
+    const val NAME = "Nome"
     const val ACTUAL_NAME = "Nome atual"
     const val ALERT = "Alerta!"
     const val DESCRIPTION_ALERT = "Você realmente deseja excluir o item selecionado?"
