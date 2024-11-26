@@ -43,7 +43,7 @@ fun TextField(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
         var showClearButton by remember { mutableStateOf(value = false) }
         if (enabled) {

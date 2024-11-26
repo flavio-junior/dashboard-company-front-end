@@ -18,10 +18,10 @@ import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.mail
 import br.com.digital.store.features.category.viewmodel.CategoryViewModel
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.strings.StringsUtils.CATEGORY_NAME
 import br.com.digital.store.strings.StringsUtils.NOT_BLANK_OR_EMPTY
-import br.com.digital.store.strings.StringsUtils.SAVE_CATEGORY
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.ui.view.category.CategoryUtils.CATEGORY_NAME
+import br.com.digital.store.ui.view.category.CategoryUtils.SAVE_CATEGORY
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import org.koin.mp.KoinPlatform.getKoin
@@ -77,10 +77,6 @@ fun SaveCategory(
             }
         )
     }
-}
-
-fun checkNameIsNull(categoryName: String): Boolean {
-    return (categoryName.isEmpty())
 }
 
 @Composable
