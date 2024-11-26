@@ -53,7 +53,10 @@ private fun ObserveNetworkStateHandlerCategories(
         },
         onSuccess = {
             it.result?.let { response ->
-                AllServicesCategories(categories = response)
+                AllServicesCategories(
+                    categories = response,
+                    findAllCategories = { viewModel.findAllCategories() }
+                )
             }
         }
     )
@@ -61,7 +64,8 @@ private fun ObserveNetworkStateHandlerCategories(
 
 @Composable
 private fun AllServicesCategories(
-    categories: List<CategoryResponseVO>
+    categories: List<CategoryResponseVO>,
+    findAllCategories: () -> Unit = {}
 ) {
     Column {
         Row(
@@ -75,7 +79,8 @@ private fun AllServicesCategories(
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(weight = WEIGHT_SIZE_4),
-                onItemSelected = { category = it }
+                onItemSelected = { category = it },
+                findAllCategories = findAllCategories
             )
             EditCategory(
                 categoryVO = category,
