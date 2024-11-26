@@ -94,6 +94,9 @@ private fun AllServicesCategories(
                 modifier = Modifier
                     .padding(start = Themes.size.spaceSize16)
                     .weight(weight = WEIGHT_SIZE_2),
+                onCleanCategory = {
+                    category = CategoryResponseVO()
+                },
                 onSuccessful = {
                     category = it
                 }

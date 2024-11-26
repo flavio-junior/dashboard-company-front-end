@@ -2,34 +2,48 @@ package br.com.digital.store.ui.view.category
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import br.com.digital.store.common.category.dto.EditCategoryRequestDTO
 import br.com.digital.store.common.category.vo.CategoryResponseVO
+import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.mail
+import br.com.digital.store.composeapp.generated.resources.search
 import br.com.digital.store.features.category.viewmodel.CategoryViewModel
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.strings.StringsUtils.ACTUAL_NAME
+import br.com.digital.store.strings.StringsUtils.ID
 import br.com.digital.store.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.category.CategoryUtils.CATEGORY_NAME
 import br.com.digital.store.ui.view.category.CategoryUtils.EDIT_CATEGORY
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
+import br.com.digital.store.utils.onBorder
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun EditCategory(
     modifier: Modifier = Modifier,
     categoryVO: CategoryResponseVO,
+    onCleanCategory: () -> Unit = {},
     onSuccessful: (CategoryResponseVO) -> Unit = {}
 ) {
     Column(
@@ -51,15 +65,40 @@ fun EditCategory(
                 )
             }
         }
-        TextField(
-            enabled = false,
-            label = ACTUAL_NAME,
-            value = categoryVO.name,
-            icon = Res.drawable.mail,
-            keyboardType = KeyboardType.Text,
-            isError = observer.second,
-            onValueChange = {},
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextField(
+                enabled = false,
+                label = ID,
+                value = categoryVO.id.toString(),
+                icon = Res.drawable.search,
+                modifier = Modifier.weight(weight = WEIGHT_SIZE),
+            )
+            TextField(
+                enabled = false,
+                label = ACTUAL_NAME,
+                value = categoryVO.name,
+                icon = Res.drawable.search,
+                modifier = Modifier.weight(weight = WEIGHT_SIZE_3),
+            )
+            IconDefault(
+                icon = Res.drawable.close, modifier = Modifier
+                    .onBorder(
+                        onClick = {},
+                        color = Themes.colors.primary,
+                        spaceSize = Themes.size.spaceSize16,
+                        width = Themes.size.spaceSize1
+                    )
+                    .size(size = Themes.size.spaceSize64)
+                    .padding(all = Themes.size.spaceSize8),
+                onClick = onCleanCategory
+            )
+        }
         TextField(
             label = CATEGORY_NAME,
             value = categoryName,
@@ -69,6 +108,9 @@ fun EditCategory(
             message = observer.third,
             onValueChange = {
                 categoryName = it
+            },
+            onGo = {
+                editCategory(categoryName)
             }
         )
         LoadingButton(
