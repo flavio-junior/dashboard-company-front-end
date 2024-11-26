@@ -1,7 +1,7 @@
 package br.com.digital.store.features.category.data
 
+import br.com.digital.store.common.category.dto.CategoriesResponseDTO
 import br.com.digital.store.common.category.dto.CategoryRequestDTO
-import br.com.digital.store.common.category.dto.CategoryResponseDTO
 import br.com.digital.store.common.category.dto.EditCategoryRequestDTO
 import br.com.digital.store.features.account.data.LocalStorageImp
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
@@ -15,6 +15,7 @@ import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.http.HttpHeaders
+import io.ktor.http.path
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 
@@ -27,10 +28,21 @@ class CategoryRemoteDataSource(
         localStorage.getToken().accessToken
     }
 
-    override fun findAllCategories(): Flow<ObserveNetworkStateHandler<List<CategoryResponseDTO>>> {
+    override fun findAllCategories(
+        name: String,
+        page: Int,
+        size: Int,
+        sort: String
+    ): Flow<ObserveNetworkStateHandler<CategoriesResponseDTO>> {
         return toResultFlow {
             httpClient.get {
-                url(urlString = "/api/dashboard/company/categories/v1")
+                url {
+                    path("/api/dashboard/company/categories/v1")
+                    parameters.append("name", name)
+                    parameters.append("page", page.toString())
+                    parameters.append("size", size.toString())
+                    parameters.append("sort", sort)
+                }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }

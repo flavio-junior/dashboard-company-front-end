@@ -19,8 +19,10 @@ import br.com.digital.store.common.category.vo.CategoryResponseVO
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.Search
+import br.com.digital.store.components.ui.SortBy
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.refresh
+import br.com.digital.store.strings.StringsUtils.ASC
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
@@ -32,7 +34,7 @@ fun ListCategories(
     modifier: Modifier = Modifier,
     categories: List<CategoryResponseVO>,
     onItemSelected: (CategoryResponseVO) -> Unit = {},
-    findAllCategories: () -> Unit = {}
+    findAllCategories: (Pair<String, String>) -> Unit = {}
 ) {
     Column(
         modifier = modifier.background(color = Themes.colors.background)
@@ -45,11 +47,16 @@ fun ListCategories(
             verticalAlignment = Alignment.CenterVertically
         ) {
             var search: String by remember { mutableStateOf(value = EMPTY_TEXT) }
+            var sortBy: String by remember { mutableStateOf(value = ASC) }
             Search(
                 value = search,
                 onValueChange = { search = it },
-                modifier = Modifier.weight(weight = WEIGHT_SIZE)
+                modifier = Modifier.weight(weight = WEIGHT_SIZE),
+                onGo = {
+                    findAllCategories(Pair(search, sortBy))
+                }
             )
+            SortBy(onClick = { sortBy = it })
             IconDefault(
                 icon = Res.drawable.refresh, modifier = Modifier
                     .onBorder(
@@ -60,7 +67,9 @@ fun ListCategories(
                     )
                     .size(size = Themes.size.spaceSize64)
                     .padding(all = Themes.size.spaceSize8),
-                onClick = findAllCategories
+                onClick = {
+                    findAllCategories(Pair(search, sortBy))
+                }
             )
         }
         Column(

@@ -11,6 +11,8 @@ object StringsUtils {
     const val CANCEL = "Cancelar"
     const val CONFIRM = "Confirmar"
     const val SEARCH = "Pesquisar"
+    const val ASC = "asc"
+    const val DESC = "desc"
     const val CREATE_MY_ACCOUNT = "Criar minha conta"
     const val FORGOT_PASS = "Esqueceu sua senha?"
     const val RESET_PASSWORD = "Recuperar acesso"

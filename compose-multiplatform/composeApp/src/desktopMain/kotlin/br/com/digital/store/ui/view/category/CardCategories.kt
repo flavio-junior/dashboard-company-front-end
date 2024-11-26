@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import br.com.digital.store.common.category.vo.CategoriesResponseVO
 import br.com.digital.store.common.category.vo.CategoryResponseVO
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.LoadingData
@@ -42,7 +43,7 @@ fun CardCategories(
 private fun ObserveNetworkStateHandlerCategories(
     viewModel: CategoryViewModel
 ) {
-    val state: ObserveNetworkStateHandler<List<CategoryResponseVO>> by remember { viewModel.findAllCategories }
+    val state: ObserveNetworkStateHandler<CategoriesResponseVO> by remember { viewModel.findAllCategories }
     ObserveNetworkStateHandler(
         resultState = state,
         onLoading = {
@@ -54,8 +55,14 @@ private fun ObserveNetworkStateHandlerCategories(
         onSuccess = {
             it.result?.let { response ->
                 AllServicesCategories(
-                    categories = response,
-                    findAllCategories = { viewModel.findAllCategories() }
+                    content = response,
+                    findAllCategories = { parameters ->
+                        viewModel.stateSearch(sort = parameters.second)
+                        viewModel.findAllCategories(
+                            name = parameters.first,
+                            sort = parameters.second
+                        )
+                    }
                 )
             }
         }
@@ -64,8 +71,8 @@ private fun ObserveNetworkStateHandlerCategories(
 
 @Composable
 private fun AllServicesCategories(
-    categories: List<CategoryResponseVO>,
-    findAllCategories: () -> Unit = {}
+    content: CategoriesResponseVO,
+    findAllCategories: (Pair<String, String>) -> Unit = {}
 ) {
     Column {
         Row(
@@ -75,7 +82,7 @@ private fun AllServicesCategories(
         ) {
             var category: CategoryResponseVO by remember { mutableStateOf(value = CategoryResponseVO()) }
             ListCategories(
-                categories = categories,
+                categories = content.content,
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(weight = WEIGHT_SIZE_4),
