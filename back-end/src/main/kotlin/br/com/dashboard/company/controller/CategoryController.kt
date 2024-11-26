@@ -75,6 +75,7 @@ class CategoryController {
         ]
     )
     fun findAllCategories(
+        @RequestParam(required = false) name: String?,
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "size", defaultValue = "12") size: Int,
         @RequestParam(value = "sort", defaultValue = "asc") sort: String
@@ -83,7 +84,7 @@ class CategoryController {
             if ("desc".equals(sort, ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
         val pageable: Pageable = PageRequest.of(page, size, Sort.by(sortDirection, "name"))
         return ResponseEntity.ok(
-            categoryService.findAllCategories(pageable = pageable)
+            categoryService.findAllCategories(name = name, pageable = pageable)
         )
     }
 

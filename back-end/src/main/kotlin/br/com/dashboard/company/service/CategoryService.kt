@@ -20,9 +20,10 @@ class CategoryService {
 
     @Transactional(readOnly = true)
     fun findAllCategories(
+        name: String?,
         pageable: Pageable
     ): Page<CategoryResponseVO> {
-        val categories: Page<Category>? = categoryRepository.findAllCategories(pageable = pageable)
+        val categories: Page<Category>? = categoryRepository.findAllCategories(name = name, pageable = pageable)
         return categories?.map { category -> parseObject(category, CategoryResponseVO::class.java) }
             ?: throw ResourceNotFoundException(message = CATEGORY_NOT_FOUND)
     }
