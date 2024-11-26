@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import br.com.digital.store.common.category.dto.EditCategoryRequestDTO
 import br.com.digital.store.common.category.vo.CategoryResponseVO
+import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
@@ -54,6 +55,7 @@ fun EditCategory(
         var observer: Triple<Boolean, Boolean, String> by remember {
             mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
         }
+        var openDialog by remember { mutableStateOf(value = false) }
         var categoryName by remember { mutableStateOf(value = EMPTY_TEXT) }
         val editCategory = { category: String ->
             if (checkNameIsNull(category)) {
@@ -110,16 +112,28 @@ fun EditCategory(
                 categoryName = it
             },
             onGo = {
-                editCategory(categoryName)
+                openDialog = true
             }
         )
         LoadingButton(
             label = EDIT_CATEGORY,
             onClick = {
-                editCategory(categoryName)
+                openDialog = true
             },
             isEnabled = observer.first
         )
+        if (openDialog) {
+            Alert(
+                onDismissRequest = {
+                    openDialog = false
+                },
+                onConfirmation = {
+                    observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                    editCategory(categoryName)
+                    openDialog = false
+                }
+            )
+        }
         ObserveNetworkStateHandlerEditCategory(
             viewModel = viewModel,
             onError = {
