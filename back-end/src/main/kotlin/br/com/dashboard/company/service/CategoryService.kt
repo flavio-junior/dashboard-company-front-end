@@ -7,6 +7,8 @@ import br.com.dashboard.company.repository.CategoryRepository
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.category.CategoryResponseVO
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,9 +19,12 @@ class CategoryService {
     private lateinit var categoryRepository: CategoryRepository
 
     @Transactional(readOnly = true)
-    fun findAllCategories(): List<CategoryResponseVO> {
-        val categories = categoryRepository.findAll()
-        return categories.map { category -> parseObject(category, CategoryResponseVO::class.java) }
+    fun findAllCategories(
+        pageable: Pageable
+    ): Page<CategoryResponseVO> {
+        val categories: Page<Category>? = categoryRepository.findAllCategories(pageable = pageable)
+        return categories?.map { category -> parseObject(category, CategoryResponseVO::class.java) }
+            ?: throw ResourceNotFoundException(message = CATEGORY_NOT_FOUND)
     }
 
     @Transactional(readOnly = true)
@@ -45,9 +50,9 @@ class CategoryService {
     fun createNewCategory(
         category: CategoryResponseVO
     ): CategoryResponseVO {
-        if(!checkNameCategoryAlreadyExists(category.name)) {
-        val categoryResult: Category = parseObject(category, Category::class.java)
-        return parseObject(categoryRepository.save(categoryResult), CategoryResponseVO::class.java)
+        if (!checkNameCategoryAlreadyExists(category.name)) {
+            val categoryResult: Category = parseObject(category, Category::class.java)
+            return parseObject(categoryRepository.save(categoryResult), CategoryResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_CATEGORY)
         }
@@ -56,14 +61,14 @@ class CategoryService {
     private fun checkNameCategoryAlreadyExists(
         name: String
     ): Boolean {
-       val categoryResult = categoryRepository.checkNameCategoryAlreadyExists(name = name)
+        val categoryResult = categoryRepository.checkNameCategoryAlreadyExists(name = name)
         return categoryResult != null
     }
 
     fun updateCategory(
         category: CategoryResponseVO
     ): CategoryResponseVO {
-        if(!checkNameCategoryAlreadyExists(category.name)) {
+        if (!checkNameCategoryAlreadyExists(category.name)) {
             val categoryResult: Category = getCategory(id = category.id)
             categoryResult.name = category.name
             return parseObject(categoryRepository.save(categoryResult), CategoryResponseVO::class.java)
