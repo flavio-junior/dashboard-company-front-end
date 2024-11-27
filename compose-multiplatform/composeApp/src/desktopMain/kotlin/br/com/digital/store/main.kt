@@ -16,9 +16,10 @@ import br.com.digital.store.di.desktopModule
 import br.com.digital.store.features.account.di.accountModule
 import br.com.digital.store.features.category.di.categoryModule
 import br.com.digital.store.features.networking.di.networkModule
+import br.com.digital.store.features.reservation.di.reservationModule
+import br.com.digital.store.navigation.Navigation
 import br.com.digital.store.strings.StringsUtils.MAIN_NAME
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.navigation.Navigation
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.startKoin
 
@@ -29,7 +30,8 @@ fun main() {
                 accountModule,
                 categoryModule,
                 desktopModule,
-                networkModule
+                networkModule,
+                reservationModule
             )
         )
     }

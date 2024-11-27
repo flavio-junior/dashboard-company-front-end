@@ -5,6 +5,7 @@ import br.com.digital.store.domain.factory.availableServices
 import br.com.digital.store.strings.StringsUtils.RESERVATION
 import br.com.digital.store.ui.view.shared.BodyPage
 import br.com.digital.store.ui.view.shared.Services
+import br.com.digital.store.utils.TypeLayout
 
 @Composable
 fun ReservationScreen(
@@ -12,6 +13,7 @@ fun ReservationScreen(
     goToNextScreen: (String) -> Unit = {}
 ) {
     BodyPage(
+        typeLayout = TypeLayout.ROW,
         body = {
             Services(
                 label = RESERVATION,
@@ -19,6 +21,7 @@ fun ReservationScreen(
                 goToBackScreen = goToBackScreen,
                 goToNextScreen = goToNextScreen
             )
+            CardReservations()
         }
     )
 }
