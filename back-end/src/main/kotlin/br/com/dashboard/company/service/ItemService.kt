@@ -8,7 +8,10 @@ import br.com.dashboard.company.utils.common.PriceRequestVO
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.item.ItemResponseVO
 import br.com.dashboard.company.vo.item.ItemRequestVO
+import br.com.dashboard.company.vo.reservation.ReservationResponseVO
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,9 +22,13 @@ class ItemService {
     private lateinit var itemRepository: ItemRepository
 
     @Transactional(readOnly = true)
-    fun findAllItems(): List<ItemResponseVO> {
-        val items = itemRepository.findAll()
-        return items.map { item -> parseObject(item, ItemResponseVO::class.java) }
+    fun findAllItems(
+        name: String?,
+        pageable: Pageable
+    ): Page<ItemResponseVO> {
+        val items: Page<Item>? = itemRepository.findAllItems(name = name, pageable = pageable)
+        return items?.map { reservation -> parseObject(reservation, ItemResponseVO::class.java) }
+            ?: throw ResourceNotFoundException(message = ITEM_NOT_FOUND)
     }
 
     @Transactional(readOnly = true)
