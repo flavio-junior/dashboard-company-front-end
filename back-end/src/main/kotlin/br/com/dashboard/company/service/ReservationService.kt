@@ -8,6 +8,8 @@ import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.reservation.ReservationRequestVO
 import br.com.dashboard.company.vo.reservation.ReservationResponseVO
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,9 +20,13 @@ class ReservationService {
     private lateinit var reservationRepository: ReservationRepository
 
     @Transactional(readOnly = true)
-    fun findAllReservations(): List<ReservationResponseVO> {
-        val reservations = reservationRepository.findAll()
-        return reservations.map { reservation -> parseObject(reservation, ReservationResponseVO::class.java) }
+    fun findAllReservations(
+        name: String?,
+        pageable: Pageable
+    ): Page<ReservationResponseVO> {
+        val reservations: Page<Reservation>? = reservationRepository.findAllReservations(name = name, pageable = pageable)
+       return reservations?.map { reservation -> parseObject(reservation, ReservationResponseVO::class.java) }
+           ?: throw ResourceNotFoundException(message = RESERVATION_NOT_FOUND)
     }
 
     @Transactional(readOnly = true)
