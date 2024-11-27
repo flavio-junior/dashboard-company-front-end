@@ -15,7 +15,7 @@ import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
-import br.com.digital.store.composeapp.generated.resources.mail
+import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.category.viewmodel.CategoryViewModel
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.strings.StringsUtils.NOT_BLANK_OR_EMPTY
@@ -52,7 +52,7 @@ fun SaveCategory(
         TextField(
             label = CATEGORY_NAME,
             value = categoryName,
-            icon = Res.drawable.mail,
+            icon = Res.drawable.edit,
             keyboardType = KeyboardType.Text,
             isError = observer.second,
             message = observer.third,

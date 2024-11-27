@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -27,10 +26,11 @@ import androidx.compose.ui.text.style.TextAlign
 import br.com.digital.store.common.category.vo.CategoriesResponseVO
 import br.com.digital.store.common.category.vo.CategoryResponseVO
 import br.com.digital.store.components.ui.Description
-import br.com.digital.store.strings.StringsUtils.ID
 import br.com.digital.store.strings.StringsUtils.NAME
+import br.com.digital.store.strings.StringsUtils.NUMBER
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import br.com.digital.store.utils.onBorder
 import br.com.digital.store.utils.onClickable
@@ -74,6 +74,7 @@ fun ListCategories(
         ) {
             itemsIndexed(content.content) { index, category ->
                 ItemCategory(
+                    index = index,
                     selected = selectedIndex == index,
                     category = category,
                     onItemSelected = onItemSelected,
@@ -105,8 +106,9 @@ fun HeaderCategoriesPanel(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Description(
-            description = ID,
-            modifier = modifier.width(width = Themes.size.spaceSize36)
+            description = NUMBER,
+            modifier = modifier.weight(weight = WEIGHT_SIZE),
+            textAlign = TextAlign.Center
         )
         Description(
             description = NAME,
@@ -117,6 +119,7 @@ fun HeaderCategoriesPanel(
 
 @Composable
 fun ItemCategory(
+    index: Int,
     selected: Boolean = false,
     modifier: Modifier = Modifier,
     category: CategoryResponseVO,
@@ -134,9 +137,11 @@ fun ItemCategory(
             .padding(vertical = Themes.size.spaceSize16),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        var add = index
+        add++
         Description(
-            description = category.id.toString(),
-            modifier = modifier.width(width = Themes.size.spaceSize36),
+            description = add.toString(),
+            modifier = modifier.weight(weight = WEIGHT_SIZE),
             textAlign = TextAlign.Center,
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )
