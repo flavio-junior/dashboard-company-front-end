@@ -12,16 +12,20 @@ import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.arrow_back
 import br.com.digital.store.composeapp.generated.resources.arrow_forward
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE
 import br.com.digital.store.utils.onBorder
 
 @Composable
 fun PageIndicator(
-    currentPage: Int,
-    totalPages: Int,
+    modifier: Modifier = Modifier,
+    currentPage: Int = 0,
+    totalPages: Int = 0,
+    loadNextPage: () -> Unit = {},
+    reloadPreviousPage: () -> Unit = {}
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
             .padding(
                 top = Themes.size.spaceSize16,
                 start = Themes.size.spaceSize16,
@@ -29,35 +33,36 @@ fun PageIndicator(
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val newValue = currentPage + NUMBER_ONE
         IconDefault(
             icon = Res.drawable.arrow_back,
             modifier = Modifier
                 .onBorder(
-                    onClick = {},
+                    onClick = reloadPreviousPage,
                     color = Themes.colors.primary,
                     spaceSize = Themes.size.spaceSize8,
                     width = Themes.size.spaceSize2
                 )
                 .size(size = Themes.size.spaceSize48)
                 .padding(all = Themes.size.spaceSize16),
-            onClick = {}
+            onClick = reloadPreviousPage
         )
         Title(
-            title = "$currentPage/$totalPages",
+            title = "$newValue/$totalPages",
             modifier = Modifier.padding(horizontal = Themes.size.spaceSize16)
         )
         IconDefault(
             icon = Res.drawable.arrow_forward,
             modifier = Modifier
                 .onBorder(
-                    onClick = {},
+                    onClick = loadNextPage,
                     color = Themes.colors.primary,
                     spaceSize = Themes.size.spaceSize8,
                     width = Themes.size.spaceSize2
                 )
                 .size(size = Themes.size.spaceSize48)
                 .padding(all = Themes.size.spaceSize16),
-            onClick = {}
+            onClick = loadNextPage
         )
     }
 }

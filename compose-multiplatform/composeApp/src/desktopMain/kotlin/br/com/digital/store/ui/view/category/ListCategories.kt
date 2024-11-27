@@ -1,80 +1,149 @@
 package br.com.digital.store.ui.view.category
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import br.com.digital.store.common.category.vo.CategoriesResponseVO
 import br.com.digital.store.common.category.vo.CategoryResponseVO
-import br.com.digital.store.components.ui.IconDefault
-import br.com.digital.store.components.ui.Search
-import br.com.digital.store.components.ui.SortBy
-import br.com.digital.store.composeapp.generated.resources.Res
-import br.com.digital.store.composeapp.generated.resources.refresh
-import br.com.digital.store.strings.StringsUtils.ASC
+import br.com.digital.store.components.ui.Description
+import br.com.digital.store.strings.StringsUtils.ID
+import br.com.digital.store.strings.StringsUtils.NAME
+import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import br.com.digital.store.utils.onBorder
+import br.com.digital.store.utils.onClickable
+import kotlinx.coroutines.launch
 
 @Composable
 fun ListCategories(
     modifier: Modifier = Modifier,
     content: CategoriesResponseVO,
-    onItemSelected: (CategoryResponseVO) -> Unit = {},
-    findAllCategories: (Pair<String, String>) -> Unit = {}
+    onItemSelected: (CategoryResponseVO) -> Unit
 ) {
     Column(
-        modifier = modifier.background(color = Themes.colors.background)
+        modifier = modifier
+            .background(color = Themes.colors.background)
+            .fillMaxWidth()
+            .wrapContentHeight()
     ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
-            modifier = Modifier
+        HeaderCategoriesPanel(modifier = Modifier.padding(top = Themes.size.spaceSize16))
+        val scrollState = rememberLazyListState()
+        val coroutineScope = rememberCoroutineScope()
+        var selectedIndex by remember { mutableStateOf(value = -1) }
+        LazyColumn(
+            state = scrollState,
+            modifier = modifier
+                .onBorder(
+                    onClick = {},
+                    color = Themes.colors.primary,
+                    spaceSize = Themes.size.spaceSize16,
+                    width = Themes.size.spaceSize2
+                )
+                .draggable(
+                    orientation = Orientation.Vertical,
+                    state = rememberDraggableState { delta ->
+                        coroutineScope.launch {
+                            scrollState.scrollBy(delta)
+                        }
+                    },
+                )
                 .fillMaxWidth()
-                .wrapContentHeight(),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(all = Themes.size.spaceSize36)
         ) {
-            var search: String by remember { mutableStateOf(value = EMPTY_TEXT) }
-            var sortBy: String by remember { mutableStateOf(value = ASC) }
-            Search(
-                value = search,
-                onValueChange = { search = it },
-                modifier = Modifier.weight(weight = WEIGHT_SIZE),
-                onGo = {
-                    findAllCategories(Pair(search, sortBy))
-                }
-            )
-            SortBy(onClick = { sortBy = it })
-            IconDefault(
-                icon = Res.drawable.refresh, modifier = Modifier
-                    .onBorder(
-                        onClick = {},
-                        color = Themes.colors.primary,
-                        spaceSize = Themes.size.spaceSize16,
-                        width = Themes.size.spaceSize1
-                    )
-                    .size(size = Themes.size.spaceSize64)
-                    .padding(all = Themes.size.spaceSize8),
-                onClick = {
-                    findAllCategories(Pair(search, sortBy))
-                }
-            )
+            itemsIndexed(content.content) { index, category ->
+                ItemCategory(
+                    selected = selectedIndex == index,
+                    category = category,
+                    onItemSelected = onItemSelected,
+                    onDisableItem = {
+                        selectedIndex = index
+                    }
+                )
+            }
         }
-        CategoriesPanel(
-            modifier = modifier.padding(top = Themes.size.spaceSize16),
-            content = content,
-            onItemSelected = onItemSelected
+    }
+}
+
+@Composable
+fun HeaderCategoriesPanel(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8),
+        modifier = modifier
+            .onBorder(
+                onClick = {},
+                color = Themes.colors.primary,
+                spaceSize = Themes.size.spaceSize16,
+                width = Themes.size.spaceSize1
+            )
+            .fillMaxWidth()
+            .padding(horizontal = Themes.size.spaceSize36)
+            .padding(bottom = Themes.size.spaceSize16),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Description(
+            description = ID,
+            modifier = modifier.width(width = Themes.size.spaceSize36)
+        )
+        Description(
+            description = NAME,
+            modifier = modifier.weight(weight = WEIGHT_SIZE_4)
+        )
+    }
+}
+
+@Composable
+fun ItemCategory(
+    selected: Boolean = false,
+    modifier: Modifier = Modifier,
+    category: CategoryResponseVO,
+    onItemSelected: (CategoryResponseVO) -> Unit = {},
+    onDisableItem: () -> Unit = {}
+) {
+    Row(
+        modifier = modifier
+            .onClickable {
+                onItemSelected(category)
+                onDisableItem()
+            }
+            .background(color = if (selected) ITEM_SELECTED else Themes.colors.background)
+            .fillMaxWidth()
+            .padding(vertical = Themes.size.spaceSize16),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Description(
+            description = category.id.toString(),
+            modifier = modifier.width(width = Themes.size.spaceSize36),
+            textAlign = TextAlign.Center,
+            color = if (selected) Themes.colors.background else Themes.colors.primary
+        )
+        Description(
+            description = category.name,
+            modifier = modifier.weight(weight = WEIGHT_SIZE_4),
+            color = if (selected) Themes.colors.background else Themes.colors.primary
         )
     }
 }

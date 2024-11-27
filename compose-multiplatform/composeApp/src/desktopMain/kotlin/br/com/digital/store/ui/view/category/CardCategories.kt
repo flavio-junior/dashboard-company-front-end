@@ -27,10 +27,12 @@ import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_5
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
-fun CardCategories(
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier) {
+fun CardCategories() {
+    Column(
+        modifier = Modifier
+            .padding(all = Themes.size.spaceSize16)
+    ) {
+        HeaderSearchCategories()
         val viewModel: CategoryViewModel = getKoin().get()
         LaunchedEffect(key1 = Unit) {
             viewModel.findAllCategories()
@@ -54,16 +56,7 @@ private fun ObserveNetworkStateHandlerCategories(
         },
         onSuccess = {
             it.result?.let { response ->
-                AllServicesCategories(
-                    content = response,
-                    findAllCategories = { parameters ->
-                        viewModel.stateSearch(sort = parameters.second)
-                        viewModel.findAllCategories(
-                            name = parameters.first,
-                            sort = parameters.second
-                        )
-                    }
-                )
+                AllServicesCategories(content = response)
             }
         }
     )
@@ -71,8 +64,7 @@ private fun ObserveNetworkStateHandlerCategories(
 
 @Composable
 private fun AllServicesCategories(
-    content: CategoriesResponseVO,
-    findAllCategories: (Pair<String, String>) -> Unit = {}
+    content: CategoriesResponseVO
 ) {
     Column {
         Row(
@@ -82,17 +74,17 @@ private fun AllServicesCategories(
         ) {
             var category: CategoryResponseVO by remember { mutableStateOf(value = CategoryResponseVO()) }
             ListCategories(
-                content = content,
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(weight = WEIGHT_SIZE_4),
-                onItemSelected = { category = it },
-                findAllCategories = findAllCategories
+                    .weight(weight = WEIGHT_SIZE_4)
+                    .padding(top = Themes.size.spaceSize24),
+                content = content,
+                onItemSelected = { category = it }
             )
             EditCategory(
                 categoryVO = category,
                 modifier = Modifier
-                    .padding(start = Themes.size.spaceSize16)
+                    .padding(start = Themes.size.spaceSize16, top = Themes.size.spaceSize36)
                     .weight(weight = WEIGHT_SIZE_2),
                 onCleanCategory = {
                     category = CategoryResponseVO()
@@ -102,6 +94,10 @@ private fun AllServicesCategories(
                 }
             )
         }
+        PageIndicatorCategories(
+            modifier = Modifier.weight(weight = WEIGHT_SIZE),
+            content = content
+        )
         Row(
             modifier = Modifier.weight(weight = WEIGHT_SIZE)
         ) {

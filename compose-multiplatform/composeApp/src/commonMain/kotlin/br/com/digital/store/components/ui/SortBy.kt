@@ -28,7 +28,7 @@ fun SortBy(
                 onClick = {},
                 color = Themes.colors.primary,
                 spaceSize = Themes.size.spaceSize16,
-                width = Themes.size.spaceSize1
+                width = Themes.size.spaceSize2
             )
             .size(size = Themes.size.spaceSize64)
             .padding(all = Themes.size.spaceSize8),
