@@ -18,6 +18,10 @@ object CommonUtils {
     const val SIZE_DEFAULT = "60 Items"
 }
 
+fun checkNameIsNull(name: String): Boolean {
+    return (name.isEmpty())
+}
+
 val  sizeList = listOf(
     "10 Items",
     "20 Items",

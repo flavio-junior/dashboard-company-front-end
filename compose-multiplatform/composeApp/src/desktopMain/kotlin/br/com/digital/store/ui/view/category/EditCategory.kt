@@ -36,6 +36,7 @@ import br.com.digital.store.ui.view.category.CategoryUtils.NEW_NAME_CATEGORY
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
+import br.com.digital.store.utils.checkNameIsNull
 import br.com.digital.store.utils.onBorder
 import org.koin.mp.KoinPlatform.getKoin
 
@@ -57,7 +58,7 @@ fun EditCategory(
         var openDialog by remember { mutableStateOf(value = false) }
         var categoryName by remember { mutableStateOf(value = EMPTY_TEXT) }
         val editCategory = { category: String ->
-            if (checkNameIsNull(category)) {
+            if (checkNameIsNull(name = category)) {
                 observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
             } else {
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)

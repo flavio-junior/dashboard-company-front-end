@@ -24,6 +24,7 @@ import br.com.digital.store.ui.view.category.CategoryUtils.CATEGORY_NAME
 import br.com.digital.store.ui.view.category.CategoryUtils.SAVE_CATEGORY
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.checkNameIsNull
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -42,7 +43,7 @@ fun SaveCategory(
         }
         var categoryName by remember { mutableStateOf(value = EMPTY_TEXT) }
         val saveCategory = { category: String ->
-            if (checkNameIsNull(category)) {
+            if (checkNameIsNull(name = category)) {
                 observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
             } else {
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)

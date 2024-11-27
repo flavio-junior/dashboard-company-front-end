@@ -7,7 +7,3 @@ object CategoryUtils {
     const val EDIT_CATEGORY = "Editar categoria"
     const val DELETE_CATEGORY = "Apagar categoria"
 }
-
-fun checkNameIsNull(categoryName: String): Boolean {
-    return (categoryName.isEmpty())
-}
