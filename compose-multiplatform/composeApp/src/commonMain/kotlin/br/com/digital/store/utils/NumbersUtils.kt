@@ -32,4 +32,9 @@ object NumbersUtils {
     const val NUMBER_TWENTY_EIGHT = 28
     const val NUMBER_TWENTY_NINE = 29
     const val NUMBER_THIRTY = 30
+    const val NUMBER_FORTY = 40
+    const val NUMBER_FIFTY = 50
+    const val NUMBER_SIXTY = 60
+    const val NUMBER_EIGHTY = 80
+    const val NUMBER_ONE_HUNDRED = 100
 }

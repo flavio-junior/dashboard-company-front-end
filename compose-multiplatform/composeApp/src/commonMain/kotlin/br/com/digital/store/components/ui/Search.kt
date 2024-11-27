@@ -63,11 +63,6 @@ private fun BodySearch(
     onGo: () -> Unit = {}
 ) {
     var showIconSearchButton by remember { mutableStateOf(value = false) }
-    var isChecked: Boolean by remember { mutableStateOf(value = false) }
-    val onResult: () -> Unit = {
-        onGo()
-        isChecked = true
-    }
     OutlinedTextField(
         value = value,
         onValueChange = {
@@ -85,7 +80,8 @@ private fun BodySearch(
                 IconDefault(
                     icon = Res.drawable.search,
                     contentDescription = SEARCH,
-                    modifier = Modifier.onClickable(onClick = onResult),
+                    modifier = Modifier.onClickable(onClick = onGo),
+                    onClick = onGo
                 )
             }
         },
@@ -95,7 +91,7 @@ private fun BodySearch(
             imeAction = ImeAction.Go
         ),
         keyboardActions = KeyboardActions(
-            onGo = { onResult() }
+            onGo = { onGo() }
         ),
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Themes.colors.background,

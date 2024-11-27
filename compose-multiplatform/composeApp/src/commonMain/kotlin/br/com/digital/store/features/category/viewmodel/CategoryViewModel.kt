@@ -11,7 +11,10 @@ import br.com.digital.store.features.category.data.CategoryRepository
 import br.com.digital.store.features.category.domain.ConverterCategory
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.strings.StringsUtils.ASC
+import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE
+import br.com.digital.store.utils.NumbersUtils.NUMBER_SIXTY
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -22,6 +25,7 @@ class CategoryViewModel(
 ) : ViewModel() {
 
     private var currentPage: Int = NUMBER_ZERO
+    private var sizeDefault: Int = NUMBER_SIXTY
     private var sort: String = ASC
 
     private val _findAllCategories =
@@ -43,9 +47,26 @@ class CategoryViewModel(
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val deleteCategory: State<ObserveNetworkStateHandler<Unit>> = _deleteCategory
 
-    fun findAllCategories(name: String = "", sort: String = this.sort) {
+    fun findAllCategories(
+        name: String = EMPTY_TEXT,
+        sort: String = this.sort,
+        size: Int = this.sizeDefault,
+        route: LocationRoute = LocationRoute.SEARCH
+    ) {
+        when (route) {
+            LocationRoute.SEARCH, LocationRoute.SORT, LocationRoute.RELOAD -> {}
+            LocationRoute.FILTER -> {
+                this.currentPage = NUMBER_ZERO
+            }
+        }
         viewModelScope.launch {
-            repository.findAllCategories(name = name, page = currentPage, sort = sort)
+            sizeDefault = size
+            repository.findAllCategories(
+                name = name,
+                page = currentPage,
+                size = sizeDefault,
+                sort = sort
+            )
                 .onStart {
                     _findAllCategories.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
