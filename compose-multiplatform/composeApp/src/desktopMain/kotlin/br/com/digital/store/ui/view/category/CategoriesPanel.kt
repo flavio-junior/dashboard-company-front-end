@@ -26,6 +26,7 @@ import br.com.digital.store.common.category.vo.CategoryResponseVO
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.strings.StringsUtils.ID
 import br.com.digital.store.strings.StringsUtils.NAME
+import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import br.com.digital.store.utils.onBorder
@@ -41,7 +42,7 @@ fun CategoriesPanel(
     HeaderCategoriesPanel(modifier = Modifier.padding(top = Themes.size.spaceSize16))
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    var selectedIndex by remember { mutableStateOf(-1) }
+    var selectedIndex by remember { mutableStateOf(value = -1) }
     LazyColumn(
         state = scrollState,
         modifier = modifier
@@ -118,7 +119,7 @@ fun ItemCategory(
                 onItemSelected(category)
                 onDisableItem()
             }
-            .background(color = if (selected) Themes.colors.success else Themes.colors.background)
+            .background(color = if (selected) ITEM_SELECTED else Themes.colors.background)
             .fillMaxWidth()
             .padding(vertical = Themes.size.spaceSize16)
         ,
@@ -127,11 +128,13 @@ fun ItemCategory(
         Description(
             description = category.id.toString(),
             modifier = modifier.width(width = Themes.size.spaceSize36),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = if (selected) Themes.colors.background else Themes.colors.primary
         )
         Description(
             description = category.name,
-            modifier = modifier.weight(weight = WEIGHT_SIZE_4)
+            modifier = modifier.weight(weight = WEIGHT_SIZE_4),
+            color = if (selected) Themes.colors.background else Themes.colors.primary
         )
     }
 }

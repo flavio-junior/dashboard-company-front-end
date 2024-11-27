@@ -24,15 +24,14 @@ import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.close
-import br.com.digital.store.composeapp.generated.resources.mail
 import br.com.digital.store.features.category.viewmodel.CategoryViewModel
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.strings.StringsUtils.ACTUAL_NAME
 import br.com.digital.store.strings.StringsUtils.ID
 import br.com.digital.store.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.ui.view.category.CategoryUtils.CATEGORY_NAME
 import br.com.digital.store.ui.view.category.CategoryUtils.EDIT_CATEGORY
+import br.com.digital.store.ui.view.category.CategoryUtils.NEW_NAME_CATEGORY
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
@@ -99,9 +98,8 @@ fun EditCategory(
             )
         }
         TextField(
-            label = CATEGORY_NAME,
+            label = NEW_NAME_CATEGORY,
             value = categoryName,
-            icon = Res.drawable.mail,
             keyboardType = KeyboardType.Text,
             isError = observer.second,
             message = observer.third,

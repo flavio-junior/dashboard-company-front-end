@@ -22,6 +22,10 @@ val LightColor = Colors(
     error = Color(color = 0xFFFF0000)
 )
 
+object CommonColors {
+    val ITEM_SELECTED = Color(color = 0xFF17202a)
+}
+
 class Colors(
     primary: Color,
     secondary: Color,

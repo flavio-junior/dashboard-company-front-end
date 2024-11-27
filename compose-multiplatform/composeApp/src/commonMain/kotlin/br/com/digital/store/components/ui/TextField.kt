@@ -35,6 +35,110 @@ fun TextField(
     onValueChange: (String) -> Unit = {},
     onGo: () -> Unit = {}
 ) {
+    if (icon != null) {
+        TextFieldWithIcon(
+            modifier = modifier,
+            enabled = enabled,
+            label = label,
+            value = value,
+            icon = icon,
+            keyboardType = keyboardType,
+            imeAction = imeAction,
+            isError = isError,
+            message = message,
+            onValueChange = onValueChange,
+            onGo = onGo
+        )
+    } else {
+        TextFieldWithoutIcon(
+            modifier = modifier,
+            enabled = enabled,
+            label = label,
+            value = value,
+            keyboardType = keyboardType,
+            imeAction = imeAction,
+            isError = isError,
+            message = message,
+            onValueChange = onValueChange,
+            onGo = onGo
+        )
+    }
+}
+
+@Composable
+private fun TextFieldWithIcon(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    label: String,
+    value: String,
+    icon: DrawableResource,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
+    isError: Boolean = false,
+    message: String = EMPTY_TEXT,
+    onValueChange: (String) -> Unit = {},
+    onGo: () -> Unit = {}
+) {
+    Column(
+        modifier = modifier
+            .background(color = Themes.colors.background)
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8)
+    ) {
+        OutlinedTextField(
+            enabled = enabled,
+            value = value,
+            onValueChange = {
+                onValueChange(it)
+            },
+            singleLine = true,
+            label = {
+                Description(description = label, color = Themes.colors.primary)
+            },
+            isError = isError,
+            modifier = Modifier.fillMaxWidth(),
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(resource = icon),
+                    contentDescription = label,
+                    tint = Themes.colors.primary
+                )
+
+            },
+            textStyle = Typography(color = Themes.colors.primary).simpleText(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+                imeAction = imeAction
+            ),
+            keyboardActions = KeyboardActions(
+                onGo = { onGo() }
+            ),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Themes.colors.background,
+                cursorColor = Themes.colors.primary,
+                focusedIndicatorColor = Themes.colors.primary,
+                unfocusedIndicatorColor = Themes.colors.primary
+            ),
+            shape = RoundedCornerShape(size = Themes.size.spaceSize16)
+        )
+        IsErrorMessage(isError = isError, message = message)
+    }
+}
+
+@Composable
+private fun TextFieldWithoutIcon(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    label: String,
+    value: String,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
+    isError: Boolean = false,
+    message: String = EMPTY_TEXT,
+    onValueChange: (String) -> Unit = {},
+    onGo: () -> Unit = {}
+) {
     Column(
         modifier = modifier
             .background(color = Themes.colors.background)
@@ -54,15 +158,6 @@ fun TextField(
             },
             isError = isError,
             modifier = Modifier.fillMaxWidth(),
-            leadingIcon = {
-                icon?.let {
-                    Icon(
-                        painter = painterResource(resource = it),
-                        contentDescription = label,
-                        tint = Themes.colors.primary
-                    )
-                }
-            },
             textStyle = Typography(color = Themes.colors.primary).simpleText(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
