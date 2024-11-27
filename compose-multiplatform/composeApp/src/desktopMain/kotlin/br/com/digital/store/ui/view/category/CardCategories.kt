@@ -82,7 +82,7 @@ private fun AllServicesCategories(
         ) {
             var category: CategoryResponseVO by remember { mutableStateOf(value = CategoryResponseVO()) }
             ListCategories(
-                categories = content.content,
+                content = content,
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(weight = WEIGHT_SIZE_4),

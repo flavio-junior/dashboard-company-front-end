@@ -22,8 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import br.com.digital.store.common.category.vo.CategoriesResponseVO
 import br.com.digital.store.common.category.vo.CategoryResponseVO
 import br.com.digital.store.components.ui.Description
+import br.com.digital.store.components.ui.PageIndicator
 import br.com.digital.store.strings.StringsUtils.ID
 import br.com.digital.store.strings.StringsUtils.NAME
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
@@ -36,7 +38,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun CategoriesPanel(
     modifier: Modifier = Modifier,
-    categories: List<CategoryResponseVO>,
+    content: CategoriesResponseVO,
     onItemSelected: (CategoryResponseVO) -> Unit
 ) {
     HeaderCategoriesPanel(modifier = Modifier.padding(top = Themes.size.spaceSize16))
@@ -63,7 +65,7 @@ fun CategoriesPanel(
             .fillMaxWidth()
             .padding(all = Themes.size.spaceSize36)
     ) {
-        itemsIndexed(categories) { index, category ->
+        itemsIndexed(content.content) { index, category ->
             ItemCategory(
                 selected = selectedIndex == index,
                 category = category,
@@ -74,6 +76,7 @@ fun CategoriesPanel(
             )
         }
     }
+    PageIndicator(currentPage = content.pageable.pageNumber, totalPages = content.totalPages)
 }
 
 @Composable
@@ -121,8 +124,7 @@ fun ItemCategory(
             }
             .background(color = if (selected) ITEM_SELECTED else Themes.colors.background)
             .fillMaxWidth()
-            .padding(vertical = Themes.size.spaceSize16)
-        ,
+            .padding(vertical = Themes.size.spaceSize16),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Description(

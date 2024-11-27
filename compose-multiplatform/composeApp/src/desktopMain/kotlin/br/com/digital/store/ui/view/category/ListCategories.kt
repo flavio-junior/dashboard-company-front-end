@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import br.com.digital.store.common.category.vo.CategoriesResponseVO
 import br.com.digital.store.common.category.vo.CategoryResponseVO
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.Search
@@ -30,7 +31,7 @@ import br.com.digital.store.utils.onBorder
 @Composable
 fun ListCategories(
     modifier: Modifier = Modifier,
-    categories: List<CategoryResponseVO>,
+    content: CategoriesResponseVO,
     onItemSelected: (CategoryResponseVO) -> Unit = {},
     findAllCategories: (Pair<String, String>) -> Unit = {}
 ) {
@@ -72,7 +73,7 @@ fun ListCategories(
         }
         CategoriesPanel(
             modifier = modifier.padding(top = Themes.size.spaceSize16),
-            categories = categories,
+            content = content,
             onItemSelected = onItemSelected
         )
     }

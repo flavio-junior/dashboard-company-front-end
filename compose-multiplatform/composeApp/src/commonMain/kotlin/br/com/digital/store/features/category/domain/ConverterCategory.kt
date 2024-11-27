@@ -4,12 +4,16 @@ import br.com.digital.store.common.category.dto.CategoriesResponseDTO
 import br.com.digital.store.common.category.dto.CategoryResponseDTO
 import br.com.digital.store.common.category.vo.CategoriesResponseVO
 import br.com.digital.store.common.category.vo.CategoryResponseVO
+import br.com.digital.store.common.others.dto.PageableDTO
+import br.com.digital.store.common.others.vo.PageableVO
 
 class ConverterCategory {
 
     fun converterContentDTOToVO(content: CategoriesResponseDTO): CategoriesResponseVO {
         return CategoriesResponseVO(
-            content = converterCategoriesResponseDTOToVO(categories = content.content)
+            totalPages = content.totalPages,
+            content = converterCategoriesResponseDTOToVO(categories = content.content),
+            converterPageableDTOToVO(pageable = content.pageable)
         )
     }
 
@@ -22,5 +26,11 @@ class ConverterCategory {
                 name = it.name
             )
         }
+    }
+
+    private fun converterPageableDTOToVO(pageable: PageableDTO): PageableVO {
+        return PageableVO(
+            pageNumber = pageable.pageNumber
+        )
     }
 }
