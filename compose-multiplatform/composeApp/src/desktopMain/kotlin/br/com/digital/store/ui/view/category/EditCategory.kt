@@ -44,8 +44,7 @@ import org.koin.mp.KoinPlatform.getKoin
 fun EditCategory(
     modifier: Modifier = Modifier,
     categoryVO: CategoryResponseVO,
-    onCleanCategory: () -> Unit = {},
-    onSuccessful: (CategoryResponseVO) -> Unit = {}
+    onCleanCategory: () -> Unit = {}
 ) {
     Column(
         modifier = modifier,
@@ -139,7 +138,7 @@ fun EditCategory(
                 observer = it
             },
             onSuccessful = {
-                onSuccessful(CategoryResponseVO(id = 0, name = EMPTY_TEXT))
+                CategoryResponseVO(id = 0, name = EMPTY_TEXT)
                 categoryName = EMPTY_TEXT
             }
         )
@@ -151,7 +150,7 @@ fun EditCategory(
                 observer = it
             },
             onSuccessful = {
-                onSuccessful(CategoryResponseVO(id = 0, name = EMPTY_TEXT))
+                (CategoryResponseVO(id = 0, name = EMPTY_TEXT))
             }
         )
     }
