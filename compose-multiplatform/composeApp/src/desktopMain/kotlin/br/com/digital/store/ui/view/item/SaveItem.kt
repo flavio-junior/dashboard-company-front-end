@@ -95,6 +95,10 @@ fun SaveItem(
                 viewModel = viewModel,
                 onError = {
                     observer = it
+                },
+                onSuccessful = {
+                    name = EMPTY_TEXT
+                    price = EMPTY_TEXT
                 }
             )
         }
@@ -105,7 +109,8 @@ fun SaveItem(
 @Composable
 private fun ObserveNetworkStateHandlerCreateNewItem(
     viewModel: ItemViewModel,
-    onError: (Triple<Boolean, Boolean, String>) -> Unit = {}
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    onSuccessful: () -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.createNewItem }
     ObserveNetworkStateHandler(
@@ -117,6 +122,7 @@ private fun ObserveNetworkStateHandlerCreateNewItem(
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             viewModel.findAllItems()
+            onSuccessful()
         }
     )
 }

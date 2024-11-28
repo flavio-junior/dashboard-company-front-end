@@ -81,6 +81,9 @@ fun SaveReservation(
                 viewModel = viewModel,
                 onError = {
                     observer = it
+                },
+                onSuccessful = {
+                    reservationName = EMPTY_TEXT
                 }
             )
         }
@@ -91,7 +94,8 @@ fun SaveReservation(
 @Composable
 private fun ObserveNetworkStateHandlerCreateNewReservation(
     viewModel: ReservationViewModel,
-    onError: (Triple<Boolean, Boolean, String>) -> Unit = {}
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    onSuccessful: () -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.createNewReservation }
     ObserveNetworkStateHandler(
@@ -103,6 +107,7 @@ private fun ObserveNetworkStateHandlerCreateNewReservation(
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             viewModel.findAllReservations()
+            onSuccessful()
         }
     )
 }

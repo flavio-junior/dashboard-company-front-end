@@ -82,6 +82,9 @@ fun SaveCategory(
                 viewModel = viewModel,
                 onError = {
                     observer = it
+                },
+                onSuccessful = {
+                    categoryName = EMPTY_TEXT
                 }
             )
         }
@@ -92,7 +95,8 @@ fun SaveCategory(
 @Composable
 private fun ObserveNetworkStateHandlerCreateNewCategory(
     viewModel: CategoryViewModel,
-    onError: (Triple<Boolean, Boolean, String>) -> Unit = {}
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    onSuccessful: () -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.createNewCategory }
     ObserveNetworkStateHandler(
@@ -104,6 +108,7 @@ private fun ObserveNetworkStateHandlerCreateNewCategory(
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             viewModel.findAllCategories()
+            onSuccessful()
         }
     )
 }

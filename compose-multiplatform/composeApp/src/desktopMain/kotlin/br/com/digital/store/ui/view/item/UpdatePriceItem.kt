@@ -92,6 +92,7 @@ fun UpdatePriceItem(
             },
             onSuccessful = {
                 observer = Triple(first = false, second = false, third = EMPTY_TEXT)
+                updatePrice = EMPTY_TEXT
                 onSuccessful()
             }
         )
