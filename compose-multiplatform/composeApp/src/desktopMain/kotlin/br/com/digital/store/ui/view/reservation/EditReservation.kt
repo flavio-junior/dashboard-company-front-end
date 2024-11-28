@@ -44,8 +44,7 @@ import org.koin.mp.KoinPlatform.getKoin
 fun EditReservation(
     modifier: Modifier = Modifier,
     reservationVO: ReservationResponseVO,
-    onCleanReservations: () -> Unit = {},
-    onSuccessful: (ReservationResponseVO) -> Unit = {}
+    onCleanReservations: () -> Unit = {}
 ) {
     Column(
         modifier = modifier,
@@ -139,7 +138,7 @@ fun EditReservation(
                 observer = it
             },
             onSuccessful = {
-                onSuccessful(ReservationResponseVO(id = 0, name = EMPTY_TEXT))
+                onCleanReservations()
                 reservationsName = EMPTY_TEXT
             }
         )
@@ -151,7 +150,7 @@ fun EditReservation(
                 observer = it
             },
             onSuccessful = {
-                onSuccessful(ReservationResponseVO(id = 0, name = EMPTY_TEXT))
+                onCleanReservations()
             }
         )
     }

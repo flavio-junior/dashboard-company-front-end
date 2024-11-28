@@ -1,8 +1,10 @@
 package br.com.digital.store.ui.view.reservation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.TextField
@@ -31,52 +34,57 @@ import org.koin.mp.KoinPlatform.getKoin
 fun SaveReservation(
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxSize(),
-        horizontalArrangement = Arrangement.spacedBy(Themes.size.spaceSize16),
-        verticalAlignment = Alignment.CenterVertically
+    var observer: Triple<Boolean, Boolean, String> by remember {
+        mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
+    }
+    Column(
+        modifier = modifier.padding(top = Themes.size.spaceSize8),
+        verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8)
     ) {
-        val viewModel: ReservationViewModel = getKoin().get()
-        var observer: Triple<Boolean, Boolean, String> by remember {
-            mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+            modifier = modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val viewModel: ReservationViewModel = getKoin().get()
+            var reservationName by remember { mutableStateOf(value = EMPTY_TEXT) }
+            val saveReservation = { reservation: String ->
+                if (checkNameIsNull(name = reservation)) {
+                    observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
+                } else {
+                    observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                    viewModel.createReservation(reservation = reservation)
+                }
+            }
+            TextField(
+                label = RESERVATION_NAME,
+                value = reservationName,
+                icon = Res.drawable.edit,
+                keyboardType = KeyboardType.Text,
+                isError = observer.second,
+                onValueChange = { reservationName = it },
+                modifier = modifier.weight(weight = WEIGHT_SIZE),
+                onGo = {
+                    saveReservation(reservationName)
+                }
+            )
+            LoadingButton(
+                label = SAVE_RESERVATION,
+                onClick = {
+                    saveReservation(reservationName)
+                },
+                isEnabled = observer.first,
+                modifier = modifier.weight(weight = WEIGHT_SIZE)
+            )
+            ObserveNetworkStateHandlerCreateNewReservation(
+                viewModel = viewModel,
+                onError = {
+                    observer = it
+                }
+            )
         }
-        var reservationName by remember { mutableStateOf(value = EMPTY_TEXT) }
-        val saveReservation = { reservation: String ->
-            if (checkNameIsNull(name = reservation)) {
-                observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
-            } else {
-                observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                viewModel.createReservation(reservation = reservation)
-            }
-        }
-        TextField(
-            label = RESERVATION_NAME,
-            value = reservationName,
-            icon = Res.drawable.edit,
-            keyboardType = KeyboardType.Text,
-            isError = observer.second,
-            message = observer.third,
-            onValueChange = { reservationName = it },
-            modifier = modifier.weight(weight = WEIGHT_SIZE),
-            onGo = {
-                saveReservation(reservationName)
-            }
-        )
-        LoadingButton(
-            label = SAVE_RESERVATION,
-            onClick = {
-                saveReservation(reservationName)
-            },
-            isEnabled = observer.first,
-            modifier = modifier.weight(weight = WEIGHT_SIZE)
-        )
-        ObserveNetworkStateHandlerCreateNewReservation(
-            viewModel = viewModel,
-            onError = {
-                observer = it
-            }
-        )
+        IsErrorMessage(isError = observer.second, message = observer.third)
     }
 }
 
