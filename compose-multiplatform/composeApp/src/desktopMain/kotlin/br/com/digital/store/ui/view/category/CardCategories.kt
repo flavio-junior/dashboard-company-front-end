@@ -77,14 +77,14 @@ private fun AllServicesCategories(
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(weight = WEIGHT_SIZE_4)
-                    .padding(top = Themes.size.spaceSize24),
+                    .padding(top = Themes.size.spaceSize8),
                 content = content,
                 onItemSelected = { category = it }
             )
             EditCategory(
                 categoryVO = category,
                 modifier = Modifier
-                    .padding(start = Themes.size.spaceSize16, top = Themes.size.spaceSize36)
+                    .padding(start = Themes.size.spaceSize16, top = Themes.size.spaceSize16)
                     .weight(weight = WEIGHT_SIZE_2),
                 onCleanCategory = {
                     category = CategoryResponseVO()
