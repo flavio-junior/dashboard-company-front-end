@@ -4,12 +4,15 @@ import br.com.dashboard.company.entities.product.Product
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ProductRepository
+import br.com.dashboard.company.service.CategoryService.Companion.CATEGORY_NOT_FOUND
 import br.com.dashboard.company.utils.common.PriceRequestVO
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.product.ProductRequestVO
 import br.com.dashboard.company.vo.product.ProductResponseVO
 import br.com.dashboard.company.vo.product.RestockProductRequestVO
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -24,9 +27,13 @@ class ProductService {
     private lateinit var categoryService: CategoryService
 
     @Transactional(readOnly = true)
-    fun findAllProducts(): List<ProductResponseVO> {
-        val products = productRepository.findAll()
-        return products.map { product -> parseObject(product, ProductResponseVO::class.java) }
+    fun findAllProducts(
+        name: String?,
+        pageable: Pageable
+    ): Page<ProductResponseVO> {
+        val products: Page<Product>? = productRepository.findAllProducts(name = name, pageable = pageable)
+        return products?.map { product -> parseObject(product, ProductResponseVO::class.java) }
+            ?: throw ResourceNotFoundException(message = PRODUCT_NOT_FOUND)
     }
 
     @Transactional(readOnly = true)
