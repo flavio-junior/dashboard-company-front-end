@@ -1,6 +1,8 @@
 package br.com.dashboard.company.repository
 
 import br.com.dashboard.company.entities.food.Food
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -15,6 +17,14 @@ interface FoodRepository : JpaRepository<Food, Long> {
         @Param("name") name: String,
         @Param("description") description: String
     ): Food?
+
+    @Query(
+        """
+            SELECT f FROM Food f
+            WHERE :name IS NULL OR LOWER(CAST(f.name AS string)) LIKE LOWER(CONCAT('%', :name, '%'))
+        """
+    )
+    fun findAllFoods(@Param("name") name: String?, pageable: Pageable): Page<Food>?
 
     @Modifying
     @Query("UPDATE Food f SET f.price =:price WHERE f.id =:id")
