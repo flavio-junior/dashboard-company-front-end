@@ -232,7 +232,7 @@ class ItemController {
     }
 
     @PatchMapping(
-        value = ["update/price/Item/{id}"],
+        value = ["update/price/item/{id}"],
         produces = [APPLICATION_JSON]
     )
     @Operation(
