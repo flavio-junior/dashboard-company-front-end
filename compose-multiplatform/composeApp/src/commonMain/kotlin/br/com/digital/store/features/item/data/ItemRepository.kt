@@ -3,6 +3,7 @@ package br.com.digital.store.features.item.data
 import br.com.digital.store.common.item.dto.EditItemRequestDTO
 import br.com.digital.store.common.item.dto.ItemRequestDTO
 import br.com.digital.store.common.item.dto.ItemsResponseDTO
+import br.com.digital.store.common.item.dto.UpdatePriceItemRequestDTO
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.NumbersUtils.NUMBER_SIXTY
@@ -18,5 +19,6 @@ interface ItemRepository {
     ): Flow<ObserveNetworkStateHandler<ItemsResponseDTO>>
     fun createNewItem(item: ItemRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>
     fun editItem(item: EditItemRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>
+    fun updatePriceItem(id: Long, price: UpdatePriceItemRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>
     fun deleteItem(id: Long): Flow<ObserveNetworkStateHandler<Unit>>
 }

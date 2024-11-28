@@ -17,13 +17,13 @@ import br.com.digital.store.composeapp.generated.resources.brand_awareness
 import br.com.digital.store.strings.StringsUtils.ALERT
 import br.com.digital.store.strings.StringsUtils.CANCEL
 import br.com.digital.store.strings.StringsUtils.CONFIRM
-import br.com.digital.store.strings.StringsUtils.DESCRIPTION_ALERT
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.onBorder
 
 @Composable
 fun Alert(
+    label: String,
     onDismissRequest: () -> Unit = {},
     onConfirmation: () -> Unit = {}
 ) {
@@ -57,7 +57,12 @@ fun Alert(
                     textAlign = TextAlign.Start
                 )
             }
-            SimpleText(text = DESCRIPTION_ALERT)
+            Description(
+                description = label,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = Themes.size.spaceSize8)
+            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),

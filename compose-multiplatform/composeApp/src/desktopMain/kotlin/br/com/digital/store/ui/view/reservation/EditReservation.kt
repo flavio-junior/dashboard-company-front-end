@@ -122,6 +122,7 @@ fun EditReservation(
         )
         if (openDialog) {
             Alert(
+                label = EDIT_RESERVATION,
                 onDismissRequest = {
                     openDialog = false
                 },

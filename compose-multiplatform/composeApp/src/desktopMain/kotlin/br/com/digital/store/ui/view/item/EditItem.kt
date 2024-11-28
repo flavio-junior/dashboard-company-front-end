@@ -45,8 +45,7 @@ import org.koin.mp.KoinPlatform.getKoin
 fun EditItem(
     modifier: Modifier = Modifier,
     itemVO: ItemResponseVO,
-    onCleanItem: () -> Unit = {},
-    onSuccessful: (ItemResponseVO) -> Unit = {}
+    onCleanItem: () -> Unit = {}
 ) {
     Column(
         modifier = modifier,
@@ -59,15 +58,16 @@ fun EditItem(
         var openDialog by remember { mutableStateOf(value = false) }
         var newName by remember { mutableStateOf(value = EMPTY_TEXT) }
         var newPrice by remember { mutableStateOf(value = EMPTY_TEXT) }
-        val editItem = { Item: String ->
-            if (checkNameIsNull(name = Item)) {
+        var cleanText:Boolean by remember { mutableStateOf(value = false) }
+        val editItem = { item: String ->
+            if (checkNameIsNull(name = item)) {
                 observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
             } else {
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)
                 viewModel.editItem(
                     item = EditItemRequestDTO(
                         id = itemVO.id,
-                        name = Item,
+                        name = item,
                         price = newPrice.toDouble()
                     )
                 )
@@ -102,7 +102,10 @@ fun EditItem(
                     )
                     .size(size = Themes.size.spaceSize64)
                     .padding(all = Themes.size.spaceSize8),
-                onClick = onCleanItem
+                onClick = {
+                    onCleanItem()
+                    cleanText = true
+                }
             )
         }
         TextField(
@@ -142,6 +145,7 @@ fun EditItem(
         )
         if (openDialog) {
             Alert(
+                label = EDIT_ITEM,
                 onDismissRequest = {
                     openDialog = false
                 },
@@ -158,20 +162,34 @@ fun EditItem(
                 observer = it
             },
             onSuccessful = {
-                onSuccessful(ItemResponseVO(id = 0, name = EMPTY_TEXT))
+                onCleanItem()
                 newName = EMPTY_TEXT
                 newPrice = EMPTY_TEXT
+            }
+        )
+        UpdatePriceItem(
+            id = itemVO.id,
+            modifier = Modifier.padding(top = Themes.size.spaceSize16),
+            cleanText = cleanText,
+            onCleanText = {
+                cleanText = false
+            },
+            onError = {
+                observer = it
+            },
+            onSuccessful = {
+                onCleanItem()
             }
         )
         DeleteItem(
             viewModel = viewModel,
             id = itemVO.id,
-            modifier = Modifier,
+            modifier = Modifier.padding(top = Themes.size.spaceSize16),
             onError = {
                 observer = it
             },
             onSuccessful = {
-                onSuccessful(ItemResponseVO(id = 0, name = EMPTY_TEXT))
+                onCleanItem()
             }
         )
     }

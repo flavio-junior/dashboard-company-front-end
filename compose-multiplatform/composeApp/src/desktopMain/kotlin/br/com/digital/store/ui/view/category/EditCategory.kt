@@ -122,6 +122,7 @@ fun EditCategory(
         )
         if (openDialog) {
             Alert(
+                label = EDIT_CATEGORY,
                 onDismissRequest = {
                     openDialog = false
                 },

@@ -53,6 +53,7 @@ fun DeleteReservation(
         )
         if (openDialog) {
             Alert(
+                label = DELETE_RESERVATION,
                 onDismissRequest = {
                     openDialog = false
                 },

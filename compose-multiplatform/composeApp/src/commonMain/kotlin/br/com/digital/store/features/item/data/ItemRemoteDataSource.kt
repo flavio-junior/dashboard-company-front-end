@@ -3,6 +3,7 @@ package br.com.digital.store.features.item.data
 import br.com.digital.store.common.item.dto.EditItemRequestDTO
 import br.com.digital.store.common.item.dto.ItemRequestDTO
 import br.com.digital.store.common.item.dto.ItemsResponseDTO
+import br.com.digital.store.common.item.dto.UpdatePriceItemRequestDTO
 import br.com.digital.store.features.account.data.LocalStorageImp
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.toResultFlow
@@ -10,6 +11,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
+import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
@@ -70,6 +72,21 @@ class ItemRemoteDataSource(
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
                 setBody(item)
+            }
+        }
+    }
+
+    override fun updatePriceItem(
+        id: Long,
+        price: UpdatePriceItemRequestDTO
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.patch {
+                url(urlString = "/api/dashboard/company/items/v1/update/price/item/$id")
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+                setBody(price)
             }
         }
     }

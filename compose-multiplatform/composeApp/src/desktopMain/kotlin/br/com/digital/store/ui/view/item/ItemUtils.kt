@@ -7,4 +7,5 @@ object ItemUtils {
     const val SAVE_ITEM = "Salvar item"
     const val EDIT_ITEM = "Editar item"
     const val DELETE_ITEM = "Apagar item"
+    const val UPDATE_PRICE_ITEM = "Atualizar preço do item"
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.common.item.dto.EditItemRequestDTO
 import br.com.digital.store.common.item.dto.ItemRequestDTO
+import br.com.digital.store.common.item.dto.UpdatePriceItemRequestDTO
 import br.com.digital.store.common.item.vo.ItemsResponseVO
 import br.com.digital.store.features.item.data.ItemRepository
 import br.com.digital.store.features.item.domain.ConverterItem
@@ -42,6 +43,10 @@ class ItemViewModel(
     private val _editItem =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val editItem: State<ObserveNetworkStateHandler<Unit>> = _editItem
+
+    private val _updatePriceItem =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val updatePriceItem: State<ObserveNetworkStateHandler<Unit>> = _updatePriceItem
 
     private val _deleteItem =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -115,6 +120,18 @@ class ItemViewModel(
                 }
                 .collect {
                     _editItem.value = it
+                }
+        }
+    }
+
+    fun updatePriceItem(id: Long, item: UpdatePriceItemRequestDTO) {
+        viewModelScope.launch {
+            repository.updatePriceItem(id = id, price = item)
+                .onStart {
+                    _updatePriceItem.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _updatePriceItem.value = it
                 }
         }
     }

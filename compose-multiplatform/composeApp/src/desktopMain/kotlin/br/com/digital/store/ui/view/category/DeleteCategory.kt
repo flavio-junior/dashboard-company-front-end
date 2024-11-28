@@ -53,6 +53,7 @@ fun DeleteCategory(
         )
         if (openDialog) {
             Alert(
+                label = DELETE_CATEGORY,
                 onDismissRequest = {
                     openDialog = false
                 },
