@@ -1,17 +1,12 @@
 package br.com.digital.store.ui.view.item
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import br.com.digital.store.common.item.vo.ItemResponseVO
 import br.com.digital.store.common.item.vo.ItemsResponseVO
@@ -21,7 +16,6 @@ import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import org.koin.mp.KoinPlatform.getKoin
 
@@ -84,15 +78,6 @@ private fun ItemsResult(
             onItemSelected = onItemSelected
         )
         PageIndicatorItems(content = content)
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .background(color = Themes.colors.success)
-                .weight(weight = WEIGHT_SIZE)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            SaveItem()
-        }
+        SaveItem()
     }
 }

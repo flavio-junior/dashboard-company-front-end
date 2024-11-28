@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,12 +39,13 @@ fun SaveItem(
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
     Column(
+        modifier = modifier.padding(top = Themes.size.spaceSize8),
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8)
     ) {
         Row(
+            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
             modifier = modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Themes.size.spaceSize16),
             verticalAlignment = Alignment.CenterVertically
         ) {
             val viewModel: ItemViewModel = getKoin().get()
