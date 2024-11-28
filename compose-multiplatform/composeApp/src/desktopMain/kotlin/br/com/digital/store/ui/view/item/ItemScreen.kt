@@ -5,6 +5,7 @@ import br.com.digital.store.domain.factory.availableServices
 import br.com.digital.store.strings.StringsUtils.ITEMS
 import br.com.digital.store.ui.view.shared.BodyPage
 import br.com.digital.store.ui.view.shared.Services
+import br.com.digital.store.utils.TypeLayout
 
 @Composable
 fun ItemScreen(
@@ -12,6 +13,7 @@ fun ItemScreen(
     goToNextScreen: (String) -> Unit = {}
 ) {
     BodyPage(
+        typeLayout = TypeLayout.ROW,
         body = {
             Services(
                 label = ITEMS,
@@ -19,6 +21,7 @@ fun ItemScreen(
                 goToBackScreen = goToBackScreen,
                 goToNextScreen = goToNextScreen
             )
+            CardItems()
         }
     )
 }

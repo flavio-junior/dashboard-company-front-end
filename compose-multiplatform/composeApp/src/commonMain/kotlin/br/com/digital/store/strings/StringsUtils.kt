@@ -17,6 +17,7 @@ object StringsUtils {
     const val ASC = "asc"
     const val DESC = "desc"
     const val SIZE_LIST = "Tamanho da lista"
+    const val PRICE = "Preço"
     const val CREATE_MY_ACCOUNT = "Criar minha conta"
     const val FORGOT_PASS = "Esqueceu sua senha?"
     const val RESET_PASSWORD = "Recuperar acesso"
