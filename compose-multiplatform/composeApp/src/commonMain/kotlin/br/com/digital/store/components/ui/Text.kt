@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import br.com.digital.store.strings.StringsUtils.MAIN_NAME
+import br.com.digital.store.components.strings.StringsUtils.MAIN_NAME
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.theme.TypeFont
 import br.com.digital.store.theme.Typography

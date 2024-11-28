@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import br.com.digital.store.common.account.TokenResponseVO
+import br.com.digital.store.features.account.data.vo.TokenResponseVO
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 

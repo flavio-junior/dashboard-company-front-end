@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.downward
 import br.com.digital.store.composeapp.generated.resources.upward
-import br.com.digital.store.strings.StringsUtils.ASC
-import br.com.digital.store.strings.StringsUtils.DESC
+import br.com.digital.store.components.strings.StringsUtils.ASC
+import br.com.digital.store.components.strings.StringsUtils.DESC
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.onBorder
 

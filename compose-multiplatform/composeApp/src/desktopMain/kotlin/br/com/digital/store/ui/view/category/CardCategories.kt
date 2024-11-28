@@ -8,8 +8,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import br.com.digital.store.common.category.vo.CategoriesResponseVO
-import br.com.digital.store.common.category.vo.CategoryResponseVO
+import br.com.digital.store.features.category.data.vo.CategoriesResponseVO
+import br.com.digital.store.features.category.data.vo.CategoryResponseVO
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.HeaderSearch
 import br.com.digital.store.components.ui.LoadingData

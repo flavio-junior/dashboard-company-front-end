@@ -21,8 +21,8 @@ import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.strings.StringsUtils.NOT_BLANK_OR_EMPTY
-import br.com.digital.store.strings.StringsUtils.PRICE
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
+import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.ITEM_NAME
 import br.com.digital.store.ui.view.item.ItemUtils.SAVE_ITEM

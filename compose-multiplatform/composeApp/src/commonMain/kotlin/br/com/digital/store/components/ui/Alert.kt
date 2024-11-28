@@ -14,9 +14,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.Dialog
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.brand_awareness
-import br.com.digital.store.strings.StringsUtils.ALERT
-import br.com.digital.store.strings.StringsUtils.CANCEL
-import br.com.digital.store.strings.StringsUtils.CONFIRM
+import br.com.digital.store.components.strings.StringsUtils.ALERT
+import br.com.digital.store.components.strings.StringsUtils.CANCEL
+import br.com.digital.store.components.strings.StringsUtils.CONFIRM
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.onBorder

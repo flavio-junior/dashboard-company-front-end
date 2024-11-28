@@ -19,7 +19,7 @@ import br.com.digital.store.features.item.di.itemModule
 import br.com.digital.store.features.networking.di.networkModule
 import br.com.digital.store.features.reservation.di.reservationModule
 import br.com.digital.store.navigation.Navigation
-import br.com.digital.store.strings.StringsUtils.MAIN_NAME
+import br.com.digital.store.components.strings.StringsUtils.MAIN_NAME
 import br.com.digital.store.theme.Themes
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.startKoin

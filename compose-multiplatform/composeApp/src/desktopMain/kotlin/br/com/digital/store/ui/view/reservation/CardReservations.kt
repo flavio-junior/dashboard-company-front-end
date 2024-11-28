@@ -8,8 +8,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import br.com.digital.store.common.reservation.vo.ReservationResponseVO
-import br.com.digital.store.common.reservation.vo.ReservationsResponseVO
+import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
+import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.HeaderSearch
 import br.com.digital.store.components.ui.LoadingData

@@ -1,10 +1,10 @@
 package br.com.digital.store.features.reservation.domain
 
-import br.com.digital.store.common.others.converterPageableDTOToVO
-import br.com.digital.store.common.reservation.dto.ReservationResponseDTO
-import br.com.digital.store.common.reservation.dto.ReservationsResponseDTO
-import br.com.digital.store.common.reservation.vo.ReservationResponseVO
-import br.com.digital.store.common.reservation.vo.ReservationsResponseVO
+import br.com.digital.store.features.others.converterPageableDTOToVO
+import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
+import br.com.digital.store.features.reservation.data.dto.ReservationsResponseDTO
+import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
+import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
 
 class ConverterReservation {
 

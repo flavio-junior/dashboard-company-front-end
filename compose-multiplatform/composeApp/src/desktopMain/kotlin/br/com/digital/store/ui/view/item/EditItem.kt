@@ -15,8 +15,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import br.com.digital.store.common.item.dto.EditItemRequestDTO
-import br.com.digital.store.common.item.vo.ItemResponseVO
+import br.com.digital.store.features.item.data.dto.EditItemRequestDTO
+import br.com.digital.store.features.item.data.vo.ItemResponseVO
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
@@ -27,9 +27,9 @@ import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.strings.StringsUtils.ACTUAL_NAME
-import br.com.digital.store.strings.StringsUtils.ID
-import br.com.digital.store.strings.StringsUtils.NOT_BLANK_OR_EMPTY
+import br.com.digital.store.components.strings.StringsUtils.ACTUAL_NAME
+import br.com.digital.store.components.strings.StringsUtils.ID
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.EDIT_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_NAME_ITEM

@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import br.com.digital.store.common.item.vo.ItemsResponseVO
+import br.com.digital.store.features.item.data.vo.ItemsResponseVO
 import br.com.digital.store.components.ui.PageIndicator
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2

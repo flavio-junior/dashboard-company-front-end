@@ -9,9 +9,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import br.com.digital.store.common.category.vo.CategoryResponseVO
+import br.com.digital.store.features.category.data.vo.CategoryResponseVO
 import br.com.digital.store.domain.factory.availableServices
-import br.com.digital.store.strings.StringsUtils.CATEGORIES
+import br.com.digital.store.components.strings.StringsUtils.CATEGORIES
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.shared.BodyPage
 import br.com.digital.store.ui.view.shared.Services

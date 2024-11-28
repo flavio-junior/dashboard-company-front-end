@@ -12,7 +12,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import br.com.digital.store.strings.StringsUtils.LOADING
+import br.com.digital.store.components.strings.StringsUtils.LOADING
 import br.com.digital.store.theme.Themes
 
 @Composable

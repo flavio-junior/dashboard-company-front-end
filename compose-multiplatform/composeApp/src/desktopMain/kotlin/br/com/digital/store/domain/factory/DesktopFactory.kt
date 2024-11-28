@@ -14,18 +14,18 @@ import br.com.digital.store.composeapp.generated.resources.settings
 import br.com.digital.store.composeapp.generated.resources.shopping_cart
 import br.com.digital.store.utils.ItemService
 import br.com.digital.store.navigation.ItemNavigation
-import br.com.digital.store.strings.StringsUtils.CATEGORIES
-import br.com.digital.store.strings.StringsUtils.CHANGE_TO_OTHER_ACCOUNT
-import br.com.digital.store.strings.StringsUtils.DASHBOARD
-import br.com.digital.store.strings.StringsUtils.EXIT
-import br.com.digital.store.strings.StringsUtils.FOOD
-import br.com.digital.store.strings.StringsUtils.HISTORY
-import br.com.digital.store.strings.StringsUtils.ITEMS
-import br.com.digital.store.strings.StringsUtils.ORDER
-import br.com.digital.store.strings.StringsUtils.PDV
-import br.com.digital.store.strings.StringsUtils.PRODUCTS
-import br.com.digital.store.strings.StringsUtils.RESERVATION
-import br.com.digital.store.strings.StringsUtils.SETTINGS
+import br.com.digital.store.components.strings.StringsUtils.CATEGORIES
+import br.com.digital.store.components.strings.StringsUtils.CHANGE_TO_OTHER_ACCOUNT
+import br.com.digital.store.components.strings.StringsUtils.DASHBOARD
+import br.com.digital.store.components.strings.StringsUtils.EXIT
+import br.com.digital.store.components.strings.StringsUtils.FOOD
+import br.com.digital.store.components.strings.StringsUtils.HISTORY
+import br.com.digital.store.components.strings.StringsUtils.ITEMS
+import br.com.digital.store.components.strings.StringsUtils.ORDER
+import br.com.digital.store.components.strings.StringsUtils.PDV
+import br.com.digital.store.components.strings.StringsUtils.PRODUCTS
+import br.com.digital.store.components.strings.StringsUtils.RESERVATION
+import br.com.digital.store.components.strings.StringsUtils.SETTINGS
 
 val menus = listOf(
     Menu(

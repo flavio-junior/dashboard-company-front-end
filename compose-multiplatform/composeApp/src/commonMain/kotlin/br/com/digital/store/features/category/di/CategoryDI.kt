@@ -1,7 +1,7 @@
 package br.com.digital.store.features.category.di
 
-import br.com.digital.store.features.category.data.CategoryRemoteDataSource
-import br.com.digital.store.features.category.data.CategoryRepository
+import br.com.digital.store.features.category.data.repository.CategoryRemoteDataSource
+import br.com.digital.store.features.category.data.repository.CategoryRepository
 import br.com.digital.store.features.category.domain.ConverterCategory
 import br.com.digital.store.features.category.viewmodel.CategoryViewModel
 import org.koin.core.module.dsl.singleOf

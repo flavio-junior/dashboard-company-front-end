@@ -1,10 +1,10 @@
 package br.com.digital.store.features.item.domain
 
-import br.com.digital.store.common.item.dto.ItemResponseDTO
-import br.com.digital.store.common.item.dto.ItemsResponseDTO
-import br.com.digital.store.common.item.vo.ItemResponseVO
-import br.com.digital.store.common.item.vo.ItemsResponseVO
-import br.com.digital.store.common.others.converterPageableDTOToVO
+import br.com.digital.store.features.item.data.dto.ItemResponseDTO
+import br.com.digital.store.features.item.data.dto.ItemsResponseDTO
+import br.com.digital.store.features.item.data.vo.ItemResponseVO
+import br.com.digital.store.features.item.data.vo.ItemsResponseVO
+import br.com.digital.store.features.others.converterPageableDTOToVO
 
 class ConverterItem {
 

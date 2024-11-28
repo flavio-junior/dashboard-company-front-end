@@ -1,7 +1,7 @@
 package br.com.digital.store.features.account.domain.converter
 
-import br.com.digital.store.common.account.TokenResponseDTO
-import br.com.digital.store.common.account.TokenResponseVO
+import br.com.digital.store.features.account.data.dto.TokenResponseDTO
+import br.com.digital.store.features.account.data.vo.TokenResponseVO
 
 class ConverterAccount {
 

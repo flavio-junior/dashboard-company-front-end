@@ -25,11 +25,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import br.com.digital.store.common.reservation.vo.ReservationResponseVO
-import br.com.digital.store.common.reservation.vo.ReservationsResponseVO
+import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
+import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
 import br.com.digital.store.components.ui.Description
-import br.com.digital.store.strings.StringsUtils.NAME
-import br.com.digital.store.strings.StringsUtils.NUMBER
+import br.com.digital.store.components.strings.StringsUtils.NAME
+import br.com.digital.store.components.strings.StringsUtils.NUMBER
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE

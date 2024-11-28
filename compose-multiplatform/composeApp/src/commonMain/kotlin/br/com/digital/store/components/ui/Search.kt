@@ -20,7 +20,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.search
-import br.com.digital.store.strings.StringsUtils.SEARCH
+import br.com.digital.store.components.strings.StringsUtils.SEARCH
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.theme.Typography
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT

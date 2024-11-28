@@ -15,8 +15,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import br.com.digital.store.common.category.dto.EditCategoryRequestDTO
-import br.com.digital.store.common.category.vo.CategoryResponseVO
+import br.com.digital.store.features.category.data.dto.EditCategoryRequestDTO
+import br.com.digital.store.features.category.data.vo.CategoryResponseVO
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
@@ -27,9 +27,9 @@ import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.category.viewmodel.CategoryViewModel
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.strings.StringsUtils.ACTUAL_NAME
-import br.com.digital.store.strings.StringsUtils.ID
-import br.com.digital.store.strings.StringsUtils.NOT_BLANK_OR_EMPTY
+import br.com.digital.store.components.strings.StringsUtils.ACTUAL_NAME
+import br.com.digital.store.components.strings.StringsUtils.ID
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.category.CategoryUtils.EDIT_CATEGORY
 import br.com.digital.store.ui.view.category.CategoryUtils.NEW_NAME_CATEGORY

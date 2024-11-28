@@ -21,7 +21,7 @@ import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel
-import br.com.digital.store.strings.StringsUtils.NOT_BLANK_OR_EMPTY
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.reservation.ReservationUtils.RESERVATION_NAME
 import br.com.digital.store.ui.view.reservation.ReservationUtils.SAVE_RESERVATION
