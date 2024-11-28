@@ -13,17 +13,17 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ItemRepository : JpaRepository<Item, Long> {
 
-    @Query("SELECT c FROM Item c WHERE c.name = :name")
+    @Query("SELECT i FROM Item i WHERE i.name = :name")
     fun checkNameItemAlreadyExists(@Param("name") name: String): Item?
 
     @Modifying
-    @Query("UPDATE Item p SET p.price =:price WHERE p.id =:id")
+    @Query("UPDATE Item i SET i.price =:price WHERE i.id =:id")
     fun updatePriceItem(@Param("id") idItem: Long, @Param("price") price: Double)
 
     @Query(
         """
-        SELECT c FROM Item c
-            WHERE :name IS NULL OR LOWER(CAST(c.name AS string)) LIKE LOWER(CONCAT('%', :name, '%'))
+        SELECT i FROM Item i
+            WHERE :name IS NULL OR LOWER(CAST(i.name AS string)) LIKE LOWER(CONCAT('%', :name, '%'))
     """
     )
     fun findAllItems(@Param("name") name: String?, pageable: Pageable): Page<Item>?

@@ -11,13 +11,13 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ReservationRepository : JpaRepository<Reservation, Long> {
 
-    @Query("SELECT c FROM Reservation c WHERE c.name = :name")
+    @Query("SELECT r FROM Reservation r WHERE r.name = :name")
     fun checkNameReservationAlreadyExists(@Param("name") name: String): Reservation?
 
     @Query(
         """
-        SELECT c FROM Reservation c
-            WHERE :name IS NULL OR LOWER(CAST(c.name AS string)) LIKE LOWER(CONCAT('%', :name, '%'))
+        SELECT r FROM Reservation r
+            WHERE :name IS NULL OR LOWER(CAST(r.name AS string)) LIKE LOWER(CONCAT('%', :name, '%'))
     """
     )
     fun findAllReservations(@Param("name") name: String?, pageable: Pageable): Page<Reservation>?
