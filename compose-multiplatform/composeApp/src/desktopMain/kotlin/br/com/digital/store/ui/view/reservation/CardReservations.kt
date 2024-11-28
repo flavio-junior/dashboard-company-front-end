@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.common.reservation.vo.ReservationResponseVO
 import br.com.digital.store.common.reservation.vo.ReservationsResponseVO
 import br.com.digital.store.components.ui.Description
+import br.com.digital.store.components.ui.HeaderSearch
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
@@ -32,8 +33,21 @@ fun CardReservations(
                 end = Themes.size.spaceSize16
             )
     ) {
-        HeaderSearchReservations()
         val viewModel: ReservationViewModel = getKoin().get()
+        HeaderSearch(
+            onSearch = { name, size, sort, route ->
+                viewModel.findAllReservations(name = name, size = size, sort = sort, route = route)
+            },
+            onSort = { name, size, sort, route ->
+                viewModel.findAllReservations(name = name, size = size, sort = sort, route = route)
+            },
+            onFilter = { name, size, sort, route ->
+                viewModel.findAllReservations(name = name, size = size, sort = sort, route = route)
+            },
+            onRefresh = { name, size, sort, route ->
+                viewModel.findAllReservations(name = name, size = size, sort = sort, route = route)
+            }
+        )
         LaunchedEffect(key1 = Unit) {
             viewModel.findAllReservations()
         }

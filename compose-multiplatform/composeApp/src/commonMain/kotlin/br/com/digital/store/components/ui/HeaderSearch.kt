@@ -1,4 +1,4 @@
-package br.com.digital.store.ui.view.category
+package br.com.digital.store.components.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -13,13 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import br.com.digital.store.components.ui.DropdownMenu
-import br.com.digital.store.components.ui.IconDefault
-import br.com.digital.store.components.ui.Search
-import br.com.digital.store.components.ui.SortBy
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.refresh
-import br.com.digital.store.features.category.viewmodel.CategoryViewModel
 import br.com.digital.store.strings.StringsUtils.ASC
 import br.com.digital.store.strings.StringsUtils.SIZE_LIST
 import br.com.digital.store.theme.Themes
@@ -30,18 +25,20 @@ import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.converterSizeStringToInt
 import br.com.digital.store.utils.onBorder
 import br.com.digital.store.utils.sizeList
-import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
-fun HeaderSearchCategories(
-    modifier: Modifier = Modifier
+fun HeaderSearch(
+    modifier: Modifier = Modifier,
+    onSearch: (String, Int, String, LocationRoute) -> Unit,
+    onSort: (String, Int, String, LocationRoute) -> Unit,
+    onFilter: (String, Int, String, LocationRoute) -> Unit,
+    onRefresh: (String, Int, String, LocationRoute) -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
         modifier = modifier.fillMaxWidth().wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val viewModel: CategoryViewModel = getKoin().get()
         var name: String by remember { mutableStateOf(value = EMPTY_TEXT) }
         var sortBy: String by remember { mutableStateOf(value = ASC) }
         var size: String by remember { mutableStateOf(value = SIZE_DEFAULT) }
@@ -50,23 +47,13 @@ fun HeaderSearchCategories(
             onValueChange = { name = it },
             modifier = Modifier.weight(weight = WEIGHT_SIZE),
             onGo = {
-                viewModel.findAllCategories(
-                    name = name,
-                    size = converterSizeStringToInt(size = size),
-                    sort = sortBy,
-                    route = LocationRoute.SEARCH
-                )
+                onSearch(name, converterSizeStringToInt(size = size), sortBy, LocationRoute.SEARCH)
             }
         )
         SortBy(
             onClick = {
                 sortBy = it
-                viewModel.findAllCategories(
-                    name = name,
-                    size = converterSizeStringToInt(size = size),
-                    sort = sortBy,
-                    route = LocationRoute.SORT
-                )
+                onSort(name, converterSizeStringToInt(size = size), sortBy, LocationRoute.SORT)
             }
         )
         DropdownMenu(
@@ -75,12 +62,7 @@ fun HeaderSearchCategories(
             label = SIZE_LIST,
             onValueChangedEvent = {
                 size = it
-                viewModel.findAllCategories(
-                    name = name,
-                    size = converterSizeStringToInt(size = size),
-                    sort = sortBy,
-                    route = LocationRoute.FILTER
-                )
+                onFilter(name, converterSizeStringToInt(size = size), sortBy, LocationRoute.FILTER)
             }
         )
         IconDefault(
@@ -94,12 +76,7 @@ fun HeaderSearchCategories(
                 .size(size = Themes.size.spaceSize64)
                 .padding(all = Themes.size.spaceSize8),
             onClick = {
-                viewModel.findAllCategories(
-                    name = name,
-                    size = converterSizeStringToInt(size = size),
-                    sort = sortBy,
-                    route = LocationRoute.RELOAD
-                )
+                onRefresh(name, converterSizeStringToInt(size = size), sortBy, LocationRoute.RELOAD)
             }
         )
     }

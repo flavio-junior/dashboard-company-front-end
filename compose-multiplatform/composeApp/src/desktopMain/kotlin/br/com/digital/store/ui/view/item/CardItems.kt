@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.common.item.vo.ItemResponseVO
 import br.com.digital.store.common.item.vo.ItemsResponseVO
 import br.com.digital.store.components.ui.Description
+import br.com.digital.store.components.ui.HeaderSearch
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
@@ -32,8 +33,21 @@ fun CardItems(
                 end = Themes.size.spaceSize16
             )
     ) {
-        HeaderSearchItems()
         val viewModel: ItemViewModel = getKoin().get()
+        HeaderSearch(
+            onSearch = { name, size, sort, route ->
+                viewModel.findAllItems(name = name, size = size, sort = sort, route = route)
+            },
+            onSort = { name, size, sort, route ->
+                viewModel.findAllItems(name = name, size = size, sort = sort, route = route)
+            },
+            onFilter = { name, size, sort, route ->
+                viewModel.findAllItems(name = name, size = size, sort = sort, route = route)
+            },
+            onRefresh = { name, size, sort, route ->
+                viewModel.findAllItems(name = name, size = size, sort = sort, route = route)
+            }
+        )
         LaunchedEffect(key1 = Unit) {
             viewModel.findAllItems()
         }

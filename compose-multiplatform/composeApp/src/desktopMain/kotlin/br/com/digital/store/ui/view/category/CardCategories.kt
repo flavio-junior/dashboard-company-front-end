@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.common.category.vo.CategoriesResponseVO
 import br.com.digital.store.common.category.vo.CategoryResponseVO
 import br.com.digital.store.components.ui.Description
+import br.com.digital.store.components.ui.HeaderSearch
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.category.viewmodel.CategoryViewModel
@@ -32,8 +33,21 @@ fun CardCategories(
                 end = Themes.size.spaceSize16
             )
     ) {
-        HeaderSearchCategories()
         val viewModel: CategoryViewModel = getKoin().get()
+        HeaderSearch(
+            onSearch = { name, size, sort, route ->
+                viewModel.findAllCategories(name = name, size = size, sort = sort, route = route)
+            },
+            onSort = { name, size, sort, route ->
+                viewModel.findAllCategories(name = name, size = size, sort = sort, route = route)
+            },
+            onFilter = { name, size, sort, route ->
+                viewModel.findAllCategories(name = name, size = size, sort = sort, route = route)
+            },
+            onRefresh = { name, size, sort, route ->
+                viewModel.findAllCategories(name = name, size = size, sort = sort, route = route)
+            }
+        )
         LaunchedEffect(key1 = Unit) {
             viewModel.findAllCategories()
         }
