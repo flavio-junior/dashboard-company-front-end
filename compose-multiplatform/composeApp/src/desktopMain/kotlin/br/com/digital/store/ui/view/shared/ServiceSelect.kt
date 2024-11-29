@@ -8,14 +8,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import br.com.digital.store.components.strings.StringsUtils.DASHBOARD
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.Title
-import br.com.digital.store.composeapp.generated.resources.Res
-import br.com.digital.store.composeapp.generated.resources.box
 import br.com.digital.store.domain.factory.availableServices
-import br.com.digital.store.utils.ItemService
-import br.com.digital.store.components.strings.StringsUtils.DASHBOARD
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.ItemService
 import br.com.digital.store.utils.changeColor
 import br.com.digital.store.utils.onBorder
 import br.com.digital.store.utils.onClickable
@@ -77,7 +75,7 @@ fun Service(
             .padding(all = Themes.size.spaceSize16),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconDefault(icon = Res.drawable.box, onClick = goToNavigation)
+        IconDefault(icon = service.icon, onClick = goToNavigation)
         Title(title = service.label, modifier = Modifier.onClickable(onClick = goToNavigation))
     }
 }

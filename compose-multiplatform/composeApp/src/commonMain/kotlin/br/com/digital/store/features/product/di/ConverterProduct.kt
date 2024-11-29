@@ -26,7 +26,6 @@ class ConverterProduct(
             ProductResponseVO(
                 id = it.id,
                 name = it.name,
-                description = it.description,
                 categories = converter.converterCategoriesResponseDTOToVO(
                     categories = it.categories ?: emptyList()
                 ),

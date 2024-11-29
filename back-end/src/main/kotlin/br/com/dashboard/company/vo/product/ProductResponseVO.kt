@@ -9,7 +9,6 @@ data class ProductResponseVO(
     @JsonProperty(value = "created_at")
     var createdAt: LocalDateTime? = null,
     var name: String = "",
-    var description: String = "",
     var categories: MutableList<CategoryResponseVO>? = null,
     var price: Double = 0.0,
     var quantity: Int = 0

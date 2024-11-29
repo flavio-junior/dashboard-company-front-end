@@ -87,34 +87,42 @@ val menus = listOf(
 
 val availableServices = listOf(
     ItemService(
+        icon = Res.drawable.data_usage,
         label = DASHBOARD,
         route = ItemNavigation.DASHBOARD.name
     ),
     ItemService(
+        icon = Res.drawable.shopping_cart,
         label = PDV,
         route = ItemNavigation.PDV.name
     ),
     ItemService(
+        icon = Res.drawable.box,
         label = CATEGORIES,
         route = ItemNavigation.CATEGORY.name
     ),
     ItemService(
+        icon = Res.drawable.list,
         label = ITEMS,
         route = ItemNavigation.ITEM.name
     ),
     ItemService(
+        icon = Res.drawable.food,
         label = FOOD,
         route = ItemNavigation.FOOD.name
     ),
     ItemService(
+        icon = Res.drawable.box,
         label = PRODUCTS,
         route = ItemNavigation.PRODUCT.name
     ),
     ItemService(
+        icon = Res.drawable.order,
         label = ORDER,
         route = ItemNavigation.ORDER.name
     ),
     ItemService(
+        icon = Res.drawable.reservation,
         label = RESERVATION,
         route = ItemNavigation.RESERVATION.name
     )

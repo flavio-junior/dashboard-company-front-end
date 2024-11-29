@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
@@ -16,6 +17,8 @@ import org.jetbrains.compose.resources.painterResource
 fun IconDefault(
     modifier: Modifier = Modifier,
     icon: DrawableResource,
+    backgroundColor: Color = Themes.colors.background,
+    tint: Color = Themes.colors.primary,
     contentDescription: String? = null,
     size: Dp = Themes.size.spaceSize48,
     onClick: () -> Unit = {}
@@ -23,9 +26,9 @@ fun IconDefault(
     Icon(
         painter = painterResource(resource = icon),
         contentDescription = contentDescription ?: EMPTY_TEXT,
-        tint = Themes.colors.primary,
+        tint = tint,
         modifier = modifier
-            .background(color = Themes.colors.background)
+            .background(color = backgroundColor)
             .onClickable(onClick = onClick)
             .width(width = size)
     )
