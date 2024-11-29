@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS tb_product (
     id SERIAL PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,
     name VARCHAR(60) NOT NULL CONSTRAINT name_product_unique UNIQUE,
-    description VARCHAR(600) NOT NULL CONSTRAINT description_product_unique UNIQUE,
     price NUMERIC(10, 2) DEFAULT 0.0,
     stock_quantity INT NOT NULL
 );

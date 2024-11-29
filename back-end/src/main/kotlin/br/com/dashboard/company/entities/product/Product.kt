@@ -23,7 +23,6 @@ data class Product(
     @Column(name = "created_at", nullable = false)
     var createdAt: LocalDateTime? = null,
     var name: String = "",
-    var description: String = "",
     @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JoinTable(
         name = "tb_product_category",

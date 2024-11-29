@@ -4,7 +4,6 @@ import br.com.dashboard.company.entities.product.Product
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ProductRepository
-import br.com.dashboard.company.service.CategoryService.Companion.CATEGORY_NOT_FOUND
 import br.com.dashboard.company.utils.common.PriceRequestVO
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.product.ProductRequestVO
@@ -79,7 +78,6 @@ class ProductService {
         if (!checkNameProductAlreadyExists(name = product.name)) {
             val productSaved: Product = getProduct(id = product.id)
             productSaved.name = product.name
-            productSaved.description = product.description
             productSaved.categories?.clear()
             productSaved.categories = categoryService.converterCategories(categories = product.categories)
             productSaved.price = product.price
