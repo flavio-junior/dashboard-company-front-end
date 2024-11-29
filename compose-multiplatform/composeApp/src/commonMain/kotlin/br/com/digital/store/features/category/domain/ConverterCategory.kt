@@ -16,7 +16,7 @@ class ConverterCategory {
         )
     }
 
-    private fun converterCategoriesResponseDTOToVO(
+    fun converterCategoriesResponseDTOToVO(
         categories: List<CategoryResponseDTO>
     ): List<CategoryResponseVO> {
         return categories.map {

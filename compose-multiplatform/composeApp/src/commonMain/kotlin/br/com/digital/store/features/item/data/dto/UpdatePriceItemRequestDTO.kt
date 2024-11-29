@@ -1,4 +1,4 @@
-package br.com.digital.store.common.item.dto
+package br.com.digital.store.features.item.data.dto
 
 import kotlinx.serialization.Serializable
 

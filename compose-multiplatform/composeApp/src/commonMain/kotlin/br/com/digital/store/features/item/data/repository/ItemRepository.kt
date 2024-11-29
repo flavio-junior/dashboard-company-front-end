@@ -3,7 +3,7 @@ package br.com.digital.store.features.item.data.repository
 import br.com.digital.store.features.item.data.dto.EditItemRequestDTO
 import br.com.digital.store.features.item.data.dto.ItemRequestDTO
 import br.com.digital.store.features.item.data.dto.ItemsResponseDTO
-import br.com.digital.store.common.item.dto.UpdatePriceItemRequestDTO
+import br.com.digital.store.features.item.data.dto.UpdatePriceItemRequestDTO
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.NumbersUtils.NUMBER_SIXTY

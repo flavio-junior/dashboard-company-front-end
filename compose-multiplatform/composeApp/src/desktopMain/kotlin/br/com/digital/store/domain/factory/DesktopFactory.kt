@@ -1,6 +1,17 @@
 package br.com.digital.store.domain.factory
 
 import br.com.digital.store.components.model.Menu
+import br.com.digital.store.components.strings.StringsUtils.CATEGORIES
+import br.com.digital.store.components.strings.StringsUtils.CHANGE_TO_OTHER_ACCOUNT
+import br.com.digital.store.components.strings.StringsUtils.DASHBOARD
+import br.com.digital.store.components.strings.StringsUtils.EXIT
+import br.com.digital.store.components.strings.StringsUtils.FOOD
+import br.com.digital.store.components.strings.StringsUtils.HISTORY
+import br.com.digital.store.components.strings.StringsUtils.ITEMS
+import br.com.digital.store.components.strings.StringsUtils.ORDER
+import br.com.digital.store.components.strings.StringsUtils.PDV
+import br.com.digital.store.components.strings.StringsUtils.RESERVATION
+import br.com.digital.store.components.strings.StringsUtils.SETTINGS
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.box
 import br.com.digital.store.composeapp.generated.resources.data_usage
@@ -12,20 +23,9 @@ import br.com.digital.store.composeapp.generated.resources.refresh
 import br.com.digital.store.composeapp.generated.resources.reservation
 import br.com.digital.store.composeapp.generated.resources.settings
 import br.com.digital.store.composeapp.generated.resources.shopping_cart
-import br.com.digital.store.utils.ItemService
+import br.com.digital.store.features.product.utils.ProductUtils.PRODUCTS
 import br.com.digital.store.navigation.ItemNavigation
-import br.com.digital.store.components.strings.StringsUtils.CATEGORIES
-import br.com.digital.store.components.strings.StringsUtils.CHANGE_TO_OTHER_ACCOUNT
-import br.com.digital.store.components.strings.StringsUtils.DASHBOARD
-import br.com.digital.store.components.strings.StringsUtils.EXIT
-import br.com.digital.store.components.strings.StringsUtils.FOOD
-import br.com.digital.store.components.strings.StringsUtils.HISTORY
-import br.com.digital.store.components.strings.StringsUtils.ITEMS
-import br.com.digital.store.components.strings.StringsUtils.ORDER
-import br.com.digital.store.components.strings.StringsUtils.PDV
-import br.com.digital.store.components.strings.StringsUtils.PRODUCTS
-import br.com.digital.store.components.strings.StringsUtils.RESERVATION
-import br.com.digital.store.components.strings.StringsUtils.SETTINGS
+import br.com.digital.store.utils.ItemService
 
 val menus = listOf(
     Menu(

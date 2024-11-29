@@ -1,17 +1,17 @@
-package br.com.digital.store.features.item.viewmodel
+package br.com.digital.store.features.product.ui.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.components.strings.StringsUtils.ASC
-import br.com.digital.store.features.item.data.dto.EditItemRequestDTO
-import br.com.digital.store.features.item.data.dto.ItemRequestDTO
-import br.com.digital.store.features.item.data.dto.UpdatePriceItemRequestDTO
-import br.com.digital.store.features.item.data.repository.ItemRepository
-import br.com.digital.store.features.item.data.vo.ItemsResponseVO
-import br.com.digital.store.features.item.domain.ConverterItem
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.product.data.dto.ProductRequestDTO
+import br.com.digital.store.features.product.data.dto.UpdatePriceProductRequestDTO
+import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
+import br.com.digital.store.features.product.data.repository.ProductRepository
+import br.com.digital.store.features.product.data.vo.ProductsResponseVO
+import br.com.digital.store.features.product.di.ConverterProduct
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE
@@ -20,39 +20,39 @@ import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class ItemViewModel(
-    private val repository: ItemRepository,
-    private val converter: ConverterItem
+class ProductViewModel(
+    private val repository: ProductRepository,
+    private val converter: ConverterProduct
 ) : ViewModel() {
 
     private var currentPage: Int = NUMBER_ZERO
     private var sizeDefault: Int = NUMBER_SIXTY
     private var sort: String = ASC
 
-    private val _findAllItems =
-        mutableStateOf<ObserveNetworkStateHandler<ItemsResponseVO>>(
+    private val _findAllProducts =
+        mutableStateOf<ObserveNetworkStateHandler<ProductsResponseVO>>(
             ObserveNetworkStateHandler.Loading(l = false)
         )
-    val findAllItems: State<ObserveNetworkStateHandler<ItemsResponseVO>> =
-        _findAllItems
+    val findAllProducts: State<ObserveNetworkStateHandler<ProductsResponseVO>> =
+        _findAllProducts
 
-    private val _createNewItem =
+    private val _createNewProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val createNewItem: State<ObserveNetworkStateHandler<Unit>> = _createNewItem
+    val createNewProduct: State<ObserveNetworkStateHandler<Unit>> = _createNewProduct
 
-    private val _editItem =
+    private val _editProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val editItem: State<ObserveNetworkStateHandler<Unit>> = _editItem
+    val editProduct: State<ObserveNetworkStateHandler<Unit>> = _editProduct
 
-    private val _updatePriceItem =
+    private val _updatePriceProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val updatePriceItem: State<ObserveNetworkStateHandler<Unit>> = _updatePriceItem
+    val updatePriceProduct: State<ObserveNetworkStateHandler<Unit>> = _updatePriceProduct
 
-    private val _deleteItem =
+    private val _deleteProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val deleteItem: State<ObserveNetworkStateHandler<Unit>> = _deleteItem
+    val deleteProduct: State<ObserveNetworkStateHandler<Unit>> = _deleteProduct
 
-    fun findAllItems(
+    fun findAllProducts(
         name: String = EMPTY_TEXT,
         sort: String = this.sort,
         size: Int = this.sizeDefault,
@@ -66,18 +66,18 @@ class ItemViewModel(
         }
         viewModelScope.launch {
             sizeDefault = size
-            repository.findAllItems(
+            repository.findAllProducts(
                 name = name,
                 page = currentPage,
                 size = sizeDefault,
                 sort = sort
             )
                 .onStart {
-                    _findAllItems.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _findAllProducts.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
                     it.result?.let { response ->
-                        _findAllItems.value = ObserveNetworkStateHandler.Success(
+                        _findAllProducts.value = ObserveNetworkStateHandler.Success(
                             s = converter.converterContentDTOToVO(content = response)
                         )
                     }
@@ -86,64 +86,64 @@ class ItemViewModel(
     }
 
     fun loadNextPage() {
-        val lastPage = _findAllItems.value.result?.totalPages ?: 0
+        val lastPage = _findAllProducts.value.result?.totalPages ?: 0
         if (currentPage < lastPage - NUMBER_ONE) {
             currentPage++
-            findAllItems()
+            findAllProducts()
         }
     }
 
     fun reloadPreviousPage() {
         if (currentPage > NUMBER_ZERO) {
             currentPage--
-            findAllItems()
+            findAllProducts()
         }
     }
 
-    fun createItem(name: String, price: Double) {
+    fun createProduct(product: ProductRequestDTO) {
         viewModelScope.launch {
-            repository.createNewItem(item = ItemRequestDTO(name = name, price = price))
+            repository.createNewProduct(product = product)
                 .onStart {
-                    _createNewItem.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _createNewProduct.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _createNewItem.value = it
-                }
-        }
-    }
-
-    fun editItem(item: EditItemRequestDTO) {
-        viewModelScope.launch {
-            repository.editItem(item = item)
-                .onStart {
-                    _editItem.value = ObserveNetworkStateHandler.Loading(l = true)
-                }
-                .collect {
-                    _editItem.value = it
+                    _createNewProduct.value = it
                 }
         }
     }
 
-    fun updatePriceItem(id: Long, item: UpdatePriceItemRequestDTO) {
+    fun editProduct(product: UpdateProductRequestDTO) {
         viewModelScope.launch {
-            repository.updatePriceItem(id = id, price = item)
+            repository.updateProduct(product = product)
                 .onStart {
-                    _updatePriceItem.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _editProduct.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _updatePriceItem.value = it
+                    _editProduct.value = it
                 }
         }
     }
 
-    fun deleteItem(id: Long) {
+    fun updatePriceProduct(id: Long, product: UpdatePriceProductRequestDTO) {
         viewModelScope.launch {
-            repository.deleteItem(id = id)
+            repository.updatePriceProduct(id = id, price = product)
                 .onStart {
-                    _deleteItem.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _updatePriceProduct.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _deleteItem.value = it
+                    _updatePriceProduct.value = it
+                }
+        }
+    }
+
+    fun deleteProduct(id: Long) {
+        viewModelScope.launch {
+            repository.deleteProduct(id = id)
+                .onStart {
+                    _deleteProduct.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _deleteProduct.value = it
                 }
         }
     }

@@ -21,6 +21,7 @@ kotlin = "2.0.21"
 kotlinx-coroutines = "1.9.0"
 ktor = "3.0.1"
 lifecycleViewmodelCompose = "2.8.2"
+material3 = "1.1.0"
 navigationCompose = "2.8.0-alpha10"
 
 [libraries]
@@ -49,6 +50,7 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
+material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
 [plugins]

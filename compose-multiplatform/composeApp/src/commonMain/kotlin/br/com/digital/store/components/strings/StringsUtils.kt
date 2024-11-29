@@ -29,7 +29,6 @@ object StringsUtils {
     const val CATEGORIES = "Categorias"
     const val ITEMS = "Items"
     const val FOOD = "Pratos"
-    const val PRODUCTS = "Produtos"
     const val ORDER = "Pedidos"
     const val RESERVATION = "Reservas"
     const val HISTORY = "Histórico de Vendas"

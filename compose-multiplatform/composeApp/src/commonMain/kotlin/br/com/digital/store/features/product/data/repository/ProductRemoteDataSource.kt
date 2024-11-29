@@ -1,12 +1,12 @@
-package br.com.digital.store.features.item.data.repository
+package br.com.digital.store.features.product.data.repository
 
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
-import br.com.digital.store.features.item.data.dto.EditItemRequestDTO
-import br.com.digital.store.features.item.data.dto.ItemRequestDTO
-import br.com.digital.store.features.item.data.dto.ItemsResponseDTO
-import br.com.digital.store.features.item.data.dto.UpdatePriceItemRequestDTO
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.toResultFlow
+import br.com.digital.store.features.product.data.dto.ProductRequestDTO
+import br.com.digital.store.features.product.data.dto.ProductsResponseDTO
+import br.com.digital.store.features.product.data.dto.UpdatePriceProductRequestDTO
+import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
@@ -21,25 +21,25 @@ import io.ktor.http.path
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 
-class ItemRemoteDataSource(
+class ProductRemoteDataSource(
     private val httpClient: HttpClient,
     private val localStorage: LocalStorageImp
-) : ItemRepository {
+) : ProductRepository {
 
     private val accessToken = runBlocking {
         localStorage.getToken().accessToken
     }
 
-    override fun findAllItems(
+    override fun findAllProducts(
         name: String,
         page: Int,
         size: Int,
         sort: String
-    ): Flow<ObserveNetworkStateHandler<ItemsResponseDTO>> {
+    ): Flow<ObserveNetworkStateHandler<ProductsResponseDTO>> {
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/items/v1")
+                    path("/api/dashboard/company/products/v1")
                     parameters.append("name", name)
                     parameters.append("page", page.toString())
                     parameters.append("size", size.toString())
@@ -52,37 +52,37 @@ class ItemRemoteDataSource(
         }
     }
 
-    override fun createNewItem(item: ItemRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
+    override fun createNewProduct(product: ProductRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.post {
-                url(urlString = "/api/dashboard/company/items/v1")
+                url(urlString = "/api/dashboard/company/products/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
-                setBody(item)
+                setBody(product)
             }
         }
     }
 
-    override fun editItem(item: EditItemRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
+    override fun updateProduct(product: UpdateProductRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "/api/dashboard/company/items/v1")
+                url(urlString = "/api/dashboard/company/products/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
-                setBody(item)
+                setBody(product)
             }
         }
     }
 
-    override fun updatePriceItem(
+    override fun updatePriceProduct(
         id: Long,
-        price: UpdatePriceItemRequestDTO
+        price: UpdatePriceProductRequestDTO
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.patch {
-                url(urlString = "/api/dashboard/company/items/v1/update/price/item/$id")
+                url(urlString = "/api/dashboard/company/products/v1/update/price/product/$id")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -91,10 +91,10 @@ class ItemRemoteDataSource(
         }
     }
 
-    override fun deleteItem(id: Long): Flow<ObserveNetworkStateHandler<Unit>> {
+    override fun deleteProduct(id: Long): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.delete {
-                url(urlString = "/api/dashboard/company/items/v1/$id")
+                url(urlString = "/api/dashboard/company/products/v1/$id")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }

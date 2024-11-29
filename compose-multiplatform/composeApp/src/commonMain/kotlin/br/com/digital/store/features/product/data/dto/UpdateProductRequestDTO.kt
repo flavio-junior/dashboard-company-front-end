@@ -4,11 +4,11 @@ import br.com.digital.store.features.category.data.dto.CategoryResponseDTO
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ProductResponseDTO(
+data class UpdateProductRequestDTO(
     val id: Long,
     val name: String,
     val description: String,
-    val categories: List<CategoryResponseDTO> ? = null,
+    val categories: List<CategoryResponseDTO>,
     val price: Double,
     val quantity: Int
 )
