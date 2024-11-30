@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 data class UpdateProductRequestDTO(
     val id: Long,
     val name: String,
-    val description: String,
     val categories: List<CategoryResponseDTO>,
     val price: Double,
     val quantity: Int

@@ -9,20 +9,39 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.strings.StringsUtils.CATEGORIES
+import br.com.digital.store.components.strings.StringsUtils.ID
 import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.QUANTITY
 import br.com.digital.store.components.ui.Description
+import br.com.digital.store.components.ui.ResourceUnavailable
 import br.com.digital.store.components.ui.Tag
 import br.com.digital.store.components.ui.TextField
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.product.data.vo.ProductResponseVO
+import br.com.digital.store.features.product.utils.ProductUtils.DETAILS_PRODUCT
+import br.com.digital.store.features.product.utils.ProductUtils.UPDATE_PRODUCT
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import br.com.digital.store.utils.formatterMaskToMoney
 
 @Composable
 fun DetailsProductScreen(
-    product: ProductResponseVO
+    product: ProductResponseVO,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+) {
+    if (product.id > NUMBER_ZERO) {
+        DetailsProductBody(product = product, goToAlternativeRoutes = goToAlternativeRoutes)
+    } else {
+        ResourceUnavailable()
+    }
+}
+
+@Composable
+fun DetailsProductBody(
+    product: ProductResponseVO,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -31,9 +50,17 @@ fun DetailsProductScreen(
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
+        Description(description = "$DETAILS_PRODUCT:")
         Row(
             horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
         ) {
+            TextField(
+                enabled = false,
+                label = ID,
+                value = product.id.toString(),
+                onValueChange = {},
+                modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE)
+            )
             TextField(
                 enabled = false,
                 label = NAME,
@@ -56,9 +83,11 @@ fun DetailsProductScreen(
                 modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE)
             )
         }
-        Description(description = CATEGORIES)
+        Description(description = "$CATEGORIES:")
         product.categories?.forEach {
             Tag(text = it.name, value = it, enabled = false)
         }
+        Description(description = UPDATE_PRODUCT)
+        UpdateProduct(id = product.id, goToAlternativeRoutes = goToAlternativeRoutes)
     }
 }

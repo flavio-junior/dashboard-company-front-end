@@ -1,7 +1,7 @@
 package br.com.digital.store.components.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,7 +20,7 @@ fun IconDefault(
     backgroundColor: Color = Themes.colors.background,
     tint: Color = Themes.colors.primary,
     contentDescription: String? = null,
-    size: Dp = Themes.size.spaceSize48,
+    size: Dp = Themes.size.spaceSize24,
     onClick: () -> Unit = {}
 ) {
     Icon(
@@ -30,6 +30,6 @@ fun IconDefault(
         modifier = modifier
             .background(color = backgroundColor)
             .onClickable(onClick = onClick)
-            .width(width = size)
+            .size(size = size)
     )
 }

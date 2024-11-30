@@ -40,9 +40,9 @@ class ProductViewModel(
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val createNewProduct: State<ObserveNetworkStateHandler<Unit>> = _createNewProduct
 
-    private val _editProduct =
+    private val _updateProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val editProduct: State<ObserveNetworkStateHandler<Unit>> = _editProduct
+    val updateProduct: State<ObserveNetworkStateHandler<Unit>> = _updateProduct
 
     private val _updatePriceProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -112,14 +112,26 @@ class ProductViewModel(
         }
     }
 
+    fun updateProduct(product: UpdateProductRequestDTO) {
+        viewModelScope.launch {
+            repository.updateProduct(product = product)
+                .onStart {
+                    _updateProduct.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _updateProduct.value = it
+                }
+        }
+    }
+
     fun editProduct(product: UpdateProductRequestDTO) {
         viewModelScope.launch {
             repository.updateProduct(product = product)
                 .onStart {
-                    _editProduct.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _updateProduct.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _editProduct.value = it
+                    _updateProduct.value = it
                 }
         }
     }

@@ -18,7 +18,11 @@ fun ProductTabMain(
             goToAlternativeRoutes = goToAlternativeRoutes
         )
 
-        NumbersUtils.NUMBER_ONE -> DetailsProductScreen(product = productsResponseVO)
+        NumbersUtils.NUMBER_ONE -> DetailsProductScreen(
+            product = productsResponseVO,
+            goToAlternativeRoutes
+        )
+
         NumbersUtils.NUMBER_TWO -> UpdateProductScreen()
     }
 }

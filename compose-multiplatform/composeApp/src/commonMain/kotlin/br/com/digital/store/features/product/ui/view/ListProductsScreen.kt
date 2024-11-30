@@ -52,7 +52,7 @@ fun ListProductsScreen(
         LaunchedEffect(key1 = Unit) {
             viewModel.findAllProducts()
         }
-        ObserveNetworkStateHandlerCategories(
+        ObserveNetworkStateHandlerProducts(
             viewModel = viewModel,
             onItemSelected = onItemSelected,
             goToAlternativeRoutes = goToAlternativeRoutes
@@ -61,7 +61,7 @@ fun ListProductsScreen(
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerCategories(
+private fun ObserveNetworkStateHandlerProducts(
     viewModel: ProductViewModel,
     onItemSelected: (ProductResponseVO) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
