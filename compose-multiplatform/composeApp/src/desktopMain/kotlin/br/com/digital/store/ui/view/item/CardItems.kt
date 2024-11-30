@@ -8,13 +8,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import br.com.digital.store.features.item.data.vo.ItemResponseVO
-import br.com.digital.store.features.item.data.vo.ItemsResponseVO
-import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.HeaderSearch
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
+import br.com.digital.store.features.item.data.vo.ItemResponseVO
+import br.com.digital.store.features.item.data.vo.ItemsResponseVO
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
@@ -23,7 +23,8 @@ import org.koin.mp.KoinPlatform.getKoin
 @Composable
 fun CardItems(
     modifier: Modifier = Modifier,
-    onItemSelected: (ItemResponseVO) -> Unit = {}
+    onItemSelected: (ItemResponseVO) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -51,27 +52,32 @@ fun CardItems(
         LaunchedEffect(key1 = Unit) {
             viewModel.findAllItems()
         }
-        ObserveNetworkStateHandlerItems(viewModel = viewModel, onItemSelected = onItemSelected)
+        ObserveNetworkStateHandlerItems(
+            viewModel = viewModel,
+            onItemSelected = onItemSelected,
+            goToAlternativeRoutes = goToAlternativeRoutes
+        )
     }
 }
 
 @Composable
 private fun ObserveNetworkStateHandlerItems(
     viewModel: ItemViewModel,
-    onItemSelected: (ItemResponseVO) -> Unit = {}
+    onItemSelected: (ItemResponseVO) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<ItemsResponseVO> by remember { viewModel.findAllItems }
     ObserveNetworkStateHandler(
-        resultState = state,
+        state = state,
         onLoading = {
             LoadingData()
         },
         onError = {
-            Description(description = it)
         },
+        goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             it.result?.let { response ->
-                ItemsResult(content = response, onItemSelected)
+                ItemsResult(content = response, onItemSelected, goToAlternativeRoutes = goToAlternativeRoutes)
             }
         }
     )
@@ -80,7 +86,8 @@ private fun ObserveNetworkStateHandlerItems(
 @Composable
 private fun ItemsResult(
     content: ItemsResponseVO,
-    onItemSelected: (ItemResponseVO) -> Unit = {}
+    onItemSelected: (ItemResponseVO) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     Column {
         ListItems(
@@ -92,6 +99,6 @@ private fun ItemsResult(
             onItemSelected = onItemSelected
         )
         PageIndicatorItems(content = content)
-        SaveItem()
+        SaveItem(goToAlternativeRoutes = goToAlternativeRoutes)
     }
 }

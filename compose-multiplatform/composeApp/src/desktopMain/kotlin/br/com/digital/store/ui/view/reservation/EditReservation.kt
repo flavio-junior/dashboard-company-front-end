@@ -15,8 +15,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
-import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
+import br.com.digital.store.components.strings.StringsUtils.ACTUAL_NAME
+import br.com.digital.store.components.strings.StringsUtils.ID
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
@@ -25,11 +26,11 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.edit
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
+import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
 import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel
-import br.com.digital.store.components.strings.StringsUtils.ACTUAL_NAME
-import br.com.digital.store.components.strings.StringsUtils.ID
-import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.reservation.ReservationUtils.EDIT_RESERVATION
 import br.com.digital.store.ui.view.reservation.ReservationUtils.NEW_NAME_RESERVATION
@@ -44,6 +45,7 @@ import org.koin.mp.KoinPlatform.getKoin
 fun EditReservation(
     modifier: Modifier = Modifier,
     reservationVO: ReservationResponseVO,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onCleanReservations: () -> Unit = {}
 ) {
     Column(
@@ -137,6 +139,7 @@ fun EditReservation(
             onError = {
                 observer = it
             },
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 onCleanReservations()
                 reservationsName = EMPTY_TEXT
@@ -149,6 +152,7 @@ fun EditReservation(
             onError = {
                 observer = it
             },
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 onCleanReservations()
             }
@@ -160,15 +164,19 @@ fun EditReservation(
 private fun ObserveNetworkStateHandlerEditReservations(
     viewModel: ReservationViewModel,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.editReservation }
     ObserveNetworkStateHandler(
-        resultState = state,
+        state = state,
         onLoading = {},
         onError = {
-            onError(Triple(first = false, second = true, third = it))
+            it?.let {
+                Triple(first = false, second = true, third = it)
+            }
         },
+        goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onSuccessful()
             viewModel.findAllReservations()

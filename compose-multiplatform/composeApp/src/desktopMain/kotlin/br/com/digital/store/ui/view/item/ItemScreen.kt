@@ -9,9 +9,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import br.com.digital.store.features.item.data.vo.ItemResponseVO
-import br.com.digital.store.domain.factory.availableServices
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
+import br.com.digital.store.domain.factory.availableServices
+import br.com.digital.store.features.item.data.vo.ItemResponseVO
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.shared.BodyPage
 import br.com.digital.store.ui.view.shared.Services
@@ -22,7 +23,8 @@ import br.com.digital.store.utils.TypeLayout
 @Composable
 fun ItemScreen(
     goToBackScreen: () -> Unit = {},
-    goToNextScreen: (String) -> Unit = {}
+    goToNextScreen: (String) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     BodyPage(
         typeLayout = TypeLayout.ROW,
@@ -38,7 +40,8 @@ fun ItemScreen(
                 CardItems(
                     modifier = Modifier
                         .weight(weight = WEIGHT_SIZE_2),
-                    onItemSelected = { item = it }
+                    onItemSelected = { item = it },
+                    goToAlternativeRoutes = goToAlternativeRoutes
                 )
                 EditItem(
                     modifier = Modifier
@@ -46,6 +49,7 @@ fun ItemScreen(
                         .padding(top = Themes.size.spaceSize16, end = Themes.size.spaceSize16)
                         .weight(weight = WEIGHT_SIZE),
                     itemVO = item,
+                    goToAlternativeRoutes = goToAlternativeRoutes,
                     onCleanItem = {
                         item = ItemResponseVO()
                     }

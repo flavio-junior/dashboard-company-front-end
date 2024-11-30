@@ -21,15 +21,34 @@ inline fun <reified T> toResultFlow(
                 val data = response.body<T>()
                 emit(ObserveNetworkStateHandler.Success(data))
             }
+
             in 400..499 -> {
-                val error = response.body<ResponseError>()
-                emit(ObserveNetworkStateHandler.Error(e = error.message))
+                response.body<ResponseError>()
+                emit(
+                    ObserveNetworkStateHandler.Error(
+                        code = response.status.value,
+                        e = response.status.description
+                    )
+                )
             }
+
             in 500..599 -> {
-                emit(ObserveNetworkStateHandler.Error(type = ErrorType.SERVER, e = "ERROR_INTERNAL_SERVER"))
+                emit(
+                    ObserveNetworkStateHandler.Error(
+                        code = response.status.value,
+                        type = ErrorType.SERVER,
+                        e = response.status.description
+                    )
+                )
             }
+
             else -> {
-                emit(ObserveNetworkStateHandler.Error(type = ErrorType.INTERNAL, e = "Unknown error"))
+                emit(
+                    ObserveNetworkStateHandler.Error(
+                        type = ErrorType.INTERNAL,
+                        e = "Unknown error"
+                    )
+                )
             }
         }
     } catch (e: Exception) {

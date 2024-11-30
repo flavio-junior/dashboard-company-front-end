@@ -9,9 +9,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import br.com.digital.store.features.category.data.vo.CategoryResponseVO
-import br.com.digital.store.domain.factory.availableServices
 import br.com.digital.store.components.strings.StringsUtils.CATEGORIES
+import br.com.digital.store.domain.factory.availableServices
+import br.com.digital.store.features.category.data.vo.CategoryResponseVO
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.shared.BodyPage
 import br.com.digital.store.ui.view.shared.Services
@@ -22,7 +23,8 @@ import br.com.digital.store.utils.TypeLayout
 @Composable
 fun CategoryScreen(
     goToBackScreen: () -> Unit = {},
-    goToNextScreen: (String) -> Unit = {}
+    goToNextScreen: (String) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     var categoryVO: CategoryResponseVO by remember { mutableStateOf(value = CategoryResponseVO()) }
     BodyPage(
@@ -38,7 +40,8 @@ fun CategoryScreen(
                 CardCategories(
                     modifier = Modifier
                         .weight(weight = WEIGHT_SIZE_2),
-                    onItemSelected = { categoryVO = it }
+                    onItemSelected = { categoryVO = it },
+                    goToAlternativeRoutes = goToAlternativeRoutes
                 )
                 EditCategory(
                     modifier = Modifier
@@ -46,6 +49,7 @@ fun CategoryScreen(
                         .padding(top = Themes.size.spaceSize16, end = Themes.size.spaceSize16)
                         .weight(weight = WEIGHT_SIZE),
                     categoryVO = categoryVO,
+                    goToAlternativeRoutes = goToAlternativeRoutes,
                     onCleanCategory = {
                         categoryVO = CategoryResponseVO()
                     }

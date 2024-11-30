@@ -18,6 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import br.com.digital.store.components.strings.StringsUtils.CREATE_ONE_ACCOUNT
+import br.com.digital.store.components.strings.StringsUtils.EMAIL
+import br.com.digital.store.components.strings.StringsUtils.ENTER_YOUR_ACCOUNT
+import br.com.digital.store.components.strings.StringsUtils.FORGOT_PASS
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
+import br.com.digital.store.components.strings.StringsUtils.OR
+import br.com.digital.store.components.strings.StringsUtils.PASSWORD
+import br.com.digital.store.components.strings.isNotBlankAndEmpty
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
@@ -30,16 +38,8 @@ import br.com.digital.store.features.account.data.dto.SignInRequestDTO
 import br.com.digital.store.features.account.data.dto.TokenResponseDTO
 import br.com.digital.store.features.account.data.vo.TokenResponseVO
 import br.com.digital.store.features.account.domain.type.TypeAccount
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.errorResult
-import br.com.digital.store.components.strings.StringsUtils.CREATE_ONE_ACCOUNT
-import br.com.digital.store.components.strings.StringsUtils.EMAIL
-import br.com.digital.store.components.strings.StringsUtils.ENTER_YOUR_ACCOUNT
-import br.com.digital.store.components.strings.StringsUtils.FORGOT_PASS
-import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
-import br.com.digital.store.components.strings.StringsUtils.OR
-import br.com.digital.store.components.strings.StringsUtils.PASSWORD
-import br.com.digital.store.components.strings.isNotBlankAndEmpty
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.viewmodel.ApiViewModel
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
@@ -51,7 +51,8 @@ import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun CardSignIn(
-    goToDashboardScreen: () -> Unit = {}
+    goToDashboardScreen: () -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -107,7 +108,7 @@ fun CardSignIn(
                     errorMessage = it.third
                 },
                 goToLoginScreen = { goToDashboardScreen() },
-                goToErrorScreen = {}
+                goToAlternativeRoutes = goToAlternativeRoutes
             )
             SimpleText(
                 text = FORGOT_PASS,
@@ -176,22 +177,19 @@ private fun ObserveStateSignIn(
     viewModel: ApiViewModel,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
     goToLoginScreen: (TypeAccount) -> Unit = {},
-    goToErrorScreen: () -> Unit = {}
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     val accountState: ObserveNetworkStateHandler<TokenResponseDTO> by remember {
         viewModel.signIn
     }
     ObserveNetworkStateHandler(
-        resultState = accountState,
+        state = accountState,
         onError = {
-            errorResult(
-                description = accountState.exception,
-                message = {
-                    onError(Triple(first = true, second = false, third = it))
-                },
-                openErrorScreen = { goToErrorScreen() }
-            )
+            it?.let { result ->
+                onError(Triple(first = true, second = false, third = result))
+            }
         },
+        goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             accountState.result?.let {
@@ -224,7 +222,7 @@ private fun ObserveNetworkStateHandlerToken(
     }
     val state: ObserveNetworkStateHandler<TokenResponseVO> by remember { viewModel.getTokenSaved }
     ObserveNetworkStateHandler(
-        resultState = state,
+        state = state,
         onLoading = {},
         onError = {},
         onSuccess = {

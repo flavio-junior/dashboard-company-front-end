@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.theme.Themes
 
 @Composable
 fun SignInScreen(
-    goToDashboardScreen: () -> Unit = {}
+    goToDashboardScreen: () -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -20,6 +22,9 @@ fun SignInScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        CardSignIn(goToDashboardScreen = goToDashboardScreen)
+        CardSignIn(
+            goToDashboardScreen = goToDashboardScreen,
+            goToAlternativeRoutes = goToAlternativeRoutes
+        )
     }
 }

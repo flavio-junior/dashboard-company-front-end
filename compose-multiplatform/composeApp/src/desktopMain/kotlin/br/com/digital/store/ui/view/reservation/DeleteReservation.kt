@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel
 import br.com.digital.store.theme.Themes
@@ -23,6 +24,7 @@ fun DeleteReservation(
     id: Long,
     modifier: Modifier = Modifier,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
     Column(
@@ -46,6 +48,7 @@ fun DeleteReservation(
                 onError(it)
                 observer = it
             },
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 observer = Triple(first = false, second = false, third = EMPTY_TEXT)
                 onSuccessful()
@@ -71,15 +74,19 @@ fun DeleteReservation(
 private fun ObserveNetworkStateHandlerEditReservation(
     viewModel: ReservationViewModel,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.deleteReservation }
     ObserveNetworkStateHandler(
-        resultState = state,
+        state = state,
         onLoading = {},
         onError = {
-            onError(Triple(first = false, second = true, third = it))
+            it?.let {
+                Triple(first = false, second = true, third = it)
+            }
         },
+        goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onSuccessful()
             viewModel.findAllReservations()

@@ -15,8 +15,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import br.com.digital.store.features.item.data.dto.EditItemRequestDTO
-import br.com.digital.store.features.item.data.vo.ItemResponseVO
+import br.com.digital.store.components.strings.StringsUtils.ACTUAL_NAME
+import br.com.digital.store.components.strings.StringsUtils.ID
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
@@ -25,11 +26,11 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.edit
+import br.com.digital.store.features.item.data.dto.EditItemRequestDTO
+import br.com.digital.store.features.item.data.vo.ItemResponseVO
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.components.strings.StringsUtils.ACTUAL_NAME
-import br.com.digital.store.components.strings.StringsUtils.ID
-import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.EDIT_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_NAME_ITEM
@@ -45,6 +46,7 @@ import org.koin.mp.KoinPlatform.getKoin
 fun EditItem(
     modifier: Modifier = Modifier,
     itemVO: ItemResponseVO,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onCleanItem: () -> Unit = {}
 ) {
     Column(
@@ -161,6 +163,7 @@ fun EditItem(
             onError = {
                 observer = it
             },
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 onCleanItem()
                 newName = EMPTY_TEXT
@@ -177,6 +180,7 @@ fun EditItem(
             onError = {
                 observer = it
             },
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 onCleanItem()
             }
@@ -188,6 +192,7 @@ fun EditItem(
             onError = {
                 observer = it
             },
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 onCleanItem()
             }
@@ -199,15 +204,19 @@ fun EditItem(
 private fun ObserveNetworkStateHandlerEditItem(
     viewModel: ItemViewModel,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.editItem }
     ObserveNetworkStateHandler(
-        resultState = state,
+        state = state,
         onLoading = {},
         onError = {
-            onError(Triple(first = false, second = true, third = it))
+            it?.let {
+                onError(Triple(first = false, second = true, third = it))
+            }
         },
+        goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onSuccessful()
             viewModel.findAllItems()

@@ -8,13 +8,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
-import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
-import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.HeaderSearch
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
+import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
 import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
@@ -65,12 +64,11 @@ private fun ObserveNetworkStateHandlerReservations(
 ) {
     val state: ObserveNetworkStateHandler<ReservationsResponseVO> by remember { viewModel.findAllReservations }
     ObserveNetworkStateHandler(
-        resultState = state,
+        state = state,
         onLoading = {
             LoadingData()
         },
         onError = {
-            Description(description = it)
         },
         onSuccess = {
             it.result?.let { response ->

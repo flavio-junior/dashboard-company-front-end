@@ -9,16 +9,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import br.com.digital.store.features.item.data.dto.UpdatePriceItemRequestDTO
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.edit
+import br.com.digital.store.features.item.data.dto.UpdatePriceItemRequestDTO
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_PRICE_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.UPDATE_PRICE_ITEM
@@ -33,6 +34,7 @@ fun UpdatePriceItem(
     cleanText: Boolean = false,
     onCleanText: () -> Unit = {},
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
     Column(
@@ -90,6 +92,7 @@ fun UpdatePriceItem(
                 onError(it)
                 observer = it
             },
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 observer = Triple(first = false, second = false, third = EMPTY_TEXT)
                 updatePrice = EMPTY_TEXT
@@ -115,15 +118,19 @@ fun UpdatePriceItem(
 private fun ObserveNetworkStateHandlerUpdatePriceItem(
     viewModel: ItemViewModel,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.updatePriceItem }
     ObserveNetworkStateHandler(
-        resultState = state,
+        state = state,
         onLoading = {},
         onError = {
-            onError(Triple(first = false, second = true, third = it))
+            it?.let {
+                onError(Triple(first = false, second = true, third = it))
+            }
         },
+        goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onSuccessful()
             viewModel.findAllItems()

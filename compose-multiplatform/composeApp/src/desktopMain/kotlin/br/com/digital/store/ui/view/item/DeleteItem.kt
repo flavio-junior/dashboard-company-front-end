@@ -12,6 +12,7 @@ import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.DELETE_ITEM
@@ -23,6 +24,7 @@ fun DeleteItem(
     viewModel: ItemViewModel,
     id: Long,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
     Column(
@@ -46,6 +48,7 @@ fun DeleteItem(
                 onError(it)
                 observer = it
             },
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 observer = Triple(first = false, second = false, third = EMPTY_TEXT)
                 onSuccessful()
@@ -71,15 +74,19 @@ fun DeleteItem(
 private fun ObserveNetworkStateHandlerEditItem(
     viewModel: ItemViewModel,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.deleteItem }
     ObserveNetworkStateHandler(
-        resultState = state,
+        state = state,
         onLoading = {},
         onError = {
-            onError(Triple(first = false, second = true, third = it))
+            it?.let {
+                onError(Triple(first = false, second = true, third = it))
+            }
         },
+        goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onSuccessful()
             viewModel.findAllItems()

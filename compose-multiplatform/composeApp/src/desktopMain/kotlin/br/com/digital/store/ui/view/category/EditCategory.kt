@@ -15,8 +15,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import br.com.digital.store.features.category.data.dto.EditCategoryRequestDTO
-import br.com.digital.store.features.category.data.vo.CategoryResponseVO
+import br.com.digital.store.components.strings.StringsUtils.ACTUAL_NAME
+import br.com.digital.store.components.strings.StringsUtils.ID
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
@@ -25,11 +26,11 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.edit
+import br.com.digital.store.features.category.data.dto.EditCategoryRequestDTO
+import br.com.digital.store.features.category.data.vo.CategoryResponseVO
 import br.com.digital.store.features.category.viewmodel.CategoryViewModel
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.components.strings.StringsUtils.ACTUAL_NAME
-import br.com.digital.store.components.strings.StringsUtils.ID
-import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.category.CategoryUtils.EDIT_CATEGORY
 import br.com.digital.store.ui.view.category.CategoryUtils.NEW_NAME_CATEGORY
@@ -44,6 +45,7 @@ import org.koin.mp.KoinPlatform.getKoin
 fun EditCategory(
     modifier: Modifier = Modifier,
     categoryVO: CategoryResponseVO,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onCleanCategory: () -> Unit = {}
 ) {
     Column(
@@ -149,6 +151,7 @@ fun EditCategory(
             onError = {
                 observer = it
             },
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 (CategoryResponseVO(id = 0, name = EMPTY_TEXT))
             }
@@ -160,15 +163,19 @@ fun EditCategory(
 private fun ObserveNetworkStateHandlerEditCategory(
     viewModel: CategoryViewModel,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.editCategory }
     ObserveNetworkStateHandler(
-        resultState = state,
+        state = state,
         onLoading = {},
         onError = {
-            onError(Triple(first = false, second = true, third = it))
+            it?.let {
+                onError(Triple(first = false, second = true, third = it))
+            }
         },
+        goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onSuccessful()
             viewModel.findAllCategories()

@@ -10,12 +10,12 @@ import br.com.digital.store.ui.view.dashboard.DashboardScreen
 import br.com.digital.store.ui.view.food.FoodScreen
 import br.com.digital.store.ui.view.history.HistoryScreen
 import br.com.digital.store.ui.view.item.ItemScreen
+import br.com.digital.store.ui.view.login.SignInScreen
 import br.com.digital.store.ui.view.order.OrderScreen
 import br.com.digital.store.ui.view.pdv.PdvScreen
 import br.com.digital.store.ui.view.product.ProductScreen
 import br.com.digital.store.ui.view.reservation.ReservationScreen
 import br.com.digital.store.ui.view.settings.SettingsScreen
-import br.com.digital.store.ui.view.login.SignInScreen
 
 @Composable
 fun Navigation(
@@ -39,6 +39,13 @@ fun NavGraphBuilder.signInNavigation(
                         inclusive = true
                     }
                 }
+            },
+            goToAlternativeRoutes = {
+                navigateToAlternativeRoutes(
+                    navController = navController,
+                    currentScreen = RouteApp.SignIn.item,
+                    alternativeRoutes = it
+                )
             }
         )
     }
@@ -78,6 +85,13 @@ fun NavGraphBuilder.dashboardNavigation(
                     currentScreen = RouteApp.Category.item,
                     nextScreen = it
                 )
+            },
+            goToAlternativeRoutes = {
+                navigateToAlternativeRoutes(
+                    navController = navController,
+                    currentScreen = RouteApp.Category.item,
+                    alternativeRoutes = it
+                )
             }
         )
     }
@@ -91,6 +105,13 @@ fun NavGraphBuilder.dashboardNavigation(
                     navHostController = navController,
                     currentScreen = RouteApp.Item.item,
                     nextScreen = it
+                )
+            },
+            goToAlternativeRoutes = {
+                navigateToAlternativeRoutes(
+                    navController = navController,
+                    currentScreen = RouteApp.Item.item,
+                    alternativeRoutes = it
                 )
             }
         )
@@ -119,6 +140,13 @@ fun NavGraphBuilder.dashboardNavigation(
                     navHostController = navController,
                     currentScreen = RouteApp.Product.item,
                     nextScreen = it
+                )
+            },
+            goToAlternativeRoutes = {
+                navigateToAlternativeRoutes(
+                    navController = navController,
+                    currentScreen = RouteApp.Product.item,
+                    alternativeRoutes = it
                 )
             }
         )

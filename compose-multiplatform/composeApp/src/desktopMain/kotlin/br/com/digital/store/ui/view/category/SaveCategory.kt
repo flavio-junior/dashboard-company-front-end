@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
@@ -20,8 +21,8 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.category.viewmodel.CategoryViewModel
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.category.CategoryUtils.CATEGORY_NAME
 import br.com.digital.store.ui.view.category.CategoryUtils.SAVE_CATEGORY
@@ -33,7 +34,8 @@ import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun SaveCategory(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
@@ -83,6 +85,7 @@ fun SaveCategory(
                 onError = {
                     observer = it
                 },
+                goToAlternativeRoutes = goToAlternativeRoutes,
                 onSuccessful = {
                     categoryName = EMPTY_TEXT
                 }
@@ -96,15 +99,19 @@ fun SaveCategory(
 private fun ObserveNetworkStateHandlerCreateNewCategory(
     viewModel: CategoryViewModel,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.createNewCategory }
     ObserveNetworkStateHandler(
-        resultState = state,
+        state = state,
         onLoading = {},
         onError = {
-            onError(Triple(first = false, second = true, third = it))
+            it?.let {
+                onError(Triple(first = false, second = true, third = it))
+            }
         },
+        goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             viewModel.findAllCategories()

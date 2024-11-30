@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import br.com.digital.store.components.ui.Description
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.product.data.vo.ProductResponseVO
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
@@ -28,7 +29,9 @@ import br.com.digital.store.utils.NumbersUtils
 import kotlinx.coroutines.launch
 
 @Composable
-fun Tabs() {
+fun ProductsTabs(
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
+) {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = { ItemsProduct.entries.size })
     val selectedTabIndex = remember { derivedStateOf { pagerState.currentPage } }
@@ -79,7 +82,8 @@ fun Tabs() {
                         scope.launch {
                             pagerState.animateScrollToPage(page = NumbersUtils.NUMBER_ONE)
                         }
-                    }
+                    },
+                    goToAlternativeRoutes = goToAlternativeRoutes
                 )
             }
         }
