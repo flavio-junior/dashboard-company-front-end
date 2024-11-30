@@ -21,7 +21,9 @@ import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
-fun ListProductsScreen() {
+fun ListProductsScreen(
+    onItemSelected: (ProductResponseVO) -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .padding(
@@ -49,7 +51,7 @@ fun ListProductsScreen() {
         LaunchedEffect(key1 = Unit) {
             viewModel.findAllProducts()
         }
-        ObserveNetworkStateHandlerCategories(viewModel = viewModel)
+        ObserveNetworkStateHandlerCategories(viewModel = viewModel, onItemSelected = onItemSelected)
     }
 }
 
@@ -85,7 +87,7 @@ private fun ProductsResult(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(weight = WEIGHT_SIZE_4)
-                .padding(top = Themes.size.spaceSize16),
+                .padding(top = Themes.size.spaceSize12),
             content = content,
             onItemSelected = onItemSelected
         )

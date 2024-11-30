@@ -22,7 +22,7 @@ fun checkNameIsNull(name: String): Boolean {
     return (name.isEmpty())
 }
 
-val  sizeList = listOf(
+val sizeList = listOf(
     "10 Items",
     "20 Items",
     "40 Items",

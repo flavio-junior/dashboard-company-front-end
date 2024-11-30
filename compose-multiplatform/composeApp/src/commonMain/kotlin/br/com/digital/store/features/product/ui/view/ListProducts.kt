@@ -42,6 +42,7 @@ import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE
+import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
 import br.com.digital.store.utils.onClickable
 import kotlinx.coroutines.launch
@@ -161,7 +162,6 @@ fun ItemProduct(
     Row(
         modifier = modifier
             .onClickable {
-                onItemSelected(product)
                 onDisableItem()
             }
             .background(color = if (selected) ITEM_SELECTED else Themes.colors.background)
@@ -191,7 +191,7 @@ fun ItemProduct(
             textAlign = TextAlign.Center
         )
         Description(
-            description = product.price.toString(),
+            description = formatterMaskToMoney(product.price),
             modifier = modifier.weight(weight = WEIGHT_SIZE),
             color = if (selected) Themes.colors.background else Themes.colors.primary,
             textAlign = TextAlign.Center
@@ -207,6 +207,9 @@ fun ItemProduct(
             modifier = modifier.weight(weight = WEIGHT_SIZE),
             backgroundColor = if (selected) ITEM_SELECTED else Themes.colors.background,
             tint = if (selected) Themes.colors.background else Themes.colors.primary,
+            onClick = {
+                onItemSelected(product)
+            }
         )
     }
 }
