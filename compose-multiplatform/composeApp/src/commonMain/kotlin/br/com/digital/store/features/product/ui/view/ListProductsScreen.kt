@@ -79,7 +79,7 @@ private fun ObserveNetworkStateHandlerProducts(
                 )
             } else {
                 it.result?.let { response ->
-                    ProductsResult(content = response, onItemSelected = onItemSelected)
+                    ProductsResult(productsResponseVO = response, onItemSelected = onItemSelected)
                 } ?: viewModel.showEmptyList(show = true)
             }
         }
@@ -88,7 +88,7 @@ private fun ObserveNetworkStateHandlerProducts(
 
 @Composable
 private fun ProductsResult(
-    content: ProductsResponseVO,
+    productsResponseVO: ProductsResponseVO,
     onItemSelected: (ProductResponseVO) -> Unit = {}
 ) {
     Column {
@@ -112,9 +112,9 @@ private fun ProductsResult(
                 .fillMaxSize()
                 .weight(weight = WEIGHT_SIZE_4)
                 .padding(top = Themes.size.spaceSize12),
-            content = content,
+            products = productsResponseVO,
             onItemSelected = onItemSelected
         )
-        PageIndicatorProducts(content = content)
+        PageIndicatorProducts(content = productsResponseVO)
     }
 }

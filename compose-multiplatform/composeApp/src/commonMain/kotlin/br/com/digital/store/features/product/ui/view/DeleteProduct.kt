@@ -77,6 +77,7 @@ private fun ObserveNetworkStateHandlerUpdatePriceProduct(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.findAllProducts()
             onSuccessful()
         }
     )

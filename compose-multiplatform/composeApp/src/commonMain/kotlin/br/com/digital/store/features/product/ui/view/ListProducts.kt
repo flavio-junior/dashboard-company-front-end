@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ListProducts(
     modifier: Modifier = Modifier,
-    content: ProductsResponseVO,
+    products: ProductsResponseVO,
     onItemSelected: (ProductResponseVO) -> Unit = {}
 ) {
     Column(
@@ -84,7 +84,7 @@ fun ListProducts(
                 .fillMaxWidth()
                 .padding(all = Themes.size.spaceSize36)
         ) {
-            itemsIndexed(content.content) { index, product ->
+            itemsIndexed(products.content) { index, product ->
                 ItemProduct(
                     index = index,
                     selected = selectedIndex == index,
