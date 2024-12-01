@@ -13,13 +13,14 @@ import br.com.digital.store.composeapp.generated.resources.arrow_back
 import br.com.digital.store.composeapp.generated.resources.arrow_forward
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import br.com.digital.store.utils.onBorder
 
 @Composable
 fun PageIndicator(
     modifier: Modifier = Modifier,
-    currentPage: Int = 0,
-    totalPages: Int = 0,
+    currentPage: Int,
+    totalPages: Int,
     loadNextPage: () -> Unit = {},
     reloadPreviousPage: () -> Unit = {}
 ) {
@@ -33,7 +34,13 @@ fun PageIndicator(
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val newValue = currentPage + NUMBER_ONE
+        val newValue = if (currentPage == NUMBER_ZERO && totalPages == NUMBER_ZERO) {
+            NUMBER_ZERO
+        } else if (currentPage == NUMBER_ZERO && totalPages == NUMBER_ONE) {
+            NUMBER_ONE
+        } else {
+            currentPage + NUMBER_ONE
+        }
         IconDefault(
             icon = Res.drawable.arrow_back,
             modifier = Modifier

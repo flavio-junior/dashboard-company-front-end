@@ -9,7 +9,7 @@ import br.com.digital.store.components.ui.Description
 import br.com.digital.store.theme.Themes
 
 @Composable
-fun UpdateProductScreen() {
+fun CreateNewProductScreen() {
     Column(
         modifier = Modifier.background(color = Themes.colors.secondary)
             .fillMaxSize()

@@ -37,6 +37,8 @@ class ProductViewModel(
     val findAllProducts: State<ObserveNetworkStateHandler<ProductsResponseVO>> =
         _findAllProducts
 
+    var showEmptyList = mutableStateOf(value = true)
+
     private val _createNewProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val createNewProduct: State<ObserveNetworkStateHandler<Unit>> = _createNewProduct
@@ -67,6 +69,7 @@ class ProductViewModel(
             LocationRoute.SEARCH, LocationRoute.SORT, LocationRoute.RELOAD -> {}
             LocationRoute.FILTER -> {
                 this.currentPage = NUMBER_ZERO
+                showEmptyList.value = false
             }
         }
         viewModelScope.launch {
@@ -82,12 +85,24 @@ class ProductViewModel(
                 }
                 .collect {
                     it.result?.let { response ->
-                        _findAllProducts.value = ObserveNetworkStateHandler.Success(
-                            s = converter.converterContentDTOToVO(content = response)
-                        )
+                        val objectConverted = converter.converterContentDTOToVO(content = response)
+                        if (objectConverted.content.isNotEmpty()) {
+                            showEmptyList.value = false
+                            _findAllProducts.value = ObserveNetworkStateHandler.Success(
+                                s = objectConverted
+                            )
+                        } else {
+                            _findAllProducts.value = ObserveNetworkStateHandler.Success(
+                                s = objectConverted
+                            )
+                        }
                     }
                 }
         }
+    }
+
+    fun showEmptyList(show: Boolean) {
+        showEmptyList.value = show
     }
 
     fun loadNextPage() {
@@ -118,18 +133,6 @@ class ProductViewModel(
     }
 
     fun updateProduct(product: UpdateProductRequestDTO) {
-        viewModelScope.launch {
-            repository.updateProduct(product = product)
-                .onStart {
-                    _updateProduct.value = ObserveNetworkStateHandler.Loading(l = true)
-                }
-                .collect {
-                    _updateProduct.value = it
-                }
-        }
-    }
-
-    fun editProduct(product: UpdateProductRequestDTO) {
         viewModelScope.launch {
             repository.updateProduct(product = product)
                 .onStart {

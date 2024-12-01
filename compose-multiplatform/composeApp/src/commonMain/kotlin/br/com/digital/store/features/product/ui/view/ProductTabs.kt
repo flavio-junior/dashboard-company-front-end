@@ -83,6 +83,11 @@ fun ProductsTabs(
                             pagerState.animateScrollToPage(page = NumbersUtils.NUMBER_ONE)
                         }
                     },
+                    onToCreateNewProduct = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(page = NumbersUtils.NUMBER_TWO)
+                        }
+                    },
                     goToAlternativeRoutes = goToAlternativeRoutes
                 )
             }

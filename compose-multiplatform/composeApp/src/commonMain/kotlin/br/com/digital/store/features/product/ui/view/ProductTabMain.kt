@@ -10,11 +10,13 @@ fun ProductTabMain(
     index: Int,
     productsResponseVO: ProductResponseVO = ProductResponseVO(),
     onItemSelected: (ProductResponseVO) -> Unit = {},
+    onToCreateNewProduct: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     when (index) {
         NumbersUtils.NUMBER_ZERO -> ListProductsScreen(
             onItemSelected = onItemSelected,
+            onToCreateNewProduct = onToCreateNewProduct,
             goToAlternativeRoutes = goToAlternativeRoutes
         )
 
@@ -23,6 +25,6 @@ fun ProductTabMain(
             goToAlternativeRoutes
         )
 
-        NumbersUtils.NUMBER_TWO -> UpdateProductScreen()
+        NumbersUtils.NUMBER_TWO -> CreateNewProductScreen()
     }
 }
