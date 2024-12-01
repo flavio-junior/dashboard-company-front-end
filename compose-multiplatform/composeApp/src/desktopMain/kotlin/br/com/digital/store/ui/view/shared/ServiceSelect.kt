@@ -12,6 +12,7 @@ import br.com.digital.store.components.strings.StringsUtils.DASHBOARD
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.Title
 import br.com.digital.store.domain.factory.availableServices
+import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.ItemService
 import br.com.digital.store.utils.changeColor
@@ -75,7 +76,16 @@ fun Service(
             .padding(all = Themes.size.spaceSize16),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconDefault(icon = service.icon, onClick = goToNavigation)
-        Title(title = service.label, modifier = Modifier.onClickable(onClick = goToNavigation))
+        IconDefault(
+            backgroundColor = if (enabled) ITEM_SELECTED else Themes.colors.secondary,
+            tint = if (enabled) Themes.colors.background else ITEM_SELECTED,
+            icon = service.icon,
+            onClick = goToNavigation
+        )
+        Title(
+            title = service.label,
+            modifier = Modifier.onClickable(onClick = goToNavigation),
+            color = if (enabled) Themes.colors.background else ITEM_SELECTED
+        )
     }
 }

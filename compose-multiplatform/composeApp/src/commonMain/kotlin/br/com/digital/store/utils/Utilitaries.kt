@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
+import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.SpaceSize
 import br.com.digital.store.theme.Themes
 
@@ -128,7 +129,7 @@ fun Modifier.scroll(scroll: Boolean): Modifier {
 fun Modifier.changeColor(enabled: Boolean = false): Modifier {
     return this.then(
         if (enabled) {
-            Modifier.background(color = Themes.colors.success)
+            Modifier.background(color = ITEM_SELECTED)
         } else {
             Modifier.background(color = Themes.colors.secondary)
         }
