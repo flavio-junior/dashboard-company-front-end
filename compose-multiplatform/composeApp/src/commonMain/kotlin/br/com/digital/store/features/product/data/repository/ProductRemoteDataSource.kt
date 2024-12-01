@@ -5,6 +5,7 @@ import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.toResultFlow
 import br.com.digital.store.features.product.data.dto.ProductRequestDTO
 import br.com.digital.store.features.product.data.dto.ProductsResponseDTO
+import br.com.digital.store.features.product.data.dto.RestockProductRequestDTO
 import br.com.digital.store.features.product.data.dto.UpdatePriceProductRequestDTO
 import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
 import io.ktor.client.HttpClient
@@ -59,7 +60,7 @@ class ProductRemoteDataSource(
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
-                setBody(product)
+                setBody(body = product)
             }
         }
     }
@@ -71,7 +72,7 @@ class ProductRemoteDataSource(
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
-                setBody(product)
+                setBody(body = product)
             }
         }
     }
@@ -86,7 +87,22 @@ class ProductRemoteDataSource(
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
-                setBody(price)
+                setBody(body = price)
+            }
+        }
+    }
+
+    override fun restockProduct(
+        id: Long,
+        stock: RestockProductRequestDTO
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.patch {
+                url(urlString = "/api/dashboard/company/products/v1/restock/product/$id")
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+                setBody(body = stock)
             }
         }
     }

@@ -24,12 +24,13 @@ import br.com.digital.store.features.product.utils.ProductUtils.NEW_NAME_PRODUCT
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun UpdateProduct(
     id: Long,
-    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     val viewModel: ProductViewModel = getKoin().get()
     var name: String by remember { mutableStateOf(value = EMPTY_TEXT) }
@@ -78,7 +79,7 @@ fun UpdateProduct(
             onValueChange = {
                 price = it
             },
-            modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE)
+            modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
         TextField(
             label = QUANTITY,
@@ -87,7 +88,7 @@ fun UpdateProduct(
             onValueChange = {
                 quantity = it
             },
-            modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE)
+            modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
     }
     Row(
@@ -112,22 +113,27 @@ fun UpdateProduct(
             },
             label = CONFIRM_UPDATE,
             isEnabled = observer.first,
-            modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE)
+            modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
-        ObserveNetworkStateHandlerUpdateProduct(
-            viewModel = viewModel,
-            onError = {
-                observer = it
-            },
+        DeleteProduct(
+            id = id,
             goToAlternativeRoutes = goToAlternativeRoutes,
-            onSuccessful = {
-                observer = Triple(first = false, second = false, third = EMPTY_TEXT)
-                name = EMPTY_TEXT
-                price = "0.0"
-                quantity = "0"
-            }
+            modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
     }
+    ObserveNetworkStateHandlerUpdateProduct(
+        viewModel = viewModel,
+        onError = {
+            observer = it
+        },
+        goToAlternativeRoutes = goToAlternativeRoutes,
+        onSuccessful = {
+            observer = Triple(first = false, second = false, third = EMPTY_TEXT)
+            name = EMPTY_TEXT
+            price = "0.0"
+            quantity = "0"
+        }
+    )
 }
 
 private fun checkUpdateProductIsNull(
@@ -137,7 +143,6 @@ private fun checkUpdateProductIsNull(
 ): Boolean {
     return name.isEmpty() && price == 0.0 && quantity == 0
 }
-
 
 @Composable
 private fun ObserveNetworkStateHandlerUpdateProduct(

@@ -22,7 +22,8 @@ import br.com.digital.store.features.product.data.vo.ProductResponseVO
 import br.com.digital.store.features.product.utils.ProductUtils.DETAILS_PRODUCT
 import br.com.digital.store.features.product.utils.ProductUtils.UPDATE_PRODUCT
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.utils.CommonUtils
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import br.com.digital.store.utils.formatterMaskToMoney
 
@@ -59,28 +60,28 @@ fun DetailsProductBody(
                 label = ID,
                 value = product.id.toString(),
                 onValueChange = {},
-                modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE)
+                modifier = Modifier.weight(weight = WEIGHT_SIZE)
             )
             TextField(
                 enabled = false,
                 label = NAME,
                 value = product.name,
                 onValueChange = {},
-                modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE_2)
+                modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
             )
             TextField(
                 enabled = false,
                 label = PRICE,
                 value = formatterMaskToMoney(price = product.price),
                 onValueChange = {},
-                modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE)
+                modifier = Modifier.weight(weight = WEIGHT_SIZE)
             )
             TextField(
                 enabled = false,
                 label = QUANTITY,
                 value = product.quantity.toString(),
                 onValueChange = {},
-                modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE)
+                modifier = Modifier.weight(weight = WEIGHT_SIZE)
             )
         }
         Description(description = "$CATEGORIES:")
@@ -89,5 +90,21 @@ fun DetailsProductBody(
         }
         Description(description = UPDATE_PRODUCT)
         UpdateProduct(id = product.id, goToAlternativeRoutes = goToAlternativeRoutes)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+            modifier = Modifier.weight(weight = WEIGHT_SIZE)
+        ) {
+            UpdatePriceProduct(
+                id = product.id,
+                goToAlternativeRoutes = goToAlternativeRoutes,
+                modifier = Modifier
+                    .weight(weight = WEIGHT_SIZE_2)
+            )
+            RestockProduct(
+                id = product.id,
+                goToAlternativeRoutes = goToAlternativeRoutes,
+                modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
+            )
+        }
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.digital.store.components.strings.StringsUtils.ASC
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.product.data.dto.ProductRequestDTO
+import br.com.digital.store.features.product.data.dto.RestockProductRequestDTO
 import br.com.digital.store.features.product.data.dto.UpdatePriceProductRequestDTO
 import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
 import br.com.digital.store.features.product.data.repository.ProductRepository
@@ -47,6 +48,10 @@ class ProductViewModel(
     private val _updatePriceProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val updatePriceProduct: State<ObserveNetworkStateHandler<Unit>> = _updatePriceProduct
+
+    private val _restockProduct =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val restockProduct: State<ObserveNetworkStateHandler<Unit>> = _restockProduct
 
     private val _deleteProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -136,14 +141,26 @@ class ProductViewModel(
         }
     }
 
-    fun updatePriceProduct(id: Long, product: UpdatePriceProductRequestDTO) {
+    fun updatePriceProduct(id: Long, price: UpdatePriceProductRequestDTO) {
         viewModelScope.launch {
-            repository.updatePriceProduct(id = id, price = product)
+            repository.updatePriceProduct(id = id, price = price)
                 .onStart {
                     _updatePriceProduct.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
                     _updatePriceProduct.value = it
+                }
+        }
+    }
+
+    fun restockProduct(id: Long, stock: RestockProductRequestDTO) {
+        viewModelScope.launch {
+            repository.restockProduct(id = id, stock = stock)
+                .onStart {
+                    _restockProduct.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _restockProduct.value = it
                 }
         }
     }

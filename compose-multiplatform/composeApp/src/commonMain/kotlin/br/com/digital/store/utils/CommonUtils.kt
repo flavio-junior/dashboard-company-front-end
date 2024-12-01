@@ -22,6 +22,10 @@ fun checkNameIsNull(name: String): Boolean {
     return (name.isEmpty())
 }
 
+fun checkPriceIsNull(price: Double): Boolean {
+    return (price == 0.0)
+}
+
 val sizeList = listOf(
     "10 Items",
     "20 Items",
