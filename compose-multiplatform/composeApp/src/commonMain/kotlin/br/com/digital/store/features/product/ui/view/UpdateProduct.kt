@@ -13,6 +13,7 @@ import br.com.digital.store.components.strings.StringsUtils.CONFIRM_UPDATE
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.QUANTITY
+import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.TextField
@@ -45,10 +46,10 @@ fun UpdateProduct(
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
     var openDialog by remember { mutableStateOf(value = false) }
+    var confirmUpdateProduct by remember { mutableStateOf(value = false) }
     val checkUpdateProduct = {
         if (checkUpdateProductIsNull(
                 name = name,
-                categories = selectedCategories,
                 price = price.toDouble(),
                 quantity = quantity.toInt()
             )
@@ -113,7 +114,7 @@ fun UpdateProduct(
         )
         LoadingButton(
             onClick = {
-                checkUpdateProduct()
+                confirmUpdateProduct = true
             },
             label = CONFIRM_UPDATE,
             isEnabled = observer.first,
@@ -132,7 +133,6 @@ fun UpdateProduct(
         },
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccessful = {
-            observer = Triple(first = false, second = false, third = EMPTY_TEXT)
             name = EMPTY_TEXT
             price = "0.0"
             quantity = "0"
@@ -148,17 +148,27 @@ fun UpdateProduct(
                 openDialog = false
             }
         )
-
+    }
+    if (confirmUpdateProduct) {
+        Alert(
+            label = "$CONFIRM_UPDATE?",
+            onDismissRequest = {
+                confirmUpdateProduct = false
+            },
+            onConfirmation = {
+                checkUpdateProduct()
+                confirmUpdateProduct = false
+            }
+        )
     }
 }
 
 private fun checkUpdateProductIsNull(
     name: String,
-    categories: List<CategoryResponseDTO>,
     price: Double,
     quantity: Int
 ): Boolean {
-    return name.isEmpty() && categories.isEmpty() && price == 0.0 && quantity == 0
+    return name.isEmpty() && price == 0.0 && quantity == 0
 }
 
 @Composable
@@ -173,7 +183,7 @@ private fun ObserveNetworkStateHandlerUpdateProduct(
         state = state,
         onLoading = {},
         onError = {
-            Triple(first = true, second = false, third = it)
+            onError(Triple(first = false, second = true, third = it.orEmpty()))
         },
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
