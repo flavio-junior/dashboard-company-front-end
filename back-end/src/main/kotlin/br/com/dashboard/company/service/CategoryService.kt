@@ -4,6 +4,7 @@ import br.com.dashboard.company.entities.category.Category
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.CategoryRepository
+import br.com.dashboard.company.service.ProductService.Companion.PRODUCT_NOT_FOUND
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.category.CategoryResponseVO
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,6 +27,15 @@ class CategoryService {
         val categories: Page<Category>? = categoryRepository.findAllCategories(name = name, pageable = pageable)
         return categories?.map { category -> parseObject(category, CategoryResponseVO::class.java) }
             ?: throw ResourceNotFoundException(message = CATEGORY_NOT_FOUND)
+    }
+
+    @Transactional(readOnly = true)
+    fun findCategoryByName(
+        name: String
+    ) : List<CategoryResponseVO> {
+        val products:List<Category>? = categoryRepository.findCategoryByName(name)
+        return products?.map { product -> parseObject(product, CategoryResponseVO::class.java) }
+            ?: throw ResourceNotFoundException(message = PRODUCT_NOT_FOUND)
     }
 
     @Transactional(readOnly = true)

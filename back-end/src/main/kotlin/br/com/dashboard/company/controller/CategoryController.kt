@@ -88,6 +88,52 @@ class CategoryController {
         )
     }
 
+    @GetMapping(value = ["/find/category/by/{name}"], produces = [APPLICATION_JSON])
+    @Operation(
+        summary = "Find Category By Name With User Logged",
+        description = "Find Category By Name With User Logged",
+        tags = ["Category"],
+        responses = [
+            ApiResponse(
+                description = "Success", responseCode = "200", content = [
+                    Content(array = ArraySchema(schema = Schema(implementation = CategoryResponseVO::class)))
+                ]
+            ),
+            ApiResponse(
+                description = "No Content", responseCode = "204", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun findCategoryByName(
+        @PathVariable(value = "name") name: String,
+    ): ResponseEntity<List<CategoryResponseVO>> {
+        return ResponseEntity.ok(
+            categoryService.findCategoryByName(name = name)
+        )
+    }
+
     @GetMapping(
         value = ["/{id}"],
         produces = [APPLICATION_JSON]
