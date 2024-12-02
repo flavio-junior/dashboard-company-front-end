@@ -24,7 +24,9 @@ fun ProductTabMain(
         NumbersUtils.NUMBER_ONE -> DetailsProductScreen(
             product = productsResponseVO,
             goToAlternativeRoutes = goToAlternativeRoutes,
-            onRefresh = { onRefresh(index) }
+            onRefresh = {
+                onRefresh(NumbersUtils.NUMBER_ONE)
+            }
         )
 
         NumbersUtils.NUMBER_TWO -> CreateNewProductScreen()
