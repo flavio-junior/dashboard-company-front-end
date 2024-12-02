@@ -8,15 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import br.com.digital.store.components.strings.StringsUtils.CATEGORIES
 import br.com.digital.store.components.strings.StringsUtils.ID
 import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.QUANTITY
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.ResourceUnavailable
-import br.com.digital.store.components.ui.Tag
 import br.com.digital.store.components.ui.TextField
+import br.com.digital.store.features.category.ui.view.ListCategoriesAvailableResponseVO
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.product.data.vo.ProductResponseVO
 import br.com.digital.store.features.product.utils.ProductUtils.DETAILS_PRODUCT
@@ -84,10 +83,7 @@ fun DetailsProductBody(
                 modifier = Modifier.weight(weight = WEIGHT_SIZE)
             )
         }
-        Description(description = "$CATEGORIES:")
-        product.categories?.forEach {
-            Tag(text = it.name, value = it, enabled = false)
-        }
+        ListCategoriesAvailableResponseVO(categories = product.categories)
         Description(description = UPDATE_PRODUCT)
         UpdateProduct(id = product.id, goToAlternativeRoutes = goToAlternativeRoutes)
         Row(

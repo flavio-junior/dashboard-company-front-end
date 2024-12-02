@@ -18,9 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import br.com.digital.store.components.strings.StringsUtils.SEARCH
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.search
-import br.com.digital.store.components.strings.StringsUtils.SEARCH
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.theme.Typography
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
@@ -62,44 +62,48 @@ private fun BodySearch(
     onValueChange: (String) -> Unit = {},
     onGo: () -> Unit = {}
 ) {
-    var showIconSearchButton by remember { mutableStateOf(value = false) }
-    OutlinedTextField(
-        value = value,
-        onValueChange = {
-            onValueChange(it)
-            showIconSearchButton = it.isNotBlank()
-        },
-        singleLine = true,
-        label = {
-            InfoText(text = label, color = Themes.colors.primary)
-        },
-        isError = isError,
-        modifier = Modifier.fillMaxWidth(),
-        trailingIcon = {
-            if (showIconSearchButton) {
-                IconDefault(
-                    icon = Res.drawable.search,
-                    contentDescription = SEARCH,
-                    modifier = Modifier.onClickable(onClick = onGo),
-                    onClick = onGo
-                )
-            }
-        },
-        textStyle = Typography(color = Themes.colors.primary).infoText(),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Go
-        ),
-        keyboardActions = KeyboardActions(
-            onGo = { onGo() }
-        ),
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Themes.colors.background,
-            cursorColor = Themes.colors.primary,
-            focusedIndicatorColor = Themes.colors.primary,
-            unfocusedIndicatorColor = Themes.colors.primary
-        ),
-        shape = RoundedCornerShape(size = Themes.size.spaceSize16)
-    )
-    IsErrorMessage(isError = isError, message = message)
+    Column(
+        verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
+    ) {
+        var showIconSearchButton by remember { mutableStateOf(value = false) }
+        OutlinedTextField(
+            value = value,
+            onValueChange = {
+                onValueChange(it)
+                showIconSearchButton = it.isNotBlank()
+            },
+            singleLine = true,
+            label = {
+                InfoText(text = label, color = Themes.colors.primary)
+            },
+            isError = isError,
+            modifier = Modifier.fillMaxWidth(),
+            trailingIcon = {
+                if (showIconSearchButton) {
+                    IconDefault(
+                        icon = Res.drawable.search,
+                        contentDescription = SEARCH,
+                        modifier = Modifier.onClickable(onClick = onGo),
+                        onClick = onGo
+                    )
+                }
+            },
+            textStyle = Typography(color = Themes.colors.primary).infoText(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Go
+            ),
+            keyboardActions = KeyboardActions(
+                onGo = { onGo() }
+            ),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Themes.colors.background,
+                cursorColor = Themes.colors.primary,
+                focusedIndicatorColor = Themes.colors.primary,
+                unfocusedIndicatorColor = Themes.colors.primary
+            ),
+            shape = RoundedCornerShape(size = Themes.size.spaceSize16)
+        )
+        IsErrorMessage(isError = isError, message = message)
+    }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -15,8 +16,10 @@ import br.com.digital.store.components.strings.StringsUtils.QUANTITY
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.TextField
+import br.com.digital.store.features.category.data.dto.CategoryResponseDTO
 import br.com.digital.store.features.category.ui.view.SelectCategories
 import br.com.digital.store.features.category.utils.CategoryUtils.ADD_CATEGORIES
+import br.com.digital.store.features.category.utils.CategoryUtils.NO_CATEGORIES_SELECTED
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
@@ -35,6 +38,7 @@ fun UpdateProduct(
 ) {
     val viewModel: ProductViewModel = getKoin().get()
     var name: String by remember { mutableStateOf(value = EMPTY_TEXT) }
+    val selectedCategories = remember { mutableStateListOf<CategoryResponseDTO>() }
     var price: String by remember { mutableStateOf(value = "0.0") }
     var quantity: String by remember { mutableStateOf(value = "0") }
     var observer: Triple<Boolean, Boolean, String> by remember {
@@ -44,18 +48,21 @@ fun UpdateProduct(
     val checkUpdateProduct = {
         if (checkUpdateProductIsNull(
                 name = name,
+                categories = selectedCategories,
                 price = price.toDouble(),
                 quantity = quantity.toInt()
             )
         ) {
             observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
+        } else if (selectedCategories.isEmpty()) {
+            observer = Triple(first = false, second = true, third = NO_CATEGORIES_SELECTED)
         } else {
             observer = Triple(first = true, second = false, third = EMPTY_TEXT)
             viewModel.updateProduct(
                 product = UpdateProductRequestDTO(
                     id = id,
                     name = name,
-                    categories = emptyList(),
+                    categories = selectedCategories,
                     price = price.toDouble(),
                     quantity = quantity.toInt()
                 )
@@ -102,7 +109,6 @@ fun UpdateProduct(
                 openDialog = true
             },
             label = ADD_CATEGORIES,
-            isEnabled = observer.first,
             modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
         LoadingButton(
@@ -138,6 +144,7 @@ fun UpdateProduct(
                 openDialog = false
             },
             onConfirmation = {
+                selectedCategories.addAll(it)
                 openDialog = false
             }
         )
@@ -147,10 +154,11 @@ fun UpdateProduct(
 
 private fun checkUpdateProductIsNull(
     name: String,
+    categories: List<CategoryResponseDTO>,
     price: Double,
     quantity: Int
 ): Boolean {
-    return name.isEmpty() && price == 0.0 && quantity == 0
+    return name.isEmpty() && categories.isEmpty() && price == 0.0 && quantity == 0
 }
 
 @Composable

@@ -151,4 +151,8 @@ class CategoryViewModel(
                 }
         }
     }
+
+    fun resetCategory() {
+        _findCategoryByName.value = ObserveNetworkStateHandler.Loading(l = false)
+    }
 }

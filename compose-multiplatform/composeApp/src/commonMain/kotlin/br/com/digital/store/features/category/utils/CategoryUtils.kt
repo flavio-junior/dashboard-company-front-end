@@ -7,4 +7,5 @@ object CategoryUtils {
     const val EDIT_CATEGORY = "Editar categoria"
     const val DELETE_CATEGORY = "Apagar categoria"
     const val ADD_CATEGORIES = "Adicionar categorias"
+    const val NO_CATEGORIES_SELECTED = "Nenhuma categoria selecionada"
 }
