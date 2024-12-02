@@ -29,6 +29,11 @@ fun ProductTabMain(
             }
         )
 
-        NumbersUtils.NUMBER_TWO -> CreateNewProductScreen()
+        NumbersUtils.NUMBER_TWO -> CreateNewProductScreen(
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = {
+                onRefresh(NumbersUtils.NUMBER_TWO)
+            }
+        )
     }
 }

@@ -26,6 +26,7 @@ import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
 import br.com.digital.store.features.product.ui.viewmodel.ProductViewModel
 import br.com.digital.store.features.product.utils.ProductUtils.NEW_NAME_PRODUCT
+import br.com.digital.store.features.product.utils.checkBodyProductIsNull
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
@@ -49,7 +50,7 @@ fun UpdateProduct(
     var openDialog by remember { mutableStateOf(value = false) }
     var confirmUpdateProduct by remember { mutableStateOf(value = false) }
     val checkUpdateProduct = {
-        if (checkUpdateProductIsNull(
+        if (checkBodyProductIsNull(
                 name = name,
                 price = price.toDouble(),
                 quantity = quantity.toInt()
@@ -164,14 +165,6 @@ fun UpdateProduct(
             }
         )
     }
-}
-
-private fun checkUpdateProductIsNull(
-    name: String,
-    price: Double,
-    quantity: Int
-): Boolean {
-    return name.isEmpty() && price == 0.0 && quantity == 0
 }
 
 @Composable

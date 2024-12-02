@@ -39,9 +39,9 @@ class ProductViewModel(
 
     var showEmptyList = mutableStateOf(value = true)
 
-    private val _createNewProduct =
+    private val _createProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val createNewProduct: State<ObserveNetworkStateHandler<Unit>> = _createNewProduct
+    val createProduct: State<ObserveNetworkStateHandler<Unit>> = _createProduct
 
     private val _updateProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -124,10 +124,10 @@ class ProductViewModel(
         viewModelScope.launch {
             repository.createNewProduct(product = product)
                 .onStart {
-                    _createNewProduct.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _createProduct.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _createNewProduct.value = it
+                    _createProduct.value = it
                 }
         }
     }
