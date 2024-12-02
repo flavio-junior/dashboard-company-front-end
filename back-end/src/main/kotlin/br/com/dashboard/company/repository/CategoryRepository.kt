@@ -22,6 +22,6 @@ interface CategoryRepository : JpaRepository<Category, Long?> {
     )
     fun findAllCategories(@Param("name") name: String?, pageable: Pageable): Page<Category>?
 
-    @Query("SELECT p FROM Category p WHERE p.name LIKE LOWER(CONCAT('%', :name, '%'))")
-    fun findCategoryByName(name: String): List<Category>?
+    @Query("SELECT c FROM Category c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+    fun findCategoryByName(name: String): List<Category>
 }
