@@ -30,9 +30,14 @@ import br.com.digital.store.utils.formatterMaskToMoney
 fun DetailsProductScreen(
     product: ProductResponseVO,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
     if (product.id > NUMBER_ZERO) {
-        DetailsProductBody(product = product, goToAlternativeRoutes = goToAlternativeRoutes)
+        DetailsProductBody(
+            product = product,
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = onRefresh
+        )
     } else {
         ResourceUnavailable()
     }
@@ -42,6 +47,7 @@ fun DetailsProductScreen(
 fun DetailsProductBody(
     product: ProductResponseVO,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -85,7 +91,11 @@ fun DetailsProductBody(
         }
         ListCategoriesAvailableResponseVO(categories = product.categories)
         Description(description = UPDATE_PRODUCT)
-        UpdateProduct(id = product.id, goToAlternativeRoutes = goToAlternativeRoutes)
+        UpdateProduct(
+            id = product.id,
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = onRefresh
+        )
         Row(
             horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
             modifier = Modifier.weight(weight = WEIGHT_SIZE)
@@ -94,12 +104,14 @@ fun DetailsProductBody(
                 id = product.id,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 modifier = Modifier
-                    .weight(weight = WEIGHT_SIZE_2)
+                    .weight(weight = WEIGHT_SIZE_2),
+                onRefresh = onRefresh
             )
             RestockProduct(
                 id = product.id,
                 goToAlternativeRoutes = goToAlternativeRoutes,
-                modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
+                modifier = Modifier.weight(weight = WEIGHT_SIZE_2),
+                onRefresh = onRefresh
             )
         }
     }

@@ -33,7 +33,8 @@ import org.koin.mp.KoinPlatform.getKoin
 fun UpdatePriceProduct(
     modifier: Modifier = Modifier,
     id: Long,
-    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
     val viewModel: ProductViewModel = getKoin().get()
     var price: String by remember { mutableStateOf(value = "0.0") }
@@ -109,6 +110,7 @@ fun UpdatePriceProduct(
             onSuccessful = {
                 observer = Triple(first = false, second = false, third = EMPTY_TEXT)
                 price = "0.0"
+                onRefresh()
             }
         )
     }

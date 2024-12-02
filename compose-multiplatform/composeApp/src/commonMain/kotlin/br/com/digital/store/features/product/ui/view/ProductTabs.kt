@@ -88,7 +88,12 @@ fun ProductsTabs(
                             pagerState.animateScrollToPage(page = NumbersUtils.NUMBER_TWO)
                         }
                     },
-                    goToAlternativeRoutes = goToAlternativeRoutes
+                    goToAlternativeRoutes = goToAlternativeRoutes,
+                    onRefresh = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(page = -it)
+                        }
+                    }
                 )
             }
         }

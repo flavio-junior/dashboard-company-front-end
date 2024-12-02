@@ -20,7 +20,8 @@ import org.koin.mp.KoinPlatform.getKoin
 fun DeleteProduct(
     modifier: Modifier = Modifier,
     id: Long,
-    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit
 ) {
     val viewModel: ProductViewModel = getKoin().get()
     var openDialog by remember { mutableStateOf(value = false) }
@@ -56,6 +57,7 @@ fun DeleteProduct(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccessful = {
             observer = Triple(first = false, second = false, third = EMPTY_TEXT)
+            onRefresh()
         }
     )
 }

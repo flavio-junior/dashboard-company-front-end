@@ -35,7 +35,8 @@ import org.koin.mp.KoinPlatform.getKoin
 @Composable
 fun UpdateProduct(
     id: Long,
-    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit
 ) {
     val viewModel: ProductViewModel = getKoin().get()
     var name: String by remember { mutableStateOf(value = EMPTY_TEXT) }
@@ -123,7 +124,8 @@ fun UpdateProduct(
         DeleteProduct(
             id = id,
             goToAlternativeRoutes = goToAlternativeRoutes,
-            modifier = Modifier.weight(weight = WEIGHT_SIZE)
+            modifier = Modifier.weight(weight = WEIGHT_SIZE),
+            onRefresh = onRefresh
         )
     }
     ObserveNetworkStateHandlerUpdateProduct(
@@ -136,6 +138,7 @@ fun UpdateProduct(
             name = EMPTY_TEXT
             price = "0.0"
             quantity = "0"
+            onRefresh()
         }
     )
     if (openDialog) {
