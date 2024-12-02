@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
-import br.com.digital.store.features.category.viewmodel.CategoryViewModel
+import br.com.digital.store.features.category.ui.viewmodel.CategoryViewModel
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.ui.view.category.CategoryUtils.DELETE_CATEGORY
+import br.com.digital.store.features.category.utils.CategoryUtils.DELETE_CATEGORY
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 
 @Composable

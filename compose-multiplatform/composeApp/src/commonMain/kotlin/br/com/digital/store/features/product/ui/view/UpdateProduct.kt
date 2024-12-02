@@ -9,13 +9,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.strings.StringsUtils.CONFIRM_UPDATE
-import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.QUANTITY
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.TextField
+import br.com.digital.store.features.category.ui.view.SelectCategories
+import br.com.digital.store.features.category.utils.CategoryUtils.ADD_CATEGORIES
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
@@ -39,6 +40,7 @@ fun UpdateProduct(
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
+    var openDialog by remember { mutableStateOf(value = false) }
     val checkUpdateProduct = {
         if (checkUpdateProductIsNull(
                 name = name,
@@ -67,6 +69,7 @@ fun UpdateProduct(
             label = NEW_NAME_PRODUCT,
             value = name,
             isError = observer.second,
+            message = observer.third,
             onValueChange = {
                 name = it
             },
@@ -94,18 +97,13 @@ fun UpdateProduct(
     Row(
         horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
-        TextField(
-            label = NAME,
-            value = name,
-            isError = observer.second,
-            message = observer.third,
-            onValueChange = {
-                name = it
+        LoadingButton(
+            onClick = {
+                openDialog = true
             },
-            modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE_2),
-            onGo = {
-                checkUpdateProduct()
-            }
+            label = ADD_CATEGORIES,
+            isEnabled = observer.first,
+            modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
         LoadingButton(
             onClick = {
@@ -134,6 +132,17 @@ fun UpdateProduct(
             quantity = "0"
         }
     )
+    if (openDialog) {
+        SelectCategories(
+            onDismissRequest = {
+                openDialog = false
+            },
+            onConfirmation = {
+                openDialog = false
+            }
+        )
+
+    }
 }
 
 private fun checkUpdateProductIsNull(

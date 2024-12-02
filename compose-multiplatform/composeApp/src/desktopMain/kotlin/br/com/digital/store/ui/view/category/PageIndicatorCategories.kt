@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import br.com.digital.store.features.category.data.vo.CategoriesResponseVO
 import br.com.digital.store.components.ui.PageIndicator
-import br.com.digital.store.features.category.viewmodel.CategoryViewModel
+import br.com.digital.store.features.category.ui.viewmodel.CategoryViewModel
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import org.koin.mp.KoinPlatform.getKoin
 

@@ -20,12 +20,12 @@ import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.edit
-import br.com.digital.store.features.category.viewmodel.CategoryViewModel
+import br.com.digital.store.features.category.ui.viewmodel.CategoryViewModel
+import br.com.digital.store.features.category.utils.CategoryUtils.CATEGORY_NAME
+import br.com.digital.store.features.category.utils.CategoryUtils.SAVE_CATEGORY
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.ui.view.category.CategoryUtils.CATEGORY_NAME
-import br.com.digital.store.ui.view.category.CategoryUtils.SAVE_CATEGORY
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2

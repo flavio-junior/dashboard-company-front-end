@@ -1,16 +1,18 @@
-package br.com.digital.store.features.category.viewmodel
+package br.com.digital.store.features.category.ui.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.digital.store.components.strings.StringsUtils.ASC
+import br.com.digital.store.features.category.data.dto.CategoryNameRequestDTO
 import br.com.digital.store.features.category.data.dto.CategoryRequestDTO
+import br.com.digital.store.features.category.data.dto.CategoryResponseDTO
 import br.com.digital.store.features.category.data.dto.EditCategoryRequestDTO
-import br.com.digital.store.features.category.data.vo.CategoriesResponseVO
 import br.com.digital.store.features.category.data.repository.CategoryRepository
+import br.com.digital.store.features.category.data.vo.CategoriesResponseVO
 import br.com.digital.store.features.category.domain.ConverterCategory
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.components.strings.StringsUtils.ASC
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE
@@ -34,6 +36,13 @@ class CategoryViewModel(
         )
     val findAllCategories: State<ObserveNetworkStateHandler<CategoriesResponseVO>> =
         _findAllCategories
+
+    private val _findCategoryByName =
+        mutableStateOf<ObserveNetworkStateHandler<List<CategoryResponseDTO>>>(
+            ObserveNetworkStateHandler.Loading(l = false)
+        )
+    val findCategoryByName: State<ObserveNetworkStateHandler<List<CategoryResponseDTO>>> =
+        _findCategoryByName
 
     private val _createNewCategory =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -92,6 +101,18 @@ class CategoryViewModel(
         if (currentPage > NUMBER_ZERO) {
             currentPage--
             findAllCategories()
+        }
+    }
+
+    fun findCategoryByName(name: String) {
+        viewModelScope.launch {
+            repository.finCategoryByName(name = CategoryNameRequestDTO(name = name))
+                .onStart {
+                    _findCategoryByName.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _findCategoryByName.value = it
+                }
         }
     }
 

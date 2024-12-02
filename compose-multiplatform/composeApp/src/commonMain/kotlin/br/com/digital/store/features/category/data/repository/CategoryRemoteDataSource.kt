@@ -1,9 +1,11 @@
 package br.com.digital.store.features.category.data.repository
 
-import br.com.digital.store.features.category.data.dto.CategoriesResponseDTO
-import br.com.digital.store.features.category.data.dto.CategoryRequestDTO
-import br.com.digital.store.features.category.data.dto.EditCategoryRequestDTO
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
+import br.com.digital.store.features.category.data.dto.CategoriesResponseDTO
+import br.com.digital.store.features.category.data.dto.CategoryNameRequestDTO
+import br.com.digital.store.features.category.data.dto.CategoryRequestDTO
+import br.com.digital.store.features.category.data.dto.CategoryResponseDTO
+import br.com.digital.store.features.category.data.dto.EditCategoryRequestDTO
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.toResultFlow
 import io.ktor.client.HttpClient
@@ -43,6 +45,19 @@ class CategoryRemoteDataSource(
                     parameters.append("size", size.toString())
                     parameters.append("sort", sort)
                 }
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+            }
+        }
+    }
+
+    override fun finCategoryByName(
+        name: CategoryNameRequestDTO
+    ): Flow<ObserveNetworkStateHandler<List<CategoryResponseDTO>>> {
+        return toResultFlow {
+            httpClient.get {
+                url(urlString = "/api/dashboard/company/categories/v1/find/category/by/${name.name}")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
