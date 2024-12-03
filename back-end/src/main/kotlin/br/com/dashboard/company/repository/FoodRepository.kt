@@ -26,6 +26,9 @@ interface FoodRepository : JpaRepository<Food, Long> {
     )
     fun findAllFoods(@Param("name") name: String?, pageable: Pageable): Page<Food>?
 
+    @Query("SELECT f FROM Food f WHERE LOWER(f.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+    fun findFoodByName(name: String): List<Food>
+
     @Modifying
     @Query("UPDATE Food f SET f.price =:price WHERE f.id =:id")
     fun updatePriceFood(

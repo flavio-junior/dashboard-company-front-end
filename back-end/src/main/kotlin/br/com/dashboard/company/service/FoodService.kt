@@ -36,6 +36,14 @@ class FoodService {
     }
 
     @Transactional(readOnly = true)
+    fun findFoodByName(
+        name: String
+    ) : List<FoodResponseVO> {
+        val foods: List<Food> = foodRepository.findFoodByName(name)
+        return foods.map { food -> parseObject(food, FoodResponseVO::class.java) }
+    }
+
+    @Transactional(readOnly = true)
     fun findFoodById(
         id: Long
     ): FoodResponseVO {

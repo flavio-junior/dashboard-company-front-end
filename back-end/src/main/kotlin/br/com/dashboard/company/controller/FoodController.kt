@@ -90,6 +90,52 @@ class FoodController {
         )
     }
 
+    @GetMapping(value = ["/find/food/by/{name}"], produces = [APPLICATION_JSON])
+    @Operation(
+        summary = "Find Food By Name With User Logged",
+        description = "Find Food By Name With User Logged",
+        tags = ["Food"],
+        responses = [
+            ApiResponse(
+                description = "Success", responseCode = "200", content = [
+                    Content(array = ArraySchema(schema = Schema(implementation = FoodResponseVO::class)))
+                ]
+            ),
+            ApiResponse(
+                description = "No Content", responseCode = "204", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun findFoodByName(
+        @PathVariable(value = "name") name: String,
+    ): ResponseEntity<List<FoodResponseVO>> {
+        return ResponseEntity.ok(
+            foodService.findFoodByName(name = name)
+        )
+    }
+
     @GetMapping(
         value = ["/{id}"],
         produces = [APPLICATION_JSON]
