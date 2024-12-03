@@ -23,6 +23,16 @@ VALUES
     ('Suco de maracujá', 5.00);
 
 INSERT INTO
+    tb_user_item (fk_user, fk_item)
+VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (1, 4),
+    (1, 5),
+    (1, 6);
+
+INSERT INTO
     tb_reservation (name)
 VALUES
     ('Mesa 01'),

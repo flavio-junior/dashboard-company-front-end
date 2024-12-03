@@ -16,8 +16,14 @@ CREATE TABLE IF NOT EXISTS tb_reservation(
 
 CREATE TABLE IF NOT EXISTS tb_item(
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) CONSTRAINT name_item_unique UNIQUE,
+    name VARCHAR(60),
     price NUMERIC(10, 2) DEFAULT 0.0
+);
+
+CREATE TABLE tb_user_item (
+    fk_user INT REFERENCES tb_user(id),
+    fk_item INT REFERENCES tb_item(id),
+    PRIMARY KEY (fk_user, fk_item)
 );
 
 CREATE TABLE IF NOT EXISTS tb_food (

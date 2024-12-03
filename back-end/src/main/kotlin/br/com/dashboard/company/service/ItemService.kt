@@ -1,14 +1,14 @@
 package br.com.dashboard.company.service
 
 import br.com.dashboard.company.entities.item.Item
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ItemRepository
 import br.com.dashboard.company.utils.common.PriceRequestVO
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
-import br.com.dashboard.company.vo.item.ItemResponseVO
 import br.com.dashboard.company.vo.item.ItemRequestVO
-import br.com.dashboard.company.vo.reservation.ReservationResponseVO
+import br.com.dashboard.company.vo.item.ItemResponseVO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -21,22 +21,31 @@ class ItemService {
     @Autowired
     private lateinit var itemRepository: ItemRepository
 
+    @Autowired
+    private lateinit var userService: UserService
+
     @Transactional(readOnly = true)
     fun findAllItems(
+        user: User,
         name: String?,
         pageable: Pageable
     ): Page<ItemResponseVO> {
-        val items: Page<Item>? = itemRepository.findAllItems(name = name, pageable = pageable)
+        val items: Page<Item>? = itemRepository.findAllItems(userId = user.id, name = name, pageable = pageable)
         return items?.map { reservation -> parseObject(reservation, ItemResponseVO::class.java) }
             ?: throw ResourceNotFoundException(message = ITEM_NOT_FOUND)
     }
 
     @Transactional(readOnly = true)
     fun findItemById(
-        id: Long
+        user: User,
+        idItem: Long
     ): ItemResponseVO {
-        val item = getItem(id = id)
-        return parseObject(item, ItemResponseVO::class.java)
+        val itemSaved: Item? = itemRepository.findItemById(userId = user.id, itemId = idItem)
+        if (itemSaved != null) {
+            return parseObject(itemSaved, ItemResponseVO::class.java)
+        } else {
+            throw ResourceNotFoundException(message = ITEM_NOT_FOUND)
+        }
     }
 
     private fun getItem(id: Long): Item {
@@ -46,10 +55,13 @@ class ItemService {
 
     @Transactional
     fun createNewItem(
+        user: User,
         item: ItemRequestVO
     ): ItemResponseVO {
-        if (!checkNameItemAlreadyExists(name = item.name)) {
+        if (!checkNameItemAlreadyExists(userId = user.id, name = item.name)) {
+            val userAuthenticated = userService.findUserById(id = user.id)
             val itemResult: Item = parseObject(item, Item::class.java)
+            itemResult.user = userAuthenticated
             return parseObject(itemRepository.save(itemResult), ItemResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_ITEM)
@@ -57,17 +69,19 @@ class ItemService {
     }
 
     private fun checkNameItemAlreadyExists(
+        userId: Long,
         name: String
     ): Boolean {
-        val itemResult = itemRepository.checkNameItemAlreadyExists(name = name)
+        val itemResult = itemRepository.checkNameItemAlreadyExists(userId = userId, name = name)
         return itemResult != null
     }
 
     @Transactional
     fun updateItem(
+        user: User,
         item: ItemResponseVO
     ): ItemResponseVO {
-        if (!checkNameItemAlreadyExists(name = item.name)) {
+        if (!checkNameItemAlreadyExists(userId = user.id, name = item.name)) {
             val itemSaved: Item = getItem(id = item.id)
             itemSaved.name = item.name
             itemSaved.price = item.price
@@ -79,11 +93,12 @@ class ItemService {
 
     @Transactional
     fun updatePriceItem(
+        user: User,
         idItem: Long,
         price: PriceRequestVO
     ) {
         getItem(id = idItem)
-        itemRepository.updatePriceItem(idItem = idItem, price = price.price)
+        itemRepository.updatePriceItem(userId = user.id, idItem = idItem, price = price.price)
     }
 
     fun deleteItem(id: Long) {

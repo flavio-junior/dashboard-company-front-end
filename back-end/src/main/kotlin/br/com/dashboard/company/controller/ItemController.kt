@@ -1,5 +1,6 @@
 package br.com.dashboard.company.controller
 
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
 import br.com.dashboard.company.service.ItemService
 import br.com.dashboard.company.utils.common.PriceRequestVO
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -77,6 +79,7 @@ class ItemController {
         ]
     )
     fun findAllItems(
+        @AuthenticationPrincipal user: User,
         @RequestParam(required = false) name: String?,
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "size", defaultValue = "12") size: Int,
@@ -86,7 +89,7 @@ class ItemController {
             if ("desc".equals(sort, ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
         val pageable: Pageable = PageRequest.of(page, size, Sort.by(sortDirection, "name"))
         return ResponseEntity.ok(
-            itemService.findAllItems(name = name, pageable = pageable)
+            itemService.findAllItems(user = user, name = name, pageable = pageable)
         )
     }
 
@@ -126,9 +129,10 @@ class ItemController {
         ]
     )
     fun findItemById(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long
     ): ItemResponseVO {
-        return itemService.findItemById(id)
+        return itemService.findItemById(user = user, idItem = id)
     }
 
     @PostMapping(
@@ -172,6 +176,7 @@ class ItemController {
         ]
     )
     fun createNewItem(
+        @AuthenticationPrincipal user: User,
         @RequestBody item: ItemRequestVO
     ): ResponseEntity<ItemResponseVO> {
         require(
@@ -179,7 +184,7 @@ class ItemController {
         ) {
             throw ForbiddenActionRequestException(exception = EMPTY_FIELDS)
         }
-        val entity: ItemResponseVO = itemService.createNewItem(item = item)
+        val entity: ItemResponseVO = itemService.createNewItem(user = user, item = item)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
         return ResponseEntity.created(uri).body(entity)
@@ -226,9 +231,10 @@ class ItemController {
         ]
     )
     fun updateItem(
+        @AuthenticationPrincipal user: User,
         @RequestBody item: ItemResponseVO
     ): ItemResponseVO {
-        return itemService.updateItem(item)
+        return itemService.updateItem(user = user, item = item)
     }
 
     @PatchMapping(
@@ -277,10 +283,11 @@ class ItemController {
         ]
     )
     fun updatePriceItem(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long,
         @RequestBody price: PriceRequestVO
     ): ResponseEntity<*> {
-        itemService.updatePriceItem(idItem = id, price = price)
+        itemService.updatePriceItem(user = user, idItem = id, price = price)
         return ResponseEntity.noContent().build<Any>()
     }
 

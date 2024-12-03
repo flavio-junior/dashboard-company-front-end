@@ -1,7 +1,6 @@
 package br.com.dashboard.company.repository
 
 import br.com.dashboard.company.entities.item.Item
-import br.com.dashboard.company.entities.reservation.Reservation
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
@@ -13,18 +12,36 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ItemRepository : JpaRepository<Item, Long> {
 
-    @Query("SELECT i FROM Item i WHERE i.name = :name")
-    fun checkNameItemAlreadyExists(@Param("name") name: String): Item?
+    @Query(value = "SELECT i FROM Item i WHERE i.user.id = :userId AND i.name = :name")
+    fun checkNameItemAlreadyExists(
+        @Param("userId") userId: Long,
+        @Param("name") name: String
+    ): Item?
 
     @Modifying
-    @Query("UPDATE Item i SET i.price =:price WHERE i.id =:id")
-    fun updatePriceItem(@Param("id") idItem: Long, @Param("price") price: Double)
+    @Query(value = "UPDATE Item i SET i.price =:price WHERE i.user.id = :userId AND i.id =:idItem")
+    fun updatePriceItem(
+        @Param("userId") userId: Long,
+        @Param("idItem") idItem: Long,
+        @Param("price") price: Double
+    )
 
     @Query(
-        """
-        SELECT i FROM Item i
-            WHERE :name IS NULL OR LOWER(CAST(i.name AS string)) LIKE LOWER(CONCAT('%', :name, '%'))
-    """
+        value =
+            """
+            SELECT i FROM Item i
+                WHERE i.user.id = :userId
+            AND (:name IS NULL OR LOWER(i.name) LIKE LOWER(CONCAT('%', :name, '%')))
+            """
     )
-    fun findAllItems(@Param("name") name: String?, pageable: Pageable): Page<Item>?
+    fun findAllItems(
+        @Param("userId") userId: Long,
+        @Param("name") name: String?, pageable: Pageable
+    ): Page<Item>?
+
+    @Query(value = "SELECT i FROM Item i WHERE i.user.id = :userId AND i.id = :idItem")
+    fun findItemById(
+        @Param("userId") userId: Long,
+        @Param("idItem") itemId: Long
+    ): Item?
 }
