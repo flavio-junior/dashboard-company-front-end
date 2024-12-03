@@ -1,6 +1,7 @@
 package br.com.dashboard.company.service
 
 import br.com.dashboard.company.entities.product.Product
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ProductRepository
@@ -53,11 +54,13 @@ class ProductService {
 
     @Transactional
     fun createNewProduct(
+        user: User,
         product: ProductRequestVO
     ): ProductResponseVO {
         if (!checkNameProductAlreadyExists(name = product.name)) {
             val productResult: Product = parseObject(product, Product::class.java)
-            productResult.categories = categoryService.converterCategories(categories = product.categories)
+            productResult.categories =
+                categoryService.converterCategories(userId = user.id, categories = product.categories)
             productResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
             return parseObject(productRepository.save(productResult), ProductResponseVO::class.java)
         } else {
@@ -74,13 +77,15 @@ class ProductService {
 
     @Transactional
     fun updateProduct(
+        user: User,
         product: ProductResponseVO
     ): ProductResponseVO {
         if (!checkNameProductAlreadyExists(name = product.name)) {
             val productSaved: Product = getProduct(id = product.id)
             productSaved.name = product.name
             productSaved.categories?.clear()
-            productSaved.categories = categoryService.converterCategories(categories = product.categories)
+            productSaved.categories =
+                categoryService.converterCategories(userId = user.id, categories = product.categories)
             productSaved.price = product.price
             productSaved.quantity = product.quantity
             return parseObject(productRepository.save(productSaved), ProductResponseVO::class.java)

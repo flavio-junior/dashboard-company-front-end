@@ -1,5 +1,6 @@
 package br.com.dashboard.company.controller
 
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
 import br.com.dashboard.company.service.ProductService
 import br.com.dashboard.company.utils.common.PriceRequestVO
@@ -20,6 +21,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -173,6 +175,7 @@ class ProductController {
         ]
     )
     fun createNewProduct(
+        @AuthenticationPrincipal user: User,
         @RequestBody product: ProductRequestVO
     ): ResponseEntity<ProductResponseVO> {
         require(
@@ -180,7 +183,7 @@ class ProductController {
         ) {
             throw ForbiddenActionRequestException(exception = EMPTY_FIELDS)
         }
-        val entity: ProductResponseVO = productService.createNewProduct(product = product)
+        val entity: ProductResponseVO = productService.createNewProduct(user = user, product = product)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
         return ResponseEntity.created(uri).body(entity)
@@ -227,9 +230,10 @@ class ProductController {
         ]
     )
     fun updateProduct(
+        @AuthenticationPrincipal user: User,
         @RequestBody product: ProductResponseVO
     ): ProductResponseVO {
-        return productService.updateProduct(product)
+        return productService.updateProduct(user = user, product = product)
     }
 
     @PatchMapping(

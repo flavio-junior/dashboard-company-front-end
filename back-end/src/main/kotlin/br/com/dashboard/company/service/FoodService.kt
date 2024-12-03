@@ -1,6 +1,7 @@
 package br.com.dashboard.company.service
 
 import br.com.dashboard.company.entities.food.Food
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.FoodRepository
@@ -59,11 +60,12 @@ class FoodService {
 
     @Transactional
     fun createNewFood(
+        user: User,
         food: FoodRequestVO
     ): FoodResponseVO {
         if (!checkNameFoodAlreadyExists(name = food.name)) {
             val foodResult: Food = parseObject(food, Food::class.java)
-            foodResult.categories = categoryService.converterCategories(categories = food.categories)
+            foodResult.categories = categoryService.converterCategories(userId = user.id, categories = food.categories)
             foodResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
             return parseObject(foodRepository.save(foodResult), FoodResponseVO::class.java)
         } else {
@@ -78,13 +80,14 @@ class FoodService {
 
     @Transactional
     fun updateFood(
+        user: User,
         food: FoodResponseVO
     ): FoodResponseVO {
         if (!checkNameFoodAlreadyExists(name = food.name)) {
             val foodSaved: Food = getFood(id = food.id)
             foodSaved.name = food.name
             foodSaved.categories?.clear()
-            foodSaved.categories = categoryService.converterCategories(categories = food.categories)
+            foodSaved.categories = categoryService.converterCategories(userId = user.id, categories = food.categories)
             foodSaved.price = food.price
             return parseObject(foodRepository.save(foodSaved), FoodResponseVO::class.java)
         } else {

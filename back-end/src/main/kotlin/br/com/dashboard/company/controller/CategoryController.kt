@@ -174,9 +174,10 @@ class CategoryController {
         ]
     )
     fun findById(
-        @PathVariable(value = "id") id: Long
+        @AuthenticationPrincipal user: User,
+        @PathVariable(value = "id") categoryId: Long
     ): CategoryResponseVO {
-        return categoryService.findCategoryById(id)
+        return categoryService.findCategoryById(user = user, categoryId = categoryId)
     }
 
     @PostMapping(
@@ -316,8 +317,11 @@ class CategoryController {
             )
         ]
     )
-    fun deleteCategory(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
-        categoryService.deleteCategory(id)
+    fun deleteCategory(
+        @AuthenticationPrincipal user: User,
+        @PathVariable(value = "id") categoryId: Long
+    ): ResponseEntity<*> {
+        categoryService.deleteCategory(userId = user.id, categoryId = categoryId)
         return ResponseEntity.noContent().build<Any>()
     }
 }

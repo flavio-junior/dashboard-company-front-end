@@ -44,21 +44,32 @@ class CategoryService {
 
     @Transactional(readOnly = true)
     fun findCategoryById(
-        id: Long
+        user: User,
+        categoryId: Long
     ): CategoryResponseVO {
-        val category = getCategory(id = id)
+        val category = getCategory(categoryId = categoryId, userId = user.id)
         return parseObject(category, CategoryResponseVO::class.java)
     }
 
-    fun getCategory(id: Long): Category {
-        return categoryRepository.findById(id)
-            .orElseThrow { ResourceNotFoundException(CATEGORY_NOT_FOUND) }
+    fun getCategory(
+        userId: Long,
+        categoryId: Long
+    ): Category {
+        val categorySaved: Category? = categoryRepository.findCategoryById(userId = userId, categoryId = categoryId)
+        if (categorySaved != null) {
+            return categorySaved
+        } else {
+            throw ResourceNotFoundException(message = CATEGORY_NOT_FOUND)
+        }
     }
 
     fun converterCategories(
+        userId: Long,
         categories: MutableList<CategoryResponseVO>? = null
     ): MutableList<Category>? {
-        val result = categories?.map { getCategory(id = it.id) }?.toMutableList()
+        val result = categories?.map { category ->
+            getCategory(categoryId = category.id, userId = userId)
+        }?.toMutableList()
         return result
     }
 
@@ -90,7 +101,7 @@ class CategoryService {
         category: CategoryResponseVO
     ): CategoryResponseVO {
         if (!checkNameCategoryAlreadyExists(id = user.id, name = category.name)) {
-            val categoryResult: Category = getCategory(id = category.id)
+            val categoryResult: Category = getCategory(userId = user.id, categoryId = category.id)
             categoryResult.name = category.name
             return parseObject(categoryRepository.save(categoryResult), CategoryResponseVO::class.java)
         } else {
@@ -99,9 +110,13 @@ class CategoryService {
         }
     }
 
-    fun deleteCategory(id: Long) {
-        val category = getCategory(id = id)
-        categoryRepository.delete(category)
+    @Transactional
+    fun deleteCategory(
+        userId: Long,
+        categoryId: Long
+    ) {
+        val category = getCategory(userId = userId, categoryId = categoryId)
+        categoryRepository.deleteCategoryById(categoryId = category.id, userId = userId)
     }
 
     companion object {

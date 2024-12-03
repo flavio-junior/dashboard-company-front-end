@@ -1,5 +1,6 @@
 package br.com.dashboard.company.controller
 
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
 import br.com.dashboard.company.service.FoodService
 import br.com.dashboard.company.utils.common.PriceRequestVO
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -218,6 +220,7 @@ class FoodController {
         ]
     )
     fun createNewFood(
+        @AuthenticationPrincipal user: User,
         @RequestBody food: FoodRequestVO
     ): ResponseEntity<FoodResponseVO> {
         require(
@@ -225,7 +228,7 @@ class FoodController {
         ) {
             throw ForbiddenActionRequestException(exception = EMPTY_FIELDS)
         }
-        val entity: FoodResponseVO = foodService.createNewFood(food = food)
+        val entity: FoodResponseVO = foodService.createNewFood(user = user, food = food)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
         return ResponseEntity.created(uri).body(entity)
@@ -272,9 +275,10 @@ class FoodController {
         ]
     )
     fun updateFood(
+        @AuthenticationPrincipal user: User,
         @RequestBody food: FoodResponseVO
     ): FoodResponseVO {
-        return foodService.updateFood(food)
+        return foodService.updateFood(user = user, food = food)
     }
 
     @PatchMapping(
