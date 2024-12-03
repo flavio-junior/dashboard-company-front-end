@@ -47,6 +47,20 @@ VALUES
     ('Mesa 10');
 
 INSERT INTO
+    tb_user_reservation (fk_user, fk_reservation)
+VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (1, 4),
+    (1, 5),
+    (1, 6),
+    (1, 7),
+    (1, 8),
+    (1, 9),
+    (1, 10);
+
+INSERT INTO
     tb_food (created_at, name, price)
 VALUES
     (DATE_TRUNC('second', NOW()), 'Acarajé', 12.50),

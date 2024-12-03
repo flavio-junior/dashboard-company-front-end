@@ -11,7 +11,13 @@ CREATE TABLE tb_user_category (
 
 CREATE TABLE IF NOT EXISTS tb_reservation(
     id SERIAL PRIMARY KEY,
-    name VARCHAR(60) CONSTRAINT name_reservation_unique UNIQUE
+    name VARCHAR(60)
+);
+
+CREATE TABLE tb_user_reservation (
+    fk_user INT REFERENCES tb_user(id),
+    fk_reservation INT REFERENCES tb_reservation(id),
+    PRIMARY KEY (fk_user, fk_reservation)
 );
 
 CREATE TABLE IF NOT EXISTS tb_item(

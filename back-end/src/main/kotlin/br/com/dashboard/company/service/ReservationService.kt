@@ -1,6 +1,7 @@
 package br.com.dashboard.company.service
 
 import br.com.dashboard.company.entities.reservation.Reservation
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ReservationRepository
@@ -19,35 +20,52 @@ class ReservationService {
     @Autowired
     private lateinit var reservationRepository: ReservationRepository
 
+    @Autowired
+    private lateinit var userService: UserService
+
     @Transactional(readOnly = true)
     fun findAllReservations(
+        user: User,
         name: String?,
         pageable: Pageable
     ): Page<ReservationResponseVO> {
-        val reservations: Page<Reservation>? = reservationRepository.findAllReservations(name = name, pageable = pageable)
-       return reservations?.map { reservation -> parseObject(reservation, ReservationResponseVO::class.java) }
-           ?: throw ResourceNotFoundException(message = RESERVATION_NOT_FOUND)
+        val reservations: Page<Reservation>? =
+            reservationRepository.findAllReservations(userId = user.id, name = name, pageable = pageable)
+        return reservations?.map { reservation -> parseObject(reservation, ReservationResponseVO::class.java) }
+            ?: throw ResourceNotFoundException(message = RESERVATION_NOT_FOUND)
     }
 
     @Transactional(readOnly = true)
     fun findReservationById(
+        user: User,
         id: Long
     ): ReservationResponseVO {
-        val reservation = getReservation(id = id)
+        val reservation = getReservation(userId = user.id, reservationId = id)
         return parseObject(reservation, ReservationResponseVO::class.java)
     }
 
-    private fun getReservation(id: Long): Reservation {
-        return reservationRepository.findById(id)
-            .orElseThrow { ResourceNotFoundException(RESERVATION_NOT_FOUND) }
+    private fun getReservation(
+        userId: Long,
+        reservationId: Long
+    ): Reservation {
+        val reservationSaved: Reservation? =
+            reservationRepository.findReservationById(userId = userId, reservationId = reservationId)
+        if (reservationSaved != null) {
+            return reservationSaved
+        } else {
+            throw ResourceNotFoundException(RESERVATION_NOT_FOUND)
+        }
     }
 
     @Transactional
     fun createNewReservation(
+        user: User,
         reservation: ReservationRequestVO
     ): ReservationResponseVO {
-        if (!checkNameReservationAlreadyExists(name = reservation.name)) {
+        if (!checkNameReservationAlreadyExists(userId = user.id, name = reservation.name)) {
+            val userAuthenticated = userService.findUserById(id = user.id)
             val reservationResult: Reservation = parseObject(reservation, Reservation::class.java)
+            reservationResult.user = userAuthenticated
             return parseObject(reservationRepository.save(reservationResult), ReservationResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_RESERVATION)
@@ -55,18 +73,20 @@ class ReservationService {
     }
 
     private fun checkNameReservationAlreadyExists(
+        userId: Long,
         name: String
     ): Boolean {
-        val reservationResult = reservationRepository.checkNameReservationAlreadyExists(name = name)
+        val reservationResult = reservationRepository.checkNameReservationAlreadyExists(userId = userId, name = name)
         return reservationResult != null
     }
 
     @Transactional
     fun updateReservation(
+        user: User,
         reservation: ReservationResponseVO
     ): ReservationResponseVO {
-        if (!checkNameReservationAlreadyExists(name = reservation.name)) {
-            val reservationSaved: Reservation = getReservation(id = reservation.id)
+        if (!checkNameReservationAlreadyExists(userId = user.id, name = reservation.name)) {
+            val reservationSaved: Reservation = getReservation(userId = user.id, reservationId = reservation.id)
             reservationSaved.name = reservation.name
             return parseObject(reservationRepository.save(reservationSaved), ReservationResponseVO::class.java)
         } else {
@@ -74,8 +94,13 @@ class ReservationService {
         }
     }
 
-    fun deleteReservation(id: Long) {
-        reservationRepository.delete(getReservation(id = id))
+    @Transactional
+    fun deleteReservation(
+        userId: Long,
+        reservationId: Long
+    ) {
+        val reservationSaved: Reservation = getReservation(userId = userId, reservationId = reservationId)
+        reservationRepository.deleteReservationById(userId = userId, reservationId = reservationSaved.id)
     }
 
     companion object {
