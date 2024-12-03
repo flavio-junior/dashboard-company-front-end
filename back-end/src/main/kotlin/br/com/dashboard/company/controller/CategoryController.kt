@@ -1,5 +1,6 @@
 package br.com.dashboard.company.controller
 
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.ForbiddenActionRequestException
 import br.com.dashboard.company.service.CategoryService
 import br.com.dashboard.company.utils.others.ConstantsUtils.EMPTY_FIELDS
@@ -17,6 +18,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -75,6 +77,7 @@ class CategoryController {
         ]
     )
     fun findAllCategories(
+        @AuthenticationPrincipal user: User,
         @RequestParam(required = false) name: String?,
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "size", defaultValue = "12") size: Int,
@@ -84,7 +87,7 @@ class CategoryController {
             if ("desc".equals(sort, ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
         val pageable: Pageable = PageRequest.of(page, size, Sort.by(sortDirection, "name"))
         return ResponseEntity.ok(
-            categoryService.findAllCategories(name = name, pageable = pageable)
+            categoryService.findAllCategories(user = user, name = name, pageable = pageable)
         )
     }
 
@@ -127,10 +130,11 @@ class CategoryController {
         ]
     )
     fun findCategoryByName(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "name") name: String,
     ): ResponseEntity<List<CategoryResponseVO>> {
         return ResponseEntity.ok(
-            categoryService.findCategoryByName(name = name)
+            categoryService.findCategoryByName(user = user, name = name)
         )
     }
 
@@ -216,6 +220,7 @@ class CategoryController {
         ]
     )
     fun createNewCategory(
+        @AuthenticationPrincipal user: User,
         @RequestBody categoryResponseVO: CategoryResponseVO
     ): ResponseEntity<CategoryResponseVO> {
         require(
@@ -223,7 +228,7 @@ class CategoryController {
         ) {
             throw ForbiddenActionRequestException(exception = EMPTY_FIELDS)
         }
-        val entity: CategoryResponseVO = categoryService.createNewCategory(category = categoryResponseVO)
+        val entity: CategoryResponseVO = categoryService.createNewCategory(user = user, category = categoryResponseVO)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
         return ResponseEntity.created(uri).body(entity)
@@ -270,9 +275,10 @@ class CategoryController {
         ]
     )
     fun updateCategory(
+        @AuthenticationPrincipal user: User,
         @RequestBody category: CategoryResponseVO
     ): CategoryResponseVO {
-        return categoryService.updateCategory(category)
+        return categoryService.updateCategory(user = user, category = category)
     }
 
     @DeleteMapping(

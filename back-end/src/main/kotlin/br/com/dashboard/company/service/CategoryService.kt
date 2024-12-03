@@ -1,10 +1,10 @@
 package br.com.dashboard.company.service
 
 import br.com.dashboard.company.entities.category.Category
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.DuplicateNameException
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.CategoryRepository
-import br.com.dashboard.company.service.ProductService.Companion.PRODUCT_NOT_FOUND
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.category.CategoryResponseVO
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,23 +19,27 @@ class CategoryService {
     @Autowired
     private lateinit var categoryRepository: CategoryRepository
 
+    @Autowired
+    private lateinit var userService: UserService
+
     @Transactional(readOnly = true)
     fun findAllCategories(
+        user: User,
         name: String?,
         pageable: Pageable
     ): Page<CategoryResponseVO> {
-        val categories: Page<Category>? = categoryRepository.findAllCategories(name = name, pageable = pageable)
-        return categories?.map { category -> parseObject(category, CategoryResponseVO::class.java) }
-            ?: throw ResourceNotFoundException(message = CATEGORY_NOT_FOUND)
+        val categories: Page<Category> =
+            categoryRepository.findAllCategories(userId = user.id, name = name, pageable = pageable)
+        return categories.map { category -> parseObject(category, CategoryResponseVO::class.java) }
     }
 
     @Transactional(readOnly = true)
     fun findCategoryByName(
+        user: User,
         name: String
-    ) : List<CategoryResponseVO> {
-        val products:List<Category>? = categoryRepository.findCategoryByName(name)
-        return products?.map { product -> parseObject(product, CategoryResponseVO::class.java) }
-            ?: throw ResourceNotFoundException(message = PRODUCT_NOT_FOUND)
+    ): List<CategoryResponseVO> {
+        val products: List<Category> = categoryRepository.findCategoryByName(userId = user.id, name = name)
+        return products.map { product -> parseObject(product, CategoryResponseVO::class.java) }
     }
 
     @Transactional(readOnly = true)
@@ -58,11 +62,15 @@ class CategoryService {
         return result
     }
 
+    @Transactional
     fun createNewCategory(
+        user: User,
         category: CategoryResponseVO
     ): CategoryResponseVO {
-        if (!checkNameCategoryAlreadyExists(category.name)) {
+        if (!checkNameCategoryAlreadyExists(id = user.id, name = category.name)) {
+            val userAuthenticated = userService.findUserById(id = user.id)
             val categoryResult: Category = parseObject(category, Category::class.java)
+            categoryResult.user = userAuthenticated
             return parseObject(categoryRepository.save(categoryResult), CategoryResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_CATEGORY)
@@ -70,16 +78,18 @@ class CategoryService {
     }
 
     private fun checkNameCategoryAlreadyExists(
+        id: Long,
         name: String
     ): Boolean {
-        val categoryResult = categoryRepository.checkNameCategoryAlreadyExists(name = name)
+        val categoryResult = categoryRepository.checkNameCategoryAlreadyExists(userId = id, name = name)
         return categoryResult != null
     }
 
     fun updateCategory(
+        user: User,
         category: CategoryResponseVO
     ): CategoryResponseVO {
-        if (!checkNameCategoryAlreadyExists(category.name)) {
+        if (!checkNameCategoryAlreadyExists(id = user.id, name = category.name)) {
             val categoryResult: Category = getCategory(id = category.id)
             categoryResult.name = category.name
             return parseObject(categoryRepository.save(categoryResult), CategoryResponseVO::class.java)

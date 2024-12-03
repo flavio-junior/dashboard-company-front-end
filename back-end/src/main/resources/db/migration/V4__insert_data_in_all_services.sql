@@ -6,6 +6,13 @@ VALUES
     ('Comidas Típicas');
 
 INSERT INTO
+    tb_user_category (fk_user, fk_category)
+VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3);
+
+INSERT INTO
     tb_item (name, price)
 VALUES
     ('Batata Frita', 15.00),

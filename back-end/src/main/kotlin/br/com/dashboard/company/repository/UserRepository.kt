@@ -13,4 +13,5 @@ interface UserRepository: JpaRepository<User?, Long?>  {
 
     @Query("SELECT u FROM User u WHERE u.email =:email")
     fun fetchByEmail(email: String?): User?
+    fun id(id: Long): MutableList<User>
 }

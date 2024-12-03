@@ -11,17 +11,36 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CategoryRepository : JpaRepository<Category, Long?> {
 
-    @Query("SELECT c FROM Category c WHERE c.name = :name")
-    fun checkNameCategoryAlreadyExists(@Param("name") name: String): Category?
+    @Query(
+        value = """
+        SELECT c FROM Category c WHERE c.user.id = :userId AND c.name = :name
+        """
+    )
+    fun checkNameCategoryAlreadyExists(
+        @Param("userId") userId: Long,
+        @Param("name") name: String
+    ): Category?
 
     @Query(
-    """
+        value = """
         SELECT c FROM Category c
-            WHERE :name IS NULL OR LOWER(CAST(c.name AS string)) LIKE LOWER(CONCAT('%', :name, '%'))
+            WHERE c.user.id = :userId
+        AND (:name IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%')))
     """
     )
-    fun findAllCategories(@Param("name") name: String?, pageable: Pageable): Page<Category>?
+    fun findAllCategories(
+        @Param("userId") userId: Long,
+        @Param("name") name: String?,
+        pageable: Pageable
+    ): Page<Category>
 
-    @Query("SELECT c FROM Category c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%'))")
-    fun findCategoryByName(name: String): List<Category>
+    @Query(
+        value = """
+        SELECT c FROM Category c WHERE c.user.id = :userId AND LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%'))
+        """
+    )
+    fun findCategoryByName(
+        @Param("userId") userId: Long,
+        @Param("name") name: String?
+    ): List<Category>
 }
