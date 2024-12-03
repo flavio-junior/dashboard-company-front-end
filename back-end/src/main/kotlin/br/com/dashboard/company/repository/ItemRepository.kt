@@ -18,14 +18,6 @@ interface ItemRepository : JpaRepository<Item, Long> {
         @Param("name") name: String
     ): Item?
 
-    @Modifying
-    @Query(value = "UPDATE Item i SET i.price =:price WHERE i.user.id = :userId AND i.id =:idItem")
-    fun updatePriceItem(
-        @Param("userId") userId: Long,
-        @Param("idItem") idItem: Long,
-        @Param("price") price: Double
-    )
-
     @Query(
         value =
             """
@@ -44,4 +36,19 @@ interface ItemRepository : JpaRepository<Item, Long> {
         @Param("userId") userId: Long,
         @Param("idItem") itemId: Long
     ): Item?
+
+    @Modifying
+    @Query(value = "UPDATE Item i SET i.price =:price WHERE i.user.id = :userId AND i.id =:idItem")
+    fun updateItemPrice(
+        @Param("userId") userId: Long,
+        @Param("idItem") idItem: Long,
+        @Param("price") price: Double
+    )
+
+    @Modifying
+    @Query(value = "DELETE FROM Item i WHERE i.id = :itemId AND i.user.id = :userId")
+    fun deleteItemById(
+        @Param("userId") userId: Long,
+        @Param("itemId") itemId: Long
+    ): Int
 }

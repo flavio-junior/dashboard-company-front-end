@@ -48,9 +48,16 @@ class ItemService {
         }
     }
 
-    private fun getItem(id: Long): Item {
-        return itemRepository.findById(id)
-            .orElseThrow { ResourceNotFoundException(ITEM_NOT_FOUND) }
+    private fun getItem(
+        userId: Long,
+        itemId: Long
+    ): Item {
+        val itemSaved: Item? = itemRepository.findItemById(userId = userId, itemId = itemId)
+        if (itemSaved != null) {
+            return itemSaved
+        } else {
+            throw ResourceNotFoundException(ITEM_NOT_FOUND)
+        }
     }
 
     @Transactional
@@ -82,7 +89,7 @@ class ItemService {
         item: ItemResponseVO
     ): ItemResponseVO {
         if (!checkNameItemAlreadyExists(userId = user.id, name = item.name)) {
-            val itemSaved: Item = getItem(id = item.id)
+            val itemSaved: Item = getItem(userId = user.id, itemId = item.id)
             itemSaved.name = item.name
             itemSaved.price = item.price
             return parseObject(itemRepository.save(itemSaved), ItemResponseVO::class.java)
@@ -94,15 +101,20 @@ class ItemService {
     @Transactional
     fun updatePriceItem(
         user: User,
-        idItem: Long,
+        itemId: Long,
         price: PriceRequestVO
     ) {
-        getItem(id = idItem)
-        itemRepository.updatePriceItem(userId = user.id, idItem = idItem, price = price.price)
+        getItem(userId = user.id, itemId = itemId)
+        itemRepository.updateItemPrice(userId = user.id, idItem = itemId, price = price.price)
     }
 
-    fun deleteItem(id: Long) {
-        itemRepository.delete(getItem(id = id))
+    @Transactional
+    fun deleteItem(
+        userId: Long,
+        itemId: Long
+    ) {
+        val itemSaved: Item = getItem(userId = userId, itemId = itemId)
+        itemRepository.deleteItemById(itemId = itemSaved.id, userId = userId)
     }
 
     companion object {

@@ -287,7 +287,7 @@ class ItemController {
         @PathVariable(value = "id") id: Long,
         @RequestBody price: PriceRequestVO
     ): ResponseEntity<*> {
-        itemService.updatePriceItem(user = user, idItem = id, price = price)
+        itemService.updatePriceItem(user = user, itemId = id, price = price)
         return ResponseEntity.noContent().build<Any>()
     }
 
@@ -327,9 +327,10 @@ class ItemController {
         ]
     )
     fun deleteItem(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long
     ): ResponseEntity<*> {
-        itemService.deleteItem(id)
+        itemService.deleteItem(userId = user.id, itemId = id)
         return ResponseEntity.noContent().build<Any>()
     }
 }
