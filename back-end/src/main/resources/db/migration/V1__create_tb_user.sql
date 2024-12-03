@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS tb_user (
     id SERIAL PRIMARY KEY,
-    created_at TIMESTAMP NOT NULL UNIQUE,
+    created_at TIMESTAMP NOT NULL,
     name VARCHAR(255),
     surname VARCHAR(255),
     email VARCHAR(255) UNIQUE,
