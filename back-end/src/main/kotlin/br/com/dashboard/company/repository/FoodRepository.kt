@@ -12,11 +12,8 @@ import org.springframework.stereotype.Repository
 @Repository
 interface FoodRepository : JpaRepository<Food, Long> {
 
-    @Query("SELECT f FROM Food f WHERE f.name = :name OR f.description = :description")
-    fun checkNameOrDescriptionFoodAlreadyExists(
-        @Param("name") name: String,
-        @Param("description") description: String
-    ): Food?
+    @Query("SELECT f FROM Food f WHERE f.name = :name")
+    fun checkNameFoodAlreadyExists(@Param("name") name: String): Food?
 
     @Query(
         """

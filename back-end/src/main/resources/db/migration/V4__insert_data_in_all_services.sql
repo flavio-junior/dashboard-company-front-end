@@ -30,18 +30,18 @@ VALUES
     ('Mesa 10');
 
 INSERT INTO
-    tb_food (created_at, name, description, price)
+    tb_food (created_at, name, price)
 VALUES
-    (NOW(), 'Acarajé', 'Bolinho frito de feijão-fradinho recheado com vatapá e camarão seco', 12.50),
-    (NOW(), 'Baião de Dois', 'Mistura de arroz, feijão, carne seca e queijo coalho', 15.00),
-    (NOW(), 'Tapioca', 'Massa de mandioca recheada com coco ralado e leite condensado ou queijo', 8.00),
-    (NOW(), 'Caruru', 'Prato feito com quiabo, azeite de dendê, camarões secos e temperos', 14.00),
-    (NOW(), 'Cuscuz Nordestino', 'Flocos de milho cozidos, acompanhados de manteiga ou queijo', 10.00),
-    (NOW(), 'Moqueca de Peixe', 'Peixe cozido com leite de coco, azeite de dendê e temperos', 25.00),
-    (NOW(), 'Sarapatel', 'Prato feito com miúdos de porco temperados e cozidos', 18.00),
-    (NOW(), 'Buchada de Bode', 'Prato tradicional feito com estômago de bode e miúdos temperados', 20.00),
-    (NOW(), 'Camarão na Moranga', 'Abóbora recheada com creme e camarões temperados', 30.00),
-    (NOW(), 'Paçoca de Carne de Sol', 'Mistura de carne de sol desfiada, farinha de mandioca e temperos', 12.00);
+    (DATE_TRUNC('second', NOW()), 'Acarajé', 12.50),
+    (DATE_TRUNC('second', NOW()), 'Baião de Dois', 15.00),
+    (DATE_TRUNC('second', NOW()), 'Tapioca', 8.00),
+    (DATE_TRUNC('second', NOW()), 'Caruru', 14.00),
+    (DATE_TRUNC('second', NOW()), 'Cuscuz Nordestino', 10.00),
+    (DATE_TRUNC('second', NOW()), 'Moqueca de Peixe', 25.00),
+    (DATE_TRUNC('second', NOW()), 'Sarapatel', 18.00),
+    (DATE_TRUNC('second', NOW()), 'Buchada de Bode', 20.00),
+    (DATE_TRUNC('second', NOW()), 'Camarão na Moranga', 30.00),
+    (DATE_TRUNC('second', NOW()), 'Paçoca de Carne de Sol', 12.00);
 
 INSERT INTO
     tb_food_category (fk_food, fk_category)
@@ -60,7 +60,7 @@ VALUES
 INSERT INTO
     tb_product (created_at, name, price, stock_quantity)
 VALUES
-    (NOW(), 'Coca Cola Zero', 9.99, 100);
+    (DATE_TRUNC('second', DATE_TRUNC('second', NOW())), 'Coca Cola Zero', 9.99, 100);
 
 INSERT INTO
     tb_product_category (fk_product, fk_category)
@@ -70,9 +70,9 @@ VALUES
 INSERT INTO
     tb_order (created_at, type, status, quantity, price)
 VALUES
-    (NOW(), 'DELIVERY', 'OPEN', 4, 99.99),
-    (NOW(), 'ORDER', 'OPEN', 5, 110.00),
-    (NOW(), 'RESERVATION', 'OPEN', 3, 62.00);
+    (DATE_TRUNC('second', NOW()), 'DELIVERY', 'OPEN', 4, 99.99),
+    (DATE_TRUNC('second', NOW()), 'ORDER', 'OPEN', 5, 110.00),
+    (DATE_TRUNC('second', NOW()), 'RESERVATION', 'OPEN', 3, 62.00);
 
 INSERT INTO
     tb_order_reservation (fk_order, fk_reservation)
@@ -116,9 +116,9 @@ VALUES
 INSERT INTO
     tb_payment (created_at, status, type)
 VALUES
-    (NOW(), 'PENDING', null),
-    (NOW(), 'PENDING', null),
-    (NOW(), 'PENDING', null);
+    (DATE_TRUNC('second', NOW()), 'PENDING', null),
+    (DATE_TRUNC('second', NOW()), 'PENDING', null),
+    (DATE_TRUNC('second', NOW()), 'PENDING', null);
 
 INSERT INTO
     tb_order_payment (fk_order, fk_payment)

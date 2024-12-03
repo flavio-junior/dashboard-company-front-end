@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @Service
 class FoodService {
@@ -60,21 +61,18 @@ class FoodService {
     fun createNewFood(
         food: FoodRequestVO
     ): FoodResponseVO {
-        if (!checkNameOrDescriptionFoodAlreadyExists(name = food.name, description = food.description)) {
+        if (!checkNameFoodAlreadyExists(name = food.name)) {
             val foodResult: Food = parseObject(food, Food::class.java)
             foodResult.categories = categoryService.converterCategories(categories = food.categories)
-            foodResult.createdAt = LocalDateTime.now()
+            foodResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
             return parseObject(foodRepository.save(foodResult), FoodResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_FOOD)
         }
     }
 
-    private fun checkNameOrDescriptionFoodAlreadyExists(
-        name: String,
-        description: String
-    ): Boolean {
-        val foodResult = foodRepository.checkNameOrDescriptionFoodAlreadyExists(name = name, description = description)
+    private fun checkNameFoodAlreadyExists(name: String): Boolean {
+        val foodResult = foodRepository.checkNameFoodAlreadyExists(name = name)
         return foodResult != null
     }
 
@@ -82,10 +80,9 @@ class FoodService {
     fun updateFood(
         food: FoodResponseVO
     ): FoodResponseVO {
-        if (!checkNameOrDescriptionFoodAlreadyExists(name = food.name, description = food.description)) {
+        if (!checkNameFoodAlreadyExists(name = food.name)) {
             val foodSaved: Food = getFood(id = food.id)
             foodSaved.name = food.name
-            foodSaved.description = food.description
             foodSaved.categories?.clear()
             foodSaved.categories = categoryService.converterCategories(categories = food.categories)
             foodSaved.price = food.price

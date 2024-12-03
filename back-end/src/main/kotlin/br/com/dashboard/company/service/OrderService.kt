@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @Repository
 class OrderService {
@@ -58,13 +59,13 @@ class OrderService {
         order: OrderRequestVO
     ): OrderResponseVO {
         val orderResult: Order = parseObject(order, Order::class.java)
-        orderResult.createdAt = LocalDateTime.now()
+        orderResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
         orderResult.status = Status.OPEN
         val objectsSaved = objectService.saveObjects(objectsToSave = order.objects)
         orderResult.objects = objectsSaved.first
         orderResult.quantity = order.objects?.size ?: 0
         orderResult.price = objectsSaved.second
-        orderResult.payment?.createdAt = LocalDateTime.now()
+        orderResult.payment?.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
         return parseObject(orderRepository.save(orderResult), OrderResponseVO::class.java)
     }
 

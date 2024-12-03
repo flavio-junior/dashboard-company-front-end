@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @Service
 class ProductService {
@@ -57,7 +58,7 @@ class ProductService {
         if (!checkNameProductAlreadyExists(name = product.name)) {
             val productResult: Product = parseObject(product, Product::class.java)
             productResult.categories = categoryService.converterCategories(categories = product.categories)
-            productResult.createdAt = LocalDateTime.now()
+            productResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
             return parseObject(productRepository.save(productResult), ProductResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_PRODUCT)
