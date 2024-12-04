@@ -22,6 +22,7 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
+import br.com.digital.store.features.item.viewmodel.ResetItem
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
@@ -128,7 +129,7 @@ private fun ObserveNetworkStateHandlerCreateNewItem(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.findAllItems()
+            viewModel.resetItem(reset = ResetItem.CREATE_ITEM)
             onSuccessful()
         }
     )

@@ -147,4 +147,17 @@ class ItemViewModel(
                 }
         }
     }
+
+    fun resetItem(reset: ResetItem) {
+        when(reset) {
+            ResetItem.CREATE_ITEM -> {
+                _createNewItem.value = ObserveNetworkStateHandler.Loading(l = false)
+                findAllItems()
+            }
+        }
+    }
+}
+
+enum class ResetItem {
+    CREATE_ITEM
 }
