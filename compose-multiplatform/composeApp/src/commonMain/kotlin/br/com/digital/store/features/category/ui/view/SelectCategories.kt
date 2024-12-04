@@ -35,6 +35,7 @@ import br.com.digital.store.components.ui.Tag
 import br.com.digital.store.components.ui.Title
 import br.com.digital.store.features.category.data.dto.CategoryResponseDTO
 import br.com.digital.store.features.category.ui.viewmodel.CategoryViewModel
+import br.com.digital.store.features.category.ui.viewmodel.ResetCategory
 import br.com.digital.store.features.category.utils.CategoryUtils.ADD_CATEGORIES
 import br.com.digital.store.features.category.utils.CategoryUtils.NO_CATEGORIES_SELECTED
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
@@ -94,12 +95,12 @@ fun SelectCategories(
             ListCategoriesAvailable(categories = selectedCategories)
             FooterSelectCategories(
                 onDismissRequest = {
-                    viewModel.resetCategory()
+                    viewModel.resetCategory(reset = ResetCategory.FIND_CATEGORY_BY_NAME)
                     onDismissRequest()
                 },
                 onConfirmation = {
                     if (selectedCategories.isNotEmpty()) {
-                        viewModel.resetCategory()
+                        viewModel.resetCategory(reset = ResetCategory.FIND_CATEGORY_BY_NAME)
                         onConfirmation(selectedCategories)
                     } else {
                         observer =

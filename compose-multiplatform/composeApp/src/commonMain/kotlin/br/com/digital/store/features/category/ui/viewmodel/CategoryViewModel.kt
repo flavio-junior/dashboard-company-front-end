@@ -152,7 +152,24 @@ class CategoryViewModel(
         }
     }
 
-    fun resetCategory() {
-        _findCategoryByName.value = ObserveNetworkStateHandler.Loading(l = false)
+    fun resetCategory(reset: ResetCategory) {
+        when (reset) {
+            ResetCategory.FIND_ALL_CATEGORIES -> {
+                _findAllCategories.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+            ResetCategory.FIND_CATEGORY_BY_NAME -> {
+                _findCategoryByName.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+            ResetCategory.CREATE_CATEGORY -> {
+                _createNewCategory.value = ObserveNetworkStateHandler.Loading(l = false)
+                findAllCategories()
+            }
+        }
     }
+}
+
+enum class ResetCategory {
+    FIND_CATEGORY_BY_NAME,
+    FIND_ALL_CATEGORIES,
+    CREATE_CATEGORY
 }

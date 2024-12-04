@@ -21,6 +21,7 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.category.ui.viewmodel.CategoryViewModel
+import br.com.digital.store.features.category.ui.viewmodel.ResetCategory
 import br.com.digital.store.features.category.utils.CategoryUtils.CATEGORY_NAME
 import br.com.digital.store.features.category.utils.CategoryUtils.SAVE_CATEGORY
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
@@ -114,7 +115,7 @@ private fun ObserveNetworkStateHandlerCreateNewCategory(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.findAllCategories()
+            viewModel.resetCategory(reset = ResetCategory.CREATE_CATEGORY)
             onSuccessful()
         }
     )
