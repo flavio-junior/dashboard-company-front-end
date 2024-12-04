@@ -4,13 +4,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.digital.store.components.strings.StringsUtils.ASC
+import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
 import br.com.digital.store.features.reservation.data.dto.ReservationRequestDTO
-import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.reservation.data.repository.ReservationRepository
+import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
 import br.com.digital.store.features.reservation.domain.ConverterReservation
-import br.com.digital.store.components.strings.StringsUtils.ASC
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE
@@ -130,4 +130,17 @@ class ReservationViewModel(
                 }
         }
     }
+
+    fun resetReservation(reset: ResetReservation) {
+        when (reset) {
+            ResetReservation.CREATE_RESERVATION -> {
+                _createNewReservation.value = ObserveNetworkStateHandler.Loading(l = false)
+                findAllReservations()
+            }
+        }
+    }
+}
+
+enum class ResetReservation {
+    CREATE_RESERVATION
 }

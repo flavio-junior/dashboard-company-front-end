@@ -23,6 +23,7 @@ import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel
+import br.com.digital.store.features.reservation.viewmodel.ResetReservation
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.reservation.ReservationUtils.RESERVATION_NAME
 import br.com.digital.store.ui.view.reservation.ReservationUtils.SAVE_RESERVATION
@@ -113,7 +114,7 @@ private fun ObserveNetworkStateHandlerCreateNewReservation(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.findAllReservations()
+            viewModel.resetReservation(reset = ResetReservation.CREATE_RESERVATION)
             onSuccessful()
         }
     )
