@@ -25,13 +25,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
-import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
-import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.NUMBER
+import br.com.digital.store.components.ui.Description
+import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
+import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import br.com.digital.store.utils.onBorder
@@ -149,7 +150,7 @@ fun ItemReservation(
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )
         Description(
-            description = reservation.name,
+            description = reservation.name ?: EMPTY_TEXT,
             modifier = modifier.weight(weight = WEIGHT_SIZE_4),
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )

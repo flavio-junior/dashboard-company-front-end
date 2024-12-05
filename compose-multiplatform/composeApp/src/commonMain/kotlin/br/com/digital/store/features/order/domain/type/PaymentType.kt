@@ -1,4 +1,4 @@
-package br.com.digital.store.features.order.data.others
+package br.com.digital.store.features.order.domain.type
 
 enum class PaymentType {
     CREDIT_CAD,

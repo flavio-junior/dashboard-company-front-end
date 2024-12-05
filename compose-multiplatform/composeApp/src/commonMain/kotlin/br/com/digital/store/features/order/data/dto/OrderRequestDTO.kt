@@ -1,6 +1,6 @@
 package br.com.digital.store.features.order.data.dto
 
-import br.com.digital.store.features.order.data.others.TypeOrder
+import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
 import kotlinx.serialization.Serializable
 

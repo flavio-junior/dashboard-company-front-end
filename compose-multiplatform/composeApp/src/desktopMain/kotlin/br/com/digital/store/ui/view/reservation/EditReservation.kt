@@ -84,7 +84,7 @@ fun EditReservation(
             TextField(
                 enabled = false,
                 label = ACTUAL_NAME,
-                value = reservationVO.name,
+                value = reservationVO.name ?: EMPTY_TEXT,
                 modifier = Modifier.weight(weight = WEIGHT_SIZE_3),
             )
             IconDefault(
@@ -147,7 +147,7 @@ fun EditReservation(
         )
         DeleteReservation(
             viewModel = viewModel,
-            id = reservationVO.id,
+            id = reservationVO.id ?: 0,
             modifier = Modifier,
             onError = {
                 observer = it

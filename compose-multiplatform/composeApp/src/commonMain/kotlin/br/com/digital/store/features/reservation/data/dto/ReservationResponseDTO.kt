@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ReservationResponseDTO(
-    val id: Long,
-    val name: String
+    val id: Long? = 0,
+    val name: String? = ""
 )
