@@ -17,7 +17,8 @@ import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
-import br.com.digital.store.components.ui.TextField
+import br.com.digital.store.components.ui.Price
+import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.product.data.dto.UpdatePriceProductRequestDTO
@@ -26,6 +27,8 @@ import br.com.digital.store.features.product.utils.ProductUtils.UPDATE_PRICE_PRO
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
+import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
 import br.com.digital.store.utils.checkPriceIsNull
 import org.koin.mp.KoinPlatform.getKoin
 
@@ -37,7 +40,8 @@ fun UpdatePriceProduct(
     onRefresh: () -> Unit = {}
 ) {
     val viewModel: ProductViewModel = getKoin().get()
-    var price: String by remember { mutableStateOf(value = "0.0") }
+    var price: String by remember { mutableStateOf(value = ZERO_DOUBLE) }
+    var cleanText by remember { mutableStateOf(value = false) }
     var openDialog by remember { mutableStateOf(value = false) }
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
@@ -46,6 +50,8 @@ fun UpdatePriceProduct(
         if (checkPriceIsNull(price = price.toDouble())
         ) {
             observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
+        } else if (checkPriceIsEqualsZero(price = price.toDouble())) {
+            observer = Triple(first = false, second = true, third = MESSAGE_ZERO_DOUBLE)
         } else {
             observer = Triple(first = true, second = false, third = EMPTY_TEXT)
             viewModel.updatePriceProduct(
@@ -66,11 +72,15 @@ fun UpdatePriceProduct(
             modifier = modifier,
             verticalAlignment = Alignment.Top
         ) {
-            TextField(
+            Price(
                 label = PRICE,
                 value = price,
                 isError = observer.second,
                 message = observer.third,
+                cleanText = cleanText,
+                onCleanText = {
+                    cleanText = it
+                },
                 onValueChange = {
                     price = it
                 },
@@ -109,7 +119,7 @@ fun UpdatePriceProduct(
             goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 observer = Triple(first = false, second = false, third = EMPTY_TEXT)
-                price = "0.0"
+                price = ZERO_DOUBLE
                 onRefresh()
             }
         )
