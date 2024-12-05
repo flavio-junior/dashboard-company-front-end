@@ -16,6 +16,7 @@ import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.box
 import br.com.digital.store.composeapp.generated.resources.data_usage
 import br.com.digital.store.composeapp.generated.resources.food
+import br.com.digital.store.composeapp.generated.resources.home_pin
 import br.com.digital.store.composeapp.generated.resources.list
 import br.com.digital.store.composeapp.generated.resources.logout
 import br.com.digital.store.composeapp.generated.resources.order
@@ -87,7 +88,7 @@ val menus = listOf(
 
 val availableServices = listOf(
     ItemService(
-        icon = Res.drawable.data_usage,
+        icon = Res.drawable.home_pin,
         label = DASHBOARD,
         route = ItemNavigation.DASHBOARD.name
     ),
