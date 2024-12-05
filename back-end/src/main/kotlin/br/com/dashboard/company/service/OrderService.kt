@@ -4,13 +4,14 @@ import br.com.dashboard.company.entities.order.Order
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.OrderRepository
 import br.com.dashboard.company.utils.common.Status
-import br.com.dashboard.company.utils.others.ConverterUtils.parseListObjects
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.`object`.UpdateObjectRequestVO
 import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import br.com.dashboard.company.vo.order.OrderRequestVO
 import br.com.dashboard.company.vo.order.OrderResponseVO
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -33,12 +34,12 @@ class OrderService {
 
     @Transactional(readOnly = true)
     fun findAllOrders(
-        status: Status
-    ): List<OrderResponseVO> {
-        return parseListObjects(
-            origin = orderRepository.findAllOrdersOpen(status = status),
-            destination = OrderResponseVO::class.java
-        )
+        status: Status,
+        pageable: Pageable
+    ): Page<OrderResponseVO> {
+        val orders: Page<Order>? = orderRepository.findAllOrdersOpen(status = status, pageable = pageable)
+        return orders?.map { order -> parseObject(order, OrderResponseVO::class.java) }
+            ?: throw ResourceNotFoundException(message = ORDER_NOT_FOUND)
     }
 
     @Transactional(readOnly = true)
