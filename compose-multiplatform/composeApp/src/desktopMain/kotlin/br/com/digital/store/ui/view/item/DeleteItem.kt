@@ -56,7 +56,7 @@ fun DeleteItem(
         )
         if (openDialog) {
             Alert(
-                label = DELETE_ITEM,
+                label = "$DELETE_ITEM?",
                 onDismissRequest = {
                     openDialog = false
                 },

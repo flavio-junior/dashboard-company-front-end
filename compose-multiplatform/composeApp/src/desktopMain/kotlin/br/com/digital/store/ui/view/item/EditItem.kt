@@ -22,12 +22,15 @@ import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
+import br.com.digital.store.components.ui.Price
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.item.data.dto.EditItemRequestDTO
 import br.com.digital.store.features.item.data.vo.ItemResponseVO
+import br.com.digital.store.features.item.utils.ItemsUtils.checkBodyItemIsNull
+import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
@@ -36,9 +39,10 @@ import br.com.digital.store.ui.view.item.ItemUtils.EDIT_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_NAME_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_PRICE_ITEM
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
-import br.com.digital.store.utils.checkNameIsNull
+import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
 import br.com.digital.store.utils.onBorder
 import org.koin.mp.KoinPlatform.getKoin
 
@@ -59,11 +63,13 @@ fun EditItem(
         }
         var openDialog by remember { mutableStateOf(value = false) }
         var newName by remember { mutableStateOf(value = EMPTY_TEXT) }
-        var newPrice by remember { mutableStateOf(value = EMPTY_TEXT) }
+        var newPrice by remember { mutableStateOf(value = ZERO_DOUBLE) }
         var cleanText:Boolean by remember { mutableStateOf(value = false) }
         val editItem = { item: String ->
-            if (checkNameIsNull(name = item)) {
+            if (checkBodyItemIsNull(name = newName, price = newPrice.toDouble())) {
                 observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
+            } else if (checkPriceIsEqualsZero(price = newPrice.toDouble())) {
+                observer = Triple(first = false, second = true, third = MESSAGE_ZERO_DOUBLE)
             } else {
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)
                 viewModel.editItem(
@@ -116,7 +122,6 @@ fun EditItem(
             icon = Res.drawable.edit,
             keyboardType = KeyboardType.Text,
             isError = observer.second,
-            message = observer.third,
             onValueChange = {
                 newName = it
             },
@@ -124,15 +129,17 @@ fun EditItem(
                 openDialog = true
             }
         )
-        TextField(
-            label = NEW_PRICE_ITEM,
+        Price(
             value = newPrice,
-            icon = Res.drawable.edit,
-            keyboardType = KeyboardType.Text,
-            isError = observer.second,
-            message = observer.third,
+            label = NEW_PRICE_ITEM,
             onValueChange = {
                 newPrice = it
+            },
+            isError = observer.second,
+            message = observer.third,
+            cleanText = cleanText,
+            onCleanText = {
+                cleanText = it
             },
             onGo = {
                 openDialog = true
@@ -147,7 +154,7 @@ fun EditItem(
         )
         if (openDialog) {
             Alert(
-                label = EDIT_ITEM,
+                label = "$EDIT_ITEM?",
                 onDismissRequest = {
                     openDialog = false
                 },
@@ -167,7 +174,8 @@ fun EditItem(
             onSuccessful = {
                 onCleanItem()
                 newName = EMPTY_TEXT
-                newPrice = EMPTY_TEXT
+                newPrice = ZERO_DOUBLE
+                cleanText = true
             }
         )
         UpdatePriceItem(
@@ -182,6 +190,7 @@ fun EditItem(
             },
             goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
+                cleanText = true
                 onCleanItem()
             }
         )

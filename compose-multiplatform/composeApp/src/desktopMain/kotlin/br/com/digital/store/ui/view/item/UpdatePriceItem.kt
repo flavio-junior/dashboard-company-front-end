@@ -8,15 +8,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
-import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
-import br.com.digital.store.components.ui.TextField
-import br.com.digital.store.composeapp.generated.resources.Res
-import br.com.digital.store.composeapp.generated.resources.edit
+import br.com.digital.store.components.ui.Price
 import br.com.digital.store.features.item.data.dto.UpdatePriceItemRequestDTO
+import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
@@ -24,7 +21,8 @@ import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_PRICE_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.UPDATE_PRICE_ITEM
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.checkNameIsNull
+import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
+import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -46,14 +44,16 @@ fun UpdatePriceItem(
             mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
         }
         var openDialog by remember { mutableStateOf(false) }
-        var updatePrice by remember { mutableStateOf(value = EMPTY_TEXT) }
+        var isCleanText by remember { mutableStateOf(value = false) }
+        var updatePrice by remember { mutableStateOf(value = ZERO_DOUBLE) }
         if (cleanText) {
-            updatePrice = EMPTY_TEXT
+            updatePrice = ZERO_DOUBLE
+            isCleanText = true
             onCleanText()
         }
         val updatePriceItem = {
-            if (checkNameIsNull(name = updatePrice)) {
-                observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
+            if (checkPriceIsEqualsZero(price = updatePrice.toDouble())) {
+                observer = Triple(first = false, second = true, third = MESSAGE_ZERO_DOUBLE)
             } else {
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)
                 viewModel.updatePriceItem(
@@ -65,15 +65,17 @@ fun UpdatePriceItem(
                 )
             }
         }
-        TextField(
-            label = NEW_PRICE_ITEM,
+        Price(
             value = updatePrice,
-            icon = Res.drawable.edit,
-            keyboardType = KeyboardType.Text,
-            isError = observer.second,
-            message = observer.third,
+            label = NEW_PRICE_ITEM,
             onValueChange = {
                 updatePrice = it
+            },
+            cleanText = isCleanText,
+            isError = observer.second,
+            message = observer.third,
+            onCleanText = {
+                isCleanText = it
             },
             onGo = {
                 openDialog = true
@@ -94,14 +96,15 @@ fun UpdatePriceItem(
             },
             goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
-                observer = Triple(first = false, second = false, third = EMPTY_TEXT)
-                updatePrice = EMPTY_TEXT
+                observer = Triple(first = false, second = false, third = MESSAGE_ZERO_DOUBLE)
+                updatePrice = ZERO_DOUBLE
+                isCleanText = true
                 onSuccessful()
             }
         )
         if (openDialog) {
             Alert(
-                label = UPDATE_PRICE_ITEM,
+                label = "$UPDATE_PRICE_ITEM?",
                 onDismissRequest = {
                     openDialog = false
                 },

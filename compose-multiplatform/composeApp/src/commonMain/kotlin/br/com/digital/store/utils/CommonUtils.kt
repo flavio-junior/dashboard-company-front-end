@@ -16,6 +16,8 @@ object CommonUtils {
     const val WEIGHT_SIZE_4 = 4f
     const val WEIGHT_SIZE_5 = 5f
     const val SIZE_DEFAULT = "60 Items"
+    const val ZERO_DOUBLE = "0.0"
+    const val MESSAGE_ZERO_DOUBLE = "O preço precisa ser maior que 0!"
 }
 
 fun checkNameIsNull(name: String): Boolean {
