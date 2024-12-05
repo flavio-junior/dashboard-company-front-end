@@ -1,18 +1,17 @@
-package br.com.digital.store.features.product.ui.viewmodel
+package br.com.digital.store.features.food.ui.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.components.strings.StringsUtils.ASC
+import br.com.digital.store.features.food.data.dto.FoodRequestDTO
+import br.com.digital.store.features.food.data.dto.UpdateFoodRequestDTO
+import br.com.digital.store.features.food.data.dto.UpdatePriceFoodRequestDTO
+import br.com.digital.store.features.food.data.repository.FoodRepository
+import br.com.digital.store.features.food.data.vo.FoodsResponseVO
+import br.com.digital.store.features.food.domain.ConverterFood
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.product.data.dto.ProductRequestDTO
-import br.com.digital.store.features.product.data.dto.RestockProductRequestDTO
-import br.com.digital.store.features.product.data.dto.UpdatePriceProductRequestDTO
-import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
-import br.com.digital.store.features.product.data.repository.ProductRepository
-import br.com.digital.store.features.product.data.vo.ProductsResponseVO
-import br.com.digital.store.features.product.domain.ConverterProduct
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE
@@ -21,45 +20,45 @@ import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class ProductViewModel(
-    private val repository: ProductRepository,
-    private val converter: ConverterProduct
+class FoodViewModel(
+    private val repository: FoodRepository,
+    private val converter: ConverterFood
 ) : ViewModel() {
 
     private var currentPage: Int = NUMBER_ZERO
     private var sizeDefault: Int = NUMBER_SIXTY
     private var sort: String = ASC
 
-    private val _findAllProducts =
-        mutableStateOf<ObserveNetworkStateHandler<ProductsResponseVO>>(
+    private val _findAllFoods =
+        mutableStateOf<ObserveNetworkStateHandler<FoodsResponseVO>>(
             ObserveNetworkStateHandler.Loading(l = false)
         )
-    val findAllProducts: State<ObserveNetworkStateHandler<ProductsResponseVO>> =
-        _findAllProducts
+    val findAllFoods: State<ObserveNetworkStateHandler<FoodsResponseVO>> =
+        _findAllFoods
 
     var showEmptyList = mutableStateOf(value = true)
 
-    private val _createProduct =
+    private val _createFood =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val createProduct: State<ObserveNetworkStateHandler<Unit>> = _createProduct
+    val createFood: State<ObserveNetworkStateHandler<Unit>> = _createFood
 
-    private val _updateProduct =
+    private val _updateFood =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val updateProduct: State<ObserveNetworkStateHandler<Unit>> = _updateProduct
+    val updateFood: State<ObserveNetworkStateHandler<Unit>> = _updateFood
 
-    private val _updatePriceProduct =
+    private val _updatePriceFood =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val updatePriceProduct: State<ObserveNetworkStateHandler<Unit>> = _updatePriceProduct
+    val updatePriceFood: State<ObserveNetworkStateHandler<Unit>> = _updatePriceFood
 
-    private val _restockProduct =
+    private val _restockFood =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val restockProduct: State<ObserveNetworkStateHandler<Unit>> = _restockProduct
+    val restockFood: State<ObserveNetworkStateHandler<Unit>> = _restockFood
 
-    private val _deleteProduct =
+    private val _deleteFood =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val deleteProduct: State<ObserveNetworkStateHandler<Unit>> = _deleteProduct
+    val deleteFood: State<ObserveNetworkStateHandler<Unit>> = _deleteFood
 
-    fun findAllProducts(
+    fun findAllFoods(
         name: String = EMPTY_TEXT,
         sort: String = this.sort,
         size: Int = this.sizeDefault,
@@ -74,25 +73,25 @@ class ProductViewModel(
         }
         viewModelScope.launch {
             sizeDefault = size
-            repository.findAllProducts(
+            repository.findAllFoods(
                 name = name,
                 page = currentPage,
                 size = sizeDefault,
                 sort = sort
             )
                 .onStart {
-                    _findAllProducts.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _findAllFoods.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
                     it.result?.let { response ->
                         val objectConverted = converter.converterContentDTOToVO(content = response)
                         if (objectConverted.content.isNotEmpty()) {
                             showEmptyList.value = false
-                            _findAllProducts.value = ObserveNetworkStateHandler.Success(
+                            _findAllFoods.value = ObserveNetworkStateHandler.Success(
                                 s = objectConverted
                             )
                         } else {
-                            _findAllProducts.value = ObserveNetworkStateHandler.Success(
+                            _findAllFoods.value = ObserveNetworkStateHandler.Success(
                                 s = objectConverted
                             )
                         }
@@ -106,76 +105,64 @@ class ProductViewModel(
     }
 
     fun loadNextPage() {
-        val lastPage = _findAllProducts.value.result?.totalPages ?: 0
+        val lastPage = _findAllFoods.value.result?.totalPages ?: 0
         if (currentPage < lastPage - NUMBER_ONE) {
             currentPage++
-            findAllProducts()
+            findAllFoods()
         }
     }
 
     fun reloadPreviousPage() {
         if (currentPage > NUMBER_ZERO) {
             currentPage--
-            findAllProducts()
+            findAllFoods()
         }
     }
 
-    fun createProduct(product: ProductRequestDTO) {
+    fun createFood(food: FoodRequestDTO) {
         viewModelScope.launch {
-            repository.createNewProduct(product = product)
+            repository.createNewFood(food = food)
                 .onStart {
-                    _createProduct.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _createFood.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _createProduct.value = it
-                }
-        }
-    }
-
-    fun updateProduct(product: UpdateProductRequestDTO) {
-        viewModelScope.launch {
-            repository.updateProduct(product = product)
-                .onStart {
-                    _updateProduct.value = ObserveNetworkStateHandler.Loading(l = true)
-                }
-                .collect {
-                    _updateProduct.value = it
+                    _createFood.value = it
                 }
         }
     }
 
-    fun updatePriceProduct(id: Long, price: UpdatePriceProductRequestDTO) {
+    fun updateFood(food: UpdateFoodRequestDTO) {
         viewModelScope.launch {
-            repository.updatePriceProduct(id = id, price = price)
+            repository.updateFood(food = food)
                 .onStart {
-                    _updatePriceProduct.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _updateFood.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _updatePriceProduct.value = it
+                    _updateFood.value = it
                 }
         }
     }
 
-    fun restockProduct(id: Long, stock: RestockProductRequestDTO) {
+    fun updatePriceFood(id: Long, price: UpdatePriceFoodRequestDTO) {
         viewModelScope.launch {
-            repository.restockProduct(id = id, stock = stock)
+            repository.updatePriceFood(id = id, price = price)
                 .onStart {
-                    _restockProduct.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _updatePriceFood.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _restockProduct.value = it
+                    _updatePriceFood.value = it
                 }
         }
     }
 
-    fun deleteProduct(id: Long) {
+    fun deleteFood(id: Long) {
         viewModelScope.launch {
-            repository.deleteProduct(id = id)
+            repository.deleteFood(id = id)
                 .onStart {
-                    _deleteProduct.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _deleteFood.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _deleteProduct.value = it
+                    _deleteFood.value = it
                 }
         }
     }

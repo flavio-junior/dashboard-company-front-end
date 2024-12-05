@@ -1,4 +1,4 @@
-package br.com.digital.store.features.product.di
+package br.com.digital.store.features.product.domain
 
 import br.com.digital.store.features.category.domain.ConverterCategory
 import br.com.digital.store.features.others.converterPageableDTOToVO
