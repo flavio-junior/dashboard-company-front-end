@@ -41,6 +41,20 @@ fun ListProductsScreen(
         LaunchedEffect(key1 = Unit) {
             viewModel.findAllProducts()
         }
+        HeaderSearch(
+            onSearch = { name, size, sort, route ->
+                viewModel.findAllProducts(name = name, size = size, sort = sort, route = route)
+            },
+            onSort = { name, size, sort, route ->
+                viewModel.findAllProducts(name = name, size = size, sort = sort, route = route)
+            },
+            onFilter = { name, size, sort, route ->
+                viewModel.findAllProducts(name = name, size = size, sort = sort, route = route)
+            },
+            onRefresh = { name, size, sort, route ->
+                viewModel.findAllProducts(name = name, size = size, sort = sort, route = route)
+            }
+        )
         ObserveNetworkStateHandlerProducts(
             viewModel = viewModel,
             onItemSelected = onItemSelected,
@@ -92,21 +106,6 @@ private fun ProductsResult(
     onItemSelected: (ProductResponseVO) -> Unit = {}
 ) {
     Column {
-        val viewModel: ProductViewModel = getKoin().get()
-        HeaderSearch(
-            onSearch = { name, size, sort, route ->
-                viewModel.findAllProducts(name = name, size = size, sort = sort, route = route)
-            },
-            onSort = { name, size, sort, route ->
-                viewModel.findAllProducts(name = name, size = size, sort = sort, route = route)
-            },
-            onFilter = { name, size, sort, route ->
-                viewModel.findAllProducts(name = name, size = size, sort = sort, route = route)
-            },
-            onRefresh = { name, size, sort, route ->
-                viewModel.findAllProducts(name = name, size = size, sort = sort, route = route)
-            }
-        )
         ListProducts(
             modifier = Modifier
                 .fillMaxSize()

@@ -41,6 +41,20 @@ fun ListFoodsScreen(
         LaunchedEffect(key1 = Unit) {
             viewModel.findAllFoods()
         }
+        HeaderSearch(
+            onSearch = { name, size, sort, route ->
+                viewModel.findAllFoods(name = name, size = size, sort = sort, route = route)
+            },
+            onSort = { name, size, sort, route ->
+                viewModel.findAllFoods(name = name, size = size, sort = sort, route = route)
+            },
+            onFilter = { name, size, sort, route ->
+                viewModel.findAllFoods(name = name, size = size, sort = sort, route = route)
+            },
+            onRefresh = { name, size, sort, route ->
+                viewModel.findAllFoods(name = name, size = size, sort = sort, route = route)
+            }
+        )
         ObserveNetworkStateHandlerFood(
             viewModel = viewModel,
             onItemSelected = onItemSelected,
@@ -92,21 +106,6 @@ private fun FoodResult(
     onItemSelected: (FoodResponseVO) -> Unit = {}
 ) {
     Column {
-        val viewModel: FoodViewModel = getKoin().get()
-        HeaderSearch(
-            onSearch = { name, size, sort, route ->
-                viewModel.findAllFoods(name = name, size = size, sort = sort, route = route)
-            },
-            onSort = { name, size, sort, route ->
-                viewModel.findAllFoods(name = name, size = size, sort = sort, route = route)
-            },
-            onFilter = { name, size, sort, route ->
-                viewModel.findAllFoods(name = name, size = size, sort = sort, route = route)
-            },
-            onRefresh = { name, size, sort, route ->
-                viewModel.findAllFoods(name = name, size = size, sort = sort, route = route)
-            }
-        )
         ListFood(
             modifier = Modifier
                 .fillMaxSize()
