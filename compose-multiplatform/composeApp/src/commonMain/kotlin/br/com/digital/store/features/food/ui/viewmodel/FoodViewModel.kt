@@ -166,4 +166,16 @@ class FoodViewModel(
                 }
         }
     }
+
+    fun resetFood(reset: ResetFood) {
+        when (reset) {
+            ResetFood.DELETE_FOOD -> {
+                _deleteFood.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+        }
+    }
+}
+
+enum class ResetFood {
+    DELETE_FOOD
 }

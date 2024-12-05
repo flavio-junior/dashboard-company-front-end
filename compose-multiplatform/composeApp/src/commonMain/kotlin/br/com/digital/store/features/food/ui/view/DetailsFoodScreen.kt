@@ -88,17 +88,12 @@ fun DetailsFoodBody(
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = onRefresh
         )
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
-            modifier = Modifier.weight(weight = WEIGHT_SIZE)
-        ) {
-            UpdatePriceFood(
-                id = food.id,
-                goToAlternativeRoutes = goToAlternativeRoutes,
-                modifier = Modifier
-                    .weight(weight = WEIGHT_SIZE_2),
-                onRefresh = onRefresh
-            )
-        }
+        UpdatePriceFood(
+            id = food.id,
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            modifier = Modifier
+                .weight(weight = WEIGHT_SIZE_2),
+            onRefresh = onRefresh
+        )
     }
 }

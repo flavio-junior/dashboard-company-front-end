@@ -11,22 +11,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.strings.StringsUtils.CONFIRM_UPDATE
-import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
-import br.com.digital.store.components.ui.TextField
+import br.com.digital.store.components.ui.Price
 import br.com.digital.store.features.food.data.dto.UpdatePriceFoodRequestDTO
 import br.com.digital.store.features.food.ui.viewmodel.FoodViewModel
 import br.com.digital.store.features.food.utils.FoodUtils.UPDATE_PRICE_FOOD
+import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.checkPriceIsNull
+import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
+import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -37,15 +38,15 @@ fun UpdatePriceFood(
     onRefresh: () -> Unit = {}
 ) {
     val viewModel: FoodViewModel = getKoin().get()
-    var price: String by remember { mutableStateOf(value = "0.0") }
+    var price: String by remember { mutableStateOf(value = ZERO_DOUBLE) }
+    var isCleanText by remember { mutableStateOf(value = false) }
     var openDialog by remember { mutableStateOf(value = false) }
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
     val checkUpdatePriceFood = {
-        if (checkPriceIsNull(price = price.toDouble())
-        ) {
-            observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
+        if (checkPriceIsEqualsZero(price = price.toDouble())) {
+            observer = Triple(first = false, second = true, third = MESSAGE_ZERO_DOUBLE)
         } else {
             observer = Triple(first = true, second = false, third = EMPTY_TEXT)
             viewModel.updatePriceFood(
@@ -66,11 +67,15 @@ fun UpdatePriceFood(
             modifier = modifier,
             verticalAlignment = Alignment.Top
         ) {
-            TextField(
+            Price(
                 label = PRICE,
                 value = price,
                 isError = observer.second,
                 message = observer.third,
+                cleanText = isCleanText,
+                onCleanText = {
+                    isCleanText = it
+                },
                 onValueChange = {
                     price = it
                 },
@@ -109,7 +114,8 @@ fun UpdatePriceFood(
             goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 observer = Triple(first = false, second = false, third = EMPTY_TEXT)
-                price = "0.0"
+                price = ZERO_DOUBLE
+                isCleanText = true
                 onRefresh()
             }
         )

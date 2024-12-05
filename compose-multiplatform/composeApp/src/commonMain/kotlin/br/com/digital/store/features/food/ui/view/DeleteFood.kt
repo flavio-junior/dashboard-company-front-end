@@ -10,6 +10,7 @@ import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.food.ui.viewmodel.FoodViewModel
+import br.com.digital.store.features.food.ui.viewmodel.ResetFood
 import br.com.digital.store.features.food.utils.FoodUtils.DELETE_FOOD
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
@@ -79,6 +80,7 @@ private fun ObserveNetworkStateHandlerDeleteFood(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.resetFood(reset = ResetFood.DELETE_FOOD)
             viewModel.findAllFoods()
             onSuccessful()
         }
