@@ -50,10 +50,6 @@ class FoodViewModel(
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val updatePriceFood: State<ObserveNetworkStateHandler<Unit>> = _updatePriceFood
 
-    private val _restockFood =
-        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val restockFood: State<ObserveNetworkStateHandler<Unit>> = _restockFood
-
     private val _deleteFood =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val deleteFood: State<ObserveNetworkStateHandler<Unit>> = _deleteFood
