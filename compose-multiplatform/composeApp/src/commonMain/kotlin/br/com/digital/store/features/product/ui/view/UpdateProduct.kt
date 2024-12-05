@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,11 +17,13 @@ import br.com.digital.store.components.strings.StringsUtils.QUANTITY
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
+import br.com.digital.store.components.ui.Price
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.features.category.data.dto.CategoryResponseDTO
 import br.com.digital.store.features.category.ui.view.SelectCategories
 import br.com.digital.store.features.category.utils.CategoryUtils.ADD_CATEGORIES
 import br.com.digital.store.features.category.utils.CategoryUtils.NO_CATEGORIES_SELECTED
+import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
@@ -30,7 +33,10 @@ import br.com.digital.store.features.product.utils.checkBodyProductIsNull
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -42,8 +48,9 @@ fun UpdateProduct(
     val viewModel: ProductViewModel = getKoin().get()
     var name: String by remember { mutableStateOf(value = EMPTY_TEXT) }
     val selectedCategories = remember { mutableStateListOf<CategoryResponseDTO>() }
-    var price: String by remember { mutableStateOf(value = "0.0") }
-    var quantity: String by remember { mutableStateOf(value = "0") }
+    var price: String by remember { mutableStateOf(value = ZERO_DOUBLE) }
+    var quantity: Int by remember { mutableIntStateOf(value = NUMBER_ZERO) }
+    var cleanText by remember { mutableStateOf(value = false) }
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
@@ -53,10 +60,12 @@ fun UpdateProduct(
         if (checkBodyProductIsNull(
                 name = name,
                 price = price.toDouble(),
-                quantity = quantity.toInt()
+                quantity = quantity
             )
         ) {
             observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
+        } else if (checkPriceIsEqualsZero(price = price.toDouble())) {
+            observer = Triple(first = false, second = true, third = MESSAGE_ZERO_DOUBLE)
         } else if (selectedCategories.isEmpty()) {
             observer = Triple(first = false, second = true, third = NO_CATEGORIES_SELECTED)
         } else {
@@ -67,7 +76,7 @@ fun UpdateProduct(
                     name = name,
                     categories = selectedCategories,
                     price = price.toDouble(),
-                    quantity = quantity.toInt()
+                    quantity = quantity
                 )
             )
         }
@@ -85,10 +94,14 @@ fun UpdateProduct(
             },
             modifier = Modifier.weight(weight = CommonUtils.WEIGHT_SIZE_2)
         )
-        TextField(
+        Price(
             label = PRICE,
             value = price,
             isError = observer.second,
+            cleanText = cleanText,
+            onCleanText = {
+                cleanText = it
+            },
             onValueChange = {
                 price = it
             },
@@ -96,10 +109,10 @@ fun UpdateProduct(
         )
         TextField(
             label = QUANTITY,
-            value = quantity,
+            value = quantity.toString(),
             isError = observer.second,
             onValueChange = {
-                quantity = it
+                quantity = it.toIntOrNull() ?: NUMBER_ZERO
             },
             modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
@@ -137,8 +150,9 @@ fun UpdateProduct(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccessful = {
             name = EMPTY_TEXT
-            price = "0.0"
-            quantity = "0"
+            price = ZERO_DOUBLE
+            quantity = NUMBER_ZERO
+            cleanText = true
             onRefresh()
         }
     )
