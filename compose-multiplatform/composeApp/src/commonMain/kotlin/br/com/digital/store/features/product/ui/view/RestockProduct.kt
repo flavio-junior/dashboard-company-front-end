@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import br.com.digital.store.components.strings.StringsUtils.CONFIRM_UPDATE
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.strings.StringsUtils.QUANTITY
@@ -26,6 +28,7 @@ import br.com.digital.store.features.product.utils.ProductUtils.RESTOCK_PRODUCT
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import br.com.digital.store.utils.checkPriceIsNull
 import org.koin.mp.KoinPlatform.getKoin
 
@@ -37,7 +40,7 @@ fun RestockProduct(
     onRefresh: () -> Unit
 ) {
     val viewModel: ProductViewModel = getKoin().get()
-    var quantity: String by remember { mutableStateOf(value = "0") }
+    var quantity: Int by remember { mutableIntStateOf(value = NUMBER_ZERO) }
     var openDialog by remember { mutableStateOf(value = false) }
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
@@ -50,9 +53,7 @@ fun RestockProduct(
             observer = Triple(first = true, second = false, third = EMPTY_TEXT)
             viewModel.restockProduct(
                 id = id,
-                stock = RestockProductRequestDTO(
-                    quantity = quantity.toInt()
-                )
+                stock = RestockProductRequestDTO(quantity = quantity)
             )
         }
     }
@@ -68,11 +69,12 @@ fun RestockProduct(
         ) {
             TextField(
                 label = QUANTITY,
-                value = quantity,
+                value = quantity.toString(),
                 isError = observer.second,
                 message = observer.third,
+                keyboardType = KeyboardType.Number,
                 onValueChange = {
-                    quantity = it
+                    quantity = it.toIntOrNull() ?: NUMBER_ZERO
                 },
                 modifier = modifier.weight(weight = WEIGHT_SIZE),
                 onGo = {
@@ -110,7 +112,7 @@ fun RestockProduct(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccessful = {
             observer = Triple(first = false, second = false, third = EMPTY_TEXT)
-            quantity = "0"
+            quantity = NUMBER_ZERO
             onRefresh()
         }
     )
