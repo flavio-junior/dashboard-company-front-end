@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import br.com.digital.store.components.strings.StringsUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
@@ -21,7 +22,6 @@ import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_PRICE_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.UPDATE_PRICE_ITEM
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
 import org.koin.mp.KoinPlatform.getKoin
 

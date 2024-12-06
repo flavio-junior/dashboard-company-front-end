@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.strings.StringsUtils.CONFIRM_UPDATE
+import br.com.digital.store.components.strings.StringsUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.ui.Alert
@@ -27,7 +28,6 @@ import br.com.digital.store.features.product.utils.ProductUtils.UPDATE_PRICE_PRO
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
 import br.com.digital.store.utils.checkPriceIsNull
 import org.koin.mp.KoinPlatform.getKoin

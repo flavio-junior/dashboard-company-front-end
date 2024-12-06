@@ -16,12 +16,8 @@ object CommonUtils {
     const val WEIGHT_SIZE_4 = 4f
     const val WEIGHT_SIZE_5 = 5f
     const val WEIGHT_SIZE_9 = 9f
-    const val SIZE_DEFAULT = "60 Items"
     const val ZERO_DOUBLE = "0.0"
-    const val MESSAGE_ZERO_DOUBLE = "O preço precisa ser maior que 0!"
-    const val DELIVERY = "Delivery"
-    const val RESERVATIONS = "Reservas"
-    const val ORDERS = "Pedidos"
+
 }
 
 fun checkNameIsNull(name: String): Boolean {
@@ -31,6 +27,12 @@ fun checkNameIsNull(name: String): Boolean {
 fun checkPriceIsNull(price: Double): Boolean {
     return (price == 0.0)
 }
+
+val typeOrder = listOf(
+    "Delivery",
+    "Reserva",
+    "Pedido"
+)
 
 val sizeList = listOf(
     "10 Items",

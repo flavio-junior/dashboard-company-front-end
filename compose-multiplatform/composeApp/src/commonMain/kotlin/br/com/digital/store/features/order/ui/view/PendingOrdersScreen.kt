@@ -16,6 +16,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import br.com.digital.store.components.strings.StringsUtils.DELIVERY
+import br.com.digital.store.components.strings.StringsUtils.ORDERS
+import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.Title
@@ -25,9 +28,6 @@ import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.ui.viewmodel.OpenOrdersViewModel
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.utils.CommonUtils.DELIVERY
-import br.com.digital.store.utils.CommonUtils.ORDERS
-import br.com.digital.store.utils.CommonUtils.RESERVATIONS
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4

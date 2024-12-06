@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import br.com.digital.store.components.strings.StringsUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.QUANTITY
@@ -37,7 +38,6 @@ import br.com.digital.store.features.product.utils.checkBodyProductIsNull
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO

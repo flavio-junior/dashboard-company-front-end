@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import br.com.digital.store.components.strings.StringsUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
@@ -31,7 +32,6 @@ import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.ITEM_NAME
 import br.com.digital.store.ui.view.item.ItemUtils.SAVE_ITEM
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
 import org.koin.mp.KoinPlatform.getKoin

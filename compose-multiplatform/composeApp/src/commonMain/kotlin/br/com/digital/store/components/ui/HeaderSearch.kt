@@ -13,13 +13,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import br.com.digital.store.components.strings.StringsUtils.ASC
+import br.com.digital.store.components.strings.StringsUtils.SIZE_DEFAULT
+import br.com.digital.store.components.strings.StringsUtils.SIZE_LIST
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.refresh
-import br.com.digital.store.components.strings.StringsUtils.ASC
-import br.com.digital.store.components.strings.StringsUtils.SIZE_LIST
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.CommonUtils.SIZE_DEFAULT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.converterSizeStringToInt

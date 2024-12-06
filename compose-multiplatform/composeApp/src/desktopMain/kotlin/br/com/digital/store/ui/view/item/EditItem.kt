@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import br.com.digital.store.components.strings.StringsUtils.ACTUAL_NAME
 import br.com.digital.store.components.strings.StringsUtils.ID
+import br.com.digital.store.components.strings.StringsUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.IconDefault
@@ -39,7 +40,6 @@ import br.com.digital.store.ui.view.item.ItemUtils.EDIT_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_NAME_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_PRICE_ITEM
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
