@@ -29,14 +29,14 @@ import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.category.data.dto.EditCategoryRequestDTO
 import br.com.digital.store.features.category.data.vo.CategoryResponseVO
 import br.com.digital.store.features.category.ui.viewmodel.CategoryViewModel
+import br.com.digital.store.features.category.utils.CategoryUtils.EDIT_CATEGORY
+import br.com.digital.store.features.category.utils.CategoryUtils.NEW_NAME_CATEGORY
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.features.category.utils.CategoryUtils.EDIT_CATEGORY
-import br.com.digital.store.features.category.utils.CategoryUtils.NEW_NAME_CATEGORY
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.checkNameIsNull
 import br.com.digital.store.utils.onBorder
 import org.koin.mp.KoinPlatform.getKoin
@@ -85,7 +85,7 @@ fun EditCategory(
                 enabled = false,
                 label = ACTUAL_NAME,
                 value = categoryVO.name,
-                modifier = Modifier.weight(weight = WEIGHT_SIZE_3),
+                modifier = Modifier.weight(weight = WEIGHT_SIZE_2),
             )
             IconDefault(
                 icon = Res.drawable.close, modifier = Modifier

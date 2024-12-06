@@ -41,7 +41,7 @@ import br.com.digital.store.ui.view.item.ItemUtils.NEW_PRICE_ITEM
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.MESSAGE_ZERO_DOUBLE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
 import br.com.digital.store.utils.onBorder
 import org.koin.mp.KoinPlatform.getKoin
@@ -98,7 +98,7 @@ fun EditItem(
                 enabled = false,
                 label = ACTUAL_NAME,
                 value = itemVO.name,
-                modifier = Modifier.weight(weight = WEIGHT_SIZE_3),
+                modifier = Modifier.weight(weight = WEIGHT_SIZE_2),
             )
             IconDefault(
                 icon = Res.drawable.close, modifier = Modifier

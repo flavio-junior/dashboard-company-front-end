@@ -12,12 +12,16 @@ object CommonUtils {
     const val EMPTY_TEXT = ""
     const val WEIGHT_SIZE = 1f
     const val WEIGHT_SIZE_2 = 2f
-    const val WEIGHT_SIZE_3 = 2f
+    const val WEIGHT_SIZE_3 = 3f
     const val WEIGHT_SIZE_4 = 4f
     const val WEIGHT_SIZE_5 = 5f
+    const val WEIGHT_SIZE_9 = 9f
     const val SIZE_DEFAULT = "60 Items"
     const val ZERO_DOUBLE = "0.0"
     const val MESSAGE_ZERO_DOUBLE = "O preço precisa ser maior que 0!"
+    const val DELIVERY = "Delivery"
+    const val RESERVATIONS = "Reservas"
+    const val ORDERS = "Pedidos"
 }
 
 fun checkNameIsNull(name: String): Boolean {

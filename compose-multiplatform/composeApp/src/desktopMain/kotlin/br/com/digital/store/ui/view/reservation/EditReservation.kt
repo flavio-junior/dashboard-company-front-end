@@ -36,7 +36,7 @@ import br.com.digital.store.ui.view.reservation.ReservationUtils.EDIT_RESERVATIO
 import br.com.digital.store.ui.view.reservation.ReservationUtils.NEW_NAME_RESERVATION
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.checkNameIsNull
 import br.com.digital.store.utils.onBorder
 import org.koin.mp.KoinPlatform.getKoin
@@ -85,7 +85,7 @@ fun EditReservation(
                 enabled = false,
                 label = ACTUAL_NAME,
                 value = reservationVO.name ?: EMPTY_TEXT,
-                modifier = Modifier.weight(weight = WEIGHT_SIZE_3),
+                modifier = Modifier.weight(weight = WEIGHT_SIZE_2),
             )
             IconDefault(
                 icon = Res.drawable.close, modifier = Modifier

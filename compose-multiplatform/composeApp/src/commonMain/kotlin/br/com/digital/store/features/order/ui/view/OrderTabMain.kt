@@ -17,7 +17,6 @@ fun OrderTabMain(
     when (index) {
         NumbersUtils.NUMBER_ZERO -> PendingOrdersScreen(
             onItemSelected = onItemSelected,
-            onToCreateNewProduct = goToCreateNewOrder,
             goToAlternativeRoutes = goToAlternativeRoutes
         )
 
