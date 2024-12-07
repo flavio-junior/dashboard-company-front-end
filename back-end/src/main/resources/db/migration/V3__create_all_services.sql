@@ -80,6 +80,12 @@ CREATE TABLE IF NOT EXISTS tb_order (
     price NUMERIC(10, 2) DEFAULT 0.0
 );
 
+CREATE TABLE tb_user_order (
+    fk_order INT REFERENCES tb_order(id),
+    fk_user INT REFERENCES tb_user(id),
+    PRIMARY KEY (fk_order, fk_user)
+);
+
 CREATE TABLE tb_order_reservation (
     fk_order INT REFERENCES tb_order(id),
     fk_reservation INT REFERENCES tb_reservation(id),

@@ -4,6 +4,7 @@ import br.com.dashboard.company.entities.address.Address
 import br.com.dashboard.company.entities.`object`.Object
 import br.com.dashboard.company.entities.payment.Payment
 import br.com.dashboard.company.entities.reservation.Reservation
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.common.TypeOrder
 import jakarta.persistence.CascadeType
@@ -16,6 +17,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.JoinTable
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
@@ -62,5 +64,12 @@ data class Order(
         joinColumns = [JoinColumn(name = "fk_order", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "fk_payment", referencedColumnName = "id")]
     )
-    var payment: Payment? = null
+    var payment: Payment? = null,
+    @ManyToOne(cascade = [CascadeType.ALL])
+    @JoinTable(
+        name = "tb_user_order",
+        joinColumns = [JoinColumn(name = "fk_order", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "fk_user", referencedColumnName = "id")]
+    )
+    var user: User? = null
 )

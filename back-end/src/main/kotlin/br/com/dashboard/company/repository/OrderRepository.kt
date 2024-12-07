@@ -13,16 +13,18 @@ import org.springframework.stereotype.Repository
 @Repository
 interface OrderRepository : JpaRepository<Order, Long> {
 
-    @Query("SELECT o from Order o WHERE o.status =:status")
+    @Query("SELECT o from Order o WHERE o.user.id = :userId AND o.status =:status")
     fun findAllOrdersOpen(
+        @Param("userId") userId: Long,
         @Param("status") status: Status,
         pageable: Pageable
     ): Page<Order>?
 
     @Modifying
-    @Query("UPDATE Order o SET o.status =:status WHERE o.id =:id")
+    @Query("UPDATE Order o SET o.status =:status WHERE o.user.id = :userId AND o.id =:orderId")
     fun updateStatusOrder(
-        @Param("id") idOrder: Long,
+        @Param("userId") userId: Long,
+        @Param("orderId") orderId: Long,
         @Param("status") status: Status,
     )
 }

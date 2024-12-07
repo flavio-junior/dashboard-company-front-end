@@ -125,6 +125,14 @@ VALUES
     (DATE_TRUNC('second', NOW()), 'RESERVATION', 'OPEN', 3, 62.00);
 
 INSERT INTO
+    tb_user_order (fk_order, fk_user)
+VALUES
+    (1, 1),
+    (2, 1),
+    (3, 1);
+
+
+INSERT INTO
     tb_order_reservation (fk_order, fk_reservation)
 VALUES
     (3, 1),

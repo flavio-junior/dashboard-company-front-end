@@ -81,6 +81,7 @@ class OrderController {
         ]
     )
     fun findAllOrdersOpen(
+        @AuthenticationPrincipal user: User,
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "size", defaultValue = "12") size: Int,
         @RequestParam(value = "sort", defaultValue = "asc") sort: String
@@ -89,7 +90,7 @@ class OrderController {
             if ("desc".equals(sort, ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
         val pageable: Pageable = PageRequest.of(page, size, Sort.by(sortDirection, "createdAt"))
         return ResponseEntity.ok(
-            orderService.findAllOrders(status = Status.OPEN, pageable = pageable)
+            orderService.findAllOrders(user = user, status = Status.OPEN, pageable = pageable)
         )
     }
 
@@ -133,6 +134,7 @@ class OrderController {
         ]
     )
     fun findAllOrdersClosed(
+        @AuthenticationPrincipal user: User,
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "size", defaultValue = "12") size: Int,
         @RequestParam(value = "sort", defaultValue = "asc") sort: String
@@ -141,7 +143,7 @@ class OrderController {
             if ("desc".equals(sort, ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
         val pageable: Pageable = PageRequest.of(page, size, Sort.by(sortDirection, "createdAt"))
         return ResponseEntity.ok(
-            orderService.findAllOrders(status = Status.CLOSED, pageable = pageable)
+            orderService.findAllOrders(user = user, status = Status.CLOSED, pageable = pageable)
         )
     }
 
@@ -273,10 +275,11 @@ class OrderController {
         ]
     )
     fun closeOrder(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") idOrder: Long,
         @RequestBody closeOrder: CloseOrderRequestVO
     ) {
-        return orderService.closeOrder(idOrder = idOrder, closeOrder = closeOrder)
+        return orderService.closeOrder(user = user, idOrder = idOrder, closeOrder = closeOrder)
     }
 
     @PutMapping(

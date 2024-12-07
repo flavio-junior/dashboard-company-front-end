@@ -33,12 +33,16 @@ class OrderService {
     @Autowired
     private lateinit var checkoutService: CheckoutService
 
+    @Autowired
+    private lateinit var userService: UserService
+
     @Transactional(readOnly = true)
     fun findAllOrders(
+        user: User,
         status: Status,
         pageable: Pageable
     ): Page<OrderResponseVO> {
-        val orders: Page<Order>? = orderRepository.findAllOrdersOpen(status = status, pageable = pageable)
+        val orders: Page<Order>? = orderRepository.findAllOrdersOpen(userId = user.id, status = status, pageable = pageable)
         return orders?.map { order -> parseObject(order, OrderResponseVO::class.java) }
             ?: throw ResourceNotFoundException(message = ORDER_NOT_FOUND)
     }
@@ -61,6 +65,7 @@ class OrderService {
         user: User,
         order: OrderRequestVO
     ): OrderResponseVO {
+        val userAuthenticated = userService.findUserById(id = user.id)
         val orderResult: Order = parseObject(order, Order::class.java)
         orderResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
         orderResult.status = Status.OPEN
@@ -69,6 +74,7 @@ class OrderService {
         orderResult.quantity = order.objects?.size ?: 0
         orderResult.price = objectsSaved.second
         orderResult.payment?.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
+        orderResult.user = userAuthenticated
         return parseObject(orderRepository.save(orderResult), OrderResponseVO::class.java)
     }
 
@@ -83,21 +89,23 @@ class OrderService {
 
     @Transactional
     fun closeOrder(
+        user: User,
         idOrder: Long,
         closeOrder: CloseOrderRequestVO
     ) {
         val order = getOrder(id = idOrder)
-        updateStatusOrder(idOrder = idOrder, status = Status.CLOSED)
+        updateStatusOrder(userId = user.id, idOrder = idOrder, status = Status.CLOSED)
         paymentService.updatePayment(closeOrder = closeOrder)
         checkoutService.saveCheckoutDetails(total = order.price)
     }
 
     @Transactional
     fun updateStatusOrder(
+        userId: Long,
         idOrder: Long,
         status: Status
     ) {
-        orderRepository.updateStatusOrder(idOrder = idOrder, status = status)
+        orderRepository.updateStatusOrder(userId = userId, orderId = idOrder, status = status)
     }
 
     fun deleteOrder(id: Long) {
