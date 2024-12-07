@@ -39,6 +39,12 @@ CREATE TABLE IF NOT EXISTS tb_food (
     price NUMERIC(10, 2) DEFAULT 0.0
 );
 
+CREATE TABLE tb_user_food (
+    fk_user INT REFERENCES tb_user(id),
+    fk_food INT REFERENCES tb_food(id),
+    PRIMARY KEY (fk_user, fk_food)
+);
+
 CREATE TABLE IF NOT EXISTS tb_product (
     id SERIAL PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,

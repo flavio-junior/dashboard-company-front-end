@@ -23,8 +23,13 @@ interface FoodRepository : JpaRepository<Food, Long> {
     )
     fun findAllFoods(@Param("name") name: String?, pageable: Pageable): Page<Food>?
 
-    @Query("SELECT f FROM Food f WHERE LOWER(f.name) LIKE LOWER(CONCAT('%', :name, '%'))")
-    fun findFoodByName(name: String): List<Food>
+    @Query(
+        value = "SELECT f FROM Food f WHERE f.user.id = :userId AND LOWER(f.name) LIKE LOWER(CONCAT('%', :name, '%'))"
+    )
+    fun findFoodByName(
+        @Param("userId") userId: Long,
+        @Param("name") name: String
+    ): List<Food>
 
     @Modifying
     @Query("UPDATE Food f SET f.price =:price WHERE f.id =:id")

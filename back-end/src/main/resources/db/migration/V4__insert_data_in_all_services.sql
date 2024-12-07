@@ -75,6 +75,20 @@ VALUES
     (DATE_TRUNC('second', NOW()), 'Paçoca de Carne de Sol', 12.00);
 
 INSERT INTO
+    tb_user_food (fk_food, fk_user)
+VALUES
+    (1, 1),
+    (2, 1),
+    (3, 1),
+    (4, 1),
+    (5, 1),
+    (6, 1),
+    (7, 1),
+    (8, 1),
+    (9, 1),
+    (10, 1);
+
+INSERT INTO
     tb_food_category (fk_food, fk_category)
 VALUES
     (1, 3),

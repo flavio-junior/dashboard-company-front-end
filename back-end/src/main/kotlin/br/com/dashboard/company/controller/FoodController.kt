@@ -131,10 +131,11 @@ class FoodController {
         ]
     )
     fun findFoodByName(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "name") name: String,
     ): ResponseEntity<List<FoodResponseVO>> {
         return ResponseEntity.ok(
-            foodService.findFoodByName(name = name)
+            foodService.findFoodByName(user = user, name = name)
         )
     }
 
