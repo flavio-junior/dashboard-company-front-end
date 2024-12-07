@@ -10,6 +10,7 @@ object FoodUtils {
     const val NAME_FOOD = "Nome do Prato"
     const val NEW_NAME_FOOD = "Novo nome do Prato"
     const val DELETE_FOOD = "Apagar Prato"
+    const val EMPTY_LIST_FOODS = "Nenhum Prato Encontrado!"
 }
 
 fun checkBodyFoodIsNull(

@@ -4,6 +4,7 @@ import br.com.digital.store.features.account.data.repository.LocalStorageImp
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.toResultFlow
 import br.com.digital.store.features.product.data.dto.ProductRequestDTO
+import br.com.digital.store.features.product.data.dto.ProductResponseDTO
 import br.com.digital.store.features.product.data.dto.ProductsResponseDTO
 import br.com.digital.store.features.product.data.dto.RestockProductRequestDTO
 import br.com.digital.store.features.product.data.dto.UpdatePriceProductRequestDTO
@@ -45,6 +46,21 @@ class ProductRemoteDataSource(
                     parameters.append("page", page.toString())
                     parameters.append("size", size.toString())
                     parameters.append("sort", sort)
+                }
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+            }
+        }
+    }
+
+    override fun finProductByName(
+        name: String
+    ): Flow<ObserveNetworkStateHandler<List<ProductResponseDTO>>> {
+        return toResultFlow {
+            httpClient.get {
+                url {
+                    path("/api/dashboard/company/products/v1/find/product/by/$name")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.digital.store.components.strings.StringsUtils.ASC
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.product.data.dto.ProductRequestDTO
+import br.com.digital.store.features.product.data.dto.ProductResponseDTO
 import br.com.digital.store.features.product.data.dto.RestockProductRequestDTO
 import br.com.digital.store.features.product.data.dto.UpdatePriceProductRequestDTO
 import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
@@ -38,6 +39,13 @@ class ProductViewModel(
         _findAllProducts
 
     var showEmptyList = mutableStateOf(value = true)
+
+    private val _findProductByName =
+        mutableStateOf<ObserveNetworkStateHandler<List<ProductResponseDTO>>>(
+            ObserveNetworkStateHandler.Loading(l = false)
+        )
+    val findProductByName: State<ObserveNetworkStateHandler<List<ProductResponseDTO>>> =
+        _findProductByName
 
     private val _createProduct =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -120,6 +128,18 @@ class ProductViewModel(
         }
     }
 
+    fun findCategoryByName(name: String) {
+        viewModelScope.launch {
+            repository.finProductByName(name = name)
+                .onStart {
+                    _findProductByName.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _findProductByName.value = it
+                }
+        }
+    }
+
     fun createProduct(product: ProductRequestDTO) {
         viewModelScope.launch {
             repository.createNewProduct(product = product)
@@ -179,4 +199,16 @@ class ProductViewModel(
                 }
         }
     }
+
+    fun resetProduct(reset: ResetProduct) {
+        when (reset) {
+            ResetProduct.FIND_BY_NAME -> {
+                _findProductByName.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+        }
+    }
+}
+
+enum class ResetProduct {
+    FIND_BY_NAME
 }

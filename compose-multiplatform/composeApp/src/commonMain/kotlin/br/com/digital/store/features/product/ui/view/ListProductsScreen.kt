@@ -18,6 +18,7 @@ import br.com.digital.store.features.product.data.vo.ProductResponseVO
 import br.com.digital.store.features.product.data.vo.ProductsResponseVO
 import br.com.digital.store.features.product.ui.viewmodel.ProductViewModel
 import br.com.digital.store.features.product.utils.ProductUtils.CREATE_PRODUCT
+import br.com.digital.store.features.product.utils.ProductUtils.EMPTY_LIST_PRODUCTS
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import org.koin.mp.KoinPlatform.getKoin
@@ -85,6 +86,7 @@ private fun ObserveNetworkStateHandlerProducts(
         onSuccess = {
             if (showEmptyList) {
                 EmptyList(
+                    title = EMPTY_LIST_PRODUCTS,
                     description = "$CREATE_PRODUCT?",
                     onClick = onToCreateNewProduct,
                     refresh = {

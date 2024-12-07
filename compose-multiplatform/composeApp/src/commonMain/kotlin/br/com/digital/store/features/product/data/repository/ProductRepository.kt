@@ -2,6 +2,7 @@ package br.com.digital.store.features.product.data.repository
 
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.product.data.dto.ProductRequestDTO
+import br.com.digital.store.features.product.data.dto.ProductResponseDTO
 import br.com.digital.store.features.product.data.dto.ProductsResponseDTO
 import br.com.digital.store.features.product.data.dto.RestockProductRequestDTO
 import br.com.digital.store.features.product.data.dto.UpdatePriceProductRequestDTO
@@ -18,6 +19,7 @@ interface ProductRepository {
         size: Int = NUMBER_SIXTY,
         sort: String
     ): Flow<ObserveNetworkStateHandler<ProductsResponseDTO>>
+    fun finProductByName(name: String): Flow<ObserveNetworkStateHandler<List<ProductResponseDTO>>>
     fun createNewProduct(product: ProductRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>
     fun updateProduct(product: UpdateProductRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>
     fun updatePriceProduct(id: Long, price: UpdatePriceProductRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>

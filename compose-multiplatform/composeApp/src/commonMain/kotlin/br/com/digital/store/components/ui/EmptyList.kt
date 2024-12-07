@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import br.com.digital.store.components.strings.StringsUtils.EMPTY_LIST
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.arrow_outward
 import br.com.digital.store.composeapp.generated.resources.draw
@@ -21,7 +20,7 @@ import br.com.digital.store.utils.onClickable
 @Composable
 fun EmptyList(
     modifier: Modifier = Modifier,
-    title: String = EMPTY_LIST,
+    title: String,
     description: String,
     onClick: () -> Unit = {},
     refresh: () -> Unit = {}

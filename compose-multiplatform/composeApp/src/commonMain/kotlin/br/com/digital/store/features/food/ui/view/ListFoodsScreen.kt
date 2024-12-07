@@ -16,6 +16,7 @@ import br.com.digital.store.features.food.data.vo.FoodResponseVO
 import br.com.digital.store.features.food.data.vo.FoodsResponseVO
 import br.com.digital.store.features.food.ui.viewmodel.FoodViewModel
 import br.com.digital.store.features.food.utils.FoodUtils.CREATE_FOOD
+import br.com.digital.store.features.food.utils.FoodUtils.EMPTY_LIST_FOODS
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
@@ -85,6 +86,7 @@ private fun ObserveNetworkStateHandlerFood(
         onSuccess = {
             if (showEmptyList) {
                 EmptyList(
+                    title = EMPTY_LIST_FOODS,
                     description = "$CREATE_FOOD?",
                     onClick = onToCreateNewFood,
                     refresh = {

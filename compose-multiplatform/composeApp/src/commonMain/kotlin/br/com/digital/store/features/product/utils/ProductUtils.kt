@@ -11,6 +11,9 @@ object ProductUtils {
     const val NAME_PRODUCT = "Nome do Produto"
     const val NEW_NAME_PRODUCT = "Novo nome do Produto"
     const val DELETE_PRODUCT = "Apagar Produto"
+    const val ADD_PRODUCTS = "Adicionar produtos"
+    const val NO_PRODUCTS_SELECTED = "Nenhum produto selecionado"
+    const val EMPTY_LIST_PRODUCTS = "Nenhum Produto Encontrado!"
 }
 
 fun checkBodyProductIsNull(

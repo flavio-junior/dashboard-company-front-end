@@ -17,7 +17,6 @@ object StringsUtils {
     const val CONFIRM = "Confirmar"
     const val SEARCH = "Pesquisar"
     const val RESOURCE_UNAVAILABLE = "Recurso indisponível!"
-    const val EMPTY_LIST = "Nenhum Item Encontrado!"
     const val ASC = "asc"
     const val DESC = "desc"
     const val SIZE_LIST = "Tamanho da lista"
