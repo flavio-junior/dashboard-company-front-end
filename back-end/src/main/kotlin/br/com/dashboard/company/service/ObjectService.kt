@@ -36,7 +36,7 @@ class ObjectService {
         var total = 0.0
         val result = objectsToSave?.map { item ->
             if (item.type == TypeItem.FOOD) {
-                val objectSaved = foodService.getFood(id = item.identifier)
+                val objectSaved = foodService.getFood(userId = userId, foodId = item.identifier)
                 val objectResult: Object = parseObject(objectsToSave, Object::class.java)
                 objectResult.identifier = item.identifier
                 objectResult.type = item.type

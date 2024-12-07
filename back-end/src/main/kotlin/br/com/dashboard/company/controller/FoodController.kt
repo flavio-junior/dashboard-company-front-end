@@ -79,6 +79,7 @@ class FoodController {
         ]
     )
     fun findAllFoods(
+        @AuthenticationPrincipal user: User,
         @RequestParam(required = false) name: String?,
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "size", defaultValue = "12") size: Int,
@@ -88,7 +89,7 @@ class FoodController {
             if ("desc".equals(sort, ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
         val pageable: Pageable = PageRequest.of(page, size, Sort.by(sortDirection, "name"))
         return ResponseEntity.ok(
-            foodService.findAllFoods(name = name, pageable = pageable)
+            foodService.findAllFoods(user = user, foodName = name, pageable = pageable)
         )
     }
 
@@ -175,9 +176,10 @@ class FoodController {
         ]
     )
     fun findFoodById(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long
     ): FoodResponseVO {
-        return foodService.findFoodById(id)
+        return foodService.findFoodById(user = user, foodId = id)
     }
 
     @PostMapping(
@@ -328,10 +330,11 @@ class FoodController {
         ]
     )
     fun updatePriceFood(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long,
         @RequestBody price: PriceRequestVO
     ): ResponseEntity<*> {
-        foodService.updatePriceFood(idFood = id, price = price)
+        foodService.updatePriceFood(user = user, foodId = id, price = price)
         return ResponseEntity.noContent().build<Any>()
     }
 
@@ -371,9 +374,10 @@ class FoodController {
         ]
     )
     fun deleteFood(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long
     ): ResponseEntity<*> {
-        foodService.deleteFood(id)
+        foodService.deleteFood(user = user, foodId = id)
         return ResponseEntity.noContent().build<Any>()
     }
 }

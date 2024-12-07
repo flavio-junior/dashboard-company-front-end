@@ -27,36 +27,48 @@ class FoodService {
     @Autowired
     private lateinit var categoryService: CategoryService
 
+    @Autowired
+    private lateinit var userService: UserService
+
     @Transactional(readOnly = true)
     fun findAllFoods(
-        name: String?,
+        user: User,
+        foodName: String?,
         pageable: Pageable
     ): Page<FoodResponseVO> {
-        val foods: Page<Food>? = foodRepository.findAllFoods(name = name, pageable = pageable)
+        val foods: Page<Food>? = foodRepository.findAllFoods(userId = user.id, foodName = foodName, pageable = pageable)
         return foods?.map { food -> parseObject(food, FoodResponseVO::class.java) }
-        ?: throw ResourceNotFoundException(message = PRODUCT_NOT_FOUND)
+            ?: throw ResourceNotFoundException(message = PRODUCT_NOT_FOUND)
     }
 
     @Transactional(readOnly = true)
     fun findFoodByName(
         user: User,
         name: String
-    ) : List<FoodResponseVO> {
-        val foods: List<Food> = foodRepository.findFoodByName(userId = user.id, name = name)
+    ): List<FoodResponseVO> {
+        val foods: List<Food> = foodRepository.findFoodByName(userId = user.id, foodName = name)
         return foods.map { food -> parseObject(food, FoodResponseVO::class.java) }
     }
 
     @Transactional(readOnly = true)
     fun findFoodById(
-        id: Long
+        user: User,
+        foodId: Long
     ): FoodResponseVO {
-        val food = getFood(id = id)
+        val food = getFood(userId = user.id, foodId = foodId)
         return parseObject(food, FoodResponseVO::class.java)
     }
 
-    fun getFood(id: Long): Food {
-        return foodRepository.findById(id)
-            .orElseThrow { ResourceNotFoundException(FOOD_NOT_FOUND) }
+    fun getFood(
+        userId: Long,
+        foodId: Long
+    ): Food {
+        val foodSaved: Food? = foodRepository.findFoodById(userId = userId, foodId = foodId)
+        if (foodSaved != null) {
+            return foodSaved
+        } else {
+            throw ResourceNotFoundException(FOOD_NOT_FOUND)
+        }
     }
 
     @Transactional
@@ -64,18 +76,23 @@ class FoodService {
         user: User,
         food: FoodRequestVO
     ): FoodResponseVO {
-        if (!checkNameFoodAlreadyExists(name = food.name)) {
+        if (!checkFoodNameAlreadyExists(userId = user.id, foodName = food.name)) {
+            val userAuthenticated = userService.findUserById(id = user.id)
             val foodResult: Food = parseObject(food, Food::class.java)
             foodResult.categories = categoryService.converterCategories(userId = user.id, categories = food.categories)
             foodResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
+            foodResult.user = userAuthenticated
             return parseObject(foodRepository.save(foodResult), FoodResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_FOOD)
         }
     }
 
-    private fun checkNameFoodAlreadyExists(name: String): Boolean {
-        val foodResult = foodRepository.checkNameFoodAlreadyExists(name = name)
+    private fun checkFoodNameAlreadyExists(
+        userId: Long,
+        foodName: String
+    ): Boolean {
+        val foodResult = foodRepository.checkNameFoodAlreadyExists(userId = userId, foodName = foodName)
         return foodResult != null
     }
 
@@ -84,8 +101,8 @@ class FoodService {
         user: User,
         food: FoodResponseVO
     ): FoodResponseVO {
-        if (!checkNameFoodAlreadyExists(name = food.name)) {
-            val foodSaved: Food = getFood(id = food.id)
+        if (!checkFoodNameAlreadyExists(userId = user.id, foodName = food.name)) {
+            val foodSaved: Food = getFood(userId = user.id, foodId = food.id)
             foodSaved.name = food.name
             foodSaved.categories?.clear()
             foodSaved.categories = categoryService.converterCategories(userId = user.id, categories = food.categories)
@@ -98,17 +115,22 @@ class FoodService {
 
     @Transactional
     fun updatePriceFood(
-        idFood: Long,
+        user: User,
+        foodId: Long,
         price: PriceRequestVO
     ) {
-        getFood(id = idFood)
-        foodRepository.updatePriceFood(idFood = idFood, price = price.price)
+        val foodSaved = getFood(userId = user.id, foodId = foodId)
+        foodRepository.updatePriceFood(userId = user.id, idFood = foodSaved.id, price = price.price)
     }
 
-    fun deleteFood(id: Long) {
-        val food = getFood(id = id)
-        food.categories = null
-        foodRepository.delete(food)
+    @Transactional
+    fun deleteFood(
+        user: User,
+        foodId: Long
+    ) {
+        val foodSaved = getFood(userId = user.id, foodId = foodId)
+        foodSaved.categories = null
+        foodRepository.deleteFoodById(userId = user.id, foodId = foodId)
     }
 
     companion object {
