@@ -1,6 +1,7 @@
 package br.com.dashboard.company.service
 
 import br.com.dashboard.company.entities.order.Order
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.OrderRepository
 import br.com.dashboard.company.utils.common.Status
@@ -57,12 +58,13 @@ class OrderService {
 
     @Transactional
     fun createNewOrder(
+        user: User,
         order: OrderRequestVO
     ): OrderResponseVO {
         val orderResult: Order = parseObject(order, Order::class.java)
         orderResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
         orderResult.status = Status.OPEN
-        val objectsSaved = objectService.saveObjects(objectsToSave = order.objects)
+        val objectsSaved = objectService.saveObjects(userId = user.id, objectsToSave = order.objects)
         orderResult.objects = objectsSaved.first
         orderResult.quantity = order.objects?.size ?: 0
         orderResult.price = objectsSaved.second

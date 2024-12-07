@@ -27,12 +27,17 @@ class ProductService {
     @Autowired
     private lateinit var categoryService: CategoryService
 
+    @Autowired
+    private lateinit var userService: UserService
+
     @Transactional(readOnly = true)
     fun findAllProducts(
+        user: User,
         name: String?,
         pageable: Pageable
     ): Page<ProductResponseVO> {
-        val products: Page<Product>? = productRepository.findAllProducts(name = name, pageable = pageable)
+        val products: Page<Product>? =
+            productRepository.findAllProducts(userId = user.id, name = name, pageable = pageable)
         return products?.map { product -> parseObject(product, ProductResponseVO::class.java) }
             ?: throw ResourceNotFoundException(message = PRODUCT_NOT_FOUND)
     }
@@ -48,17 +53,23 @@ class ProductService {
 
     @Transactional(readOnly = true)
     fun findProductById(
-        id: Long
+        user: User,
+        productId: Long
     ): ProductResponseVO {
-        val product = getProduct(id = id)
+        val product = getProduct(userId = user.id, productId = productId)
         return parseObject(product, ProductResponseVO::class.java)
     }
 
     fun getProduct(
-        id: Long
+        userId: Long,
+        productId: Long
     ): Product {
-        return productRepository.findById(id)
-            .orElseThrow { ResourceNotFoundException(PRODUCT_NOT_FOUND) }
+        val productSaved: Product? = productRepository.findProductById(userId = userId, productId = productId)
+        if (productSaved != null) {
+            return productSaved
+        } else {
+            throw ResourceNotFoundException(PRODUCT_NOT_FOUND)
+        }
     }
 
     @Transactional
@@ -66,11 +77,13 @@ class ProductService {
         user: User,
         product: ProductRequestVO
     ): ProductResponseVO {
-        if (!checkNameProductAlreadyExists(name = product.name)) {
+        if (!checkNameProductAlreadyExists(userId = user.id, name = product.name)) {
+            val userAuthenticated = userService.findUserById(id = user.id)
             val productResult: Product = parseObject(product, Product::class.java)
             productResult.categories =
                 categoryService.converterCategories(userId = user.id, categories = product.categories)
             productResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
+            productResult.user = userAuthenticated
             return parseObject(productRepository.save(productResult), ProductResponseVO::class.java)
         } else {
             throw DuplicateNameException(message = DUPLICATE_NAME_PRODUCT)
@@ -78,9 +91,10 @@ class ProductService {
     }
 
     private fun checkNameProductAlreadyExists(
+        userId: Long,
         name: String
     ): Boolean {
-        val productResult = productRepository.checkNameProductAlreadyExists(name = name)
+        val productResult = productRepository.checkNameProductAlreadyExists(userId = userId, name = name)
         return productResult != null
     }
 
@@ -89,8 +103,8 @@ class ProductService {
         user: User,
         product: ProductResponseVO
     ): ProductResponseVO {
-        if (!checkNameProductAlreadyExists(name = product.name)) {
-            val productSaved: Product = getProduct(id = product.id)
+        if (!checkNameProductAlreadyExists(userId = user.id, name = product.name)) {
+            val productSaved: Product = getProduct(userId = user.id, productId = product.id)
             productSaved.name = product.name
             productSaved.categories?.clear()
             productSaved.categories =
@@ -105,26 +119,32 @@ class ProductService {
 
     @Transactional
     fun updatePriceProduct(
-        idProduct: Long,
+        user: User,
+        productId: Long,
         price: PriceRequestVO
     ) {
-        getProduct(id = idProduct)
-        productRepository.updatePriceProduct(idProduct = idProduct, price = price.price)
+        val productSaved = getProduct(userId = user.id, productId = productId)
+        productRepository.updatePriceProduct(userId = user.id, idProduct = productSaved.id, price = price.price)
     }
 
     @Transactional
     fun restockProduct(
-        idProduct: Long,
+        user: User,
+        productId: Long,
         restockProduct: RestockProductRequestVO
     ) {
-        getProduct(id = idProduct)
-        productRepository.restockProduct(idProduct = idProduct, quantity = restockProduct.quantity)
+        val productSaved = getProduct(userId = user.id, productId = productId)
+        productRepository.restockProduct(userId = user.id, idProduct = productSaved.id, quantity = restockProduct.quantity)
     }
 
-    fun deleteProduct(id: Long) {
-        val product = getProduct(id = id)
-        product.categories = null
-        productRepository.delete(product)
+    @Transactional
+    fun deleteProduct(
+        user: User,
+        productId: Long
+    ) {
+        val productSaved = getProduct(userId = user.id, productId = productId)
+        productSaved.categories = null
+        productRepository.deleteProductById(userId = user.id, productId = productId)
     }
 
     companion object {

@@ -80,6 +80,7 @@ class ProductController {
         ]
     )
     fun findAllProducts(
+        @AuthenticationPrincipal user: User,
         @RequestParam(required = false) name: String?,
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "size", defaultValue = "12") size: Int,
@@ -89,7 +90,7 @@ class ProductController {
             if ("desc".equals(sort, ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
         val pageable: Pageable = PageRequest.of(page, size, Sort.by(sortDirection, "name"))
         return ResponseEntity.ok(
-            productService.findAllProducts(name = name, pageable = pageable)
+            productService.findAllProducts(user = user, name = name, pageable = pageable)
         )
     }
 
@@ -176,9 +177,10 @@ class ProductController {
         ]
     )
     fun findProductById(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long
     ): ProductResponseVO {
-        return productService.findProductById(id)
+        return productService.findProductById(user = user, productId = id)
     }
 
     @PostMapping(
@@ -329,10 +331,11 @@ class ProductController {
         ]
     )
     fun updatePriceProduct(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long,
         @RequestBody price: PriceRequestVO
     ): ResponseEntity<*> {
-        productService.updatePriceProduct(idProduct = id, price = price)
+        productService.updatePriceProduct(user = user, productId = id, price = price)
         return ResponseEntity.noContent().build<Any>()
     }
 
@@ -377,10 +380,11 @@ class ProductController {
         ]
     )
     fun restockProduct(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long,
         @RequestBody restockProduct: RestockProductRequestVO
     ): ResponseEntity<*> {
-        productService.restockProduct(idProduct = id, restockProduct = restockProduct)
+        productService.restockProduct(user = user, productId = id, restockProduct = restockProduct)
         return ResponseEntity.noContent().build<Any>()
     }
 
@@ -420,9 +424,10 @@ class ProductController {
         ]
     )
     fun deleteProduct(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long
     ): ResponseEntity<*> {
-        productService.deleteProduct(id)
+        productService.deleteProduct(user = user, productId = id)
         return ResponseEntity.noContent().build<Any>()
     }
 }

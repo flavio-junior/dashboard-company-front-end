@@ -30,6 +30,7 @@ class ObjectService {
 
     @Transactional
     fun saveObjects(
+        userId: Long,
         objectsToSave: MutableList<ObjectRequestVO>? = null
     ): Pair<MutableList<Object>?, Double> {
         var total = 0.0
@@ -47,7 +48,7 @@ class ObjectService {
                 total = priceCalculated
                 objectRepository.save(objectResult)
             } else {
-                val objectSaved = productService.getProduct(id = item.identifier)
+                val objectSaved = productService.getProduct(userId = userId, productId = item.identifier)
                 val objectResult: Object = parseObject(objectsToSave, Object::class.java)
                 objectResult.identifier = item.identifier
                 objectResult.type = item.type

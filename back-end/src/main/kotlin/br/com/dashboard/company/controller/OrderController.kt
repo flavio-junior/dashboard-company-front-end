@@ -1,5 +1,6 @@
 package br.com.dashboard.company.controller
 
+import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.service.OrderService
 import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.others.MediaType.APPLICATION_JSON
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -225,9 +227,10 @@ class OrderController {
         ]
     )
     fun createNewOrder(
+        @AuthenticationPrincipal user: User,
         @RequestBody order: OrderRequestVO
     ): ResponseEntity<OrderResponseVO> {
-        val entity: OrderResponseVO = orderService.createNewOrder(order = order)
+        val entity: OrderResponseVO = orderService.createNewOrder(user = user, order = order)
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
         return ResponseEntity.created(uri).body(entity)

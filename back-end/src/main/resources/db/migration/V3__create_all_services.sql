@@ -48,7 +48,7 @@ CREATE TABLE tb_user_food (
 CREATE TABLE IF NOT EXISTS tb_product (
     id SERIAL PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,
-    name VARCHAR(60) NOT NULL CONSTRAINT name_product_unique UNIQUE,
+    name VARCHAR(60) NOT NULL,
     price NUMERIC(10, 2) DEFAULT 0.0,
     stock_quantity INT NOT NULL
 );
