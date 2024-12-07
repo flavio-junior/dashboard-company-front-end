@@ -39,13 +39,13 @@ class OpenOrdersViewModel(
         size: Int = this.sizeDefault,
         route: LocationRoute = LocationRoute.SEARCH
     ) {
-//        when (route) {
-//            LocationRoute.SEARCH, LocationRoute.SORT, LocationRoute.RELOAD -> {}
-//            LocationRoute.FILTER -> {
-//                this.currentPage = NUMBER_ZERO
-//                showEmptyList.value = false
-//            }
-//        }
+        when (route) {
+            LocationRoute.SEARCH, LocationRoute.SORT, LocationRoute.RELOAD -> {}
+            LocationRoute.FILTER -> {
+                this.currentPage = NUMBER_ZERO
+                showEmptyList.value = false
+            }
+        }
         viewModelScope.launch {
             sizeDefault = size
             repository.findAllOpenOrders(
@@ -58,7 +58,7 @@ class OpenOrdersViewModel(
                 }
                 .collect {
                     it.result?.let { response ->
-                        //showEmptyList.value = false
+                        showEmptyList.value = false
                         _findAllOpenOrders.value = ObserveNetworkStateHandler.Success(
                             s = response
                         )

@@ -6,4 +6,5 @@ object OrderUtils {
     const val DETAILS_ORDER = "Detalhes do Pedido"
     const val CREATE_NEW_ORDER = "Criar Novo Pedido"
     const val UPDATE_ORDER = "Atualizar Pedido:"
+    const val EMPTY_LIST_ORDERS = "Nenhum Pedido Encontrado!"
 }

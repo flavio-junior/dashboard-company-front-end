@@ -22,7 +22,11 @@ fun navigateToAlternativeRoutes(
 ) {
     when (alternativeRoutes) {
         AlternativesRoutes.ERROR_403 -> {
-            navController.navigate(route = RouteApp.SignIn.item)
+            navController.navigate(route = RouteApp.SignIn.item) {
+                popUpTo(currentScreen) {
+                    inclusive = true
+                }
+            }
         }
 
         else -> {

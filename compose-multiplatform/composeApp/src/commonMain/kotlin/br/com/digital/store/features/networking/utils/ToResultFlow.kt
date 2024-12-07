@@ -32,7 +32,7 @@ inline fun <reified T> toResultFlow(
                 val errorResponse = response.body<ResponseError>()
                 emit(
                     ObserveNetworkStateHandler.Error(
-                        code = response.status.value,
+                        code = errorResponse.status,
                         e = errorResponse.message
                     )
                 )

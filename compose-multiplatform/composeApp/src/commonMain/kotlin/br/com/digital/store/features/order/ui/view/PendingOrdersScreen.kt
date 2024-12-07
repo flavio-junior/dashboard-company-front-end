@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import br.com.digital.store.components.strings.StringsUtils.DELIVERY
 import br.com.digital.store.components.strings.StringsUtils.ORDERS
 import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
+import br.com.digital.store.components.ui.EmptyList
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.Title
@@ -27,6 +28,8 @@ import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.ui.viewmodel.OpenOrdersViewModel
+import br.com.digital.store.features.order.utils.OrderUtils.EMPTY_LIST_ORDERS
+import br.com.digital.store.features.product.utils.ProductUtils.CREATE_PRODUCT
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
@@ -49,8 +52,8 @@ fun PendingOrdersScreen(
         Spacer(modifier = Modifier.height(height = Themes.size.spaceSize16))
         ObserveNetworkStateHandlerPendingOrders(
             viewModel = viewModel,
-            onItemSelected = {},
-            goToAlternativeRoutes = { }
+            onItemSelected = onItemSelected,
+            goToAlternativeRoutes = goToAlternativeRoutes
         )
     }
 }
@@ -63,7 +66,7 @@ private fun ObserveNetworkStateHandlerPendingOrders(
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<OrdersResponseDTO> by remember { viewModel.findAllOpenOrders }
-   // val showEmptyList: Boolean by remember { viewModel.showEmptyList }
+    val showEmptyList: Boolean by remember { viewModel.showEmptyList }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {
@@ -74,20 +77,24 @@ private fun ObserveNetworkStateHandlerPendingOrders(
         },
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
-//            if (showEmptyList) {
-//                EmptyList(
-//                    description = "$CREATE_PRODUCT?",
-//                    onClick = onToCreateNewProduct,
-//                    refresh = {
-//                        viewModel.findAllOpenOrders()
-//                    }
-//                )
-//            } else {
+            if (showEmptyList) {
+                EmptyList(
+                    title = EMPTY_LIST_ORDERS,
+                    description = "$CREATE_PRODUCT?",
+                    onClick = onToCreateNewProduct,
+                    refresh = {
+                        viewModel.findAllOpenOrders()
+                    }
+                )
+            } else {
                 it.result?.let { response ->
-                    TabsPendingOrdersScreen(ordersResponseVO = response, onItemSelected = onItemSelected)
+                    TabsPendingOrdersScreen(
+                        ordersResponseVO = response,
+                        onItemSelected = onItemSelected
+                    )
                 }
-                    //?: viewModel.showEmptyList(show = true)
-            //}
+                    ?: viewModel.showEmptyList(show = true)
+            }
         }
     )
 }
