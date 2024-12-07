@@ -47,6 +47,12 @@ CREATE TABLE IF NOT EXISTS tb_product (
     stock_quantity INT NOT NULL
 );
 
+CREATE TABLE tb_user_product (
+    fk_user INT REFERENCES tb_user(id),
+    fk_product INT REFERENCES tb_product(id),
+    PRIMARY KEY (fk_user, fk_product)
+);
+
 CREATE TABLE tb_food_category (
     fk_food INT REFERENCES tb_food(id),
     fk_category INT REFERENCES tb_category(id),

@@ -99,6 +99,11 @@ VALUES
     (1, 1);
 
 INSERT INTO
+    tb_user_product (fk_product, fk_user)
+VALUES
+    (1, 1);
+
+INSERT INTO
     tb_order (created_at, type, status, quantity, price)
 VALUES
     (DATE_TRUNC('second', NOW()), 'DELIVERY', 'OPEN', 4, 99.99),

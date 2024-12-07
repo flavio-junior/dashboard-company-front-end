@@ -23,6 +23,14 @@ interface ProductRepository : JpaRepository<Product, Long> {
     )
     fun findAllProducts(@Param("name") name: String?, pageable: Pageable): Page<Product>?
 
+    @Query(
+        value = "SELECT p FROM Product p WHERE p.user.id = :userId AND LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))"
+    )
+    fun findProductByName(
+        @Param("userId") userId: Long,
+        @Param("name") name: String?
+    ): List<Product>
+
     @Modifying
     @Query("UPDATE Product p SET p.price =:price WHERE p.id =:id")
     fun updatePriceProduct(

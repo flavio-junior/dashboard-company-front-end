@@ -38,6 +38,15 @@ class ProductService {
     }
 
     @Transactional(readOnly = true)
+    fun findProductByName(
+        user: User,
+        name: String
+    ): List<ProductResponseVO> {
+        val products: List<Product> = productRepository.findProductByName(userId = user.id, name = name)
+        return products.map { product -> parseObject(product, ProductResponseVO::class.java) }
+    }
+
+    @Transactional(readOnly = true)
     fun findProductById(
         id: Long
     ): ProductResponseVO {
