@@ -183,6 +183,13 @@ fun NavGraphBuilder.dashboardNavigation(
                     currentScreen = RouteApp.Reservation.item,
                     nextScreen = it
                 )
+            },
+            goToAlternativeRoutes = {
+                navigateToAlternativeRoutes(
+                    navController = navController,
+                    currentScreen = RouteApp.Reservation.item,
+                    alternativeRoutes = it
+                )
             }
         )
     }

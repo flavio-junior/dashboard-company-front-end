@@ -28,6 +28,7 @@ import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
 import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
 import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel
@@ -123,7 +124,7 @@ fun EditReservation(
         )
         if (openDialog) {
             Alert(
-                label = EDIT_RESERVATION,
+                label = "$EDIT_RESERVATION?",
                 onDismissRequest = {
                     openDialog = false
                 },
@@ -176,7 +177,10 @@ private fun ObserveNetworkStateHandlerEditReservations(
                 Triple(first = false, second = true, third = it)
             }
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onSuccessful()
             viewModel.findAllReservations()

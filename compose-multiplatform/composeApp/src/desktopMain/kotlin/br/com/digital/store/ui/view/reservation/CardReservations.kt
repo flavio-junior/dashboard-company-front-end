@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.components.ui.HeaderSearch
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
 import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
 import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel
@@ -22,7 +24,8 @@ import org.koin.mp.KoinPlatform.getKoin
 @Composable
 fun CardReservations(
     modifier: Modifier = Modifier,
-    onItemSelected: (ReservationResponseVO) -> Unit = {}
+    onItemSelected: (ReservationResponseVO) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -52,7 +55,8 @@ fun CardReservations(
         }
         ObserveNetworkStateHandlerReservations(
             viewModel = viewModel,
-            onItemSelected = onItemSelected
+            onItemSelected = onItemSelected,
+            goToAlternativeRoutes = goToAlternativeRoutes
         )
     }
 }
@@ -60,7 +64,8 @@ fun CardReservations(
 @Composable
 private fun ObserveNetworkStateHandlerReservations(
     viewModel: ReservationViewModel,
-    onItemSelected: (ReservationResponseVO) -> Unit = {}
+    onItemSelected: (ReservationResponseVO) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<ReservationsResponseVO> by remember { viewModel.findAllReservations }
     ObserveNetworkStateHandler(
@@ -70,9 +75,17 @@ private fun ObserveNetworkStateHandlerReservations(
         },
         onError = {
         },
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             it.result?.let { response ->
-                ReservationsResult(content = response, onItemSelected = onItemSelected)
+                ReservationsResult(
+                    content = response,
+                    onItemSelected = onItemSelected,
+                    goToAlternativeRoutes = goToAlternativeRoutes
+                )
             }
         }
     )
@@ -81,7 +94,8 @@ private fun ObserveNetworkStateHandlerReservations(
 @Composable
 private fun ReservationsResult(
     content: ReservationsResponseVO,
-    onItemSelected: (ReservationResponseVO) -> Unit = {}
+    onItemSelected: (ReservationResponseVO) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     Column {
         ListReservations(
@@ -93,6 +107,6 @@ private fun ReservationsResult(
             onItemSelected = onItemSelected
         )
         PageIndicatorReservations(content = content)
-        SaveReservation()
+        SaveReservation(goToAlternativeRoutes = goToAlternativeRoutes)
     }
 }
