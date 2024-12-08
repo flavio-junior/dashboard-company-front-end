@@ -26,6 +26,7 @@ import br.com.digital.store.features.category.utils.CategoryUtils.CATEGORY_NAME
 import br.com.digital.store.features.category.utils.CategoryUtils.SAVE_CATEGORY
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
@@ -112,7 +113,10 @@ private fun ObserveNetworkStateHandlerCreateNewCategory(
                 onError(Triple(first = false, second = true, third = it))
             }
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             viewModel.resetCategory(reset = ResetCategory.CREATE_CATEGORY)
