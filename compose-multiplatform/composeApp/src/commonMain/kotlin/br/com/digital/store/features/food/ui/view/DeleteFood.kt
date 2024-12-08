@@ -14,6 +14,7 @@ import br.com.digital.store.features.food.ui.viewmodel.ResetFood
 import br.com.digital.store.features.food.utils.FoodUtils.DELETE_FOOD
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import org.koin.mp.KoinPlatform.getKoin
 
@@ -77,7 +78,10 @@ private fun ObserveNetworkStateHandlerDeleteFood(
         onError = {
             Triple(first = true, second = false, third = it)
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             viewModel.resetFood(reset = ResetFood.DELETE_FOOD)

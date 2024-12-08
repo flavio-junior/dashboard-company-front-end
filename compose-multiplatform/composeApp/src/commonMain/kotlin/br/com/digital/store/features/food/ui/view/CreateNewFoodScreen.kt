@@ -31,6 +31,7 @@ import br.com.digital.store.features.food.utils.checkBodyFoodIsNull
 import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
@@ -141,7 +142,7 @@ fun CreateNewFoodScreen(
                 }
             )
         }
-        ObserveNetworkStateHandlerCreateFood(
+        ObserveNetworkStateHandlerCreateNewFood(
             viewModel = viewModel,
             onError = {
                 observer = it
@@ -160,7 +161,7 @@ fun CreateNewFoodScreen(
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerCreateFood(
+private fun ObserveNetworkStateHandlerCreateNewFood(
     viewModel: FoodViewModel,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
@@ -173,7 +174,10 @@ private fun ObserveNetworkStateHandlerCreateFood(
         onError = {
             onError(Triple(first = false, second = true, third = it.orEmpty()))
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             onSuccessful()

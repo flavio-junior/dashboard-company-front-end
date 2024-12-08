@@ -29,6 +29,7 @@ import br.com.digital.store.features.food.utils.checkBodyFoodIsNull
 import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
@@ -179,7 +180,10 @@ private fun ObserveNetworkStateHandlerUpdateFood(
         onError = {
             onError(Triple(first = false, second = true, third = it.orEmpty()))
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             onSuccessful()

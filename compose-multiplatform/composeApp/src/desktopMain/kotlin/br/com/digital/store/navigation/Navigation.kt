@@ -127,6 +127,13 @@ fun NavGraphBuilder.dashboardNavigation(
                     currentScreen = RouteApp.Food.item,
                     nextScreen = it
                 )
+            },
+            goToAlternativeRoutes = {
+                navigateToAlternativeRoutes(
+                    navController = navController,
+                    currentScreen = RouteApp.Food.item,
+                    alternativeRoutes = it
+                )
             }
         )
     }

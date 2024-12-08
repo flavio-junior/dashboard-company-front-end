@@ -19,6 +19,7 @@ import br.com.digital.store.features.food.utils.FoodUtils.CREATE_FOOD
 import br.com.digital.store.features.food.utils.FoodUtils.EMPTY_LIST_FOODS
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import org.koin.mp.KoinPlatform.getKoin
@@ -82,7 +83,10 @@ private fun ObserveNetworkStateHandlerFood(
         onError = {
             Triple(first = true, second = false, third = it)
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             if (showEmptyList) {
                 EmptyList(
