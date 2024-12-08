@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import br.com.digital.store.components.strings.StringsUtils.DELIVERY
 import br.com.digital.store.components.strings.StringsUtils.ORDERS
 import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
+import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.EmptyList
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
@@ -151,7 +152,7 @@ private fun TabsPendingOrdersScreen(
                     .fillMaxHeight()
                     .weight(weight = WEIGHT_SIZE_3)
             ) {
-
+                Description(description = ordersResponseVO.toString())
             }
             Column(
                 modifier = Modifier

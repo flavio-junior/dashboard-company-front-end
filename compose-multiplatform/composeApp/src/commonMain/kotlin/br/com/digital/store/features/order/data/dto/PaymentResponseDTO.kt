@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PaymentResponseDTO(
-    var id: Long,
+    var id: Long? = 0,
+    var createdAt: String? = "",
     var status: PaymentStatus? = null,
     var type: PaymentType? = null
 )

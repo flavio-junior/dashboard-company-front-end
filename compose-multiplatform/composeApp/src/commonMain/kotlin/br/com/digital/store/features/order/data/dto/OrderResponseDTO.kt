@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class OrderResponseDTO(
-    val id: Long,
-    val createdAt: String,
+    val id: Long? = 0,
+    val createdAt: String? = "",
     val type: TypeOrder? = null,
     val status: OrderStatus? = null,
     val reservations: List<ReservationResponseDTO>? = null,
