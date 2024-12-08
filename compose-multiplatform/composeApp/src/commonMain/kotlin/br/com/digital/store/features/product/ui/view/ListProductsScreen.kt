@@ -14,6 +14,7 @@ import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.features.product.data.vo.ProductResponseVO
 import br.com.digital.store.features.product.data.vo.ProductsResponseVO
 import br.com.digital.store.features.product.ui.viewmodel.ProductViewModel
@@ -82,7 +83,10 @@ private fun ObserveNetworkStateHandlerProducts(
         onError = {
             Triple(first = true, second = false, third = it)
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             if (showEmptyList) {
                 EmptyList(

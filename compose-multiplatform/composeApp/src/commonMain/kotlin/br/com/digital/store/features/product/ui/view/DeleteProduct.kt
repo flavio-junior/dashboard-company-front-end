@@ -11,6 +11,7 @@ import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.features.product.ui.viewmodel.ProductViewModel
 import br.com.digital.store.features.product.utils.ProductUtils.DELETE_PRODUCT
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
@@ -76,7 +77,10 @@ private fun ObserveNetworkStateHandlerUpdatePriceProduct(
         onError = {
             Triple(first = true, second = false, third = it)
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             viewModel.findAllProducts()
