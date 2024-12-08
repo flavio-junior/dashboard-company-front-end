@@ -17,7 +17,7 @@ object CommonUtils {
     const val WEIGHT_SIZE_5 = 5f
     const val WEIGHT_SIZE_9 = 9f
     const val ZERO_DOUBLE = "0.0"
-
+    const val UNAUTHORIZED_MESSAGE = "Token expired, please login again."
 }
 
 fun checkNameIsNull(name: String): Boolean {
