@@ -1,11 +1,9 @@
 package br.com.digital.store.features.order.ui.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,7 +17,6 @@ import androidx.compose.ui.text.style.TextAlign
 import br.com.digital.store.components.strings.StringsUtils.DELIVERY
 import br.com.digital.store.components.strings.StringsUtils.ORDERS
 import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
-import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.EmptyList
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
@@ -146,30 +143,9 @@ private fun TabsPendingOrdersScreen(
 ) {
     Column {
         Row(modifier = modifier.weight(weight = WEIGHT_SIZE_9)) {
-            Column(
-                modifier = Modifier
-                    .background(color = Themes.colors.error)
-                    .fillMaxHeight()
-                    .weight(weight = WEIGHT_SIZE_3)
-            ) {
-                Description(description = ordersResponseVO.toString())
-            }
-            Column(
-                modifier = Modifier
-                    .background(color = Themes.colors.success)
-                    .fillMaxHeight()
-                    .weight(weight = WEIGHT_SIZE_4)
-            ) {
-
-            }
-            Column(
-                modifier = Modifier
-                    .background(color = Themes.colors.secondary)
-                    .fillMaxHeight()
-                    .weight(weight = WEIGHT_SIZE_3)
-            ) {
-
-            }
+            DeliveryList(modifier = modifier.weight(weight = WEIGHT_SIZE_3))
+            OrderList(modifier = modifier.weight(weight = WEIGHT_SIZE_4))
+            ReservationList(modifier = modifier.weight(weight = WEIGHT_SIZE_3))
         }
     }
 }
