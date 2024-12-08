@@ -33,6 +33,7 @@ import br.com.digital.store.features.category.utils.CategoryUtils.EDIT_CATEGORY
 import br.com.digital.store.features.category.utils.CategoryUtils.NEW_NAME_CATEGORY
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
@@ -123,7 +124,7 @@ fun EditCategory(
         )
         if (openDialog) {
             Alert(
-                label = EDIT_CATEGORY,
+                label = "$EDIT_CATEGORY?",
                 onDismissRequest = {
                     openDialog = false
                 },
@@ -139,6 +140,7 @@ fun EditCategory(
             onError = {
                 observer = it
             },
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 CategoryResponseVO(id = 0, name = EMPTY_TEXT)
                 categoryName = EMPTY_TEXT
@@ -175,7 +177,10 @@ private fun ObserveNetworkStateHandlerEditCategory(
                 onError(Triple(first = false, second = true, third = it))
             }
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onSuccessful()
             viewModel.findAllCategories()

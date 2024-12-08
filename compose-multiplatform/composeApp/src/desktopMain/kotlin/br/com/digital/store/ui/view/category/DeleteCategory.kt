@@ -12,10 +12,11 @@ import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.category.ui.viewmodel.CategoryViewModel
+import br.com.digital.store.features.category.utils.CategoryUtils.DELETE_CATEGORY
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.features.category.utils.CategoryUtils.DELETE_CATEGORY
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 
 @Composable
@@ -42,7 +43,7 @@ fun DeleteCategory(
             },
             isEnabled = observer.first
         )
-        ObserveNetworkStateHandlerEditCategory(
+        ObserveNetworkStateHandlerDeleteCategory(
             viewModel = viewModel,
             onError = {
                 onError(it)
@@ -56,7 +57,7 @@ fun DeleteCategory(
         )
         if (openDialog) {
             Alert(
-                label = DELETE_CATEGORY,
+                label = "$DELETE_CATEGORY?",
                 onDismissRequest = {
                     openDialog = false
                 },
@@ -71,7 +72,7 @@ fun DeleteCategory(
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerEditCategory(
+private fun ObserveNetworkStateHandlerDeleteCategory(
     viewModel: CategoryViewModel,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
@@ -86,7 +87,10 @@ private fun ObserveNetworkStateHandlerEditCategory(
                 onError(Triple(first = false, second = true, third = it))
             }
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onSuccessful()
             viewModel.findAllCategories()
