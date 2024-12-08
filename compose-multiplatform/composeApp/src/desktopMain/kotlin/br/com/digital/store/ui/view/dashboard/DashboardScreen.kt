@@ -14,11 +14,14 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.components.model.Menu
 import br.com.digital.store.components.ui.ItemMenu
 import br.com.digital.store.domain.factory.menus
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.navigation.ItemNavigation
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.shared.BodyPage
+import br.com.digital.store.ui.viewmodel.ApiViewModel
 import br.com.digital.store.utils.NumbersUtils.NUMBER_FOUR
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
+import org.koin.mp.KoinPlatform.getKoin
 import kotlin.system.exitProcess
 
 @Composable
@@ -53,12 +56,21 @@ private fun MainCard(
             verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
             horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
         ) {
+            val viewModel: ApiViewModel = getKoin().get()
             items(menus) { menu ->
                 ItemMenu(menu = menu, goToNextScreen = {
-                    if (it == ItemNavigation.EXIT.name) {
-                        exitProcess(status = NUMBER_ZERO)
-                    } else {
-                        goToNextScreen(it)
+                    when (it) {
+                        ItemNavigation.CHANGE_TO_OTHER_ACCOUNT.name -> {
+                            viewModel.cleanToken()
+                            reloadViewModels()
+                            goToNextScreen(it)
+                        }
+                        ItemNavigation.EXIT.name -> {
+                            exitProcess(status = NUMBER_ZERO)
+                        }
+                        else -> {
+                            goToNextScreen(it)
+                        }
                     }
                 })
             }
