@@ -25,16 +25,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import br.com.digital.store.features.item.data.vo.ItemResponseVO
-import br.com.digital.store.features.item.data.vo.ItemsResponseVO
-import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.NUMBER
 import br.com.digital.store.components.strings.StringsUtils.PRICE
+import br.com.digital.store.components.ui.Description
+import br.com.digital.store.features.item.data.vo.ItemResponseVO
+import br.com.digital.store.features.item.data.vo.ItemsResponseVO
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
+import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
 import br.com.digital.store.utils.onClickable
 import kotlinx.coroutines.launch
@@ -159,7 +160,7 @@ fun Item(
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )
         Description(
-            description = item.price.toString(),
+            description = formatterMaskToMoney(price = item.price),
             modifier = modifier.weight(weight = WEIGHT_SIZE_2),
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )

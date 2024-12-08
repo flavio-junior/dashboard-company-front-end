@@ -14,6 +14,7 @@ import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.DELETE_ITEM
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
@@ -86,7 +87,10 @@ private fun ObserveNetworkStateHandlerEditItem(
                 onError(Triple(first = false, second = true, third = it))
             }
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onSuccessful()
             viewModel.findAllItems()

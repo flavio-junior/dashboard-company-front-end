@@ -35,6 +35,7 @@ import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZer
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.EDIT_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_NAME_ITEM
@@ -225,7 +226,10 @@ private fun ObserveNetworkStateHandlerEditItem(
                 onError(Triple(first = false, second = true, third = it))
             }
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onSuccessful()
             viewModel.findAllItems()

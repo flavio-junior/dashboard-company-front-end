@@ -28,6 +28,7 @@ import br.com.digital.store.features.item.viewmodel.ItemViewModel
 import br.com.digital.store.features.item.viewmodel.ResetItem
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.ITEM_NAME
 import br.com.digital.store.ui.view.item.ItemUtils.SAVE_ITEM
@@ -136,7 +137,10 @@ private fun ObserveNetworkStateHandlerCreateNewItem(
                 onError(Triple(first = false, second = true, third = it))
             }
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             viewModel.resetItem(reset = ResetItem.CREATE_ITEM)

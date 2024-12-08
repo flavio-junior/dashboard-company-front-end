@@ -16,6 +16,7 @@ import br.com.digital.store.features.item.data.vo.ItemsResponseVO
 import br.com.digital.store.features.item.viewmodel.ItemViewModel
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import org.koin.mp.KoinPlatform.getKoin
@@ -74,7 +75,10 @@ private fun ObserveNetworkStateHandlerItems(
         },
         onError = {
         },
-        goToAlternativeRoutes = goToAlternativeRoutes,
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
         onSuccess = {
             it.result?.let { response ->
                 ItemsResult(content = response, onItemSelected, goToAlternativeRoutes = goToAlternativeRoutes)
