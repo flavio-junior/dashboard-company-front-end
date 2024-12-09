@@ -58,4 +58,9 @@ object StringsUtils {
     const val ADD_ITEM = "Adicionar Item"
     const val VALUE_TOTAL = "Valor total:"
     const val CREATE_AT = "Criado dia:"
+    const val STATUS = "Status:"
+    const val PENDING_DELIVERY = "Entrega Pendente"
+    const val SENDING = "A caminho"
+    const val DELIVERED = "Entregue"
+    const val EMPTY_STATUS = "Status vazio"
 }

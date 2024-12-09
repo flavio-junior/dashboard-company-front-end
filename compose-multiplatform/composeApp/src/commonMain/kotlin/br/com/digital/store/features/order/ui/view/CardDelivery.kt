@@ -10,10 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.strings.StringsUtils.ADDRESS
 import br.com.digital.store.components.strings.StringsUtils.NUMBER_SYMBOL
+import br.com.digital.store.components.strings.StringsUtils.STATUS
 import br.com.digital.store.components.strings.StringsUtils.VALUE_TOTAL
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.features.order.data.vo.AddressResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
+import br.com.digital.store.features.order.domain.factory.addressFactory
 import br.com.digital.store.features.order.utils.OrderUtils.QUANTITY_ITEMS
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.formatterMaskToMoney
@@ -42,6 +44,12 @@ fun CardDelivery(
             label = QUANTITY_ITEMS,
             body = {
                 SimpleText(text = orderResponseVO.quantity.toString())
+            }
+        )
+        ItemDelivery(
+            label = STATUS,
+            body = {
+                SimpleText(text = addressFactory(status = orderResponseVO.address?.status))
             }
         )
         AddressDelivery(address = orderResponseVO.address)
