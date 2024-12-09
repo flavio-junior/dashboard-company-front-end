@@ -10,10 +10,24 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ObjectRepository : JpaRepository<Object, Long> {
 
+    @Query(value = "SELECT o FROM Object o WHERE o.user.id = :userId AND o.id = :objectId")
+    fun findObjectById(
+        @Param("userId") userId: Long,
+        @Param("objectId") objectId: Long
+    ): Object?
+
     @Modifying
-    @Query("UPDATE Object o SET o.quantity = o.quantity + :quantity, o.total = o.total + :total WHERE o.id = :id")
+    @Query(
+        value = """
+            UPDATE Object o SET
+                o.quantity = o.quantity + :quantity, o.total = o.total + :total 
+            WHERE
+                o.user.id = :userId AND o.id = :objectId
+            """
+    )
     fun updateObject(
-        @Param("id") id: Long,
+        @Param("userId") userId: Long,
+        @Param("objectId") objectId: Long,
         @Param("quantity") quantity: Int? = 0,
         @Param("total") total: Double? = 0.0
     )
@@ -25,4 +39,11 @@ interface ObjectRepository : JpaRepository<Object, Long> {
         @Param("quantity") quantity: Int? = 0,
         @Param("total") total: Double? = 0.0
     )
+
+    @Modifying
+    @Query(value = "DELETE FROM Object o WHERE o.id = :objectId AND o.user.id = :userId")
+    fun deleteObjectById(
+        @Param("userId") userId: Long,
+        @Param("objectId") objectId: Long
+    ): Int
 }

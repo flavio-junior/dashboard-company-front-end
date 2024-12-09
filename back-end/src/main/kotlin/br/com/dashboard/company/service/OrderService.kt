@@ -90,11 +90,12 @@ class OrderService {
 
     @Transactional
     fun updateObject(
-        idOrder: Long,
-        idObject: Long,
+        user: User,
+        orderId: Long,
+        objectId: Long,
         objectActual: UpdateObjectRequestVO
     ) {
-        objectService.updateObject(idOrder = idOrder, idObject = idObject, objectActual = objectActual)
+        objectService.updateObject(user = user, orderId = orderId, objectId = objectId, objectActual = objectActual)
     }
 
     @Transactional

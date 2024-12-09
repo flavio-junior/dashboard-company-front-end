@@ -172,6 +172,17 @@ VALUES
     (3, 7);
 
 INSERT INTO
+    tb_user_object (fk_object, fk_user)
+VALUES
+    (1, 1),
+    (2, 1),
+    (3, 1),
+    (4, 1),
+    (5, 1),
+    (6, 1),
+    (7, 1);
+
+INSERT INTO
     tb_payment (created_at, type)
 VALUES
     (null, null),

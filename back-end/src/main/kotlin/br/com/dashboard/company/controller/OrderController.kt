@@ -320,11 +320,17 @@ class OrderController {
         ]
     )
     fun updateObject(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "order") idOrder: Long,
         @PathVariable(value = "id") idObject: Long,
         @RequestBody updateObject: UpdateObjectRequestVO
     ) {
-        return orderService.updateObject(idOrder = idOrder, idObject = idObject, updateObject)
+        return orderService.updateObject(
+            user = user,
+            orderId = idOrder,
+            objectId = idObject,
+            objectActual = updateObject
+        )
     }
 
     @DeleteMapping(
