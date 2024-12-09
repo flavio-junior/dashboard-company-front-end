@@ -1,5 +1,6 @@
 package br.com.dashboard.company.entities.`object`
 
+import br.com.dashboard.company.utils.common.ObjectStatus
 import br.com.dashboard.company.utils.common.TypeItem
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -23,5 +24,8 @@ data class Object(
     var name: String = "",
     var price: Double = 0.0,
     var quantity: Int = 0,
-    var total: Double = 0.0
+    var total: Double = 0.0,
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varying")
+    var status: ObjectStatus? = null
 )

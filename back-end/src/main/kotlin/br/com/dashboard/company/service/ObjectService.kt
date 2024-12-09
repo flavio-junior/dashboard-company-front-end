@@ -5,6 +5,7 @@ import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ObjectRepository
 import br.com.dashboard.company.repository.OrderObjectRepository
 import br.com.dashboard.company.utils.common.Action
+import br.com.dashboard.company.utils.common.ObjectStatus
 import br.com.dashboard.company.utils.common.TypeItem
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.`object`.ObjectRequestVO
@@ -49,6 +50,7 @@ class ObjectService {
                     objectResult.quantity = item.quantity
                     val priceCalculated = (objectSaved.price * item.quantity)
                     objectResult.total = priceCalculated
+                    objectResult.status = ObjectStatus.PENDING
                     total += priceCalculated
                     objectRepository.save(objectResult)
                 }
@@ -62,6 +64,7 @@ class ObjectService {
                     objectResult.quantity = item.quantity
                     val priceCalculated = (objectSaved.price * item.quantity)
                     objectResult.total = priceCalculated
+                    objectResult.status = ObjectStatus.PENDING
                     total += priceCalculated
                     objectRepository.save(objectResult)
                 }
@@ -75,6 +78,7 @@ class ObjectService {
                     objectResult.quantity = item.quantity
                     val priceCalculated = (objectSaved.price * item.quantity)
                     objectResult.total = priceCalculated
+                    objectResult.status = ObjectStatus.PENDING
                     total += priceCalculated
                     objectRepository.save(objectResult)
                 }

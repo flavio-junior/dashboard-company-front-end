@@ -1,5 +1,6 @@
 package br.com.dashboard.company.vo.`object`
 
+import br.com.dashboard.company.utils.common.ObjectStatus
 import br.com.dashboard.company.utils.common.TypeItem
 
 data class ObjectResponseVO(
@@ -9,5 +10,6 @@ data class ObjectResponseVO(
     var name: String = "",
     var price: Double = 0.0,
     var quantity: Int = 0,
-    var total: Double = 0.0
+    var total: Double = 0.0,
+    var status: ObjectStatus? = null
 )

@@ -150,15 +150,15 @@ VALUES
     (1, 1);
 
 INSERT INTO
-    tb_object (identifier, type, name, price, quantity, total)
+    tb_object (identifier, type, name, price, quantity, total, status)
 VALUES
-    (9, 'FOOD', 'Camarão na Moranga', 30.00, 3, 90.0),
-    (1, 'PRODUCT', 'Coca Cola Zero',  9.99, 1, 9.99),
-    (6, 'PRODUCT', 'Moqueca de Peixe', 25.00, 4, 100.00),
-    (5, 'PRODUCT', 'Cuscuz Nordestino', 10.00, 1, 10.00),
-    (6, 'PRODUCT', 'Buchada de Bode', 20.00, 1, 20.00),
-    (7, 'PRODUCT', 'Camarão na Moranga', 30.00, 1, 30.00),
-    (8, 'PRODUCT', 'Paçoca de Carne de Sol', 12.00, 1, 12.00);
+    (9, 'FOOD', 'Camarão na Moranga', 30.00, 3, 90.0, 'PENDING'),
+    (1, 'PRODUCT', 'Coca Cola Zero',  9.99, 1, 9.99, 'PENDING'),
+    (6, 'PRODUCT', 'Moqueca de Peixe', 25.00, 4, 100.00, 'PENDING'),
+    (5, 'PRODUCT', 'Cuscuz Nordestino', 10.00, 1, 10.00, 'PENDING'),
+    (6, 'PRODUCT', 'Buchada de Bode', 20.00, 1, 20.00, 'PENDING'),
+    (7, 'PRODUCT', 'Camarão na Moranga', 30.00, 1, 30.00, 'PENDING'),
+    (8, 'PRODUCT', 'Paçoca de Carne de Sol', 12.00, 1, 12.00, 'PENDING');
 
 INSERT INTO
     tb_order_object (fk_order, fk_object)

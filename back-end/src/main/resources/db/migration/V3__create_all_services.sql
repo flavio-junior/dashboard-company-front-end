@@ -114,7 +114,8 @@ CREATE TABLE IF NOT EXISTS tb_object (
     name VARCHAR(60) NOT NULL,
     price NUMERIC(10, 2) DEFAULT 0.0,
     quantity INT NOT NULL,
-    total NUMERIC(10, 2) DEFAULT 0.0
+    total NUMERIC(10, 2) DEFAULT 0.0,
+    status varchar(30) check (status in ('PENDING', 'DELIVERED'))
 );
 
 CREATE TABLE tb_order_object (
