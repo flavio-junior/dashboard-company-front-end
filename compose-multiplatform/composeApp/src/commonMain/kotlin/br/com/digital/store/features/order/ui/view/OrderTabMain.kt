@@ -10,7 +10,6 @@ fun OrderTabMain(
     index: Int,
     orderResponseVO: OrderResponseVO = OrderResponseVO(),
     onItemSelected: (OrderResponseVO) -> Unit = {},
-    goToCreateNewOrder: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: (Int) -> Unit = {}
 ) {
@@ -20,24 +19,11 @@ fun OrderTabMain(
             goToAlternativeRoutes = goToAlternativeRoutes
         )
 
-        NumbersUtils.NUMBER_ONE -> OrdersCompletedScreen(
-            onItemSelected = onItemSelected,
-            onToCreateNewProduct = goToCreateNewOrder,
-            goToAlternativeRoutes = goToAlternativeRoutes
-        )
-
-        NumbersUtils.NUMBER_TWO -> DetailsOrderScreen(
+        NumbersUtils.NUMBER_ONE -> DetailsOrderScreen(
             orderResponseVO = orderResponseVO,
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = {
                 onRefresh(NumbersUtils.NUMBER_ONE)
-            }
-        )
-
-        NumbersUtils.NUMBER_THREE -> CreateNewOrderScreen(
-            goToAlternativeRoutes = goToAlternativeRoutes,
-            onRefresh = {
-                onRefresh(NumbersUtils.NUMBER_TWO)
             }
         )
     }

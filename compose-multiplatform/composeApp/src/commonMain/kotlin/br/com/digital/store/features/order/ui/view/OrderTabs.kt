@@ -83,11 +83,6 @@ fun OrdersTabs(
                             pagerState.animateScrollToPage(page = NumbersUtils.NUMBER_ONE)
                         }
                     },
-                    goToCreateNewOrder = {
-                        scope.launch {
-                            pagerState.animateScrollToPage(page = + NumbersUtils.NUMBER_TWO)
-                        }
-                    },
                     goToAlternativeRoutes = goToAlternativeRoutes,
                     onRefresh = {
                         scope.launch {

@@ -6,7 +6,7 @@ import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
 
 data class OrderResponseVO(
     val id: Long? = 0,
-    val createdAt: String? = "",
+    val createdAt: String = "",
     val type: TypeOrder? = null,
     val status: OrderStatus? = null,
     val reservations: List<ReservationResponseVO>? = null,

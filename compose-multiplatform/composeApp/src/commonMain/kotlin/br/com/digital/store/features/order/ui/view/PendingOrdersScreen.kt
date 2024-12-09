@@ -23,8 +23,9 @@ import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.Title
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
+import br.com.digital.store.features.order.data.vo.OrdersResponseVO
+import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.order.ui.viewmodel.OpenOrdersViewModel
 import br.com.digital.store.features.order.utils.OrderUtils.EMPTY_LIST_ORDERS
 import br.com.digital.store.features.product.utils.ProductUtils.CREATE_PRODUCT
@@ -63,7 +64,7 @@ private fun ObserveNetworkStateHandlerPendingOrders(
     onToCreateNewProduct: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<OrdersResponseDTO> by remember { viewModel.findAllOpenOrders }
+    val state: ObserveNetworkStateHandler<OrdersResponseVO> by remember { viewModel.findAllOpenOrders }
     val showEmptyList: Boolean by remember { viewModel.showEmptyList }
     ObserveNetworkStateHandler(
         state = state,
@@ -90,8 +91,7 @@ private fun ObserveNetworkStateHandlerPendingOrders(
                         ordersResponseVO = response,
                         onItemSelected = onItemSelected
                     )
-                }
-                    ?: viewModel.showEmptyList(show = true)
+                } ?: viewModel.showEmptyList(show = true)
             }
         }
     )
@@ -138,14 +138,30 @@ fun HeaderPendingOrdersScreen(
 @Composable
 private fun TabsPendingOrdersScreen(
     modifier: Modifier = Modifier,
-    ordersResponseVO: OrdersResponseDTO,
+    ordersResponseVO: OrdersResponseVO,
     onItemSelected: (OrderResponseVO) -> Unit = {}
 ) {
+    val delivery = ordersResponseVO.content?.filter { it.type == TypeOrder.DELIVERY } ?: emptyList()
+    val orders = ordersResponseVO.content?.filter { it.type == TypeOrder.ORDER } ?: emptyList()
+    val reservations =
+        ordersResponseVO.content?.filter { it.type == TypeOrder.RESERVATION } ?: emptyList()
     Column {
         Row(modifier = modifier.weight(weight = WEIGHT_SIZE_9)) {
-            DeliveryList(modifier = modifier.weight(weight = WEIGHT_SIZE_3))
-            OrderList(modifier = modifier.weight(weight = WEIGHT_SIZE_4))
-            ReservationList(modifier = modifier.weight(weight = WEIGHT_SIZE_3))
+            DeliveryList(
+                modifier = modifier.weight(weight = WEIGHT_SIZE_3),
+                orderResponseVO = delivery,
+                onItemSelected = onItemSelected
+            )
+            OrderList(
+                modifier = modifier.weight(weight = WEIGHT_SIZE_4),
+                orderResponseVO = orders,
+                onItemSelected = onItemSelected
+            )
+            ReservationList(
+                modifier = modifier.weight(weight = WEIGHT_SIZE_3),
+                orderResponseVO = reservations,
+                onItemSelected = onItemSelected
+            )
         }
     }
 }

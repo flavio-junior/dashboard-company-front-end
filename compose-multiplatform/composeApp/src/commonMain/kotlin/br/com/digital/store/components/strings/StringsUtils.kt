@@ -50,9 +50,12 @@ object StringsUtils {
     const val ADDRESS = "Endereço:"
     const val STREET = "Rua"
     const val NUMBER = "Número"
+    const val NUMBER_SYMBOL = "Nº:"
     const val DISTRICT = "Bairro"
     const val COMPLEMENT = "Complemento"
     const val ADD_PRODUCT = "Adicionar Produto"
     const val ADD_FOOD = "Adicionar Prato"
     const val ADD_ITEM = "Adicionar Item"
+    const val VALUE_TOTAL = "Valor total:"
+    const val CREATE_AT = "Criado dia:"
 }
