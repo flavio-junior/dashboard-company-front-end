@@ -3,11 +3,13 @@ package br.com.digital.store.features.order.data.dto
 import br.com.digital.store.features.order.domain.status.OrderStatus
 import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class OrderResponseDTO(
     val id: Long? = 0,
+    @SerialName("created_at")
     val createdAt: String? = "",
     val type: TypeOrder? = null,
     val status: OrderStatus? = null,
