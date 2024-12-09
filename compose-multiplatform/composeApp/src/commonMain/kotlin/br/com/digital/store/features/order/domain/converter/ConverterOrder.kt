@@ -59,6 +59,7 @@ class ConverterOrder {
     ): AddressResponseVO {
         return AddressResponseVO(
             id = address?.id,
+            status = address?.status,
             complement = address?.complement,
             district = address?.district,
             number = address?.number,
