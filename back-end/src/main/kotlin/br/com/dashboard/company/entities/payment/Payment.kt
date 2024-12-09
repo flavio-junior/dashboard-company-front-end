@@ -1,6 +1,5 @@
 package br.com.dashboard.company.entities.payment
 
-import br.com.dashboard.company.utils.common.PaymentStatus
 import br.com.dashboard.company.utils.common.PaymentType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -20,8 +19,6 @@ data class Payment(
     var id: Long = 0,
     @Column(name = "created_at", nullable = false)
     var createdAt: LocalDateTime? = null,
-    @Enumerated(EnumType.STRING)
-    var status: PaymentStatus? = null,
     @Enumerated(EnumType.STRING)
     var type: PaymentType? = null
 )

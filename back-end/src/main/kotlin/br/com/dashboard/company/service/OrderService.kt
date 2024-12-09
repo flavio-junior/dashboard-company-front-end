@@ -73,7 +73,6 @@ class OrderService {
         orderResult.objects = objectsSaved.first
         orderResult.quantity = order.objects?.size ?: 0
         orderResult.price = objectsSaved.second
-        orderResult.payment?.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
         orderResult.user = userAuthenticated
         return parseObject(orderRepository.save(orderResult), OrderResponseVO::class.java)
     }

@@ -16,11 +16,7 @@ class PaymentService {
         closeOrder: CloseOrderRequestVO
     ) {
         paymentRepository.findById(closeOrder.id).orElseThrow { ResourceNotFoundException(message = PAYMENT_NOT_FOUND) }
-        paymentRepository.updatePayment(
-            id = closeOrder.id,
-            status = closeOrder.status,
-            type = closeOrder.type
-        )
+        paymentRepository.updatePayment(id = closeOrder.id, type = closeOrder.type)
     }
 
     companion object {

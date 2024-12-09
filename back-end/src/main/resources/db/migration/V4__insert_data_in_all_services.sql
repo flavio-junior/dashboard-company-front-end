@@ -172,11 +172,11 @@ VALUES
     (3, 7);
 
 INSERT INTO
-    tb_payment (created_at, status, type)
+    tb_payment (created_at, type)
 VALUES
-    (DATE_TRUNC('second', NOW()), 'PENDING', null),
-    (DATE_TRUNC('second', NOW()), 'PENDING', null),
-    (DATE_TRUNC('second', NOW()), 'PENDING', null);
+    (null, null),
+    (null, null),
+    (null, null);
 
 INSERT INTO
     tb_order_payment (fk_order, fk_payment)

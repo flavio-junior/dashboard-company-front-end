@@ -10,6 +10,5 @@ data class OrderRequestVO(
     var type: TypeOrder? = null,
     var reservations: MutableList<ReservationResponseVO>? = null,
     var address: AddressRequestVO? = null,
-    var objects: MutableList<ObjectRequestVO>? = null,
-    var payment: PaymentRequestVO? = null
+    var objects: MutableList<ObjectRequestVO>? = null
 )
