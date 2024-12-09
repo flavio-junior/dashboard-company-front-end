@@ -88,7 +88,6 @@ class ConverterOrder {
         return PaymentResponseVO(
             id = payment?.id,
             createdAt = payment?.createdAt,
-            status = payment?.status,
             type = payment?.type
         )
     }
