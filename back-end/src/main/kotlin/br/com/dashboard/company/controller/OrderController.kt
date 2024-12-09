@@ -183,9 +183,10 @@ class OrderController {
         ]
     )
     fun findOrderById(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long
     ): OrderResponseVO {
-        return orderService.findOrderById(id)
+        return orderService.findOrderById(user = user, orderId = id)
     }
 
     @PostMapping(
@@ -362,9 +363,10 @@ class OrderController {
         ]
     )
     fun deleteOrder(
+        @AuthenticationPrincipal user: User,
         @PathVariable(value = "id") id: Long
     ): ResponseEntity<*> {
-        orderService.deleteOrder(id)
+        orderService.deleteOrder(user = user, orderId = id)
         return ResponseEntity.noContent().build<Any>()
     }
 }

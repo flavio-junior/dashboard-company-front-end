@@ -27,4 +27,17 @@ interface OrderRepository : JpaRepository<Order, Long> {
         @Param("orderId") orderId: Long,
         @Param("status") status: Status,
     )
+
+    @Query(value = "SELECT o FROM Order o WHERE o.user.id = :userId AND o.id = :orderId")
+    fun findOrderById(
+        @Param("userId") userId: Long,
+        @Param("orderId") orderId: Long
+    ): Order?
+
+    @Modifying
+    @Query(value = "DELETE FROM Order o WHERE o.id = :orderId AND o.user.id = :userId")
+    fun deleteOrderById(
+        @Param("userId") userId: Long,
+        @Param("orderId") orderId: Long
+    ): Int
 }
