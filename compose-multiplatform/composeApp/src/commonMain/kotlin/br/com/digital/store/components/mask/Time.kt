@@ -6,7 +6,7 @@ import kotlinx.datetime.toLocalDateTime
 
 fun formatDate(originalDate: String): String {
     val date = Instant.parse(isoString = "${originalDate}Z")
-        .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+        .toLocalDateTime(timeZone = TimeZone.UTC)
     return "${date.dayOfMonth.toString().padStart(length = 2, padChar = '0')}/${
         date.monthNumber.toString().padStart(length = 2, padChar = '0')
     }/${date.year} às ${date.hour.toString().padStart(length = 2, padChar = '0')}:${
