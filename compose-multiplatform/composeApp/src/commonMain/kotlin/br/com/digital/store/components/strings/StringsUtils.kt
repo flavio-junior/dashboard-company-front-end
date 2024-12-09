@@ -63,4 +63,5 @@ object StringsUtils {
     const val SENDING = "A caminho"
     const val DELIVERED = "Entregue"
     const val EMPTY_STATUS = "Status vazio"
+    const val PENDING_OBJECTS = "Itens pendentes:"
 }

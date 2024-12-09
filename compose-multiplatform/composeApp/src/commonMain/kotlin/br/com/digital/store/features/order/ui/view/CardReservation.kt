@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import br.com.digital.store.components.strings.StringsUtils.PENDING_OBJECTS
 import br.com.digital.store.components.strings.StringsUtils.VALUE_TOTAL
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
+import br.com.digital.store.features.order.utils.OrderUtils.NUMBER_ITEMS
 import br.com.digital.store.features.order.utils.OrderUtils.NUMBER_RESERVATIONS
-import br.com.digital.store.features.order.utils.OrderUtils.QUANTITY_ITEMS
+import br.com.digital.store.features.order.utils.countPendingObjects
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
@@ -43,9 +45,15 @@ fun CardReservation(
             }
         )
         ItemReservation(
-            label = QUANTITY_ITEMS,
+            label = NUMBER_ITEMS,
             body = {
                 SimpleText(text = orderResponseVO.quantity.toString())
+            }
+        )
+        ItemReservation(
+            label = PENDING_OBJECTS,
+            body = {
+                SimpleText(text = countPendingObjects(order = orderResponseVO))
             }
         )
         ItemReservation(

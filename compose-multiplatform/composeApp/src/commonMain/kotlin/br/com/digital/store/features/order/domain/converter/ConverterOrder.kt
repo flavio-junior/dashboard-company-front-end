@@ -78,7 +78,8 @@ class ConverterOrder {
                 price = it.price,
                 quantity = it.quantity,
                 total = it.total,
-                type = it.type
+                type = it.type,
+                status = it.status
             )
         }
     }

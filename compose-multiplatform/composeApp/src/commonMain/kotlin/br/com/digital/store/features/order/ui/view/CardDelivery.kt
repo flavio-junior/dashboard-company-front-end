@@ -16,7 +16,7 @@ import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.features.order.data.vo.AddressResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.factory.addressFactory
-import br.com.digital.store.features.order.utils.OrderUtils.QUANTITY_ITEMS
+import br.com.digital.store.features.order.utils.OrderUtils.NUMBER_ITEMS
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
@@ -41,7 +41,7 @@ fun CardDelivery(
     ) {
         CreateAtOrder(createAt = orderResponseVO.createdAt)
         ItemDelivery(
-            label = QUANTITY_ITEMS,
+            label = NUMBER_ITEMS,
             body = {
                 SimpleText(text = orderResponseVO.quantity.toString())
             }
