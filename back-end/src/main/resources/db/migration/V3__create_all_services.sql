@@ -94,6 +94,7 @@ CREATE TABLE tb_order_reservation (
 
 CREATE TABLE IF NOT EXISTS tb_address (
     id SERIAL PRIMARY KEY,
+    status varchar(30) check (status in ('PENDING_DELIVERY', 'SENDING', 'DELIVERED')),
     street VARCHAR(40) NOT NULL,
     number INT NULL,
     district VARCHAR(30) NOT NULL,

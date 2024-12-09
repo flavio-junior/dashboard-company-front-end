@@ -4,6 +4,7 @@ import br.com.dashboard.company.entities.order.Order
 import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.OrderRepository
+import br.com.dashboard.company.utils.common.AddressStatus
 import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.`object`.UpdateObjectRequestVO
@@ -70,6 +71,7 @@ class OrderService {
         orderResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
         orderResult.status = Status.OPEN
         val objectsSaved = objectService.saveObjects(userId = user.id, objectsToSave = order.objects)
+        orderResult.address?.status = AddressStatus.PENDING_DELIVERY
         orderResult.objects = objectsSaved.first
         orderResult.quantity = order.objects?.size ?: 0
         orderResult.price = objectsSaved.second

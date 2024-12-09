@@ -140,9 +140,9 @@ VALUES
     (3, 3);
 
 INSERT INTO
-    tb_address (street, number, district, complement)
+    tb_address (status, street, number, district, complement)
 VALUES
-    ('Frei Damião', 65, 'Centro', 'Ao lado da casa de Roberto Tavares');
+    ('PENDING_DELIVERY', 'Frei Damião', 65, 'Centro', 'Ao lado da casa de Roberto Tavares');
 
 INSERT INTO
     tb_order_address (fk_order, fk_address)
