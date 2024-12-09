@@ -48,7 +48,7 @@ class ItemService {
         }
     }
 
-    private fun getItem(
+   fun getItem(
         userId: Long,
         itemId: Long
     ): Item {

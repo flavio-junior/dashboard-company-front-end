@@ -20,6 +20,9 @@ class ObjectService {
     private lateinit var objectRepository: ObjectRepository
 
     @Autowired
+    private lateinit var itemService: ItemService
+
+    @Autowired
     private lateinit var orderObjectRepository: OrderObjectRepository
 
     @Autowired
@@ -35,30 +38,46 @@ class ObjectService {
     ): Pair<MutableList<Object>?, Double> {
         var total = 0.0
         val result = objectsToSave?.map { item ->
-            if (item.type == TypeItem.FOOD) {
-                val objectSaved = foodService.getFood(userId = userId, foodId = item.identifier)
-                val objectResult: Object = parseObject(objectsToSave, Object::class.java)
-                objectResult.identifier = item.identifier
-                objectResult.type = item.type
-                objectResult.name = objectSaved.name
-                objectResult.price = objectSaved.price
-                objectResult.quantity = item.quantity
-                val priceCalculated = (objectSaved.price * item.quantity)
-                objectResult.total = priceCalculated
-                total = priceCalculated
-                objectRepository.save(objectResult)
-            } else {
-                val objectSaved = productService.getProduct(userId = userId, productId = item.identifier)
-                val objectResult: Object = parseObject(objectsToSave, Object::class.java)
-                objectResult.identifier = item.identifier
-                objectResult.type = item.type
-                objectResult.name = objectSaved.name
-                objectResult.price = objectSaved.price
-                objectResult.quantity = item.quantity
-                val priceCalculated = (objectSaved.price * item.quantity)
-                objectResult.total = priceCalculated
-                total = priceCalculated
-                objectRepository.save(objectResult)
+            when (item.type) {
+                TypeItem.FOOD -> {
+                    val objectSaved = foodService.getFood(userId = userId, foodId = item.identifier)
+                    val objectResult: Object = parseObject(objectsToSave, Object::class.java)
+                    objectResult.identifier = item.identifier
+                    objectResult.type = item.type
+                    objectResult.name = objectSaved.name
+                    objectResult.price = objectSaved.price
+                    objectResult.quantity = item.quantity
+                    val priceCalculated = (objectSaved.price * item.quantity)
+                    objectResult.total = priceCalculated
+                    total += priceCalculated
+                    objectRepository.save(objectResult)
+                }
+                TypeItem.ITEM -> {
+                    val objectSaved = itemService.getItem(userId = userId, itemId = item.identifier)
+                    val objectResult: Object = parseObject(objectsToSave, Object::class.java)
+                    objectResult.identifier = item.identifier
+                    objectResult.type = item.type
+                    objectResult.name = objectSaved.name
+                    objectResult.price = objectSaved.price
+                    objectResult.quantity = item.quantity
+                    val priceCalculated = (objectSaved.price * item.quantity)
+                    objectResult.total = priceCalculated
+                    total += priceCalculated
+                    objectRepository.save(objectResult)
+                }
+                else -> {
+                    val objectSaved = productService.getProduct(userId = userId, productId = item.identifier)
+                    val objectResult: Object = parseObject(objectsToSave, Object::class.java)
+                    objectResult.identifier = item.identifier
+                    objectResult.type = item.type
+                    objectResult.name = objectSaved.name
+                    objectResult.price = objectSaved.price
+                    objectResult.quantity = item.quantity
+                    val priceCalculated = (objectSaved.price * item.quantity)
+                    objectResult.total = priceCalculated
+                    total += priceCalculated
+                    objectRepository.save(objectResult)
+                }
             }
         }
         return Pair(first = result?.toMutableList(), second = total)

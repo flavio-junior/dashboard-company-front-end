@@ -109,7 +109,7 @@ CREATE TABLE tb_order_address (
 CREATE TABLE IF NOT EXISTS tb_object (
     id SERIAL PRIMARY KEY,
     identifier INT NULL,
-    type varchar(30) check (type in ('FOOD', 'PRODUCT')),
+    type varchar(30) check (type in ('FOOD', 'PRODUCT', 'ITEM')),
     name VARCHAR(60) NOT NULL,
     price NUMERIC(10, 2) DEFAULT 0.0,
     quantity INT NOT NULL,
