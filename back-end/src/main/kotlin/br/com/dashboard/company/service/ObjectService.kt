@@ -4,12 +4,10 @@ import br.com.dashboard.company.entities.`object`.Object
 import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ObjectRepository
-import br.com.dashboard.company.utils.common.Action
 import br.com.dashboard.company.utils.common.ObjectStatus
 import br.com.dashboard.company.utils.common.TypeItem
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.`object`.ObjectRequestVO
-import br.com.dashboard.company.vo.`object`.UpdateObjectRequestVO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -93,7 +91,7 @@ class ObjectService {
         return Pair(first = result?.toMutableList(), second = total)
     }
 
-    private fun getObject(
+    fun getObject(
         userId: Long,
         objectId: Long
     ): Object {
@@ -101,45 +99,40 @@ class ObjectService {
         if (objectSalved != null) {
             return objectSalved
         } else {
-           throw ResourceNotFoundException(OBJECT_NOT_FOUND)
+            throw ResourceNotFoundException(OBJECT_NOT_FOUND)
         }
     }
 
     @Transactional
-    fun updateObject(
-        user: User,
-        orderId: Long,
+    fun incrementMoreDataObject(
+        userId: Long,
         objectId: Long,
-        objectActual: UpdateObjectRequestVO
+        quantity: Int,
+        total: Double
     ) {
-        val objectSaved = getObject(userId = user.id, objectId = objectId)
-        val priceCalculated = (objectSaved.price * objectActual.quantity)
-        when (objectActual.action) {
-            Action.ADD_ITEM ->
-                objectRepository.updateObject(
-                    userId = user.id,
-                    objectId = objectId,
-                    quantity = objectActual.quantity,
-                    total = priceCalculated
-                )
+        objectRepository.incrementMoreDataObject(
+            userId = userId,
+            objectId = objectId,
+            quantity = quantity,
+            total = total
+        )
+    }
 
-            Action.REMOVE_ITEM ->
-                objectRepository.removeItemObject(
-                    id = objectId,
-                    quantity = objectActual.quantity,
-                    total = priceCalculated
-                )
-
-            Action.REMOVE_OBJECT -> deleteObject(user = user, idObject = objectId)
-        }
+    @Transactional
+    fun removeItemObject(
+        objectId: Long,
+        quantity: Int,
+        total: Double
+    ) {
+        objectRepository.removeItemObject(objectId = objectId, quantity = quantity, total = total)
     }
 
     @Transactional
     fun deleteObject(
         user: User,
-        idObject: Long
+        objectId: Long
     ) {
-       val objectSaved:Object = getObject(userId = user.id, objectId = idObject)
+        val objectSaved: Object = getObject(userId = user.id, objectId = objectId)
         objectRepository.deleteObjectById(userId = user.id, objectId = objectSaved.id)
     }
 

@@ -284,7 +284,7 @@ class OrderController {
     }
 
     @PutMapping(
-        value = ["{order}/update/object/{id}"],
+        value = ["{orderId}/update/object/{objectId}"],
         consumes = [APPLICATION_JSON],
         produces = [APPLICATION_JSON]
     )
@@ -321,14 +321,14 @@ class OrderController {
     )
     fun updateObject(
         @AuthenticationPrincipal user: User,
-        @PathVariable(value = "order") idOrder: Long,
-        @PathVariable(value = "id") idObject: Long,
+        @PathVariable(value = "orderId") orderId: Long,
+        @PathVariable(value = "objectId") objectId: Long,
         @RequestBody updateObject: UpdateObjectRequestVO
     ) {
         return orderService.updateObject(
             user = user,
-            orderId = idOrder,
-            objectId = idObject,
+            orderId = orderId,
+            objectId = objectId,
             objectActual = updateObject
         )
     }

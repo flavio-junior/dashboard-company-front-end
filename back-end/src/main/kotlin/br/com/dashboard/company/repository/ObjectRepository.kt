@@ -25,7 +25,7 @@ interface ObjectRepository : JpaRepository<Object, Long> {
                 o.user.id = :userId AND o.id = :objectId
             """
     )
-    fun updateObject(
+    fun incrementMoreDataObject(
         @Param("userId") userId: Long,
         @Param("objectId") objectId: Long,
         @Param("quantity") quantity: Int? = 0,
@@ -33,9 +33,9 @@ interface ObjectRepository : JpaRepository<Object, Long> {
     )
 
     @Modifying
-    @Query("UPDATE Object o SET o.quantity = o.quantity - :quantity, o.total = o.total - :total WHERE o.id = :id")
+    @Query("UPDATE Object o SET o.quantity = o.quantity - :quantity, o.total = o.total - :total WHERE o.id = :objectId")
     fun removeItemObject(
-        @Param("id") id: Long,
+        @Param("objectId") objectId: Long,
         @Param("quantity") quantity: Int? = 0,
         @Param("total") total: Double? = 0.0
     )
