@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class OrderResponseDTO(
-    val id: Long? = 0,
+    val id: Long = 0,
     @SerialName("created_at")
     val createdAt: String = "",
     val type: TypeOrder? = null,

@@ -4,12 +4,12 @@ import br.com.digital.store.features.order.domain.status.ObjectStatus
 import br.com.digital.store.features.order.domain.type.TypeItem
 
 data class ObjectResponseVO(
-    val id: Int,
-    val identifier: Int,
-    val type: TypeItem,
-    val name: String,
-    val price: Double,
-    val quantity: Int,
-    val total: Double,
+    val id: Int = 0,
+    val identifier: Int = 0,
+    val type: TypeItem? = null,
+    val name: String = "",
+    val price: Double = 0.0,
+    val quantity: Int = 0,
+    val total: Double = 0.0,
     val status: ObjectStatus? = null
 )
