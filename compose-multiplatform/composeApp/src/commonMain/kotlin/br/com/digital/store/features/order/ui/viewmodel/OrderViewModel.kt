@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
+import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.repository.OrderRepository
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -17,6 +18,10 @@ class OrderViewModel(
     private val _createOrder =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val createOrder: State<ObserveNetworkStateHandler<Unit>> = _createOrder
+
+    private val _updateOrder =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val updateOrder: State<ObserveNetworkStateHandler<Unit>> = _updateOrder
 
     private val _deleteOrder =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -30,6 +35,22 @@ class OrderViewModel(
                 }
                 .collect {
                     _createOrder.value = it
+                }
+        }
+    }
+
+    fun updateOrder(orderId: Long, productId: Long, updateObject: UpdateObjectRequestDTO) {
+        viewModelScope.launch {
+            repository.updateOrder(
+                orderId = orderId,
+                productId = productId,
+                updateObject = updateObject
+            )
+                .onStart {
+                    _updateOrder.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _updateOrder.value = it
                 }
         }
     }

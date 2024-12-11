@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,15 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import br.com.digital.store.components.strings.StringsUtils.ADD_ITEM
 import br.com.digital.store.components.strings.StringsUtils.DETAILS
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
 import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.QTD
-import br.com.digital.store.components.strings.StringsUtils.REMOVER_ITEM
 import br.com.digital.store.components.strings.StringsUtils.STATUS
 import br.com.digital.store.components.strings.StringsUtils.UPDATE
+import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.DropdownMenu
 import br.com.digital.store.components.ui.LoadingButton
@@ -44,13 +42,15 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.domain.factory.objectFactory
+import br.com.digital.store.features.order.utils.OrderUtils.DELETE_ITEM
+import br.com.digital.store.features.order.utils.OrderUtils.DELETE_OBJECT
+import br.com.digital.store.features.order.utils.OrderUtils.UPDATE_STATUS
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.SpaceSize.spaceSize4
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
-import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import br.com.digital.store.utils.deliveryStatus
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
@@ -78,6 +78,7 @@ fun Object(
         )
         DetailsObject(
             objectResponseVO = itemSelected,
+            orderId = orderId,
             modifier = Modifier.weight(weight = WEIGHT_SIZE_2),
         )
     }
@@ -117,6 +118,7 @@ private fun ListObject(
         ) {
             itemsIndexed(items = objects) { index, objectResult ->
                 CardObject(
+                    orderId = orderId,
                     objectResponseVO = objectResult,
                     selected = selectedIndex == index,
                     onItemSelected = onItemSelected,
@@ -148,6 +150,7 @@ private fun ListObject(
 
 @Composable
 private fun CardObject(
+    orderId: Long,
     objectResponseVO: ObjectResponseVO,
     selected: Boolean = false,
     onItemSelected: (ObjectResponseVO) -> Unit = {},
@@ -186,12 +189,42 @@ private fun CardObject(
             text = formatterMaskToMoney(price = objectResponseVO.total),
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )
+        DeleteItem(
+            orderId = orderId,
+            objectId = objectResponseVO.id,
+        )
+    }
+}
+
+@Composable
+private fun DeleteItem(
+    orderId: Long,
+    objectId: Long
+) {
+    var openDialog: Boolean by remember { mutableStateOf(value = false) }
+    LoadingButton(
+        label = DELETE_ITEM,
+        onClick = {
+            openDialog = true
+        }
+    )
+    if (openDialog) {
+        Alert(
+            label = DELETE_OBJECT,
+            onDismissRequest = {
+                openDialog = false
+            },
+            onConfirmation = {
+                openDialog = false
+            }
+        )
     }
 }
 
 @Composable
 private fun DetailsObject(
     modifier: Modifier = Modifier,
+    orderId: Long,
     objectResponseVO: ObjectResponseVO
 ) {
     Column(
@@ -255,62 +288,48 @@ private fun DetailsObject(
                 )
             }
         )
-        ItemObject(
-            body = {
-                var itemSelected: String by remember {
-                    mutableStateOf(value = status)
+        UpdateStatusOrder(status = status)
+        UpdateObject(orderId = orderId, objectId = objectResponseVO.id)
+    }
+}
+
+@Composable
+private fun UpdateStatusOrder(
+    status: String
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
+    ) {
+        var openDialog: Boolean by remember { mutableStateOf(value = false) }
+        var itemSelected: String by remember {
+            mutableStateOf(value = status)
+        }
+        DropdownMenu(
+            selectedValue = itemSelected,
+            items = deliveryStatus,
+            label = STATUS,
+            onValueChangedEvent = {
+                itemSelected = it
+            },
+            modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
+        )
+        LoadingButton(
+            label = UPDATE,
+            onClick = {
+                openDialog = true
+            },
+            modifier = Modifier.weight(weight = 1.2f)
+        )
+        if (openDialog) {
+            Alert(
+                label = UPDATE_STATUS,
+                onDismissRequest = {
+                    openDialog = false
+                },
+                onConfirmation = {
+                    openDialog = false
                 }
-                DropdownMenu(
-                    selectedValue = itemSelected,
-                    items = deliveryStatus,
-                    label = STATUS,
-                    onValueChangedEvent = {
-                        itemSelected = it
-                    },
-                    modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
-                )
-                LoadingButton(
-                    label = UPDATE,
-                    onClick = {},
-                    modifier = Modifier.weight(weight = 1.2f)
-                )
-            }
-        )
-        ItemObject(
-            body = {
-                var quantity: Int by remember { mutableIntStateOf(value = NUMBER_ZERO) }
-                TextField(
-                    label = QTD,
-                    value = quantity.toString(),
-                    onValueChange = {
-                        quantity = it.toIntOrNull() ?: NUMBER_ZERO
-                    },
-                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
-                )
-                LoadingButton(
-                    label = ADD_ITEM,
-                    onClick = {},
-                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
-                )
-            }
-        )
-        ItemObject(
-            body = {
-                var quantity: Int by remember { mutableIntStateOf(value = NUMBER_ZERO) }
-                TextField(
-                    label = QTD,
-                    value = quantity.toString(),
-                    onValueChange = {
-                        quantity = it.toIntOrNull() ?: NUMBER_ZERO
-                    },
-                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
-                )
-                LoadingButton(
-                    label = REMOVER_ITEM,
-                    onClick = {},
-                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
-                )
-            }
-        )
+            )
+        }
     }
 }
