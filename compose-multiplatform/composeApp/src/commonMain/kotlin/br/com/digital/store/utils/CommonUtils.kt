@@ -20,6 +20,7 @@ object CommonUtils {
     const val WEIGHT_SIZE_9 = 9f
     const val ZERO_DOUBLE = "0.0"
     const val UNAUTHORIZED_MESSAGE = "Token expired, please login again."
+    const val NUMBER_EQUALS_ZERO = "Informe um valor maior que zero!"
 }
 
 fun checkNameIsNull(name: String): Boolean {

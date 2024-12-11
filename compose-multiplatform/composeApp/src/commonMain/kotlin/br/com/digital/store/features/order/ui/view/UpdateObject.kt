@@ -27,6 +27,7 @@ import br.com.digital.store.features.order.utils.OrderUtils.DECREMENT_ITEM
 import br.com.digital.store.features.order.utils.OrderUtils.INCREMENT_ITEM
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.NUMBER_EQUALS_ZERO
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import org.koin.mp.KoinPlatform.getKoin
@@ -78,13 +79,33 @@ private fun incrementMoreDataObject(
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
+    val saveIncrement = {
+        if (quantity > NUMBER_ZERO) {
+            observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+            viewModel.updateOrder(
+                orderId = orderId,
+                objectId = objectId,
+                updateObject = UpdateObjectRequestDTO(
+                    action = Action.ADD_ITEM,
+                    quantity = quantity
+                )
+            )
+        } else {
+            observer = Triple(first = false, second = true, third = NUMBER_EQUALS_ZERO)
+        }
+    }
     TextField(
         label = QTD,
         value = quantity.toString(),
         onValueChange = {
             quantity = it.toIntOrNull() ?: NUMBER_ZERO
         },
-        modifier = modifier
+        isError = observer.second,
+        message = observer.third,
+        modifier = modifier,
+        onGo = {
+            saveIncrement()
+        }
     )
     LoadingButton(
         label = ADD_ITEM,
@@ -101,15 +122,7 @@ private fun incrementMoreDataObject(
                 openDialog = false
             },
             onConfirmation = {
-                observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                viewModel.updateOrder(
-                    orderId = orderId,
-                    objectId = objectId,
-                    updateObject = UpdateObjectRequestDTO(
-                        action = Action.ADD_ITEM,
-                        quantity = quantity
-                    )
-                )
+                saveIncrement()
                 openDialog = false
             }
         )
@@ -167,13 +180,33 @@ private fun decrementMoreDataObject(
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
+    val saveDecrement = {
+        if (quantity > NUMBER_ZERO) {
+            observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+            viewModel.updateOrder(
+                orderId = orderId,
+                objectId = objectId,
+                updateObject = UpdateObjectRequestDTO(
+                    action = Action.REMOVE_OBJECT,
+                    quantity = quantity
+                )
+            )
+        } else {
+            observer = Triple(first = false, second = true, third = NUMBER_EQUALS_ZERO)
+        }
+    }
     TextField(
         label = QTD,
         value = quantity.toString(),
         onValueChange = {
             quantity = it.toIntOrNull() ?: NUMBER_ZERO
         },
-        modifier = modifier
+        isError = observer.second,
+        message = observer.third,
+        modifier = modifier,
+        onGo = {
+            saveDecrement()
+        }
     )
     LoadingButton(
         label = REMOVER_ITEM,
@@ -190,7 +223,7 @@ private fun decrementMoreDataObject(
                 openDialog = false
             },
             onConfirmation = {
-                observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                saveDecrement()
                 openDialog = false
             }
         )

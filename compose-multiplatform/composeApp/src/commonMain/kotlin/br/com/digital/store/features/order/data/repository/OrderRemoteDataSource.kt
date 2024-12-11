@@ -87,7 +87,7 @@ class OrderRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "/api/dashboard/company/orders/v1/$objectId/update/object/$orderId")
+                url(urlString = "/api/dashboard/company/orders/v1/$orderId/update/object/$objectId")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
