@@ -47,7 +47,7 @@ fun CardDelivery(
             }
         )
         ItemDelivery(
-            label = STATUS,
+            label = "$STATUS:",
             body = {
                 SimpleText(text = addressFactory(status = orderResponseVO.address?.status))
             }

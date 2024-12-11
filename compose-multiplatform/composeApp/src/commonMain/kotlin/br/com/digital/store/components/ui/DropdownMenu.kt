@@ -23,6 +23,7 @@ import org.jetbrains.compose.resources.painterResource
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DropdownMenu(
+    modifier: Modifier = Modifier,
     selectedValue: String,
     items: List<String>,
     label: String,
@@ -33,7 +34,7 @@ fun DropdownMenu(
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
-        modifier = Modifier
+        modifier = modifier
     ) {
         OutlinedTextField(
             readOnly = true,

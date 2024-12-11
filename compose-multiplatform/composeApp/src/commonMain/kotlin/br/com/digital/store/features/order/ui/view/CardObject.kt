@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,7 +33,10 @@ import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.QTD
 import br.com.digital.store.components.strings.StringsUtils.STATUS
+import br.com.digital.store.components.strings.StringsUtils.UPDATE
 import br.com.digital.store.components.ui.Description
+import br.com.digital.store.components.ui.DropdownMenu
+import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.features.order.data.vo.ObjectResponseVO
@@ -43,6 +47,8 @@ import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
+import br.com.digital.store.utils.deliveryStatus
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
 import kotlinx.coroutines.launch
@@ -176,48 +182,83 @@ private fun DetailsObject(
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
         Description(description = DETAILS)
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
-        ) {
-            TextField(
-                enabled = false,
-                label = NAME,
-                value = objectResponseVO.name,
-                onValueChange = {},
-                modifier = Modifier.weight(weight = WEIGHT_SIZE)
-            )
-            TextField(
-                enabled = false,
-                label = PRICE,
-                value = formatterMaskToMoney(price = objectResponseVO.price),
-                onValueChange = {},
-                modifier = Modifier.weight(weight = WEIGHT_SIZE)
-            )
-        }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
-        ) {
-            TextField(
-                enabled = false,
-                label = QTD,
-                value = objectResponseVO.quantity.toString(),
-                onValueChange = {},
-                modifier = Modifier.weight(weight = WEIGHT_SIZE)
-            )
-            TextField(
-                enabled = false,
-                label = PRICE,
-                value = formatterMaskToMoney(price = objectResponseVO.total),
-                onValueChange = {},
-                modifier = Modifier.weight(weight = WEIGHT_SIZE)
-            )
-            TextField(
-                enabled = false,
-                label = STATUS,
-                value = objectFactory(status = objectResponseVO.status),
-                onValueChange = {},
-                modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
-            )
-        }
+        ItemObject(
+            body = {
+                TextField(
+                    enabled = false,
+                    label = NAME,
+                    value = objectResponseVO.name,
+                    onValueChange = {},
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
+                )
+                TextField(
+                    enabled = false,
+                    label = PRICE,
+                    value = formatterMaskToMoney(price = objectResponseVO.price),
+                    onValueChange = {},
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
+                )
+            }
+        )
+        val status = objectFactory(status = objectResponseVO.status)
+        ItemObject(
+            body = {
+                TextField(
+                    enabled = false,
+                    label = QTD,
+                    value = objectResponseVO.quantity.toString(),
+                    onValueChange = {},
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
+                )
+                TextField(
+                    enabled = false,
+                    label = PRICE,
+                    value = formatterMaskToMoney(price = objectResponseVO.total),
+                    onValueChange = {},
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
+                )
+                TextField(
+                    enabled = false,
+                    label = STATUS,
+                    value = status,
+                    onValueChange = {},
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
+                )
+            }
+        )
+        ItemObject(
+            body = {
+                var itemSelected: String by remember {
+                    mutableStateOf(value = status)
+                }
+                DropdownMenu(
+                    selectedValue = itemSelected,
+                    items = deliveryStatus,
+                    label = STATUS,
+                    onValueChangedEvent = {
+                        itemSelected = it
+                    },
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
+                )
+                LoadingButton(
+                    label = UPDATE,
+                    onClick = {},
+                    modifier = Modifier.weight(weight = 1.2f)
+                )
+            }
+        )
+        ItemObject(
+            body = {
+                var quantity: Int by remember { mutableIntStateOf(value = NUMBER_ZERO) }
+                TextField(
+                    label = QTD,
+                    value = quantity.toString(),
+                    onValueChange = {
+                        quantity = it.toIntOrNull() ?: NUMBER_ZERO
+                    },
+                    //modifier = Modifier.weight(weight = WEIGHT_SIZE)
+                )
+            }
+        )
     }
 }
