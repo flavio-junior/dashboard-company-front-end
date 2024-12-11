@@ -27,6 +27,10 @@ class OrderViewModel(
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val deleteOrder: State<ObserveNetworkStateHandler<Unit>> = _deleteOrder
 
+    private val _deleteObject =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val deleteObject: State<ObserveNetworkStateHandler<Unit>> = _deleteObject
+
     fun createOrder(order: OrderRequestDTO) {
         viewModelScope.launch {
             repository.createNewOrder(order = order)
@@ -39,11 +43,11 @@ class OrderViewModel(
         }
     }
 
-    fun updateOrder(orderId: Long, productId: Long, updateObject: UpdateObjectRequestDTO) {
+    fun updateOrder(orderId: Long, objectId: Long, updateObject: UpdateObjectRequestDTO) {
         viewModelScope.launch {
             repository.updateOrder(
                 orderId = orderId,
-                productId = productId,
+                objectId = objectId,
                 updateObject = updateObject
             )
                 .onStart {
@@ -69,13 +73,35 @@ class OrderViewModel(
 
     fun resetOrder(reset: ResetOrder) {
         when (reset) {
+            ResetOrder.UPDATE_ORDER -> {
+                _updateOrder.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
             ResetOrder.DELETE_ORDER -> {
                 _deleteOrder.value = ObserveNetworkStateHandler.Loading(l = false)
             }
+
+            ResetOrder.DELETE_OBJECT -> {
+                _deleteObject.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+        }
+    }
+
+    fun deleteObject(orderId: Long, objectId: Long) {
+        viewModelScope.launch {
+            repository.deleteObject(orderId = orderId, objectId = objectId)
+                .onStart {
+                    _deleteObject.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _deleteObject.value = it
+                }
         }
     }
 }
 
 enum class ResetOrder {
-    DELETE_ORDER
+    UPDATE_ORDER,
+    DELETE_ORDER,
+    DELETE_OBJECT
 }

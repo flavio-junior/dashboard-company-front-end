@@ -37,17 +37,25 @@ import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.DropdownMenu
 import br.com.digital.store.components.ui.LoadingButton
+import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.domain.factory.objectFactory
+import br.com.digital.store.features.order.domain.others.Action
+import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
+import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.order.utils.OrderUtils.DELETE_ITEM
 import br.com.digital.store.features.order.utils.OrderUtils.DELETE_OBJECT
 import br.com.digital.store.features.order.utils.OrderUtils.UPDATE_STATUS
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.SpaceSize.spaceSize4
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
@@ -55,6 +63,7 @@ import br.com.digital.store.utils.deliveryStatus
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
 import kotlinx.coroutines.launch
+import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun Object(
@@ -80,6 +89,8 @@ fun Object(
             objectResponseVO = itemSelected,
             orderId = orderId,
             modifier = Modifier.weight(weight = WEIGHT_SIZE_2),
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = onRefresh
         )
     }
 }
@@ -189,7 +200,7 @@ private fun CardObject(
             text = formatterMaskToMoney(price = objectResponseVO.total),
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )
-        DeleteItem(
+        DeleteObject(
             orderId = orderId,
             objectId = objectResponseVO.id,
         )
@@ -197,16 +208,23 @@ private fun CardObject(
 }
 
 @Composable
-private fun DeleteItem(
+private fun DeleteObject(
     orderId: Long,
-    objectId: Long
+    objectId: Long,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
     var openDialog: Boolean by remember { mutableStateOf(value = false) }
+    val viewModel: OrderViewModel = getKoin().get()
+    var observer: Triple<Boolean, Boolean, String> by remember {
+        mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
+    }
     LoadingButton(
         label = DELETE_ITEM,
         onClick = {
             openDialog = true
-        }
+        },
+        isEnabled = observer.first
     )
     if (openDialog) {
         Alert(
@@ -215,17 +233,62 @@ private fun DeleteItem(
                 openDialog = false
             },
             onConfirmation = {
+                observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                viewModel.updateOrder(
+                    orderId = orderId,
+                    objectId = objectId,
+                    updateObject = UpdateObjectRequestDTO(action = Action.REMOVE_OBJECT)
+                )
                 openDialog = false
             }
         )
     }
+    ObserveNetworkStateHandlerDeleteObject(
+        viewModel = viewModel,
+        onError = {
+            observer = it
+        },
+        goToAlternativeRoutes = goToAlternativeRoutes,
+        onSuccessful = {
+            observer = Triple(first = false, second = false, third = EMPTY_TEXT)
+            onRefresh()
+        }
+    )
+}
+
+@Composable
+private fun ObserveNetworkStateHandlerDeleteObject(
+    viewModel: OrderViewModel,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    onSuccessful: () -> Unit = {}
+) {
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.deleteObject }
+    ObserveNetworkStateHandler(
+        state = state,
+        onLoading = {},
+        onError = {
+            onError(Triple(first = false, second = true, third = it ?: EMPTY_TEXT))
+        },
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
+        onSuccess = {
+            onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.resetOrder(reset = ResetOrder.DELETE_ORDER)
+            onSuccessful()
+        }
+    )
 }
 
 @Composable
 private fun DetailsObject(
     modifier: Modifier = Modifier,
     orderId: Long,
-    objectResponseVO: ObjectResponseVO
+    objectResponseVO: ObjectResponseVO,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -289,7 +352,11 @@ private fun DetailsObject(
             }
         )
         UpdateStatusOrder(status = status)
-        UpdateObject(orderId = orderId, objectId = objectResponseVO.id)
+        UpdateObject(
+            orderId = orderId, objectId = objectResponseVO.id,
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = onRefresh
+        )
     }
 }
 
@@ -303,6 +370,9 @@ private fun UpdateStatusOrder(
         var openDialog: Boolean by remember { mutableStateOf(value = false) }
         var itemSelected: String by remember {
             mutableStateOf(value = status)
+        }
+        var observer: Triple<Boolean, Boolean, String> by remember {
+            mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
         }
         DropdownMenu(
             selectedValue = itemSelected,
@@ -318,6 +388,7 @@ private fun UpdateStatusOrder(
             onClick = {
                 openDialog = true
             },
+            isEnabled = observer.first,
             modifier = Modifier.weight(weight = 1.2f)
         )
         if (openDialog) {
@@ -327,6 +398,7 @@ private fun UpdateStatusOrder(
                     openDialog = false
                 },
                 onConfirmation = {
+                    observer = Triple(first = true, second = false, third = EMPTY_TEXT)
                     openDialog = false
                 }
             )

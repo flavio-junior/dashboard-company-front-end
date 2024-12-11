@@ -24,9 +24,10 @@ interface OrderRepository {
     fun createNewOrder(order: OrderRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>
     fun updateOrder(
         orderId: Long,
-        productId: Long,
+        objectId: Long,
         updateObject: UpdateObjectRequestDTO
     ): Flow<ObserveNetworkStateHandler<Unit>>
 
     fun deleteOrder(id: Long): Flow<ObserveNetworkStateHandler<Unit>>
+    fun deleteObject(orderId: Long, objectId: Long): Flow<ObserveNetworkStateHandler<Unit>>
 }

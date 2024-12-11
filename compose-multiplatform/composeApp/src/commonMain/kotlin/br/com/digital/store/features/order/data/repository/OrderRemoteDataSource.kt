@@ -82,12 +82,12 @@ class OrderRemoteDataSource(
 
     override fun updateOrder(
         orderId: Long,
-        productId: Long,
+        objectId: Long,
         updateObject: UpdateObjectRequestDTO
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "/api/dashboard/company/orders/v1/$productId/update/object/$orderId")
+                url(urlString = "/api/dashboard/company/orders/v1/$objectId/update/object/$orderId")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -105,5 +105,12 @@ class OrderRemoteDataSource(
                 }
             }
         }
+    }
+
+    override fun deleteObject(
+        orderId: Long,
+        objectId: Long
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        TODO("Not yet implemented")
     }
 }
