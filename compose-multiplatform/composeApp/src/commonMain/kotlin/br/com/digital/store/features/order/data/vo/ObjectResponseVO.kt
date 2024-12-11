@@ -4,7 +4,7 @@ import br.com.digital.store.features.order.domain.status.ObjectStatus
 import br.com.digital.store.features.order.domain.type.TypeItem
 
 data class ObjectResponseVO(
-    val id: Int = 0,
+    val id: Long = 0,
     val identifier: Int = 0,
     val type: TypeItem? = null,
     val name: String = "",

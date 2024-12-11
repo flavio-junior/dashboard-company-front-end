@@ -10,9 +10,9 @@ import br.com.digital.store.features.order.data.repository.OrderRepository
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class OrdersViewModel(
+class OrderViewModel(
     private val repository: OrderRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _createOrder =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -45,4 +45,16 @@ class OrdersViewModel(
                 }
         }
     }
+
+    fun resetOrder(reset: ResetOrder) {
+        when (reset) {
+            ResetOrder.DELETE_ORDER -> {
+                _deleteOrder.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+        }
+    }
+}
+
+enum class ResetOrder {
+    DELETE_ORDER
 }

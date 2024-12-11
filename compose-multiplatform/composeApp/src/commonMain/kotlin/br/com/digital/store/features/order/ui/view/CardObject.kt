@@ -27,11 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import br.com.digital.store.components.strings.StringsUtils.ADD_ITEM
 import br.com.digital.store.components.strings.StringsUtils.DETAILS
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
 import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.QTD
+import br.com.digital.store.components.strings.StringsUtils.REMOVER_ITEM
 import br.com.digital.store.components.strings.StringsUtils.STATUS
 import br.com.digital.store.components.strings.StringsUtils.UPDATE
 import br.com.digital.store.components.ui.Description
@@ -39,6 +41,7 @@ import br.com.digital.store.components.ui.DropdownMenu
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.components.ui.TextField
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.domain.factory.objectFactory
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
@@ -55,30 +58,39 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Object(
-    objects: List<ObjectResponseVO>
+    orderId: Long,
+    objects: List<ObjectResponseVO>,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
     var itemSelected: ObjectResponseVO by remember { mutableStateOf(value = ObjectResponseVO()) }
     Row {
         ListObject(
+            orderId = orderId,
             modifier = Modifier
                 .weight(weight = WEIGHT_SIZE_3),
             objects = objects,
             onItemSelected = {
                 itemSelected = it
-            }
+            },
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = onRefresh
         )
         DetailsObject(
             objectResponseVO = itemSelected,
-            modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
+            modifier = Modifier.weight(weight = WEIGHT_SIZE_2),
         )
     }
 }
 
 @Composable
 private fun ListObject(
+    orderId: Long,
     modifier: Modifier = Modifier,
     objects: List<ObjectResponseVO>,
     onItemSelected: (ObjectResponseVO) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
     Column(
         modifier = modifier,
@@ -114,6 +126,23 @@ private fun ListObject(
                 )
             }
         }
+        ItemObject(
+            modifier = Modifier.padding(
+                top = Themes.size.spaceSize8,
+                end = Themes.size.spaceSize16
+            ),
+            body = {
+                CloseOrder(
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE),
+                )
+                DeleteOrder(
+                    orderId = orderId,
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE),
+                    goToAlternativeRoutes = goToAlternativeRoutes,
+                    onRefresh = onRefresh
+                )
+            }
+        )
     }
 }
 
@@ -256,7 +285,30 @@ private fun DetailsObject(
                     onValueChange = {
                         quantity = it.toIntOrNull() ?: NUMBER_ZERO
                     },
-                    //modifier = Modifier.weight(weight = WEIGHT_SIZE)
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
+                )
+                LoadingButton(
+                    label = ADD_ITEM,
+                    onClick = {},
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
+                )
+            }
+        )
+        ItemObject(
+            body = {
+                var quantity: Int by remember { mutableIntStateOf(value = NUMBER_ZERO) }
+                TextField(
+                    label = QTD,
+                    value = quantity.toString(),
+                    onValueChange = {
+                        quantity = it.toIntOrNull() ?: NUMBER_ZERO
+                    },
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
+                )
+                LoadingButton(
+                    label = REMOVER_ITEM,
+                    onClick = {},
+                    modifier = Modifier.weight(weight = WEIGHT_SIZE)
                 )
             }
         )

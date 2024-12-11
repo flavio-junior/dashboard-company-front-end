@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ObjectResponseDTO(
-    val id: Int,
+    val id: Long,
     val identifier: Int,
     val type: TypeItem,
     val name: String,

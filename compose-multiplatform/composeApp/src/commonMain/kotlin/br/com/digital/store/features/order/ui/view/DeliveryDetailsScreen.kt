@@ -40,7 +40,14 @@ fun DeliveryDetailsScreen(
     ) {
         HeaderDetailsOrder(orderResponseVO = orderResponseVO)
         AddressOrder(addressResponseVO = orderResponseVO.address)
-        orderResponseVO.objects?.let { Object(objects = it) }
+        orderResponseVO.objects?.let {
+            Object(
+                orderId = orderResponseVO.id,
+                objects = it,
+                goToAlternativeRoutes = goToAlternativeRoutes,
+                onRefresh = onRefresh
+            )
+        }
     }
 }
 

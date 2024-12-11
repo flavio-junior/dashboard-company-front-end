@@ -16,6 +16,7 @@ object OrderUtils {
     const val TOTAL_NUMBER_RESERVATIONS = "Número Total de Reservas:"
     const val NUMBER_RESERVATIONS = "Número de reservas:"
     const val NUMBER_ITEMS = "Número de itens:"
+    const val DELETE_ORDER = "Apagar Pedido"
 }
 
 fun countPendingObjects(order: OrderResponseVO): String {
