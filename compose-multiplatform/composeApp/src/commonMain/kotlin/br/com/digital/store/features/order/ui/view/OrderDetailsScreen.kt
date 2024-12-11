@@ -25,5 +25,13 @@ fun OrderDetailsScreen(
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
         HeaderDetailsOrder(orderResponseVO = orderResponseVO)
+        orderResponseVO.objects?.let {
+            Object(
+                orderId = orderResponseVO.id,
+                objects = it,
+                goToAlternativeRoutes = goToAlternativeRoutes,
+                onRefresh = onRefresh
+            )
+        }
     }
 }
