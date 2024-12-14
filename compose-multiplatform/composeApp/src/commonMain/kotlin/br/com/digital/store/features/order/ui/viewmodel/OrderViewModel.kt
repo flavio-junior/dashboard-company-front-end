@@ -86,18 +86,6 @@ class OrderViewModel(
             }
         }
     }
-
-    fun deleteObject(orderId: Long, objectId: Long) {
-        viewModelScope.launch {
-            repository.deleteObject(orderId = orderId, objectId = objectId)
-                .onStart {
-                    _deleteObject.value = ObserveNetworkStateHandler.Loading(l = true)
-                }
-                .collect {
-                    _deleteObject.value = it
-                }
-        }
-    }
 }
 
 enum class ResetOrder {

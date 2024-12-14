@@ -106,11 +106,4 @@ class OrderRemoteDataSource(
             }
         }
     }
-
-    override fun deleteObject(
-        orderId: Long,
-        objectId: Long
-    ): Flow<ObserveNetworkStateHandler<Unit>> {
-        TODO("Not yet implemented")
-    }
 }

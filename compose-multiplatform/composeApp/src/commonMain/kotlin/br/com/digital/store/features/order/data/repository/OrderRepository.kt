@@ -29,5 +29,4 @@ interface OrderRepository {
     ): Flow<ObserveNetworkStateHandler<Unit>>
 
     fun deleteOrder(id: Long): Flow<ObserveNetworkStateHandler<Unit>>
-    fun deleteObject(orderId: Long, objectId: Long): Flow<ObserveNetworkStateHandler<Unit>>
 }

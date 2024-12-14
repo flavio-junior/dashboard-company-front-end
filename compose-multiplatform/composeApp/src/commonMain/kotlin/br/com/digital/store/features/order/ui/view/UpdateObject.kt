@@ -42,7 +42,7 @@ fun UpdateObject(
     Column(verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)) {
         ItemObject(
             body = {
-                incrementMoreDataObject(
+                IncrementMoreItemsObject(
                     modifier = Modifier.weight(weight = WEIGHT_SIZE),
                     orderId = orderId,
                     objectId = objectId,
@@ -53,7 +53,7 @@ fun UpdateObject(
         )
         ItemObject(
             body = {
-                decrementMoreDataObject(
+                DecrementItemsObject(
                     modifier = Modifier.weight(weight = WEIGHT_SIZE),
                     orderId = orderId,
                     objectId = objectId,
@@ -66,7 +66,7 @@ fun UpdateObject(
 }
 
 @Composable
-private fun incrementMoreDataObject(
+private fun IncrementMoreItemsObject(
     modifier: Modifier = Modifier,
     orderId: Long,
     objectId: Long,
@@ -86,7 +86,7 @@ private fun incrementMoreDataObject(
                 orderId = orderId,
                 objectId = objectId,
                 updateObject = UpdateObjectRequestDTO(
-                    action = Action.ADD_ITEM,
+                    action = Action.INCREMENT,
                     quantity = quantity
                 )
             )
@@ -127,7 +127,7 @@ private fun incrementMoreDataObject(
             }
         )
     }
-    ObserveNetworkStateHandlerIncrementMoreDataObject(
+    ObserveNetworkStateHandlerIncrementMoreItemsObject(
         viewModel = viewModel,
         onError = {
             observer = it
@@ -141,7 +141,7 @@ private fun incrementMoreDataObject(
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerIncrementMoreDataObject(
+private fun ObserveNetworkStateHandlerIncrementMoreItemsObject(
     viewModel: OrderViewModel,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
@@ -167,7 +167,7 @@ private fun ObserveNetworkStateHandlerIncrementMoreDataObject(
 }
 
 @Composable
-private fun decrementMoreDataObject(
+private fun DecrementItemsObject(
     modifier: Modifier = Modifier,
     orderId: Long,
     objectId: Long,
@@ -187,7 +187,7 @@ private fun decrementMoreDataObject(
                 orderId = orderId,
                 objectId = objectId,
                 updateObject = UpdateObjectRequestDTO(
-                    action = Action.REMOVE_OBJECT,
+                    action = Action.DECREMENT,
                     quantity = quantity
                 )
             )
@@ -228,7 +228,7 @@ private fun decrementMoreDataObject(
             }
         )
     }
-    ObserveNetworkStateHandlerDecrementMoreDataObject(
+    ObserveNetworkStateHandlerDecrementItemsObject(
         viewModel = viewModel,
         onError = {
             observer = it
@@ -236,21 +236,13 @@ private fun decrementMoreDataObject(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccessful = {
             observer = Triple(first = false, second = false, third = EMPTY_TEXT)
-            viewModel.updateOrder(
-                orderId = orderId,
-                objectId = objectId,
-                updateObject = UpdateObjectRequestDTO(
-                    action = Action.REMOVE_ITEM,
-                    quantity = quantity
-                )
-            )
             onRefresh()
         }
     )
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerDecrementMoreDataObject(
+private fun ObserveNetworkStateHandlerDecrementItemsObject(
     viewModel: OrderViewModel,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
