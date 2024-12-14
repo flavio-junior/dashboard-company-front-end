@@ -103,6 +103,19 @@ class ObjectService {
     }
 
     @Transactional
+    fun updateStatusObject(
+        orderId: Long,
+        objectId: Long,
+        status: ObjectStatus? = null
+    ) {
+        objectRepository.updateStatusObject(
+            orderId = orderId,
+            objectId = objectId,
+            status = status
+        )
+    }
+
+    @Transactional
     fun incrementMoreItemsObject(
         orderId: Long,
         objectId: Long,

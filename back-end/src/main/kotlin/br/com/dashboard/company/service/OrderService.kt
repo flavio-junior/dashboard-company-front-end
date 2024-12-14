@@ -103,6 +103,14 @@ class OrderService {
             val objectSaved = objectService.getObject(orderId = orderSaved.id, objectId = objectId)
             val priceCalculated = (objectSaved.price * objectActual.quantity)
             when (objectActual.action) {
+                Action.UPDATE_STATUS -> {
+                    objectService.updateStatusObject(
+                        orderId = orderId,
+                        objectId = objectId,
+                        status = objectActual.status
+                    )
+                }
+
                 Action.INCREMENT -> {
                     objectService.incrementMoreItemsObject(
                         orderId = orderId,

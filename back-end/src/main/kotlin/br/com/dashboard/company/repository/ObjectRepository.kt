@@ -1,6 +1,7 @@
 package br.com.dashboard.company.repository
 
 import br.com.dashboard.company.entities.`object`.Object
+import br.com.dashboard.company.utils.common.ObjectStatus
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -15,6 +16,21 @@ interface ObjectRepository : JpaRepository<Object, Long> {
         @Param("orderId") orderId: Long,
         @Param("objectId") objectId: Long
     ): Object?
+
+    @Modifying
+    @Query(
+        value = """
+            UPDATE Object o SET
+                o.status = :status 
+            WHERE
+                o.order.id = :orderId AND o.id = :objectId
+            """
+    )
+    fun updateStatusObject(
+        @Param("orderId") orderId: Long,
+        @Param("objectId") objectId: Long,
+        @Param("status") status: ObjectStatus? = null
+    )
 
     @Modifying
     @Query(
