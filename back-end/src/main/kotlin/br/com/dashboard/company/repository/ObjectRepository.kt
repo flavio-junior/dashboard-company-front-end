@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ObjectRepository : JpaRepository<Object, Long> {
 
-    @Query(value = "SELECT o FROM Object o WHERE o.user.id = :userId AND o.id = :objectId")
+    @Query(value = "SELECT o FROM Object o WHERE o.order.id = :orderId AND o.id = :objectId")
     fun findObjectById(
-        @Param("userId") userId: Long,
+        @Param("orderId") orderId: Long,
         @Param("objectId") objectId: Long
     ): Object?
 
@@ -22,28 +22,35 @@ interface ObjectRepository : JpaRepository<Object, Long> {
             UPDATE Object o SET
                 o.quantity = o.quantity + :quantity, o.total = o.total + :total 
             WHERE
-                o.user.id = :userId AND o.id = :objectId
+                o.order.id = :orderId AND o.id = :objectId
             """
     )
-    fun incrementMoreDataObject(
-        @Param("userId") userId: Long,
+    fun incrementMoreItemsObject(
+        @Param("orderId") orderId: Long,
         @Param("objectId") objectId: Long,
         @Param("quantity") quantity: Int? = 0,
         @Param("total") total: Double? = 0.0
     )
 
     @Modifying
-    @Query("UPDATE Object o SET o.quantity = o.quantity - :quantity, o.total = o.total - :total WHERE o.id = :objectId")
-    fun removeItemObject(
+    @Query(
+        value = """
+            UPDATE Object o SET o.quantity = o.quantity - :quantity, o.total = o.total - :total 
+            WHERE
+                o.order.id = :orderId AND o.id = :objectId
+            """
+    )
+    fun decrementItemsObject(
+        @Param("orderId") orderId: Long,
         @Param("objectId") objectId: Long,
         @Param("quantity") quantity: Int? = 0,
         @Param("total") total: Double? = 0.0
     )
 
     @Modifying
-    @Query(value = "DELETE FROM Object o WHERE o.id = :objectId AND o.user.id = :userId")
+    @Query(value = "DELETE FROM Object o WHERE o.id = :objectId AND o.order.id = :orderId")
     fun deleteObjectById(
-        @Param("userId") userId: Long,
+        @Param("orderId") orderId: Long,
         @Param("objectId") objectId: Long
     ): Int
 }

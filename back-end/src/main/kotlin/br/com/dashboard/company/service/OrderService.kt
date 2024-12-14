@@ -3,7 +3,6 @@ package br.com.dashboard.company.service
 import br.com.dashboard.company.entities.order.Order
 import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
-import br.com.dashboard.company.repository.OrderObjectRepository
 import br.com.dashboard.company.repository.OrderRepository
 import br.com.dashboard.company.service.ObjectService.Companion.OBJECT_NOT_FOUND
 import br.com.dashboard.company.utils.common.Action
@@ -27,9 +26,6 @@ class OrderService {
 
     @Autowired
     private lateinit var orderRepository: OrderRepository
-
-    @Autowired
-    private lateinit var orderObjectRepository: OrderObjectRepository
 
     @Autowired
     private lateinit var objectService: ObjectService
@@ -101,35 +97,36 @@ class OrderService {
         objectId: Long,
         objectActual: UpdateObjectRequestVO
     ) {
-        val objectSaved = objectService.getObject(userId = user.id, objectId = objectId)
-        val priceCalculated = (objectSaved.price * objectActual.quantity)
-        when (objectActual.action) {
-            Action.ADD_ITEM ->
-                objectService.incrementMoreDataObject(
-                    userId = user.id,
-                    objectId = objectId,
-                    quantity = objectActual.quantity,
-                    total = priceCalculated
-                )
-
-            Action.REMOVE_ITEM ->
-                objectService.removeItemObject(
-                    objectId = objectId,
-                    quantity = objectActual.quantity,
-                    total = priceCalculated
-                )
-
-            Action.REMOVE_OBJECT -> {
-                val orderSaved: Order = getOrder(userId = user.id, orderId = orderId)
-                orderSaved.objects?.map {
-                    if(it.id == objectId) {
-                        orderObjectRepository.deleteRelationBetweenOrderAndObject(orderId = orderId, objectId = objectId)
-                    }
-                } ?: {
-                    throw ResourceNotFoundException(OBJECT_NOT_FOUND)
+        val orderSaved: Order = getOrder(userId = user.id, orderId = orderId)
+        val identifiedObject = orderSaved.objects?.firstOrNull { it.id == objectId }
+        if (identifiedObject != null) {
+            val objectSaved = objectService.getObject(orderId = orderSaved.id, objectId = objectId)
+            val priceCalculated = (objectSaved.price * objectActual.quantity)
+            when (objectActual.action) {
+                Action.INCREMENT -> {
+                    objectService.incrementMoreItemsObject(
+                        orderId = orderId,
+                        objectId = objectId,
+                        quantity = objectActual.quantity,
+                        total = priceCalculated
+                    )
                 }
-                objectService.deleteObject(user = user, objectId = objectId)
+
+                Action.DECREMENT -> {
+                    objectService.decrementItemsObject(
+                        orderId = orderId,
+                        objectId = objectId,
+                        quantity = objectActual.quantity,
+                        total = priceCalculated
+                    )
+                }
+
+                Action.REMOVE_OBJECT -> {
+                    objectService.deleteObject(userId = user.id, orderId = orderSaved.id, objectId = objectSaved.id)
+                }
             }
+        } else {
+            throw ResourceNotFoundException(OBJECT_NOT_FOUND)
         }
     }
 

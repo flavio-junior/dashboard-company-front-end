@@ -1,7 +1,6 @@
 package br.com.dashboard.company.service
 
 import br.com.dashboard.company.entities.`object`.Object
-import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ObjectRepository
 import br.com.dashboard.company.utils.common.ObjectStatus
@@ -92,10 +91,10 @@ class ObjectService {
     }
 
     fun getObject(
-        userId: Long,
+        orderId: Long,
         objectId: Long
     ): Object {
-        val objectSalved: Object? = objectRepository.findObjectById(userId = userId, objectId = objectId)
+        val objectSalved: Object? = objectRepository.findObjectById(orderId = orderId, objectId = objectId)
         if (objectSalved != null) {
             return objectSalved
         } else {
@@ -104,14 +103,14 @@ class ObjectService {
     }
 
     @Transactional
-    fun incrementMoreDataObject(
-        userId: Long,
+    fun incrementMoreItemsObject(
+        orderId: Long,
         objectId: Long,
         quantity: Int,
         total: Double
     ) {
-        objectRepository.incrementMoreDataObject(
-            userId = userId,
+        objectRepository.incrementMoreItemsObject(
+            orderId = orderId,
             objectId = objectId,
             quantity = quantity,
             total = total
@@ -119,21 +118,22 @@ class ObjectService {
     }
 
     @Transactional
-    fun removeItemObject(
+    fun decrementItemsObject(
+        orderId: Long,
         objectId: Long,
         quantity: Int,
         total: Double
     ) {
-        objectRepository.removeItemObject(objectId = objectId, quantity = quantity, total = total)
+        objectRepository.decrementItemsObject(orderId = orderId, objectId = objectId, quantity = quantity, total = total)
     }
 
     @Transactional
     fun deleteObject(
-        user: User,
+        userId: Long,
+        orderId: Long,
         objectId: Long
     ) {
-        val objectSaved: Object = getObject(userId = user.id, objectId = objectId)
-        objectRepository.deleteObjectById(userId = user.id, objectId = objectSaved.id)
+        objectRepository.deleteObjectById(orderId = orderId, objectId = objectId)
     }
 
     companion object {

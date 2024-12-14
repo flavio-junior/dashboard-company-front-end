@@ -124,12 +124,6 @@ CREATE TABLE tb_order_object (
     PRIMARY KEY (fk_order, fk_object)
 );
 
-CREATE TABLE tb_user_object (
-    fk_object INT REFERENCES tb_object(id),
-    fk_user INT REFERENCES tb_user(id),
-    PRIMARY KEY (fk_object, fk_user)
-);
-
 CREATE TABLE IF NOT EXISTS tb_payment (
     id SERIAL PRIMARY KEY,
     created_at TIMESTAMP,

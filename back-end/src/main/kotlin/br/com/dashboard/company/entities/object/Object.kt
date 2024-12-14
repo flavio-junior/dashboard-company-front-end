@@ -1,6 +1,6 @@
 package br.com.dashboard.company.entities.`object`
 
-import br.com.dashboard.company.entities.user.User
+import br.com.dashboard.company.entities.order.Order
 import br.com.dashboard.company.utils.common.ObjectStatus
 import br.com.dashboard.company.utils.common.TypeItem
 import jakarta.persistence.CascadeType
@@ -35,9 +35,9 @@ data class Object(
     var status: ObjectStatus? = null,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinTable(
-        name = "tb_user_object",
+        name = "tb_order_object",
         joinColumns = [JoinColumn(name = "fk_object", referencedColumnName = "id")],
-        inverseJoinColumns = [JoinColumn(name = "fk_user", referencedColumnName = "id")]
+        inverseJoinColumns = [JoinColumn(name = "fk_order", referencedColumnName = "id")]
     )
-    var user: User? = null
+    var order: Order? = null
 )
