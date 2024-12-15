@@ -1,7 +1,6 @@
 package br.com.dashboard.company.repository
 
 import br.com.dashboard.company.entities.order.Order
-import br.com.dashboard.company.utils.common.AddressStatus
 import br.com.dashboard.company.utils.common.Status
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
