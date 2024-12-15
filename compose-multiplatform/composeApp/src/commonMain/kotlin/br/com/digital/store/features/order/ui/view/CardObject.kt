@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import br.com.digital.store.components.strings.StringsUtils.DELIVERED
 import br.com.digital.store.components.strings.StringsUtils.DETAILS
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
 import br.com.digital.store.components.strings.StringsUtils.NAME
@@ -47,6 +48,7 @@ import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.domain.factory.objectFactory
 import br.com.digital.store.features.order.domain.others.Action
+import br.com.digital.store.features.order.domain.status.ObjectStatus
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.order.utils.OrderUtils.DELETE_ITEM
@@ -351,9 +353,16 @@ private fun DetailsObject(
                 )
             }
         )
-        UpdateStatusOrder(status = status)
+        UpdateStatusOrder(
+            orderId = orderId,
+            objectId = objectResponseVO.id,
+            status = status,
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = onRefresh
+        )
         UpdateObject(
-            orderId = orderId, objectId = objectResponseVO.id,
+            orderId = orderId,
+            objectId = objectResponseVO.id,
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = onRefresh
         )
@@ -362,18 +371,23 @@ private fun DetailsObject(
 
 @Composable
 private fun UpdateStatusOrder(
-    status: String
+    orderId: Long,
+    objectId: Long,
+    status: String,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
+    var openDialog: Boolean by remember { mutableStateOf(value = false) }
+    var itemSelected: String by remember {
+        mutableStateOf(value = status)
+    }
+    var observer: Triple<Boolean, Boolean, String> by remember {
+        mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
+    }
+    val viewModel: OrderViewModel = getKoin().get()
     Row(
         horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
-        var openDialog: Boolean by remember { mutableStateOf(value = false) }
-        var itemSelected: String by remember {
-            mutableStateOf(value = status)
-        }
-        var observer: Triple<Boolean, Boolean, String> by remember {
-            mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
-        }
         DropdownMenu(
             selectedValue = itemSelected,
             items = deliveryStatus,
@@ -399,9 +413,57 @@ private fun UpdateStatusOrder(
                 },
                 onConfirmation = {
                     observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                    viewModel.updateOrder(
+                        orderId = orderId,
+                        objectId = objectId,
+                        updateObject = UpdateObjectRequestDTO(
+                            action = Action.UPDATE_STATUS,
+                            status = when (itemSelected) {
+                                DELIVERED -> ObjectStatus.DELIVERED
+                                else -> ObjectStatus.PENDING
+                            }
+                        )
+                    )
                     openDialog = false
                 }
             )
         }
     }
+    ObserveNetworkStateHandlerUpdateStatusObject(
+        viewModel = viewModel,
+        onError = {
+            observer = it
+        },
+        goToAlternativeRoutes = goToAlternativeRoutes,
+        onSuccessful = {
+            observer = Triple(first = false, second = false, third = EMPTY_TEXT)
+            onRefresh()
+        }
+    )
+}
+
+@Composable
+private fun ObserveNetworkStateHandlerUpdateStatusObject(
+    viewModel: OrderViewModel,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    onSuccessful: () -> Unit = {}
+) {
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.updateOrder }
+    ObserveNetworkStateHandler(
+        state = state,
+        onLoading = {},
+        onError = {
+            onError(Triple(first = false, second = true, third = it ?: EMPTY_TEXT))
+        },
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
+        onSuccess = {
+            onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.resetOrder(reset = ResetOrder.UPDATE_ORDER)
+            onSuccessful()
+        }
+    )
 }
