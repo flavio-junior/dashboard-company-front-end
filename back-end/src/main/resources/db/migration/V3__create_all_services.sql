@@ -73,7 +73,7 @@ CREATE TABLE tb_product_category (
 
 CREATE TABLE IF NOT EXISTS tb_order (
     id SERIAL PRIMARY KEY,
-    created_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP,
     type varchar(30) check (type in ('DELIVERY', 'ORDER', 'RESERVATION')),
     status varchar(30) check (status in ('OPEN', 'CLOSED')),
     quantity INT NOT NULL,

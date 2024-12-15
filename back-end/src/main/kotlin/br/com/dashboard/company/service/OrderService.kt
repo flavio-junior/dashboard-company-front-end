@@ -86,7 +86,6 @@ class OrderService {
         orderResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
         orderResult.status = Status.OPEN
         val objectsSaved = objectService.saveObjects(userId = user.id, objectsToSave = order.objects)
-        orderResult.address?.status = AddressStatus.PENDING_DELIVERY
         orderResult.objects = objectsSaved.first
         orderResult.quantity = order.objects?.size ?: 0
         orderResult.price = objectsSaved.second

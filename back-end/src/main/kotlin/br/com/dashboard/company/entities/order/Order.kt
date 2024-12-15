@@ -29,7 +29,7 @@ data class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     var createdAt: LocalDateTime? = null,
     @Enumerated(EnumType.STRING)
     var type: TypeOrder? = null,
