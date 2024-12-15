@@ -2,6 +2,7 @@ package br.com.digital.store.features.food.data.repository
 
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
 import br.com.digital.store.features.food.data.dto.FoodRequestDTO
+import br.com.digital.store.features.food.data.dto.FoodResponseDTO
 import br.com.digital.store.features.food.data.dto.FoodsResponseDTO
 import br.com.digital.store.features.food.data.dto.UpdateFoodRequestDTO
 import br.com.digital.store.features.food.data.dto.UpdatePriceFoodRequestDTO
@@ -44,6 +45,19 @@ class FoodRemoteDataSource(
                     parameters.append("page", page.toString())
                     parameters.append("size", size.toString())
                     parameters.append("sort", sort)
+                }
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+            }
+        }
+    }
+
+    override fun findFoodByName(name: String): Flow<ObserveNetworkStateHandler<List<FoodResponseDTO>>> {
+        return toResultFlow {
+            httpClient.get {
+                url {
+                    path("/api/dashboard/company/foods/v1/find/food/by/$name")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")

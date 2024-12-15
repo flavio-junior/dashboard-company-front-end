@@ -58,7 +58,10 @@ object StringsUtils {
     const val DISTRICT = "Bairro"
     const val COMPLEMENT = "Complemento"
     const val ADD_PRODUCT = "Adicionar Produto"
+    const val FIND_PRODUCT = "Pesquisar Produto"
+    const val NAME_PRODUCT = "Nome do Produto"
     const val ADD_FOOD = "Adicionar Prato"
+    const val ADD_FOODS = "Adicionar Pratos"
     const val ADD_ITEM = "Adicionar Item"
     const val REMOVER_ITEM = "Remover Item"
     const val VALUE_TOTAL = "Valor total:"
@@ -74,4 +77,6 @@ object StringsUtils {
     const val UPDATE = "Atualizar"
     const val STATUS_ORDER = "Status da Entrega"
     const val CLOSE_ORDER = "Fechar Pedido"
+    const val SELECTED_ITEMS = "Itens Selecionados:"
+    const val CREATE_NEW_ORDER = "Criar Novo Pedido"
 }

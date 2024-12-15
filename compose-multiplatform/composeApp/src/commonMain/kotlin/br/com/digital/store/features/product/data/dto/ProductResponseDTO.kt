@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ProductResponseDTO(
-    val id: Long,
-    val name: String,
+    val id: Long = 0,
+    val name: String = "",
     val categories: List<CategoryResponseDTO> ? = null,
-    val price: Double,
-    val quantity: Int
+    val price: Double = 0.0,
+    val quantity: Int = 0
 )

@@ -1,6 +1,7 @@
 package br.com.digital.store.features.food.data.repository
 
 import br.com.digital.store.features.food.data.dto.FoodRequestDTO
+import br.com.digital.store.features.food.data.dto.FoodResponseDTO
 import br.com.digital.store.features.food.data.dto.FoodsResponseDTO
 import br.com.digital.store.features.food.data.dto.UpdateFoodRequestDTO
 import br.com.digital.store.features.food.data.dto.UpdatePriceFoodRequestDTO
@@ -17,6 +18,7 @@ interface FoodRepository {
         size: Int = NUMBER_SIXTY,
         sort: String
     ): Flow<ObserveNetworkStateHandler<FoodsResponseDTO>>
+    fun findFoodByName(name: String): Flow<ObserveNetworkStateHandler<List<FoodResponseDTO>>>
     fun createNewFood(food: FoodRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>
     fun updateFood(food: UpdateFoodRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>
     fun updatePriceFood(id: Long, price: UpdatePriceFoodRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>

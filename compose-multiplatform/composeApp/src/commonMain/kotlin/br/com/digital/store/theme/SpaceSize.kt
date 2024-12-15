@@ -46,6 +46,7 @@ object SpaceSize {
     val spaceSize300: Dp = 300.dp
     val spaceSize400: Dp = 400.dp
     val spaceSize500: Dp = 500.dp
+    val spaceSize1000: Dp = 1000.dp
 }
 
 val LocalSpaces = staticCompositionLocalOf { SpaceSize }

@@ -11,6 +11,7 @@ object FoodUtils {
     const val NEW_NAME_FOOD = "Novo nome do Prato"
     const val DELETE_FOOD = "Apagar Prato"
     const val EMPTY_LIST_FOODS = "Nenhum Prato Encontrado!"
+    const val NO_FOOD_SELECTED = "Nenhum prato selecionado"
 }
 
 fun checkBodyFoodIsNull(

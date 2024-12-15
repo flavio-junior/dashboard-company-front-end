@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import br.com.digital.store.components.strings.StringsUtils.MESSAGE_ZERO_DOUBLE
+import br.com.digital.store.components.strings.StringsUtils.NAME_PRODUCT
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.QUANTITY
@@ -34,7 +35,6 @@ import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.features.product.data.dto.ProductRequestDTO
 import br.com.digital.store.features.product.ui.viewmodel.ProductViewModel
 import br.com.digital.store.features.product.utils.ProductUtils.CREATE_PRODUCT
-import br.com.digital.store.features.product.utils.ProductUtils.NAME_PRODUCT
 import br.com.digital.store.features.product.utils.checkBodyProductIsNull
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils

@@ -128,7 +128,7 @@ class ProductViewModel(
         }
     }
 
-    fun findCategoryByName(name: String) {
+    fun findProductByName(name: String) {
         viewModelScope.launch {
             repository.finProductByName(name = name)
                 .onStart {

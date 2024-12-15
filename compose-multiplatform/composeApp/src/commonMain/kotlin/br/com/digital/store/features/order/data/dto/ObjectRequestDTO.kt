@@ -5,7 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ObjectRequestDTO(
-    val identifier: Int,
+    val name: String,
+    val identifier: Long,
     val quantity: Int,
     val type: TypeItem
 )

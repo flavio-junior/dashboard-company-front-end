@@ -1,4 +1,4 @@
-package br.com.digital.store.features.product.ui.view
+package br.com.digital.store.features.food.ui.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
@@ -25,6 +25,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
+import br.com.digital.store.components.strings.StringsUtils.ADD_FOODS
 import br.com.digital.store.components.strings.StringsUtils.CANCEL
 import br.com.digital.store.components.strings.StringsUtils.CONFIRM
 import br.com.digital.store.components.ui.Description
@@ -33,13 +34,12 @@ import br.com.digital.store.components.ui.Search
 import br.com.digital.store.components.ui.SimpleButton
 import br.com.digital.store.components.ui.Tag
 import br.com.digital.store.components.ui.Title
+import br.com.digital.store.features.food.data.dto.FoodResponseDTO
+import br.com.digital.store.features.food.ui.viewmodel.FoodViewModel
+import br.com.digital.store.features.food.ui.viewmodel.ResetFood
+import br.com.digital.store.features.food.utils.FoodUtils.NO_FOOD_SELECTED
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.product.data.dto.ProductResponseDTO
-import br.com.digital.store.features.product.ui.viewmodel.ProductViewModel
-import br.com.digital.store.features.product.ui.viewmodel.ResetProduct
-import br.com.digital.store.features.product.utils.ProductUtils.ADD_PRODUCTS
-import br.com.digital.store.features.product.utils.ProductUtils.NO_PRODUCTS_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
@@ -48,15 +48,15 @@ import kotlinx.coroutines.launch
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
-fun SelectProducts(
+fun SelectFoods(
     onDismissRequest: () -> Unit = {},
-    onConfirmation: (List<ProductResponseDTO>) -> Unit = {},
+    onConfirmation: (List<FoodResponseDTO>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
-    val viewModel: ProductViewModel = getKoin().get()
+    val viewModel: FoodViewModel = getKoin().get()
     Dialog(onDismissRequest = onDismissRequest) {
         Column(
             modifier = Modifier
@@ -73,42 +73,42 @@ fun SelectProducts(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             var name: String by remember { mutableStateOf(value = EMPTY_TEXT) }
-            val products = remember { mutableStateListOf<ProductResponseDTO>() }
-            var productsSelected = remember { mutableStateListOf<ProductResponseDTO>() }
-            Title(title = ADD_PRODUCTS)
+            val foods = remember { mutableStateListOf<FoodResponseDTO>() }
+            var foodsSelected = remember { mutableStateListOf<FoodResponseDTO>() }
+            Title(title = ADD_FOODS)
             Search(
                 value = name,
                 onValueChange = { name = it },
                 isError = observer.second,
                 message = observer.third,
                 onGo = {
-                    viewModel.findProductByName(name = name)
+                    viewModel.findFoodByName(name = name)
                 }
             )
-            SelectProducts(
-                products = products,
-                productsSelected = productsSelected,
+            SelectFoods(
+                Foods = foods,
+                FoodsSelected = foodsSelected,
                 onResult = {
-                    productsSelected = it.toMutableStateList()
+                    foodsSelected = it.toMutableStateList()
                 }
             )
-            ListProductsAvailable(products = productsSelected)
-            FooterSelectProducts(
+            ListFoodsAvailable(Foods = foodsSelected)
+            FooterSelectFoods(
                 onDismissRequest = {
-                    viewModel.resetProduct(reset = ResetProduct.FIND_BY_NAME)
+                    viewModel.resetFood(reset = ResetFood.FIND_FOOD_BY_NAME)
                     onDismissRequest()
                 },
                 onConfirmation = {
-                    if (productsSelected.isNotEmpty()) {
-                        viewModel.resetProduct(reset = ResetProduct.FIND_BY_NAME)
-                        onConfirmation(productsSelected)
+                    if (foodsSelected.isNotEmpty()) {
+                        viewModel.resetFood(reset = ResetFood.FIND_FOOD_BY_NAME)
+                        onConfirmation(foodsSelected)
                     } else {
                         observer =
-                            Triple(first = false, second = true, third = NO_PRODUCTS_SELECTED)
+                            Triple(first = false, second = true, third = NO_FOOD_SELECTED)
                     }
                 }
             )
-            ObserveNetworkStateHandlerFindProductByName(
+            ObserveNetworkStateHandlerFindFoodByName(
                 viewModel = viewModel,
                 onError = {
                     observer = it
@@ -116,8 +116,8 @@ fun SelectProducts(
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onSuccessful = {
                     observer = Triple(first = false, second = false, third = EMPTY_TEXT)
-                    products.clear()
-                    products.addAll(it)
+                    foods.clear()
+                    foods.addAll(it)
                 }
             )
         }
@@ -125,10 +125,10 @@ fun SelectProducts(
 }
 
 @Composable
-private fun SelectProducts(
-    products: List<ProductResponseDTO>,
-    productsSelected: MutableList<ProductResponseDTO>,
-    onResult: (List<ProductResponseDTO>) -> Unit = {}
+private fun SelectFoods(
+    Foods: List<FoodResponseDTO>,
+    FoodsSelected: MutableList<FoodResponseDTO>,
+    onResult: (List<FoodResponseDTO>) -> Unit = {}
 ) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -145,18 +145,18 @@ private fun SelectProducts(
                 }
             )
     ) {
-        items(products) { products ->
+        items(Foods) { Foods ->
             Tag(
-                text = products.name,
-                value = products,
-                enabled = productsSelected.contains(products),
+                text = Foods.name,
+                value = Foods,
+                enabled = FoodsSelected.contains(Foods),
                 onCheck = { isChecked ->
                     if (isChecked) {
-                        productsSelected.add(products)
+                        FoodsSelected.add(Foods)
                     } else {
-                        productsSelected.remove(products)
+                        FoodsSelected.remove(Foods)
                     }
-                    onResult(productsSelected)
+                    onResult(FoodsSelected)
                 }
             )
         }
@@ -164,8 +164,8 @@ private fun SelectProducts(
 }
 
 @Composable
-private fun ListProductsAvailable(
-    products: List<ProductResponseDTO>
+private fun ListFoodsAvailable(
+    Foods: List<FoodResponseDTO>
 ) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -182,14 +182,14 @@ private fun ListProductsAvailable(
                 }
             )
     ) {
-        items(products) { products ->
-            Description(description = products.name)
+        items(Foods) { Foods ->
+            Description(description = Foods.name)
         }
     }
 }
 
 @Composable
-private fun FooterSelectProducts(
+private fun FooterSelectFoods(
     onDismissRequest: () -> Unit = {},
     onConfirmation: () -> Unit = {}
 ) {
@@ -214,13 +214,13 @@ private fun FooterSelectProducts(
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerFindProductByName(
-    viewModel: ProductViewModel,
+private fun ObserveNetworkStateHandlerFindFoodByName(
+    viewModel: FoodViewModel,
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
-    onSuccessful: (List<ProductResponseDTO>) -> Unit = {}
+    onSuccessful: (List<FoodResponseDTO>) -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<List<ProductResponseDTO>> by remember { viewModel.findProductByName }
+    val state: ObserveNetworkStateHandler<List<FoodResponseDTO>> by remember { viewModel.findFoodByName }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {},
@@ -232,7 +232,7 @@ private fun ObserveNetworkStateHandlerFindProductByName(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.findAllProducts()
+            viewModel.findAllFoods()
             it.result?.let { result -> onSuccessful(result) }
         }
     )

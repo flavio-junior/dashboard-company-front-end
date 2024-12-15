@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.components.strings.StringsUtils.ASC
 import br.com.digital.store.features.food.data.dto.FoodRequestDTO
+import br.com.digital.store.features.food.data.dto.FoodResponseDTO
 import br.com.digital.store.features.food.data.dto.UpdateFoodRequestDTO
 import br.com.digital.store.features.food.data.dto.UpdatePriceFoodRequestDTO
 import br.com.digital.store.features.food.data.repository.FoodRepository
@@ -41,6 +42,13 @@ class FoodViewModel(
     private val _createFood =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val createFood: State<ObserveNetworkStateHandler<Unit>> = _createFood
+
+    private val _findFoodByName =
+        mutableStateOf<ObserveNetworkStateHandler<List<FoodResponseDTO>>>(
+            ObserveNetworkStateHandler.Loading(l = false)
+        )
+    val findFoodByName: State<ObserveNetworkStateHandler<List<FoodResponseDTO>>> =
+        _findFoodByName
 
     private val _updateFood =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -115,6 +123,18 @@ class FoodViewModel(
         }
     }
 
+    fun findFoodByName(name: String) {
+        viewModelScope.launch {
+            repository.findFoodByName(name = name)
+                .onStart {
+                    _findFoodByName.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _findFoodByName.value = it
+                }
+        }
+    }
+
     fun createFood(food: FoodRequestDTO) {
         viewModelScope.launch {
             repository.createNewFood(food = food)
@@ -165,6 +185,10 @@ class FoodViewModel(
 
     fun resetFood(reset: ResetFood) {
         when (reset) {
+            ResetFood.FIND_FOOD_BY_NAME -> {
+                _findFoodByName.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
             ResetFood.DELETE_FOOD -> {
                 _deleteFood.value = ObserveNetworkStateHandler.Loading(l = false)
             }
@@ -173,5 +197,6 @@ class FoodViewModel(
 }
 
 enum class ResetFood {
+    FIND_FOOD_BY_NAME,
     DELETE_FOOD
 }
