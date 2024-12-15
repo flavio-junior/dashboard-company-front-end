@@ -1,6 +1,7 @@
 package br.com.dashboard.company.repository
 
 import br.com.dashboard.company.entities.order.Order
+import br.com.dashboard.company.utils.common.AddressStatus
 import br.com.dashboard.company.utils.common.Status
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -25,7 +26,7 @@ interface OrderRepository : JpaRepository<Order, Long> {
     fun updateStatusOrder(
         @Param("userId") userId: Long,
         @Param("orderId") orderId: Long,
-        @Param("status") status: Status,
+        @Param("status") status: Status
     )
 
     @Query(value = "SELECT o FROM Order o WHERE o.user.id = :userId AND o.id = :orderId")

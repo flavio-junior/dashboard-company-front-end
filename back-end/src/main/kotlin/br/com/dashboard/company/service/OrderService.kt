@@ -13,6 +13,7 @@ import br.com.dashboard.company.vo.`object`.UpdateObjectRequestVO
 import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import br.com.dashboard.company.vo.order.OrderRequestVO
 import br.com.dashboard.company.vo.order.OrderResponseVO
+import br.com.dashboard.company.vo.order.UpdateStatusDeliveryRequestVO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -26,6 +27,9 @@ class OrderService {
 
     @Autowired
     private lateinit var orderRepository: OrderRepository
+
+    @Autowired
+    private lateinit var addressService: AddressService
 
     @Autowired
     private lateinit var objectService: ObjectService
@@ -157,6 +161,20 @@ class OrderService {
         status: Status
     ) {
         orderRepository.updateStatusOrder(userId = userId, orderId = orderId, status = status)
+    }
+
+    @Transactional
+    fun updateStatusDelivery(
+        user: User,
+        orderId: Long,
+        status: UpdateStatusDeliveryRequestVO
+    ) {
+        val orderSaved = getOrder(userId = user.id, orderId = orderId)
+        addressService.updateStatusDelivery(
+            orderId = orderSaved.id,
+            addressId = orderSaved.address?.id,
+            status = status
+        )
     }
 
     @Transactional
