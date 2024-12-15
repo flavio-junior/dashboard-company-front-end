@@ -6,6 +6,7 @@ import br.com.digital.store.features.networking.utils.toResultFlow
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
+import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
@@ -92,6 +93,21 @@ class OrderRemoteDataSource(
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
                 setBody(body = updateObject)
+            }
+        }
+    }
+
+    override fun updateStatusDelivery(
+        orderId: Long,
+        status: UpdateStatusDeliveryRequestDTO
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.put {
+                url(urlString = "/api/dashboard/company/orders/v1/$orderId/update/status/delivery")
+                headers {
+                    append(name = HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+                setBody(body = status)
             }
         }
     }

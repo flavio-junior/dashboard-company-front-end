@@ -2,6 +2,7 @@ package br.com.digital.store.utils
 
 import br.com.digital.store.components.strings.StringsUtils.DELIVERED
 import br.com.digital.store.components.strings.StringsUtils.PENDING_DELIVERY
+import br.com.digital.store.components.strings.StringsUtils.SENDING
 import br.com.digital.store.utils.NumbersUtils.NUMBER_EIGHTY
 import br.com.digital.store.utils.NumbersUtils.NUMBER_FIFTY
 import br.com.digital.store.utils.NumbersUtils.NUMBER_FORTY
@@ -35,6 +36,12 @@ val typeOrder = listOf(
     "Delivery",
     "Reserva",
     "Pedido"
+)
+
+val updateStatusDelivery = listOf(
+    PENDING_DELIVERY,
+    SENDING,
+    DELIVERED
 )
 
 val deliveryStatus = listOf(

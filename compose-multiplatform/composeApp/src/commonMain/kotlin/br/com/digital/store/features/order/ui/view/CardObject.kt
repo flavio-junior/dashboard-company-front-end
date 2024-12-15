@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -46,7 +47,9 @@ import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.vo.ObjectResponseVO
+import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.factory.objectFactory
+import br.com.digital.store.features.order.domain.factory.statusDeliveryStatus
 import br.com.digital.store.features.order.domain.others.Action
 import br.com.digital.store.features.order.domain.status.ObjectStatus
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
@@ -69,7 +72,7 @@ import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun Object(
-    orderId: Long,
+    orderResponseVO: OrderResponseVO,
     objects: List<ObjectResponseVO>,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
@@ -77,7 +80,7 @@ fun Object(
     var itemSelected: ObjectResponseVO by remember { mutableStateOf(value = ObjectResponseVO()) }
     Row {
         ListObject(
-            orderId = orderId,
+            orderResponseVO = orderResponseVO,
             modifier = Modifier
                 .weight(weight = WEIGHT_SIZE_3),
             objects = objects,
@@ -89,7 +92,7 @@ fun Object(
         )
         DetailsObject(
             objectResponseVO = itemSelected,
-            orderId = orderId,
+            orderResponseVO = orderResponseVO,
             modifier = Modifier.weight(weight = WEIGHT_SIZE_2),
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = onRefresh
@@ -99,7 +102,7 @@ fun Object(
 
 @Composable
 private fun ListObject(
-    orderId: Long,
+    orderResponseVO: OrderResponseVO,
     modifier: Modifier = Modifier,
     objects: List<ObjectResponseVO>,
     onItemSelected: (ObjectResponseVO) -> Unit = {},
@@ -131,7 +134,7 @@ private fun ListObject(
         ) {
             itemsIndexed(items = objects) { index, objectResult ->
                 CardObject(
-                    orderId = orderId,
+                    orderId = orderResponseVO.id,
                     objectResponseVO = objectResult,
                     selected = selectedIndex == index,
                     onItemSelected = onItemSelected,
@@ -141,6 +144,15 @@ private fun ListObject(
                 )
             }
         }
+        UpdateStatusDelivery(
+            orderId = orderResponseVO.id,
+            status = statusDeliveryStatus(status = orderResponseVO.address?.status),
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = onRefresh,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(weight = WEIGHT_SIZE)
+        )
         ItemObject(
             modifier = Modifier.padding(
                 top = Themes.size.spaceSize8,
@@ -151,7 +163,7 @@ private fun ListObject(
                     modifier = Modifier.weight(weight = WEIGHT_SIZE),
                 )
                 DeleteOrder(
-                    orderId = orderId,
+                    orderId = orderResponseVO.id,
                     modifier = Modifier.weight(weight = WEIGHT_SIZE),
                     goToAlternativeRoutes = goToAlternativeRoutes,
                     onRefresh = onRefresh
@@ -287,7 +299,7 @@ private fun ObserveNetworkStateHandlerDeleteObject(
 @Composable
 private fun DetailsObject(
     modifier: Modifier = Modifier,
-    orderId: Long,
+    orderResponseVO: OrderResponseVO,
     objectResponseVO: ObjectResponseVO,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
@@ -354,14 +366,14 @@ private fun DetailsObject(
             }
         )
         UpdateStatusOrder(
-            orderId = orderId,
+            orderId = orderResponseVO.id,
             objectId = objectResponseVO.id,
             status = status,
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = onRefresh
         )
         UpdateObject(
-            orderId = orderId,
+            orderId = orderResponseVO.id,
             objectId = objectResponseVO.id,
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = onRefresh
@@ -429,7 +441,7 @@ private fun UpdateStatusOrder(
             )
         }
     }
-    ObserveNetworkStateHandlerUpdateStatusObject(
+    ObserveNetworkStateHandlerUpdateStatusDelivery(
         viewModel = viewModel,
         onError = {
             observer = it
@@ -443,7 +455,7 @@ private fun UpdateStatusOrder(
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerUpdateStatusObject(
+private fun ObserveNetworkStateHandlerUpdateStatusDelivery(
     viewModel: OrderViewModel,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},

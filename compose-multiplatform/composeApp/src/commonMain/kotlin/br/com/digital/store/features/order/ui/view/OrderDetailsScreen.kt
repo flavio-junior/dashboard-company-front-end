@@ -27,7 +27,7 @@ fun OrderDetailsScreen(
         HeaderDetailsOrder(orderResponseVO = orderResponseVO)
         orderResponseVO.objects?.let {
             Object(
-                orderId = orderResponseVO.id,
+                orderResponseVO = orderResponseVO,
                 objects = it,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh

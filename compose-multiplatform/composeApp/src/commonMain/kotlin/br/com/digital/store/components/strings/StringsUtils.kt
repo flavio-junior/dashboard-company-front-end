@@ -69,5 +69,6 @@ object StringsUtils {
     const val PENDING_OBJECTS = "Itens pendentes:"
     const val DETAILS = "Detalhes:"
     const val UPDATE = "Atualizar"
+    const val STATUS_ORDER = "Status da Entrega"
     const val CLOSE_ORDER = "Fechar Pedido"
 }

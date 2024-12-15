@@ -58,7 +58,7 @@ fun DropdownMenu(
                 focusedIndicatorColor = Themes.colors.primary,
                 unfocusedIndicatorColor = Themes.colors.primary
             ),
-            modifier = Modifier,
+            modifier = modifier,
             shape = RoundedCornerShape(size = Themes.size.spaceSize16),
             textStyle = Themes.typography.description().copy(color = Themes.colors.primary)
         )

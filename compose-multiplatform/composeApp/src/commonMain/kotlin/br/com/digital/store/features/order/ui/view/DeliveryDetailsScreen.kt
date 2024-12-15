@@ -42,7 +42,7 @@ fun DeliveryDetailsScreen(
         AddressOrder(addressResponseVO = orderResponseVO.address)
         orderResponseVO.objects?.let {
             Object(
-                orderId = orderResponseVO.id,
+                orderResponseVO = orderResponseVO,
                 objects = it,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh

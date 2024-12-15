@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
+import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
 import br.com.digital.store.features.order.data.repository.OrderRepository
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -26,6 +27,10 @@ class OrderViewModel(
     private val _deleteOrder =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val deleteOrder: State<ObserveNetworkStateHandler<Unit>> = _deleteOrder
+
+    private val _updateStatusDelivery =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val updateStatusDelivery: State<ObserveNetworkStateHandler<Unit>> = _updateStatusDelivery
 
     private val _deleteObject =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -55,6 +60,21 @@ class OrderViewModel(
                 }
                 .collect {
                     _updateOrder.value = it
+                }
+        }
+    }
+
+    fun updateStatusDelivery(orderId: Long, status: UpdateStatusDeliveryRequestDTO) {
+        viewModelScope.launch {
+            repository.updateStatusDelivery(
+                orderId = orderId,
+                status = status
+            )
+                .onStart {
+                    _updateStatusDelivery.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _updateStatusDelivery.value = it
                 }
         }
     }
