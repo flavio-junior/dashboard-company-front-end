@@ -11,24 +11,28 @@ import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 fun DetailsOrderScreen(
     orderResponseVO: OrderResponseVO,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
     if (orderResponseVO.id > NUMBER_ZERO) {
         when (orderResponseVO.type) {
             TypeOrder.DELIVERY -> DeliveryDetailsScreen(
                 orderResponseVO = orderResponseVO,
+                onItemSelected = onItemSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )
 
             TypeOrder.ORDER -> OrderDetailsScreen(
                 orderResponseVO = orderResponseVO,
+                onItemSelected = onItemSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )
 
             TypeOrder.RESERVATION -> ReservationDetailsScreen(
                 orderResponseVO = orderResponseVO,
+                onItemSelected = onItemSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )

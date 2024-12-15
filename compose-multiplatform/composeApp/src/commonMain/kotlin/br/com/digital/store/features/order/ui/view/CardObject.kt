@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import br.com.digital.store.components.strings.StringsUtils.DELIVERED
 import br.com.digital.store.components.strings.StringsUtils.DETAILS
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
@@ -38,10 +39,13 @@ import br.com.digital.store.components.strings.StringsUtils.UPDATE
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.DropdownMenu
+import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.components.ui.TextField
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.add
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels
@@ -54,6 +58,7 @@ import br.com.digital.store.features.order.domain.others.Action
 import br.com.digital.store.features.order.domain.status.ObjectStatus
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
+import br.com.digital.store.features.order.utils.OrderUtils.ADD_MORE_ITEMS_ORDER
 import br.com.digital.store.features.order.utils.OrderUtils.DELETE_ITEM
 import br.com.digital.store.features.order.utils.OrderUtils.DELETE_OBJECT
 import br.com.digital.store.features.order.utils.OrderUtils.UPDATE_STATUS
@@ -64,6 +69,7 @@ import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
+import br.com.digital.store.utils.NumbersUtils.NUMBER_TWO
 import br.com.digital.store.utils.deliveryStatus
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
@@ -74,6 +80,7 @@ import org.koin.mp.KoinPlatform.getKoin
 fun Object(
     orderResponseVO: OrderResponseVO,
     objects: List<ObjectResponseVO>,
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
@@ -87,6 +94,7 @@ fun Object(
             onItemSelected = {
                 itemSelected = it
             },
+            addMoreItems = onItemSelected,
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = onRefresh
         )
@@ -106,6 +114,7 @@ private fun ListObject(
     modifier: Modifier = Modifier,
     objects: List<ObjectResponseVO>,
     onItemSelected: (ObjectResponseVO) -> Unit = {},
+    addMoreItems: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
@@ -117,33 +126,42 @@ private fun ListObject(
         val scrollState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
         var selectedIndex by remember { mutableStateOf(value = -1) }
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
-            state = scrollState,
-            modifier = Modifier
-                .background(color = Themes.colors.background)
-                .draggable(
-                    orientation = Orientation.Horizontal,
-                    state = rememberDraggableState { delta ->
-                        coroutineScope.launch {
-                            scrollState.scrollBy(-delta)
-                        }
-                    },
-                )
-                .padding(horizontal = Themes.size.spaceSize16)
-        ) {
-            itemsIndexed(items = objects) { index, objectResult ->
-                CardObject(
-                    orderId = orderResponseVO.id,
-                    objectResponseVO = objectResult,
-                    selected = selectedIndex == index,
-                    onItemSelected = onItemSelected,
-                    onDisableItem = {
-                        selectedIndex = index
+        ItemObject(
+            spaceBy = Themes.size.spaceSize0,
+            body = {
+                AddNewObjects(onItemSelected = {
+                    addMoreItems(Pair(first = orderResponseVO, second = NUMBER_TWO))
+                })
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+                    state = scrollState,
+                    modifier = Modifier
+                        .background(color = Themes.colors.background)
+                        .draggable(
+                            orientation = Orientation.Horizontal,
+                            state = rememberDraggableState { delta ->
+                                coroutineScope.launch {
+                                    scrollState.scrollBy(-delta)
+                                }
+                            },
+                        )
+                        .padding(horizontal = Themes.size.spaceSize16)
+                ) {
+                    itemsIndexed(items = objects) { index, objectResult ->
+                        CardObject(
+                            orderId = orderResponseVO.id,
+                            objectResponseVO = objectResult,
+                            selected = selectedIndex == index,
+                            onItemSelected = onItemSelected,
+                            onDisableItem = {
+                                selectedIndex = index
+                            }
+                        )
                     }
-                )
+                }
             }
-        }
+        )
+
         UpdateStatusDelivery(
             orderId = orderResponseVO.id,
             status = statusDeliveryStatus(status = orderResponseVO.address?.status),
@@ -169,6 +187,39 @@ private fun ListObject(
                     onRefresh = onRefresh
                 )
             }
+        )
+    }
+}
+
+@Composable
+private fun AddNewObjects(
+    onItemSelected: () -> Unit = {},
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .onBorder(
+                onClick = {
+                    onItemSelected()
+                },
+                color = Themes.colors.primary,
+                spaceSize = Themes.size.spaceSize12,
+                width = Themes.size.spaceSize2
+            )
+            .background(color = Themes.colors.background)
+            .padding(all = Themes.size.spaceSize16)
+            .height(height = Themes.size.spaceSize200)
+            .width(width = Themes.size.spaceSize200),
+        verticalArrangement = Arrangement.Center
+    ) {
+        IconDefault(
+            icon = Res.drawable.add,
+            size = Themes.size.spaceSize72
+        )
+        Description(
+            description = ADD_MORE_ITEMS_ORDER,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
         )
     }
 }

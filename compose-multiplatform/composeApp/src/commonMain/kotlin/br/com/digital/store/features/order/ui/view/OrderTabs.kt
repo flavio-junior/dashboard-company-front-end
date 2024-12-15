@@ -25,7 +25,6 @@ import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.NumbersUtils
 import kotlinx.coroutines.launch
 
 @Composable
@@ -78,9 +77,9 @@ fun OrdersTabs(
                     index = it,
                     orderResponseVO = ordersResponseVO,
                     onItemSelected = {
-                        ordersResponseVO = it
+                        ordersResponseVO = it.first
                         scope.launch {
-                            pagerState.animateScrollToPage(page = NumbersUtils.NUMBER_ONE)
+                            pagerState.animateScrollToPage(page = it.second)
                         }
                     },
                     goToAlternativeRoutes = goToAlternativeRoutes,

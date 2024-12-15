@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 fun ReservationList(
     modifier: Modifier = Modifier,
     orderResponseVO: List<OrderResponseVO>,
-    onItemSelected: (OrderResponseVO) -> Unit = {}
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {}
 ) {
     Column(
         modifier = modifier

@@ -28,6 +28,7 @@ import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 @Composable
 fun DeliveryDetailsScreen(
     orderResponseVO: OrderResponseVO,
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
@@ -44,6 +45,7 @@ fun DeliveryDetailsScreen(
             Object(
                 orderResponseVO = orderResponseVO,
                 objects = it,
+                onItemSelected = onItemSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )

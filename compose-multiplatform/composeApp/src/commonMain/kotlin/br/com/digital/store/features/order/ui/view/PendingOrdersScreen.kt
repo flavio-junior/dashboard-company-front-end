@@ -39,7 +39,7 @@ import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun PendingOrdersScreen(
-    onItemSelected: (OrderResponseVO) -> Unit = {},
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     val viewModel: OpenOrdersViewModel = getKoin().get()
@@ -60,7 +60,7 @@ fun PendingOrdersScreen(
 @Composable
 private fun ObserveNetworkStateHandlerPendingOrders(
     viewModel: OpenOrdersViewModel,
-    onItemSelected: (OrderResponseVO) -> Unit = {},
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     onToCreateNewProduct: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
@@ -139,7 +139,7 @@ fun HeaderPendingOrdersScreen(
 private fun TabsPendingOrdersScreen(
     modifier: Modifier = Modifier,
     ordersResponseVO: OrdersResponseVO,
-    onItemSelected: (OrderResponseVO) -> Unit = {}
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {}
 ) {
     val delivery = ordersResponseVO.content?.filter { it.type == TypeOrder.DELIVERY } ?: emptyList()
     val orders = ordersResponseVO.content?.filter { it.type == TypeOrder.ORDER } ?: emptyList()

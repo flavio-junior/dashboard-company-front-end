@@ -22,6 +22,8 @@ object OrderUtils {
     const val UPDATE_STATUS = "Atualizar Status do Pedido?"
     const val DELETE_ITEM = "Apagar Item"
     const val DELETE_OBJECT = "Apagar Item do Pedido?"
+    const val ADD_MORE_ITEMS = "Adicionar Mais Itens"
+    const val ADD_MORE_ITEMS_ORDER = "Adicionar mais itens no pedido"
 }
 
 fun countPendingObjects(order: OrderResponseVO): String {

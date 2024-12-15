@@ -13,19 +13,20 @@ import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.utils.OrderUtils.NUMBER_ITEMS
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
 
 @Composable
 fun CardOrder(
     orderResponseVO: OrderResponseVO,
-    onItemSelected: (OrderResponseVO) -> Unit = {}
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {}
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize4),
         modifier = Modifier
             .onBorder(
-                onClick = { onItemSelected(orderResponseVO) },
+                onClick = { onItemSelected(Pair(first = orderResponseVO, second = NUMBER_ONE)) },
                 color = Themes.colors.primary,
                 spaceSize = Themes.size.spaceSize12,
                 width = Themes.size.spaceSize2

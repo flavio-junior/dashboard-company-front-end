@@ -14,6 +14,7 @@ import br.com.digital.store.theme.Themes
 @Composable
 fun OrderDetailsScreen(
     orderResponseVO: OrderResponseVO,
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
@@ -29,6 +30,7 @@ fun OrderDetailsScreen(
             Object(
                 orderResponseVO = orderResponseVO,
                 objects = it,
+                onItemSelected = onItemSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )

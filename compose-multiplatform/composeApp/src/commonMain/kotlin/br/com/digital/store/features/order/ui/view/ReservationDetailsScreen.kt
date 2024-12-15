@@ -22,7 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import br.com.digital.store.components.strings.StringsUtils.ITEMS
+import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ReservationDetailsScreen(
     orderResponseVO: OrderResponseVO,
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
@@ -61,6 +62,7 @@ fun ReservationDetailsScreen(
             Object(
                 orderResponseVO = orderResponseVO,
                 objects = it,
+                onItemSelected = onItemSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )
@@ -78,7 +80,7 @@ private fun ListReservations(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8)
     ) {
-        Description(description = "$ITEMS:")
+        Description(description = "$RESERVATIONS:")
         val scrollState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
         var selectedIndex by remember { mutableStateOf(value = -1) }

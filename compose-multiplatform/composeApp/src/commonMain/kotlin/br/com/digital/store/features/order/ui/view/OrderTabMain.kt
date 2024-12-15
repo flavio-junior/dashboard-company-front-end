@@ -9,7 +9,7 @@ import br.com.digital.store.utils.NumbersUtils
 fun OrderTabMain(
     index: Int,
     orderResponseVO: OrderResponseVO = OrderResponseVO(),
-    onItemSelected: (OrderResponseVO) -> Unit = {},
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: (Int) -> Unit = {}
 ) {
@@ -22,9 +22,14 @@ fun OrderTabMain(
         NumbersUtils.NUMBER_ONE -> DetailsOrderScreen(
             orderResponseVO = orderResponseVO,
             goToAlternativeRoutes = goToAlternativeRoutes,
+            onItemSelected = onItemSelected,
             onRefresh = {
                 onRefresh(NumbersUtils.NUMBER_ONE)
             }
+        )
+
+        NumbersUtils.NUMBER_TWO -> AddMoreItems(
+            orderResponseVO = orderResponseVO
         )
     }
 }

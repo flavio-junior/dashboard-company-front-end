@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 fun OrderList(
     modifier: Modifier = Modifier,
     orderResponseVO: List<OrderResponseVO>,
-    onItemSelected: (OrderResponseVO) -> Unit = {}
+    onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {}
 ) {
     Column(
         modifier = modifier
