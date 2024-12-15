@@ -2,7 +2,7 @@ package br.com.digital.store.ui.view.food
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
-import br.com.digital.store.components.strings.StringsUtils.FOOD
+import br.com.digital.store.components.strings.StringsUtils.FOODS
 import br.com.digital.store.domain.factory.availableServices
 import br.com.digital.store.features.food.ui.view.FoodTabs
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
@@ -19,7 +19,7 @@ fun FoodScreen(
         body = {
             Row {
                 Services(
-                    label = FOOD,
+                    label = FOODS,
                     services = availableServices,
                     goToBackScreen = goToBackScreen,
                     goToNextScreen = goToNextScreen

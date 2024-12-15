@@ -5,12 +5,12 @@ import br.com.digital.store.components.strings.StringsUtils.CATEGORIES
 import br.com.digital.store.components.strings.StringsUtils.CHANGE_TO_OTHER_ACCOUNT
 import br.com.digital.store.components.strings.StringsUtils.DASHBOARD
 import br.com.digital.store.components.strings.StringsUtils.EXIT
-import br.com.digital.store.components.strings.StringsUtils.FOOD
+import br.com.digital.store.components.strings.StringsUtils.FOODS
 import br.com.digital.store.components.strings.StringsUtils.HISTORY
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
-import br.com.digital.store.components.strings.StringsUtils.ORDER
+import br.com.digital.store.components.strings.StringsUtils.ORDERS
 import br.com.digital.store.components.strings.StringsUtils.PDV
-import br.com.digital.store.components.strings.StringsUtils.RESERVATION
+import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
 import br.com.digital.store.components.strings.StringsUtils.SETTINGS
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.box
@@ -46,7 +46,7 @@ val menus = listOf(
     ),
     Menu(
         icon = Res.drawable.food,
-        label = FOOD,
+        label = FOODS,
         route = ItemNavigation.FOOD.name
     ),
     Menu(
@@ -56,12 +56,12 @@ val menus = listOf(
     ),
     Menu(
         icon = Res.drawable.order,
-        label = ORDER,
+        label = ORDERS,
         route = ItemNavigation.ORDER.name
     ),
     Menu(
         icon = Res.drawable.reservation,
-        label = RESERVATION,
+        label = RESERVATIONS,
         route = ItemNavigation.RESERVATION.name
     ),
     Menu(
@@ -109,7 +109,7 @@ val availableServices = listOf(
     ),
     ItemService(
         icon = Res.drawable.food,
-        label = FOOD,
+        label = FOODS,
         route = ItemNavigation.FOOD.name
     ),
     ItemService(
@@ -119,12 +119,12 @@ val availableServices = listOf(
     ),
     ItemService(
         icon = Res.drawable.order,
-        label = ORDER,
+        label = ORDERS,
         route = ItemNavigation.ORDER.name
     ),
     ItemService(
         icon = Res.drawable.reservation,
-        label = RESERVATION,
+        label = RESERVATIONS,
         route = ItemNavigation.RESERVATION.name
     )
 )
