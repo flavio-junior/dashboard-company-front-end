@@ -36,6 +36,15 @@ class ItemService {
     }
 
     @Transactional(readOnly = true)
+    fun findItemByName(
+        user: User,
+        name: String
+    ): List<ItemResponseVO> {
+        val items: List<Item> = itemRepository.findItemByName(userId = user.id, name = name)
+        return items.map { item -> parseObject(item, ItemResponseVO::class.java) }
+    }
+
+    @Transactional(readOnly = true)
     fun findItemById(
         user: User,
         idItem: Long

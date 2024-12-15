@@ -37,6 +37,14 @@ interface ItemRepository : JpaRepository<Item, Long> {
         @Param("idItem") itemId: Long
     ): Item?
 
+    @Query(
+        value = "SELECT i FROM Item i WHERE i.user.id = :userId AND LOWER(i.name) LIKE LOWER(CONCAT('%', :name, '%'))"
+    )
+    fun findItemByName(
+        @Param("userId") userId: Long,
+        @Param("name") name: String?
+    ): List<Item>
+
     @Modifying
     @Query(value = "UPDATE Item i SET i.price =:price WHERE i.user.id = :userId AND i.id =:idItem")
     fun updateItemPrice(

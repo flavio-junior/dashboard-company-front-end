@@ -93,6 +93,53 @@ class ItemController {
         )
     }
 
+    @GetMapping(value = ["/find/item/by/{name}"], produces = [APPLICATION_JSON])
+    @Operation(
+        summary = "Find Item By Name With User Logged",
+        description = "Find Item By Name With User Logged",
+        tags = ["Item"],
+        responses = [
+            ApiResponse(
+                description = "Success", responseCode = "200", content = [
+                    Content(array = ArraySchema(schema = Schema(implementation = ItemResponseVO::class)))
+                ]
+            ),
+            ApiResponse(
+                description = "No Content", responseCode = "204", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Not Found", responseCode = "404", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun findItemByName(
+        @AuthenticationPrincipal user: User,
+        @PathVariable(value = "name") name: String,
+    ): ResponseEntity<List<ItemResponseVO>> {
+        return ResponseEntity.ok(
+            itemService.findItemByName(user = user, name = name)
+        )
+    }
+
     @GetMapping(
         value = ["/{id}"],
         produces = [APPLICATION_JSON]
