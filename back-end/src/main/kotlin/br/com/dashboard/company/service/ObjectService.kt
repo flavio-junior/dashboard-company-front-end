@@ -142,7 +142,6 @@ class ObjectService {
 
     @Transactional
     fun deleteObject(
-        userId: Long,
         orderId: Long,
         objectId: Long
     ) {

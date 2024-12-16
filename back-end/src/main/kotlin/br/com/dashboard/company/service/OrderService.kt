@@ -120,6 +120,11 @@ class OrderService {
                         quantity = objectActual.quantity,
                         total = priceCalculated
                     )
+                    incrementDataOrder(
+                        orderId = orderId,
+                        quantity = objectActual.quantity,
+                        total = priceCalculated
+                    )
                 }
 
                 Action.DECREMENT -> {
@@ -129,15 +134,43 @@ class OrderService {
                         quantity = objectActual.quantity,
                         total = priceCalculated
                     )
+                    decrementDataOrder(
+                        orderId = orderId,
+                        quantity = objectActual.quantity,
+                        total = priceCalculated
+                    )
                 }
 
                 Action.REMOVE_OBJECT -> {
-                    objectService.deleteObject(userId = user.id, orderId = orderSaved.id, objectId = objectSaved.id)
+                    objectService.deleteObject(orderId = orderSaved.id, objectId = objectSaved.id)
+                    decrementDataOrder(
+                        orderId = orderId,
+                        quantity = objectSaved.quantity,
+                        total = objectSaved.total
+                    )
                 }
             }
         } else {
             throw ResourceNotFoundException(OBJECT_NOT_FOUND)
         }
+    }
+
+    @Transactional
+    fun incrementDataOrder(
+        orderId: Long,
+        quantity: Int? = 0,
+        total: Double? = 0.0
+    ) {
+        orderRepository.incrementDataOrder(orderId = orderId, quantity = quantity, total = total)
+    }
+
+    @Transactional
+    fun decrementDataOrder(
+        orderId: Long,
+        quantity: Int? = 0,
+        total: Double? = 0.0
+    ) {
+        orderRepository.decrementDataOrder(orderId = orderId, quantity = quantity, total = total)
     }
 
     @Transactional

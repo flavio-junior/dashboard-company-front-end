@@ -35,6 +35,22 @@ interface OrderRepository : JpaRepository<Order, Long> {
     ): Order?
 
     @Modifying
+    @Query("UPDATE Order o SET o.quantity = o.quantity + :quantity, o.total = o.total + :total WHERE o.id = :orderId")
+    fun incrementDataOrder(
+        @Param("orderId") orderId: Long,
+        @Param("quantity") quantity: Int? = 0,
+        @Param("total") total: Double? = 0.0
+    )
+
+    @Modifying
+    @Query("UPDATE Order o SET o.quantity = o.quantity - :quantity, o.total = o.total - :total WHERE o.id = :orderId")
+    fun decrementDataOrder(
+        @Param("orderId") orderId: Long,
+        @Param("quantity") quantity: Int? = 0,
+        @Param("total") total: Double? = 0.0
+    )
+
+    @Modifying
     @Query(value = "DELETE FROM Order o WHERE o.id = :orderId AND o.user.id = :userId")
     fun deleteOrderById(
         @Param("userId") userId: Long,
