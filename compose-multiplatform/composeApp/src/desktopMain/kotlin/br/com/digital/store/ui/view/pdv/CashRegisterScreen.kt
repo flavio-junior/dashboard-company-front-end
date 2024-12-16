@@ -17,8 +17,6 @@ import br.com.digital.store.components.strings.StringsUtils.DELIVERY
 import br.com.digital.store.components.strings.StringsUtils.TYPE_ORDER
 import br.com.digital.store.components.ui.DropdownMenu
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import br.com.digital.store.utils.onBorder
 import br.com.digital.store.utils.typeOrder
 
@@ -49,13 +47,7 @@ fun CashRegisterScreen(
             }
         )
         Row {
-            CreateOrder(
-                itemSelected = itemSelected,
-                modifier = Modifier.weight(weight = WEIGHT_SIZE_4)
-            )
-            DataOrder(
-                modifier = Modifier.weight(weight = WEIGHT_SIZE)
-            )
+            CreateOrder(itemSelected = itemSelected)
         }
     }
 }
@@ -71,18 +63,5 @@ private fun CreateOrder(
             .fillMaxHeight()
     ) {
         CashRegisterFields(itemSelected = itemSelected)
-    }
-}
-
-@Composable
-fun DataOrder(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .background(color = Themes.colors.success)
-            .fillMaxHeight()
-    ) {
-
     }
 }

@@ -3,6 +3,7 @@ package br.com.digital.store.features.item.data.repository
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
 import br.com.digital.store.features.item.data.dto.EditItemRequestDTO
 import br.com.digital.store.features.item.data.dto.ItemRequestDTO
+import br.com.digital.store.features.item.data.dto.ItemResponseDTO
 import br.com.digital.store.features.item.data.dto.ItemsResponseDTO
 import br.com.digital.store.features.item.data.dto.UpdatePriceItemRequestDTO
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
@@ -44,6 +45,19 @@ class ItemRemoteDataSource(
                     parameters.append("page", page.toString())
                     parameters.append("size", size.toString())
                     parameters.append("sort", sort)
+                }
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+            }
+        }
+    }
+
+    override fun findItemByName(name: String): Flow<ObserveNetworkStateHandler<List<ItemResponseDTO>>> {
+        return toResultFlow {
+            httpClient.get {
+                url {
+                    path("/api/dashboard/company/items/v1/find/item/by/$name")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")

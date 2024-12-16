@@ -13,7 +13,7 @@ import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.item.data.vo.ItemResponseVO
 import br.com.digital.store.features.item.data.vo.ItemsResponseVO
-import br.com.digital.store.features.item.viewmodel.ItemViewModel
+import br.com.digital.store.features.item.ui.viewmodel.ItemViewModel
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels

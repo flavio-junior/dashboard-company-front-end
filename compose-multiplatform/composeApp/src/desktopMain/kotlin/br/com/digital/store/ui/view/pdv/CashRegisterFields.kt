@@ -25,6 +25,7 @@ import br.com.digital.store.composeapp.generated.resources.home
 import br.com.digital.store.composeapp.generated.resources.personal_places
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 
@@ -73,10 +74,8 @@ fun DeliveryAddress() {
                 onValueChange = {
                     number = it.toIntOrNull() ?: NUMBER_ZERO
                 },
-                modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
+                modifier = Modifier.weight(weight = WEIGHT_SIZE)
             )
-        }
-        Row(horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)) {
             TextField(
                 label = DISTRICT,
                 value = district,
@@ -84,7 +83,7 @@ fun DeliveryAddress() {
                 onValueChange = {
                     district = it
                 },
-                modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
+                modifier = Modifier.weight(weight = WEIGHT_SIZE)
             )
             TextField(
                 label = COMPLEMENT,
@@ -96,6 +95,11 @@ fun DeliveryAddress() {
                 modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
             )
         }
-        AddItemsOrder()
+        AddItemsOrder(
+            street = street,
+            number = number,
+            district = district,
+            complement = complement
+        )
     }
 }

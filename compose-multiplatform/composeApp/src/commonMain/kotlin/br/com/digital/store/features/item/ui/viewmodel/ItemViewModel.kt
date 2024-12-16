@@ -1,4 +1,4 @@
-package br.com.digital.store.features.item.viewmodel
+package br.com.digital.store.features.item.ui.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.digital.store.components.strings.StringsUtils.ASC
 import br.com.digital.store.features.item.data.dto.EditItemRequestDTO
 import br.com.digital.store.features.item.data.dto.ItemRequestDTO
+import br.com.digital.store.features.item.data.dto.ItemResponseDTO
 import br.com.digital.store.features.item.data.dto.UpdatePriceItemRequestDTO
 import br.com.digital.store.features.item.data.repository.ItemRepository
 import br.com.digital.store.features.item.data.vo.ItemsResponseVO
@@ -35,6 +36,13 @@ class ItemViewModel(
         )
     val findAllItems: State<ObserveNetworkStateHandler<ItemsResponseVO>> =
         _findAllItems
+
+    private val _findItemByName =
+        mutableStateOf<ObserveNetworkStateHandler<List<ItemResponseDTO>>>(
+            ObserveNetworkStateHandler.Loading(l = false)
+        )
+    val findItemByName: State<ObserveNetworkStateHandler<List<ItemResponseDTO>>> =
+        _findItemByName
 
     private val _createNewItem =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -100,6 +108,18 @@ class ItemViewModel(
         }
     }
 
+    fun findItemByName(name: String) {
+        viewModelScope.launch {
+            repository.findItemByName(name = name)
+                .onStart {
+                    _findItemByName.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _findItemByName.value = it
+                }
+        }
+    }
+
     fun createItem(name: String, price: Double) {
         viewModelScope.launch {
             repository.createNewItem(item = ItemRequestDTO(name = name, price = price))
@@ -150,6 +170,10 @@ class ItemViewModel(
 
     fun resetItem(reset: ResetItem) {
         when(reset) {
+            ResetItem.FIND_BY_NAME -> {
+                _findItemByName.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
             ResetItem.CREATE_ITEM -> {
                 _createNewItem.value = ObserveNetworkStateHandler.Loading(l = false)
                 findAllItems()
@@ -159,5 +183,6 @@ class ItemViewModel(
 }
 
 enum class ResetItem {
+    FIND_BY_NAME,
     CREATE_ITEM
 }

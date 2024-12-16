@@ -28,7 +28,7 @@ import br.com.digital.store.features.category.data.dto.CategoryResponseDTO
 import br.com.digital.store.features.category.ui.view.SelectCategories
 import br.com.digital.store.features.category.utils.CategoryUtils.ADD_CATEGORIES
 import br.com.digital.store.features.category.utils.CategoryUtils.NO_CATEGORIES_SELECTED
-import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
+import br.com.digital.store.features.item.utils.checkPriceIsEqualsZero
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels

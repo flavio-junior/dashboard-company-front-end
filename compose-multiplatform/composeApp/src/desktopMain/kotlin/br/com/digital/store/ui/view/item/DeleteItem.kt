@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
-import br.com.digital.store.features.item.viewmodel.ItemViewModel
+import br.com.digital.store.features.item.ui.viewmodel.ItemViewModel
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels

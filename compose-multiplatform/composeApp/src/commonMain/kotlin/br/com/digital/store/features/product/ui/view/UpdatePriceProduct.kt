@@ -19,7 +19,7 @@ import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.Price
-import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
+import br.com.digital.store.features.item.utils.checkPriceIsEqualsZero
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels

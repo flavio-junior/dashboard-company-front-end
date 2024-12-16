@@ -21,7 +21,7 @@ import br.com.digital.store.components.ui.Price
 import br.com.digital.store.features.food.data.dto.UpdatePriceFoodRequestDTO
 import br.com.digital.store.features.food.ui.viewmodel.FoodViewModel
 import br.com.digital.store.features.food.utils.FoodUtils.UPDATE_PRICE_FOOD
-import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
+import br.com.digital.store.features.item.utils.checkPriceIsEqualsZero
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels

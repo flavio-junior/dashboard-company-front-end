@@ -30,9 +30,9 @@ import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.item.data.dto.EditItemRequestDTO
 import br.com.digital.store.features.item.data.vo.ItemResponseVO
-import br.com.digital.store.features.item.utils.ItemsUtils.checkBodyItemIsNull
-import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
-import br.com.digital.store.features.item.viewmodel.ItemViewModel
+import br.com.digital.store.features.item.ui.viewmodel.ItemViewModel
+import br.com.digital.store.features.item.utils.checkBodyItemIsNull
+import br.com.digital.store.features.item.utils.checkPriceIsEqualsZero
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels

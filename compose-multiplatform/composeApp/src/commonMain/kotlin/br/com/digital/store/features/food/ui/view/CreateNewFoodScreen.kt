@@ -28,7 +28,7 @@ import br.com.digital.store.features.food.ui.viewmodel.FoodViewModel
 import br.com.digital.store.features.food.utils.FoodUtils.CREATE_FOOD
 import br.com.digital.store.features.food.utils.FoodUtils.NAME_FOOD
 import br.com.digital.store.features.food.utils.checkBodyFoodIsNull
-import br.com.digital.store.features.item.utils.ItemsUtils.checkPriceIsEqualsZero
+import br.com.digital.store.features.item.utils.checkPriceIsEqualsZero
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels
