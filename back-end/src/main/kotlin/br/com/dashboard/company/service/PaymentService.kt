@@ -22,7 +22,7 @@ class PaymentService {
     ) {
         val paymentResult: Payment = parseObject(closeOrder, Payment::class.java)
         paymentResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
-        paymentResult.total = order.price
+        paymentResult.total = order.total
         paymentResult.order = order
         paymentRepository.save(paymentResult)
     }

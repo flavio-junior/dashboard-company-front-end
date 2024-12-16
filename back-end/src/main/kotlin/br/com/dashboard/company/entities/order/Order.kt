@@ -57,7 +57,7 @@ data class Order(
     )
     var objects: MutableList<Object>? = null,
     var quantity: Int = 0,
-    var price: Double = 0.0,
+    var total: Double = 0.0,
     @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinTable(
         name = "tb_order_payment",

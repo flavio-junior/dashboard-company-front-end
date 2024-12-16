@@ -118,7 +118,7 @@ VALUES
     (1, 1);
 
 INSERT INTO
-    tb_order (created_at, type, status, quantity, price)
+    tb_order (created_at, type, status, quantity, total)
 VALUES
     (DATE_TRUNC('second', NOW()), 'DELIVERY', 'OPEN', 4, 99.99),
     (DATE_TRUNC('second', NOW()), 'ORDER', 'OPEN', 5, 110.00),

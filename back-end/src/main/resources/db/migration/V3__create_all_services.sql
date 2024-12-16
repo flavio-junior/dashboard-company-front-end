@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS tb_order (
     type varchar(30) check (type in ('DELIVERY', 'ORDER', 'RESERVATION')),
     status varchar(30) check (status in ('OPEN', 'CLOSED')),
     quantity INT NOT NULL,
-    price NUMERIC(10, 2) DEFAULT 0.0
+    total NUMERIC(10, 2) DEFAULT 0.0
 );
 
 CREATE TABLE tb_user_order (

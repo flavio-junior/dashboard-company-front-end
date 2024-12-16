@@ -19,6 +19,6 @@ data class OrderResponseVO(
     var address: AddressResponseVO? = null,
     var objects: MutableList<ObjectResponseVO>? = null,
     var quantity: Int = 0,
-    var price: Double = 0.0,
+    var total: Double = 0.0,
     var payment: PaymentResponseVO? = null
 )

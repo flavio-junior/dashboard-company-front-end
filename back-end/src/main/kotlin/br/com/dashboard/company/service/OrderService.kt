@@ -87,7 +87,7 @@ class OrderService {
         val objectsSaved = objectService.saveObjects(userId = user.id, objectsToSave = order.objects)
         orderResult.objects = objectsSaved.first
         orderResult.quantity = order.objects?.size ?: 0
-        orderResult.price = objectsSaved.second
+        orderResult.total = objectsSaved.second
         orderResult.user = userAuthenticated
         return parseObject(orderRepository.save(orderResult), OrderResponseVO::class.java)
     }
@@ -149,7 +149,7 @@ class OrderService {
         val order = getOrder(userId = user.id, orderId = idOrder)
         updateStatusOrder(userId = user.id, orderId = idOrder, status = Status.CLOSED)
         paymentService.updatePayment(closeOrder = closeOrder, order = order)
-        checkoutService.saveCheckoutDetails(total = order.price)
+        checkoutService.saveCheckoutDetails(total = order.total)
     }
 
     @Transactional
