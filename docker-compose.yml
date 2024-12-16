@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgres-db-dashboard-company-app
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: dashboard-company
+    ports:
+      - 5432:5432
+    networks:
+      - dashboard-company-network
+
+  dashboard-company:
+    image: flaviojunior/dashboard-company
+    container_name: dashboard-company
+    restart: always
+    build: ./back-end
+    working_dir: /back-end
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/dashboard-company?useTimezone=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+    ports:
+      - 8001:8001
+    command: mvn spring-boot:run
+    depends_on:
+      - db
+    networks:
+      - dashboard-company-network
+
+networks:
+  dashboard-company-network:
+    driver: bridge
