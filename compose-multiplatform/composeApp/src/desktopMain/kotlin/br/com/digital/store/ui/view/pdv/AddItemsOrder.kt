@@ -91,8 +91,9 @@ fun AddItemsOrder(
         verifyObjects = verifyObjects,
         objectsToSave = { objectsResult ->
             objectsResult.forEach { objectResult ->
-                if (objectsToSave.any { it.name == objectResult.name }) {
-                    objectsToSave.remove(objectResult)
+                val existingItemIndex = objectsToSave.indexOfFirst { it.identifier == objectResult.identifier }
+                if (existingItemIndex != -1) {
+                    objectsToSave[existingItemIndex] = objectResult
                 } else {
                     objectsToSave.add(objectResult)
                 }

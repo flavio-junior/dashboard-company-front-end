@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -53,7 +52,7 @@ fun CardObjectSelect(
             .wrapContentHeight(),
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
-        var quantity: Int by remember { mutableIntStateOf(value = NUMBER_ZERO) }
+        var quantity: Int by remember { mutableStateOf(value = NUMBER_ZERO) }
         Title(
             title = typeOrderFactory(objectRequestDTO.type),
             color = Themes.colors.primary
