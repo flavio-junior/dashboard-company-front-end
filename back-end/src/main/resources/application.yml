@@ -3,8 +3,6 @@ security:
     token:
       secret-key: 53cr37
       expire-length: 86400000
-server:
-  port : 8001
 spring:
   profiles:
     active: ${APP_PROFILE:test}
