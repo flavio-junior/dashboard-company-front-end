@@ -8,5 +8,6 @@ data class PaymentResponseVO(
     var id: Long = 0,
     @JsonProperty(value = "created_at")
     var createdAt: LocalDateTime? = null,
-    var type: PaymentType? = null
+    var type: PaymentType? = null,
+    var total: Double = 0.0
 )

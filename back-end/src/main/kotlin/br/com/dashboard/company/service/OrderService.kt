@@ -6,7 +6,6 @@ import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.OrderRepository
 import br.com.dashboard.company.service.ObjectService.Companion.OBJECT_NOT_FOUND
 import br.com.dashboard.company.utils.common.Action
-import br.com.dashboard.company.utils.common.AddressStatus
 import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.`object`.UpdateObjectRequestVO
@@ -149,7 +148,7 @@ class OrderService {
     ) {
         val order = getOrder(userId = user.id, orderId = idOrder)
         updateStatusOrder(userId = user.id, orderId = idOrder, status = Status.CLOSED)
-        paymentService.updatePayment(closeOrder = closeOrder)
+        paymentService.updatePayment(closeOrder = closeOrder, order = order)
         checkoutService.saveCheckoutDetails(total = order.price)
     }
 

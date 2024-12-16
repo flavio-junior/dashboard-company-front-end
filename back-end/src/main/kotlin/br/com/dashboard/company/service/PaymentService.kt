@@ -1,10 +1,14 @@
 package br.com.dashboard.company.service
 
-import br.com.dashboard.company.exceptions.ResourceNotFoundException
+import br.com.dashboard.company.entities.order.Order
+import br.com.dashboard.company.entities.payment.Payment
 import br.com.dashboard.company.repository.PaymentRepository
+import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
 import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @Service
 class PaymentService {
@@ -13,13 +17,13 @@ class PaymentService {
     private lateinit var paymentRepository: PaymentRepository
 
     fun updatePayment(
-        closeOrder: CloseOrderRequestVO
+        closeOrder: CloseOrderRequestVO,
+        order: Order
     ) {
-        paymentRepository.findById(closeOrder.id).orElseThrow { ResourceNotFoundException(message = PAYMENT_NOT_FOUND) }
-        paymentRepository.updatePayment(id = closeOrder.id, type = closeOrder.type)
-    }
-
-    companion object {
-        const val PAYMENT_NOT_FOUND = "Payment not found!"
+        val paymentResult: Payment = parseObject(closeOrder, Payment::class.java)
+        paymentResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
+        paymentResult.total = order.price
+        paymentResult.order = order
+        paymentRepository.save(paymentResult)
     }
 }

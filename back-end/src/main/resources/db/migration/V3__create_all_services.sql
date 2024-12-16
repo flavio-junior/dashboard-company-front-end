@@ -127,7 +127,8 @@ CREATE TABLE tb_order_object (
 CREATE TABLE IF NOT EXISTS tb_payment (
     id SERIAL PRIMARY KEY,
     created_at TIMESTAMP,
-    type varchar(30) check (type in ('CREDIT_CAD', 'DEBIT_CAD', 'MONEY', 'PIX'))
+    type varchar(30) check (type in ('CREDIT_CAD', 'DEBIT_CAD', 'MONEY', 'PIX')),
+    total NUMERIC(10, 2) DEFAULT 0.0
 );
 
 CREATE TABLE tb_order_payment (
