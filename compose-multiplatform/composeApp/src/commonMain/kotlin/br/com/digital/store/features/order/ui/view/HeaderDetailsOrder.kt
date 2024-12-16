@@ -58,7 +58,7 @@ fun HeaderDetailsOrder(
         TextField(
             enabled = false,
             label = PRICE,
-            value = formatterMaskToMoney(price = orderResponseVO.price),
+            value = formatterMaskToMoney(price = orderResponseVO.total),
             onValueChange = {},
             modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )

@@ -13,6 +13,6 @@ data class OrderResponseVO(
     val address: AddressResponseVO? = null,
     val objects: List<ObjectResponseVO>? = null,
     val quantity: Int = 0,
-    val price: Double = 0.0,
+    val total: Double = 0.0,
     val payment: PaymentResponseVO? = null
 )

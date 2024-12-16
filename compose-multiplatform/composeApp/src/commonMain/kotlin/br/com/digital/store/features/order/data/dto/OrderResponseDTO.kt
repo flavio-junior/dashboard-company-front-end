@@ -17,6 +17,6 @@ data class OrderResponseDTO(
     val address: AddressResponseDTO? = null,
     val objects: List<ObjectResponseDTO>? = null,
     val quantity: Int = 0,
-    val price: Double = 0.0,
+    val total: Double = 0.0,
     val payment: PaymentResponseDTO? = null
 )

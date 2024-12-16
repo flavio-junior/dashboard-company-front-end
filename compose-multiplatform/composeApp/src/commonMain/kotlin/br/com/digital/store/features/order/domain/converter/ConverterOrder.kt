@@ -37,7 +37,7 @@ class ConverterOrder {
                 address = converterAddressResponseDTOToVO(address = it.address),
                 objects = converterObjectResponseDTOToVO(objects = it.objects),
                 quantity = it.quantity,
-                price = it.price,
+                total = it.total,
                 payment = converterPaymentResponseDTOToVO(payment = it.payment)
             )
         }

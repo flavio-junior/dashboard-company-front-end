@@ -57,7 +57,7 @@ fun CardDelivery(
         ItemDelivery(
             label = VALUE_TOTAL,
             body = {
-                SimpleText(text = formatterMaskToMoney(price = orderResponseVO.price))
+                SimpleText(text = formatterMaskToMoney(price = orderResponseVO.total))
             }
         )
     }

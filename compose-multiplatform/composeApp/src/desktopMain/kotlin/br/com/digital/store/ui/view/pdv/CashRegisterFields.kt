@@ -99,7 +99,13 @@ fun DeliveryAddress() {
             street = street,
             number = number,
             district = district,
-            complement = complement
+            complement = complement,
+            onRefresh = {
+                street = EMPTY_TEXT
+                number = NUMBER_ZERO
+                district = EMPTY_TEXT
+                complement = EMPTY_TEXT
+            }
         )
     }
 }

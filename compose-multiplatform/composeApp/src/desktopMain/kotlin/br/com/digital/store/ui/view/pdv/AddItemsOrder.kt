@@ -27,8 +27,12 @@ import br.com.digital.store.components.strings.StringsUtils.SELECTED_ITEMS
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
+import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.food.ui.view.SelectFoods
 import br.com.digital.store.features.item.ui.view.SelectItems
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.features.order.data.dto.AddressRequestDTO
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
@@ -50,7 +54,9 @@ fun AddItemsOrder(
     street: String,
     number: Int,
     district: String,
-    complement: String
+    complement: String,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
     val viewModel: OrderViewModel = getKoin().get()
     val objectsSelected = remember { mutableStateListOf<ObjectRequestDTO>() }
@@ -196,6 +202,43 @@ fun AddItemsOrder(
             }
         )
     }
+    ObserveNetworkStateHandlerCreateNewOrder(
+        viewModel = viewModel,
+        onError = {
+            observer = it
+        },
+        goToAlternativeRoutes = goToAlternativeRoutes,
+        onSuccessful = {
+            objectsSelected.clear()
+            objectsToSave.clear()
+            onRefresh()
+        }
+    )
+}
+
+@Composable
+private fun ObserveNetworkStateHandlerCreateNewOrder(
+    viewModel: OrderViewModel,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    onSuccessful: () -> Unit = {}
+) {
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.createOrder }
+    ObserveNetworkStateHandler(
+        state = state,
+        onLoading = {},
+        onError = {
+            onError(Triple(first = false, second = true, third = it.orEmpty()))
+        },
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
+        onSuccess = {
+            onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            onSuccessful()
+        }
+    )
 }
 
 fun checkBodyOrderIsNull(
