@@ -13,6 +13,7 @@
   - **` GitHub `**
   - **` pgAdmin 4 `**
   - **` CMD `**
+  - [![Docker Hub Repo](https://img.shields.io/docker/pulls/flaviojunior/dashboard-company.svg)](https://hub.docker.com/repository/docker/flaviojunior/dashboard-company)
 
 - **Contact Me:**
   - **Name: ` Flávio Júnior `**
