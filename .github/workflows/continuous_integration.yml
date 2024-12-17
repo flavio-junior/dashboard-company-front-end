@@ -1,40 +1,44 @@
-name: Continuous Integration With GitHub Actions
+name: Deploy to Docker Hub
 
 on:
   push:
     branches:
-      - main 
+      - main  # Executa o workflow apenas na branch "main"
+
 jobs:
-  build:
+  build-and-publish:
+    name: Build and Publish Docker Image
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        
-    - name: Setup Java JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: '21'
-        distribution: 'adopt'
-        cache: maven
-    
-    - name: Build Application Jar
-      working-directory: ./back-end/back-end
-      run: mvn clean package
-    
-    - name: Docker Compose Build
-      working-directory: ./back-end/back-end/
-      run: docker compose build
-    
-    - name: Push to Docker Hub Container registry
-      run: |
-        docker tag ${{ secrets.DOCKER_USERNAME }}/dashboard-company:latest ${{ secrets.DOCKER_USERNAME }}/dashboard-company:${{github.run_id}}
-        
-        docker push ${{ secrets.DOCKER_USERNAME }}/dashboard-company:${{github.run_id}}
-        docker push ${{ secrets.DOCKER_USERNAME }}/dashboard-company:latest
+      # 1. Checkout do repositório
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Configurar Java 21
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'  # ou 'zulu', 'adopt' conforme sua preferência
+          java-version: '21'
+          cache: maven
+
+      # 3. Build com Maven
+      - name: Build with Maven
+        run: mvn clean package
+
+      # 4. Login no Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 5. Construir e enviar imagem Docker
+      - name: Build and Push Docker Image
+        env:
+          IMAGE_NAME: dashboard-company  # Nome da imagem no Docker Hub
+          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+        run: |
+          docker build -t $DOCKER_USER/$IMAGE_NAME:latest ./back-end
+          docker push $DOCKER_USER/$IMAGE_NAME:latest
