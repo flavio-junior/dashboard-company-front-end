@@ -1,13 +1,14 @@
 server:
-  port: 9001
+  port : ${SERVER_PORT_PROD}
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DATABASE_HOST_PROD}:${DATABASE_PORT_PROD}/${DATABASE_NAME_PROD}
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DATABASE_URL_PROD}:${DATABASE_PORT_PROD}/${DATABASE_NAME_PROD}?useTimezone=true&serverTimezone=America/Sao_Paulo
     username: ${DATABASE_USERNAME_PROD}
     password: ${DATABASE_PASSWORD_PROD}
   jpa:
     hibernate:
       ddl-auto: none
+      dialect: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     show-sql: true
