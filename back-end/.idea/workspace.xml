@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bdb2df0d-f2b4-433c-960b-ebded6d53fb7" name="Changes" comment="fix: add volume and the pgadmin">
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/Application.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/config/ModelMapperConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/config/OpenApiConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/config/SecurityConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/controller/AuthController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/controller/CategoryController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/controller/CheckoutController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/controller/FoodController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/controller/ItemController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/controller/OrderController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/controller/ProductController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/controller/ReservationController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/controller/UserController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/address/Address.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/category/Category.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/checkout/Checkout.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/food/Food.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/item/Item.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/object/Object.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/order/Order.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/payment/Payment.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/product/Product.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/reservation/Reservation.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/entities/user/User.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/exceptions/DuplicateNameException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/exceptions/ForbiddenActionRequestException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/exceptions/InvalidJwtAuthenticationException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/exceptions/ResourceNotFoundException.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/exceptions/handler/CustomizedResponseEntityExceptionHandler.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/exceptions/handler/ExceptionResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/AddressRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/CategoryRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/CheckoutRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/FoodRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/ItemRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/ObjectRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/OrderRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/PaymentRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/ProductRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/ReservationRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/repository/UserRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/security/JwtTokenFilter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/security/JwtTokenProvider.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/AddressService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/AuthService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/CategoryService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/CheckoutService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/FoodService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/ItemService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/ObjectService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/OrderService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/PaymentService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/ProductService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/ReservationService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/service/UserService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/common/Action.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/common/AddressStatus.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/common/ObjectStatus.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/common/PaymentType.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/common/PriceRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/common/Status.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/common/TypeAccount.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/common/TypeItem.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/common/TypeOrder.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/others/ConstantsUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/others/ConverterTypeOrder.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/others/ConverterUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/others/MediaType.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/utils/others/toDate.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/address/AddressRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/address/AddressResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/category/CategoryRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/category/CategoryResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/checkout/GeneralBalanceResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/food/FoodRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/food/FoodResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/food/RestockFoodRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/item/ItemRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/item/ItemResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/object/ObjectRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/object/ObjectResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/object/UpdateObjectRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/order/CloseOrderRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/order/OrderRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/order/OrderResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/order/RestockOrderRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/order/UpdateStatusDeliveryRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/payment/PaymentResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/product/ProductRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/product/ProductResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/product/RestockProductRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/reservation/ReservationRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/reservation/ReservationResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/user/SignInRequestVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/user/TokenVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/br/com/dashboard/company/vo/user/UserResponseVO.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-prod.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-test.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1__create_tb_user.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V2__insert_data_in_tb_user.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V3__create_all_services.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V4__insert_data_in_all_services.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/br/com/dashboard/company/ApplicationTests.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Enum" />
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;flavio-junior&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/flavio-junior/dashboard-company.git&quot;,
+    &quot;accountId&quot;: &quot;9c27c527-d4a5-4c3a-8c39-98cf965eb67d&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2og44bvkqwUlbZhkUlH30XVWbM6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Kotlin.ApplicationKt.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Application.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/developer/projects/dashboard-company/back-end&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.import&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\developer\projects\dashboard-company\back-end" />
+      <recent name="E:\developer\projects\dashboard-company\back-end\src\main\kotlin\br\com\dashboard\company\entities\order" />
+      <recent name="E:\developer\projects\dashboard-company\back-end\src\main\resources" />
+      <recent name="E:\developer\projects\dashboard-company\back-end\src\main\kotlin\br\com\dashboard\company\vo\product" />
+      <recent name="E:\developer\projects\dashboard-company\back-end\src\main\kotlin\br\com\dashboard\company\vo\category" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\developer\projects\dashboard-company\back-end\src\main\resources\db.migration" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="br.com.dashboard.company.entities.checkout" />
+      <recent name="br.com.dashboard.company.utils.others" />
+      <recent name="br.com.dashboard.company.vo.common" />
+      <recent name="br.com.dashboard.company.entities.item" />
+      <recent name="br.com.dashboard.company.entities.food" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="br.com.dashboard.company.vo.order" />
+      <recent name="br.com.dashboard.company.repository" />
+      <recent name="br.com.dashboard.company.vo.address" />
+      <recent name="br.com.dashboard.company.vo.object" />
+      <recent name="br.com.dashboard.company.vo.reservation" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Kotlin.ApplicationKt">
+    <configuration name="ApplicationKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="br.com.dashboard.company.ApplicationKt" />
+      <module name="dashboard.company" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="back-end" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="dashboard.company" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="br.com.dashboard.company.Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.ApplicationKt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bdb2df0d-f2b4-433c-960b-ebded6d53fb7" name="Changes" comment="" />
+      <created>1731277694349</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1731277694349</updated>
+      <workItem from="1732189405484" duration="274000" />
+      <workItem from="1732189695513" duration="1578000" />
+      <workItem from="1732256572661" duration="1813000" />
+      <workItem from="1732270595748" duration="3299000" />
+      <workItem from="1732286566767" duration="9613000" />
+      <workItem from="1732530349349" duration="362000" />
+      <workItem from="1732530796285" duration="11443000" />
+      <workItem from="1732558016472" duration="7004000" />
+      <workItem from="1732605325552" duration="10670000" />
+      <workItem from="1732663974916" duration="1657000" />
+      <workItem from="1732696151818" duration="8221000" />
+      <workItem from="1732730222283" duration="6350000" />
+      <workItem from="1732776251226" duration="17614000" />
+      <workItem from="1732832280228" duration="1255000" />
+      <workItem from="1732843045563" duration="1930000" />
+      <workItem from="1732883001849" duration="2356000" />
+      <workItem from="1732904291058" duration="3330000" />
+      <workItem from="1732922750209" duration="1003000" />
+      <workItem from="1732948938074" duration="18472000" />
+      <workItem from="1733037237773" duration="6876000" />
+      <workItem from="1733067327954" duration="2238000" />
+      <workItem from="1733091284276" duration="2283000" />
+      <workItem from="1733105489863" duration="5750000" />
+      <workItem from="1733140121691" duration="6839000" />
+      <workItem from="1733153189719" duration="11747000" />
+      <workItem from="1733209138348" duration="32342000" />
+      <workItem from="1733308824962" duration="1702000" />
+      <workItem from="1733318130382" duration="1918000" />
+      <workItem from="1733336391106" duration="2320000" />
+      <workItem from="1733342949234" duration="1105000" />
+      <workItem from="1733383534837" duration="9205000" />
+      <workItem from="1733416949813" duration="9254000" />
+      <workItem from="1733463405299" duration="2426000" />
+      <workItem from="1733487601726" duration="6338000" />
+      <workItem from="1733502810653" duration="8206000" />
+      <workItem from="1733537322338" duration="3619000" />
+      <workItem from="1733571867969" duration="20526000" />
+      <workItem from="1733638852919" duration="9828000" />
+      <workItem from="1733657594924" duration="4609000" />
+      <workItem from="1733684054214" duration="4275000" />
+      <workItem from="1733738743101" duration="30753000" />
+      <workItem from="1733822063287" duration="20183000" />
+      <workItem from="1733867234706" duration="4688000" />
+      <workItem from="1733895153869" duration="8275000" />
+      <workItem from="1733925660227" duration="8155000" />
+      <workItem from="1734002899333" duration="2487000" />
+      <workItem from="1734041048516" duration="366000" />
+      <workItem from="1734076613020" duration="12184000" />
+      <workItem from="1734195098886" duration="9823000" />
+      <workItem from="1734241104992" duration="9377000" />
+      <workItem from="1734262810159" duration="17766000" />
+      <workItem from="1734325995618" duration="24846000" />
+      <workItem from="1734384797208" duration="1726000" />
+      <workItem from="1734431566971" duration="10310000" />
+    </task>
+    <task id="LOCAL-00022" summary="feat: update e remove object">
+      <option name="closed" value="true" />
+      <created>1732022264854</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1732022264854</updated>
+    </task>
+    <task id="LOCAL-00023" summary="feat: add General Balance">
+      <option name="closed" value="true" />
+      <created>1732047777397</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1732047777397</updated>
+    </task>
+    <task id="LOCAL-00024" summary="fix: change date to LocalDateTime">
+      <option name="closed" value="true" />
+      <created>1732483399711</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1732483399711</updated>
+    </task>
+    <task id="LOCAL-00025" summary="fix: remove nano">
+      <option name="closed" value="true" />
+      <created>1732563207314</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1732563207314</updated>
+    </task>
+    <task id="LOCAL-00026" summary="refactor: add search pagination">
+      <option name="closed" value="true" />
+      <created>1732627581488</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1732627581489</updated>
+    </task>
+    <task id="LOCAL-00027" summary="refactor: add filter with name">
+      <option name="closed" value="true" />
+      <created>1732632747779</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1732632747779</updated>
+    </task>
+    <task id="LOCAL-00028" summary="refactor: add pagination">
+      <option name="closed" value="true" />
+      <created>1732731717577</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1732731717577</updated>
+    </task>
+    <task id="LOCAL-00029" summary="refactor: add pagination in item">
+      <option name="closed" value="true" />
+      <created>1732745935693</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1732745935693</updated>
+    </task>
+    <task id="LOCAL-00030" summary="refactor: change path of rout to uppercase">
+      <option name="closed" value="true" />
+      <created>1732779460778</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1732779460778</updated>
+    </task>
+    <task id="LOCAL-00031" summary="fix: add search pagination in Product">
+      <option name="closed" value="true" />
+      <created>1732804364525</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1732804364525</updated>
+    </task>
+    <task id="LOCAL-00032" summary="refactor: rename instances of repositories">
+      <option name="closed" value="true" />
+      <created>1732804817082</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1732804817082</updated>
+    </task>
+    <task id="LOCAL-00033" summary="feat: add pagination in food">
+      <option name="closed" value="true" />
+      <created>1732805422497</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1732805422497</updated>
+    </task>
+    <task id="LOCAL-00034" summary="feat: remove field of description unnecessary">
+      <option name="closed" value="true" />
+      <created>1732906649823</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1732906649824</updated>
+    </task>
+    <task id="LOCAL-00035" summary="feat: find category by name">
+      <option name="closed" value="true" />
+      <created>1733111650193</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1733111650193</updated>
+    </task>
+    <task id="LOCAL-00036" summary="fix: find any category with lower">
+      <option name="closed" value="true" />
+      <created>1733142198722</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1733142198722</updated>
+    </task>
+    <task id="LOCAL-00037" summary="feat: filter food by name">
+      <option name="closed" value="true" />
+      <created>1733216557057</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1733216557057</updated>
+    </task>
+    <task id="LOCAL-00038" summary="fix: remove description of food">
+      <option name="closed" value="true" />
+      <created>1733226310197</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1733226310197</updated>
+    </task>
+    <task id="LOCAL-00039" summary="feat: add new user">
+      <option name="closed" value="true" />
+      <created>1733228768920</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1733228768920</updated>
+    </task>
+    <task id="LOCAL-00040" summary="fix: add correct value of hash">
+      <option name="closed" value="true" />
+      <created>1733229955591</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1733229955591</updated>
+    </task>
+    <task id="LOCAL-00041" summary="feat: transform category in object one generic object">
+      <option name="closed" value="true" />
+      <created>1733246117876</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1733246117876</updated>
+    </task>
+    <task id="LOCAL-00042" summary="feat: delete category with relation user logged">
+      <option name="closed" value="true" />
+      <created>1733249019169</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1733249019169</updated>
+    </task>
+    <task id="LOCAL-00043" summary="feat: transform item in object one generic object">
+      <option name="closed" value="true" />
+      <created>1733252023742</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1733252023742</updated>
+    </task>
+    <task id="LOCAL-00044" summary="feat: finish transform of item in object one generic object">
+      <option name="closed" value="true" />
+      <created>1733253297502</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1733253297502</updated>
+    </task>
+    <task id="LOCAL-00045" summary="feat: transform reservation in object one generic object">
+      <option name="closed" value="true" />
+      <created>1733256079488</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1733256079488</updated>
+    </task>
+    <task id="LOCAL-00046" summary="feat: add pagination in OrderController">
+      <option name="closed" value="true" />
+      <created>1733429572151</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1733429572151</updated>
+    </task>
+    <task id="LOCAL-00047" summary="feat: find product by name">
+      <option name="closed" value="true" />
+      <created>1733539850254</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1733539850254</updated>
+    </task>
+    <task id="LOCAL-00048" summary="feat: find food by name with user logged">
+      <option name="closed" value="true" />
+      <created>1733540904663</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1733540904663</updated>
+    </task>
+    <task id="LOCAL-00049" summary="feat: find product by name with user logged">
+      <option name="closed" value="true" />
+      <created>1733583559145</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1733583559145</updated>
+    </task>
+    <task id="LOCAL-00050" summary="feat: find food by name with user logged">
+      <option name="closed" value="true" />
+      <created>1733587526311</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1733587526312</updated>
+    </task>
+    <task id="LOCAL-00051" summary="feat: find order by name with user logged">
+      <option name="closed" value="true" />
+      <created>1733614037275</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1733614037275</updated>
+    </task>
+    <task id="LOCAL-00052" summary="change: state of payment after create new order">
+      <option name="closed" value="true" />
+      <created>1733756102660</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1733756102660</updated>
+    </task>
+    <task id="LOCAL-00053" summary="fix: add item and count value of items">
+      <option name="closed" value="true" />
+      <created>1733766186978</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1733766186978</updated>
+    </task>
+    <task id="LOCAL-00054" summary="fix: add status of delivery">
+      <option name="closed" value="true" />
+      <created>1733767828646</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1733767828646</updated>
+    </task>
+    <task id="LOCAL-00055" summary="fix: add status in object">
+      <option name="closed" value="true" />
+      <created>1733772009950</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1733772009950</updated>
+    </task>
+    <task id="LOCAL-00056" summary="fix: delete order">
+      <option name="closed" value="true" />
+      <created>1733780731824</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1733780731824</updated>
+    </task>
+    <task id="LOCAL-00057" summary="fix: add relation between order and object">
+      <option name="closed" value="true" />
+      <created>1733787880014</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1733787880014</updated>
+    </task>
+    <task id="LOCAL-00058" summary="fix: drop object when call update order">
+      <option name="closed" value="true" />
+      <created>1733830333257</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1733830333257</updated>
+    </task>
+    <task id="LOCAL-00059" summary="fix: delete any object">
+      <option name="closed" value="true" />
+      <created>1734198282824</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1734198282825</updated>
+    </task>
+    <task id="LOCAL-00060" summary="feat: update status of object">
+      <option name="closed" value="true" />
+      <created>1734205122962</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1734205122962</updated>
+    </task>
+    <task id="LOCAL-00061" summary="feat: update status of delivery">
+      <option name="closed" value="true" />
+      <created>1734246915296</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1734246915296</updated>
+    </task>
+    <task id="LOCAL-00062" summary="refactor: remove unnecessary line">
+      <option name="closed" value="true" />
+      <created>1734247055281</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1734247055281</updated>
+    </task>
+    <task id="LOCAL-00063" summary="feat: add search by name in item">
+      <option name="closed" value="true" />
+      <created>1734290908295</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1734290908295</updated>
+    </task>
+    <task id="LOCAL-00064" summary="fix: remove rule of not null in created at">
+      <option name="closed" value="true" />
+      <created>1734307018002</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1734307018002</updated>
+    </task>
+    <task id="LOCAL-00065" summary="fix: change payment of order">
+      <option name="closed" value="true" />
+      <created>1734341176715</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1734341176715</updated>
+    </task>
+    <task id="LOCAL-00066" summary="refactor: rename price to total in order">
+      <option name="closed" value="true" />
+      <created>1734341473705</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1734341473705</updated>
+    </task>
+    <task id="LOCAL-00067" summary="fix: increment and decrement object">
+      <option name="closed" value="true" />
+      <created>1734345285469</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1734345285469</updated>
+    </task>
+    <task id="LOCAL-00068" summary="refactor: add time of 24 hours">
+      <option name="closed" value="true" />
+      <created>1734347915382</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1734347915382</updated>
+    </task>
+    <task id="LOCAL-00069" summary="feat: Create docker compose">
+      <option name="closed" value="true" />
+      <created>1734360039212</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1734360039212</updated>
+    </task>
+    <task id="LOCAL-00070" summary="fix: add volume and the pgadmin">
+      <option name="closed" value="true" />
+      <created>1734440024959</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1734440024959</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: transform reservation in object one generic object" />
+    <MESSAGE value="feat: add pagination in OrderController" />
+    <MESSAGE value="feat: find product by name" />
+    <MESSAGE value="feat: find product by name with user logged" />
+    <MESSAGE value="feat: find food by name with user logged" />
+    <MESSAGE value="feat: find order by name with user logged" />
+    <MESSAGE value="change: state of payment after create new order" />
+    <MESSAGE value="fix: add item and count value of items" />
+    <MESSAGE value="fix: add status of delivery" />
+    <MESSAGE value="fix: add status in object" />
+    <MESSAGE value="fix: delete order" />
+    <MESSAGE value="fix: add relation between order and object" />
+    <MESSAGE value="fix: drop object when call update order" />
+    <MESSAGE value="fix: delete any object" />
+    <MESSAGE value="feat: update status of object" />
+    <MESSAGE value="feat: update status of delivery" />
+    <MESSAGE value="refactor: remove unnecessary line" />
+    <MESSAGE value="feat: add search by name in item" />
+    <MESSAGE value="fix: remove rule of not null in created at" />
+    <MESSAGE value="fix: change payment of order" />
+    <MESSAGE value="refactor: rename price to total in order" />
+    <MESSAGE value="fix: increment and decrement object" />
+    <MESSAGE value="refactor: add time of 24 hours" />
+    <MESSAGE value="feat: Create docker compose" />
+    <MESSAGE value="fix: add volume and the pgadmin" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: add volume and the pgadmin" />
+  </component>
+</project>
