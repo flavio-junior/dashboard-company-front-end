@@ -1,16 +1,16 @@
 services:
   db:
-    image: postgres:15-alpine
+    image: postgres:17
     container_name: dashboard-company-postgres-db
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: dashboard-company
+      POSTGRES_USER: ${DATABASE_USERNAME_TEST}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD_TEST}
+      POSTGRES_DB: ${DATABASE_NAME_TEST}
     ports:
-      - 5432:5432
+      - ${DATABASE_PORT_TEST}:${DATABASE_PORT_TEST}
     expose:
-      - 5432
+      - ${DATABASE_PORT_TEST}
     networks:
       - dashboard-company-network
     volumes:
@@ -21,13 +21,13 @@ services:
     container_name: dashboard-company-pgadmin
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: flaviojunior.work@gmail.com
-      PGADMIN_DEFAULT_USER: renato
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL_TEST}
+      PGADMIN_DEFAULT_USER: ${PGADMIN_DEFAULT_USER_TEST}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD_TEST}
     ports:
-      - 5050:80
+      - ${PGADMIN_PORT_TEST}:${PGADMIN_DEFAULT_PORT_TEST}
     expose:
-        - 5050
+        - ${PGADMIN_PORT_TEST}
     depends_on:
       - db
     networks:
@@ -42,11 +42,18 @@ services:
     build: ./back-end
     working_dir: /back-end
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/dashboard-company?useTimezone=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: admin
+      SECRET-KEY: ${SECRET-KEY}
+      SERVER_PORT_TEST: ${SERVER_PORT_TEST}
+      DATABASE_URL_TEST: ${DATABASE_URL_TEST}
+      DATABASE_PORT_TEST: ${DATABASE_PORT_TEST}
+      DATABASE_NAME_TEST: ${DATABASE_NAME_TEST}
+      DATABASE_USERNAME_TEST: ${DATABASE_USERNAME_TEST}
+      DATABASE_PASSWORD_TEST: ${DATABASE_PASSWORD_TEST}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DATABASE_PORT_TEST}/${DATABASE_NAME_TEST}?useTimezone=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${DATABASE_USERNAME_TEST}
+      SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD_TEST}
     ports:
-      - 8001:8001
+      - ${SERVER_PORT_TEST}:${SERVER_PORT_TEST}
     command: mvn spring-boot:run
     depends_on:
       - db
