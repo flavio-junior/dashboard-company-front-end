@@ -1,11 +1,11 @@
 server:
-  port : 8001
+  port : ${SERVER_PORT_TEST}
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/dashboard-company?useTimezone=true&serverTimezone=America/Sao_Paulo
-    username: postgres
-    password: admin
+    url: jdbc:postgresql://${DATABASE_URL_TEST}:${DATABASE_PORT_TEST}/${DATABASE_NAME_TEST}?useTimezone=true&serverTimezone=America/Sao_Paulo
+    username: ${DATABASE_USERNAME_TEST}
+    password: ${DATABASE_PASSWORD_TEST}
   jpa:
     hibernate:
       ddl-auto: none
