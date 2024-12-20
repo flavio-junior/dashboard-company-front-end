@@ -1,16 +1,16 @@
 services:
   db:
     image: postgres:17
-    container_name: dashboard-company-postgres-db
+    container_name: ${CONTAINER_NAME_DB}
     restart: always
     environment:
-      POSTGRES_USER: ${DATABASE_USERNAME_TEST}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD_TEST}
-      POSTGRES_DB: ${DATABASE_NAME_TEST}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
     ports:
-      - ${DATABASE_PORT_TEST}:${DATABASE_PORT_TEST}
+      - ${DATABASE_PORT}:${DATABASE_PORT}
     expose:
-      - ${DATABASE_PORT_TEST}
+      - ${DATABASE_PORT}
     networks:
       - dashboard-company-network
     volumes:
@@ -18,16 +18,16 @@ services:
 
   pg-admin:
     image: dpage/pgadmin4
-    container_name: dashboard-company-pgadmin
+    container_name: ${CONTAINER_NAME_PGADMIN}
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL_TEST}
-      PGADMIN_DEFAULT_USER: ${PGADMIN_DEFAULT_USER_TEST}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD_TEST}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_USER: ${PGADMIN_DEFAULT_USER}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - ${PGADMIN_PORT_TEST}:${PGADMIN_DEFAULT_PORT_TEST}
+      - ${PGADMIN_PORT}:${PGADMIN_DEFAULT_PORT}
     expose:
-        - ${PGADMIN_PORT_TEST}
+      - ${PGADMIN_PORT}
     depends_on:
       - db
     networks:
@@ -37,23 +37,23 @@ services:
 
   dashboard-company:
     image: flaviojunior/dashboard-company
-    container_name: dashboard-company
+    container_name: ${CONTAINER_NAME_BACKEND}
     restart: always
     build: ./back-end
-    working_dir: /back-end
+    working_dir: /back-end/
     environment:
-      SECRET-KEY: ${SECRET-KEY}
-      SERVER_PORT_TEST: ${SERVER_PORT_TEST}
-      DATABASE_URL_TEST: ${DATABASE_URL_TEST}
-      DATABASE_PORT_TEST: ${DATABASE_PORT_TEST}
-      DATABASE_NAME_TEST: ${DATABASE_NAME_TEST}
-      DATABASE_USERNAME_TEST: ${DATABASE_USERNAME_TEST}
-      DATABASE_PASSWORD_TEST: ${DATABASE_PASSWORD_TEST}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DATABASE_PORT_TEST}/${DATABASE_NAME_TEST}?useTimezone=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: ${DATABASE_USERNAME_TEST}
-      SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD_TEST}
+      SECRET-KEY: ${SECRET_KEY}
+      SERVER_PORT: ${SERVER_PORT}
+      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DATABASE_PORT}/${DATABASE_NAME}?useTimezone=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${DATABASE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD}
     ports:
-      - ${SERVER_PORT_TEST}:${SERVER_PORT_TEST}
+      - ${SERVER_PORT}:${SERVER_PORT}
     command: mvn spring-boot:run
     depends_on:
       - db
