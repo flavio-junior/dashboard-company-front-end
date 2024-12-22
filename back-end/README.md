@@ -18,3 +18,9 @@
 - **Generate jar and skip tests: ` mvn clean package -DskipTests `**
 - **Run project: ` java -jar target/dashboard-company-0.0.1-SNAPSHOT.jar.jar `**
 - **Stop project: ` Ctrl + C `**
+
+### Commands of flyway:
+- **Migrate: ` mvn flyway:migrate `**
+- **Clean: ` mvn flyway:clean (Execute this command only in development or testing environments). `**
+- **Info: ` mvn flyway:info `**
+- **Validade: ` mvn flyway:validate `**
