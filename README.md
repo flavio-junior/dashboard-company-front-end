@@ -40,10 +40,3 @@
 ### Tree of Branchs:
 - **Main: ` Default `**
 - **Developer: ` Your Branch `**
-
-- **Clean: ` mvn flyway:clean (Execute this command only in development or testing environments). `**
-- **Info: ` mvn flyway:info `**
-- **Validade: ` mvn flyway:validate `**
-- **Undo: ` mvn flyway:undo `**
-- **Baseline: ` mvn flyway:baseline `**
-- **Repair: ` mvn flyway:repair `**
