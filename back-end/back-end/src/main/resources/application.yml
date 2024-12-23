@@ -5,7 +5,7 @@ security:
       expire-length: ${EXPIRE_TOKEN_TIME:86400000}
 spring:
   profiles:
-    active: ${APP_PROFILE:test}
+    active: ${APP_PROFILE:prod}
 spring-doc:
   paths-to-match:
     - /api/**/v1/**
