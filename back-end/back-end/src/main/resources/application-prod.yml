@@ -6,6 +6,8 @@ spring:
     url: jdbc:postgresql://${DATABASE_URL_PROD}:${DATABASE_PORT_PROD}/${DATABASE_NAME_PROD}?useTimezone=true&serverTimezone=America/Sao_Paulo
     username: ${DATABASE_USERNAME_PROD}
     password: ${DATABASE_PASSWORD_PROD}
+  flyway:
+    enabled: false
   jpa:
     hibernate:
       ddl-auto: none
