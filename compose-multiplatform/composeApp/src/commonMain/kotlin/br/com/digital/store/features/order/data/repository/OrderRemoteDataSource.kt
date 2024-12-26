@@ -5,6 +5,7 @@ import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.toResultFlow
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
+import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
 import io.ktor.client.HttpClient
@@ -119,6 +120,21 @@ class OrderRemoteDataSource(
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
+            }
+        }
+    }
+
+    override fun closeOrder(
+        orderId: Long,
+        payment: PaymentRequestDTO
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.put {
+                url(urlString = "api/dashboard/company/orders/v1/payment/$orderId")
+                headers {
+                    append(name = HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+                setBody(body = payment)
             }
         }
     }

@@ -26,8 +26,8 @@ val networkModule = module {
             install(plugin = DefaultRequest) {
                 url {
                     protocol = io.ktor.http.URLProtocol.HTTP
-                    host = "192.168.1.101"
-                    port = 8001
+                    host = "ec2-54-91-254-47.compute-1.amazonaws.com"
+                    port = 8003
                 }
                 contentType(type = ContentType.Application.Json)
             }

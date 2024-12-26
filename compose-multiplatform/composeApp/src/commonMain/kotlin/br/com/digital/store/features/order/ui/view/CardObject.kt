@@ -178,7 +178,10 @@ private fun ListObject(
             ),
             body = {
                 CloseOrder(
+                    orderId = orderResponseVO.id,
                     modifier = Modifier.weight(weight = WEIGHT_SIZE),
+                    goToAlternativeRoutes = goToAlternativeRoutes,
+                    onRefresh = onRefresh
                 )
                 DeleteOrder(
                     orderId = orderResponseVO.id,

@@ -3,6 +3,7 @@ package br.com.digital.store.features.order.data.repository
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
+import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
 import br.com.digital.store.utils.NumbersUtils.NUMBER_SIXTY
@@ -35,4 +36,9 @@ interface OrderRepository {
     ): Flow<ObserveNetworkStateHandler<Unit>>
 
     fun deleteOrder(id: Long): Flow<ObserveNetworkStateHandler<Unit>>
+
+    fun closeOrder(
+        orderId: Long,
+        payment: PaymentRequestDTO
+    ): Flow<ObserveNetworkStateHandler<Unit>>
 }

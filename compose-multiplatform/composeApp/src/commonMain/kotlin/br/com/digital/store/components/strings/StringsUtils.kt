@@ -76,7 +76,6 @@ object StringsUtils {
     const val DETAILS = "Detalhes:"
     const val UPDATE = "Atualizar"
     const val STATUS_ORDER = "Status da Entrega"
-    const val CLOSE_ORDER = "Fechar Pedido"
     const val SELECTED_ITEMS = "Itens Selecionados:"
     const val CREATE_NEW_ORDER = "Criar Novo Pedido"
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
+import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
 import br.com.digital.store.features.order.data.repository.OrderRepository
@@ -35,6 +36,11 @@ class OrderViewModel(
     private val _deleteObject =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val deleteObject: State<ObserveNetworkStateHandler<Unit>> = _deleteObject
+
+    private val _closeOrder =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val closeOrder: State<ObserveNetworkStateHandler<Unit>> = _closeOrder
+
 
     fun createOrder(order: OrderRequestDTO) {
         viewModelScope.launch {
@@ -91,6 +97,21 @@ class OrderViewModel(
         }
     }
 
+    fun closeOrder(
+        orderId: Long,
+        payment: PaymentRequestDTO
+    ) {
+        viewModelScope.launch {
+            repository.closeOrder(orderId = orderId, payment = payment)
+                .onStart {
+                    _closeOrder.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _closeOrder.value = it
+                }
+        }
+    }
+
     fun resetOrder(reset: ResetOrder) {
         when (reset) {
             ResetOrder.UPDATE_ORDER -> {
@@ -104,6 +125,10 @@ class OrderViewModel(
             ResetOrder.DELETE_OBJECT -> {
                 _deleteObject.value = ObserveNetworkStateHandler.Loading(l = false)
             }
+
+            ResetOrder.CLOSE_ORDER -> {
+                _closeOrder.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
         }
     }
 }
@@ -111,5 +136,6 @@ class OrderViewModel(
 enum class ResetOrder {
     UPDATE_ORDER,
     DELETE_ORDER,
-    DELETE_OBJECT
+    DELETE_OBJECT,
+    CLOSE_ORDER
 }

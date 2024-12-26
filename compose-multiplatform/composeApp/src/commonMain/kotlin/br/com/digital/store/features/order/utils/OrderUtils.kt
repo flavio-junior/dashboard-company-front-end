@@ -24,7 +24,17 @@ object OrderUtils {
     const val DELETE_OBJECT = "Apagar Item do Pedido?"
     const val ADD_MORE_ITEMS = "Adicionar Mais Itens"
     const val ADD_MORE_ITEMS_ORDER = "Adicionar mais itens no pedido"
+    const val CLOSE_ORDER = "Fechar Pedido"
+    const val SELECTED_TYPE_PAYMENT = "Selecione o Tipo de Pagamento!"
+    const val TYPE_OF_PAYMENT = "Tipo de Pagamento:"
 }
+
+val typePayment = listOf(
+    "Cartão de Crédito",
+    "Cartão de Débito",
+    "Dinheiro",
+    "PIX"
+)
 
 fun countPendingObjects(order: OrderResponseVO): String {
     val numberObjects = order.objects?.count { it.status == ObjectStatus.PENDING } ?: 0
