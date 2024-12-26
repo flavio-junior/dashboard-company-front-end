@@ -4,6 +4,8 @@ security:
       secret-key: ${SECRET-KEY}
       expire-length: ${EXPIRE_TOKEN_TIME:86400000}
 spring:
+  jackson:
+    time-zone: ${TIME_ZONE}
   profiles:
     active: ${APP_PROFILE:prod}
 spring-doc:

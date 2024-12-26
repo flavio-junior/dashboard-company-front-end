@@ -42,6 +42,7 @@ services:
     build: ./back-end
     working_dir: /back-end/
     environment:
+      TIME_ZONE: ${TIME_ZONE}
       SECRET-KEY: ${SECRET_KEY}
       SERVER_PORT: ${SERVER_PORT}
       DATABASE_URL: ${DATABASE_URL}
@@ -49,7 +50,7 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://${DATABASE_URL_PROD}:${DATABASE_PORT}/${DATABASE_NAME}?useTimezone=true&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DATABASE_URL_PROD}:${DATABASE_PORT}/${DATABASE_NAME}?useTimezone=true&serverTimezone=${TIME_ZONE}
       SPRING_DATASOURCE_USERNAME: ${DATABASE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD}
     ports:
