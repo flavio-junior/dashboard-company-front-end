@@ -84,6 +84,8 @@ class OrderService {
         val orderResult: Order = parseObject(order, Order::class.java)
         orderResult.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
         orderResult.status = Status.OPEN
+        val addressSaved = order.address?.let { addressService.saveAddress(addressRequestVO = it) }
+        orderResult.address = addressSaved
         val objectsSaved = objectService.saveObjects(userId = user.id, objectsToSave = order.objects)
         orderResult.objects = objectsSaved.first
         orderResult.quantity = order.objects?.size ?: 0
