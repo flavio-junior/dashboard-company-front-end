@@ -1,6 +1,7 @@
 package br.com.dashboard.company.service
 
 import br.com.dashboard.company.entities.`object`.Object
+import br.com.dashboard.company.entities.order.Order
 import br.com.dashboard.company.exceptions.ResourceNotFoundException
 import br.com.dashboard.company.repository.ObjectRepository
 import br.com.dashboard.company.utils.common.ObjectStatus
@@ -32,6 +33,7 @@ class ObjectService {
     @Transactional
     fun saveObjects(
         userId: Long,
+        order: Order? = null,
         objectsToSave: MutableList<ObjectRequestVO>? = null
     ): Pair<MutableList<Object>?, Double> {
         var total = 0.0
@@ -49,6 +51,7 @@ class ObjectService {
                     val priceCalculated = (objectSaved.price * item.quantity)
                     objectResult.total = priceCalculated
                     objectResult.status = ObjectStatus.PENDING
+                    objectResult.order  = order
                     objectSaved.user = userAuthenticated
                     total += priceCalculated
                     objectRepository.save(objectResult)
@@ -65,6 +68,7 @@ class ObjectService {
                     val priceCalculated = (objectSaved.price * item.quantity)
                     objectResult.total = priceCalculated
                     objectResult.status = ObjectStatus.PENDING
+                    objectResult.order  = order
                     objectSaved.user = userAuthenticated
                     total += priceCalculated
                     objectRepository.save(objectResult)
@@ -81,6 +85,7 @@ class ObjectService {
                     val priceCalculated = (objectSaved.price * item.quantity)
                     objectResult.total = priceCalculated
                     objectResult.status = ObjectStatus.PENDING
+                    objectResult.order  = order
                     objectSaved.user = userAuthenticated
                     total += priceCalculated
                     objectRepository.save(objectResult)

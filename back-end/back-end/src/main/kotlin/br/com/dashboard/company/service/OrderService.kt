@@ -8,6 +8,7 @@ import br.com.dashboard.company.service.ObjectService.Companion.OBJECT_NOT_FOUND
 import br.com.dashboard.company.utils.common.Action
 import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.others.ConverterUtils.parseObject
+import br.com.dashboard.company.vo.`object`.ObjectRequestVO
 import br.com.dashboard.company.vo.`object`.UpdateObjectRequestVO
 import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import br.com.dashboard.company.vo.order.OrderRequestVO
@@ -92,6 +93,21 @@ class OrderService {
         orderResult.total = objectsSaved.second
         orderResult.user = userAuthenticated
         return parseObject(orderRepository.save(orderResult), OrderResponseVO::class.java)
+    }
+
+    @Transactional
+    fun incrementMoreObjectsOrder(
+        user: User,
+        orderId: Long,
+        objects: MutableList<ObjectRequestVO>
+    ) {
+        val orderSaved = getOrder(orderId = orderId, userId = user.id)
+        val objectsSaved = objectService.saveObjects(userId = user.id, order = orderSaved, objectsToSave = objects)
+        incrementDataOrder(
+            orderId = orderId,
+            quantity = objectsSaved.first?.size,
+            total = objectsSaved.second
+        )
     }
 
     @Transactional

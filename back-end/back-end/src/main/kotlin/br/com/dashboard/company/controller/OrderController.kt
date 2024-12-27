@@ -4,6 +4,8 @@ import br.com.dashboard.company.entities.user.User
 import br.com.dashboard.company.service.OrderService
 import br.com.dashboard.company.utils.common.Status
 import br.com.dashboard.company.utils.others.MediaType.APPLICATION_JSON
+import br.com.dashboard.company.vo.`object`.ObjectRequestVO
+import br.com.dashboard.company.vo.`object`.ObjectResponseVO
 import br.com.dashboard.company.vo.`object`.UpdateObjectRequestVO
 import br.com.dashboard.company.vo.order.CloseOrderRequestVO
 import br.com.dashboard.company.vo.order.OrderRequestVO
@@ -238,6 +240,56 @@ class OrderController {
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(entity.id).toUri()
         return ResponseEntity.created(uri).body(entity)
+    }
+
+    @PostMapping(
+        value = ["{orderId}/increment/more/objects/order"],
+        consumes = [APPLICATION_JSON],
+        produces = [APPLICATION_JSON]
+    )
+    @Operation(
+        summary = "Increment More Objects in Order", description = "Increment More Objects in Order",
+        tags = ["Order"],
+        responses = [
+            ApiResponse(
+                description = "Created", responseCode = "201", content = [
+                    Content(schema = Schema(implementation = ObjectResponseVO::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Bad Request", responseCode = "400", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Unauthorized", responseCode = "401", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Operation Unauthorized", responseCode = "403", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Conflict", responseCode = "409", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            ),
+            ApiResponse(
+                description = "Internal Error", responseCode = "500", content = [
+                    Content(schema = Schema(implementation = Unit::class))
+                ]
+            )
+        ]
+    )
+    fun incrementMoreObjectsOrder(
+        @AuthenticationPrincipal user: User,
+        @PathVariable(value = "orderId") orderId: Long,
+        @RequestBody objects: MutableList<ObjectRequestVO>
+    ): ResponseEntity<MutableList<OrderResponseVO>> {
+        orderService.incrementMoreObjectsOrder(user = user, orderId = orderId, objects = objects)
+        return ResponseEntity.noContent().build()
     }
 
     @PutMapping(
