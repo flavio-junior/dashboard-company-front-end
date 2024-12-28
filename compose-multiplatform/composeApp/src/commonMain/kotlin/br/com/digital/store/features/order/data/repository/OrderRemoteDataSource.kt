@@ -3,6 +3,7 @@ package br.com.digital.store.features.order.data.repository
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.toResultFlow
+import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
 import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
@@ -109,6 +110,21 @@ class OrderRemoteDataSource(
                     append(name = HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
                 setBody(body = status)
+            }
+        }
+    }
+
+    override fun incrementMoreObjectsOrder(
+        orderId: Long,
+        incrementObjects: List<ObjectRequestDTO>
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.post {
+                url(urlString = "/api/dashboard/company/orders/v1/${orderId}/increment/more/objects/order")
+                headers {
+                    append(name = HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+                setBody(body = incrementObjects)
             }
         }
     }

@@ -1,6 +1,7 @@
 package br.com.digital.store.features.order.data.repository
 
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
 import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
@@ -33,6 +34,11 @@ interface OrderRepository {
     fun updateStatusDelivery(
         orderId: Long,
         status: UpdateStatusDeliveryRequestDTO
+    ): Flow<ObserveNetworkStateHandler<Unit>>
+
+    fun incrementMoreObjectsOrder(
+        orderId: Long,
+        incrementObjects: List<ObjectRequestDTO>
     ): Flow<ObserveNetworkStateHandler<Unit>>
 
     fun deleteOrder(id: Long): Flow<ObserveNetworkStateHandler<Unit>>

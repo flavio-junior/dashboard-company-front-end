@@ -8,13 +8,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.ui.ResourceUnavailable
+import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 
 @Composable
 fun AddMoreItems(
-    orderResponseVO: OrderResponseVO
+    orderResponseVO: OrderResponseVO,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
     if (orderResponseVO.id > NUMBER_ZERO) {
         Column(
@@ -25,6 +28,13 @@ fun AddMoreItems(
             verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
         ) {
             HeaderDetailsOrder(orderResponseVO = orderResponseVO)
+            IncrementMoreObjectsOrderScreen(
+                orderId = orderResponseVO.id,
+                goToAlternativeRoutes = goToAlternativeRoutes,
+                onRefresh = {
+                    onRefresh()
+                }
+            )
         }
     } else {
         ResourceUnavailable()

@@ -22,11 +22,11 @@ object OrderUtils {
     const val UPDATE_STATUS = "Atualizar Status do Pedido?"
     const val DELETE_ITEM = "Apagar Item"
     const val DELETE_OBJECT = "Apagar Item do Pedido?"
-    const val ADD_MORE_ITEMS = "Adicionar Mais Itens"
-    const val ADD_MORE_ITEMS_ORDER = "Adicionar mais itens no pedido"
+    const val ADD_MORE_ITEMS_ORDER = "Adicionar Itens no Pedido"
     const val CLOSE_ORDER = "Fechar Pedido"
     const val SELECTED_TYPE_PAYMENT = "Selecione o Tipo de Pagamento!"
     const val TYPE_OF_PAYMENT = "Tipo de Pagamento:"
+    const val NO_SELECTED_ITEMS = "Nenhum item selecionado!"
 }
 
 val typePayment = listOf(

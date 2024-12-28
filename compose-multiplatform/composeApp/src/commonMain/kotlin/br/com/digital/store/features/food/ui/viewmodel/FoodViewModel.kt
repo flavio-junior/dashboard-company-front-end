@@ -189,6 +189,10 @@ class FoodViewModel(
                 _findFoodByName.value = ObserveNetworkStateHandler.Loading(l = false)
             }
 
+            ResetFood.CREATE_FOOD -> {
+                _createFood.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
             ResetFood.DELETE_FOOD -> {
                 _deleteFood.value = ObserveNetworkStateHandler.Loading(l = false)
             }
@@ -198,5 +202,6 @@ class FoodViewModel(
 
 enum class ResetFood {
     FIND_FOOD_BY_NAME,
+    CREATE_FOOD,
     DELETE_FOOD
 }

@@ -205,10 +205,15 @@ class ProductViewModel(
             ResetProduct.FIND_BY_NAME -> {
                 _findProductByName.value = ObserveNetworkStateHandler.Loading(l = false)
             }
+
+            ResetProduct.CREATE_PRODUCT -> {
+                _createProduct.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
         }
     }
 }
 
 enum class ResetProduct {
-    FIND_BY_NAME
+    FIND_BY_NAME,
+    CREATE_PRODUCT
 }

@@ -1,4 +1,4 @@
-package br.com.digital.store.ui.view.pdv
+package br.com.digital.store.features.order.ui.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -12,9 +12,8 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.components.strings.StringsUtils.ADD_FOOD
 import br.com.digital.store.components.strings.StringsUtils.ADD_ITEM
 import br.com.digital.store.components.strings.StringsUtils.ADD_PRODUCT
-import br.com.digital.store.components.strings.StringsUtils.CREATE_NEW_ORDER
-import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.strings.StringsUtils.SELECTED_ITEMS
+import br.com.digital.store.components.strings.StringsUtils.SELECT_ITEMS
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
@@ -24,26 +23,21 @@ import br.com.digital.store.features.item.ui.view.SelectItems
 import br.com.digital.store.features.networking.utils.AlternativesRoutes
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels
-import br.com.digital.store.features.order.data.dto.AddressRequestDTO
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
-import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.domain.type.TypeItem
-import br.com.digital.store.features.order.domain.type.TypeOrder
-import br.com.digital.store.features.order.ui.view.AllObjects
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
+import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
+import br.com.digital.store.features.order.utils.OrderUtils.ADD_MORE_ITEMS_ORDER
+import br.com.digital.store.features.order.utils.OrderUtils.NO_SELECTED_ITEMS
 import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
-fun AddItemsOrder(
-    street: String,
-    number: Int,
-    district: String,
-    complement: String,
+fun IncrementMoreObjectsOrderScreen(
+    orderId: Long,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
@@ -57,6 +51,7 @@ fun AddItemsOrder(
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
+    Description(description = SELECT_ITEMS)
     Row(horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)) {
         LoadingButton(
             label = ADD_PRODUCT,
@@ -86,7 +81,8 @@ fun AddItemsOrder(
         verifyObjects = verifyObjects,
         objectsToSave = { objectsResult ->
             objectsResult.forEach { objectResult ->
-                val existingItemIndex = objectsToSave.indexOfFirst { it.identifier == objectResult.identifier }
+                val existingItemIndex =
+                    objectsToSave.indexOfFirst { it.identifier == objectResult.identifier }
                 if (existingItemIndex != -1) {
                     objectsToSave[existingItemIndex] = objectResult
                 } else {
@@ -96,32 +92,17 @@ fun AddItemsOrder(
         }
     )
     LoadingButton(
-        label = CREATE_NEW_ORDER,
+        label = ADD_MORE_ITEMS_ORDER,
         onClick = {
-            if (checkBodyOrderIsNull(
-                    street = street,
-                    number = number,
-                    district = district,
-                    complement = complement,
-                    objectSelected = objectsSelected
-                )
-            ) {
-                observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
+            if (objectsSelected.isEmpty()) {
+                observer = Triple(first = false, second = true, third = NO_SELECTED_ITEMS)
             } else if (objectsToSave.all { it.quantity == 0 }) {
                 verifyObjects = true
             } else {
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                viewModel.createOrder(
-                    order = OrderRequestDTO(
-                        type = TypeOrder.DELIVERY,
-                        address = AddressRequestDTO(
-                            street = street,
-                            number = number,
-                            district = district,
-                            complement = complement
-                        ),
-                        objects = objectsToSave
-                    )
+                viewModel.incrementMoreObjectsOrder(
+                    orderId = orderId,
+                    incrementObjects = objectsToSave
                 )
             }
         },
@@ -191,7 +172,7 @@ fun AddItemsOrder(
             }
         )
     }
-    ObserveNetworkStateHandlerCreateNewOrder(
+    ObserveNetworkStateHandlerIncrementMoreObjectsOrder(
         viewModel = viewModel,
         onError = {
             observer = it
@@ -206,13 +187,13 @@ fun AddItemsOrder(
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerCreateNewOrder(
+private fun ObserveNetworkStateHandlerIncrementMoreObjectsOrder(
     viewModel: OrderViewModel,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.createOrder }
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.incrementMoreObjectsOrder }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {},
@@ -225,17 +206,8 @@ private fun ObserveNetworkStateHandlerCreateNewOrder(
         },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.resetOrder(reset = ResetOrder.INCREMENT_MORE_OBJECTS_ORDER)
             onSuccessful()
         }
     )
-}
-
-fun checkBodyOrderIsNull(
-    street: String,
-    number: Int,
-    district: String,
-    complement: String,
-    objectSelected: List<ObjectRequestDTO>? = null
-): Boolean {
-    return (street.isEmpty() || number == NUMBER_ZERO || district.isEmpty() || complement.isEmpty() || objectSelected.isNullOrEmpty())
 }

@@ -34,6 +34,7 @@ import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.features.product.data.dto.ProductRequestDTO
 import br.com.digital.store.features.product.ui.viewmodel.ProductViewModel
+import br.com.digital.store.features.product.ui.viewmodel.ResetProduct
 import br.com.digital.store.features.product.utils.ProductUtils.CREATE_PRODUCT
 import br.com.digital.store.features.product.utils.checkBodyProductIsNull
 import br.com.digital.store.theme.Themes
@@ -167,6 +168,7 @@ fun CreateNewProductScreen(
                 name = EMPTY_TEXT
                 price = ZERO_DOUBLE
                 quantity = NUMBER_ZERO
+                cleanText = true
                 selectedCategories.clear()
                 onRefresh()
             }
@@ -194,6 +196,7 @@ private fun ObserveNetworkStateHandlerCreateNewProduct(
         },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.resetProduct(reset = ResetProduct.CREATE_PRODUCT)
             onSuccessful()
         }
     )

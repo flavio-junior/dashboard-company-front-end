@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
@@ -32,6 +33,11 @@ class OrderViewModel(
     private val _updateStatusDelivery =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val updateStatusDelivery: State<ObserveNetworkStateHandler<Unit>> = _updateStatusDelivery
+
+    private val _incrementMoreObjectsOrder =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val incrementMoreObjectsOrder: State<ObserveNetworkStateHandler<Unit>> =
+        _incrementMoreObjectsOrder
 
     private val _deleteObject =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -85,6 +91,24 @@ class OrderViewModel(
         }
     }
 
+    fun incrementMoreObjectsOrder(
+        orderId: Long,
+        incrementObjects: List<ObjectRequestDTO>
+    ) {
+        viewModelScope.launch {
+            repository.incrementMoreObjectsOrder(
+                orderId = orderId,
+                incrementObjects = incrementObjects
+            )
+                .onStart {
+                    _incrementMoreObjectsOrder.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _incrementMoreObjectsOrder.value = it
+                }
+        }
+    }
+
     fun deleteOrder(id: Long) {
         viewModelScope.launch {
             repository.deleteOrder(id = id)
@@ -129,6 +153,10 @@ class OrderViewModel(
             ResetOrder.CLOSE_ORDER -> {
                 _closeOrder.value = ObserveNetworkStateHandler.Loading(l = false)
             }
+
+            ResetOrder.INCREMENT_MORE_OBJECTS_ORDER -> {
+                _incrementMoreObjectsOrder.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
         }
     }
 }
@@ -137,5 +165,6 @@ enum class ResetOrder {
     UPDATE_ORDER,
     DELETE_ORDER,
     DELETE_OBJECT,
-    CLOSE_ORDER
+    CLOSE_ORDER,
+    INCREMENT_MORE_OBJECTS_ORDER
 }

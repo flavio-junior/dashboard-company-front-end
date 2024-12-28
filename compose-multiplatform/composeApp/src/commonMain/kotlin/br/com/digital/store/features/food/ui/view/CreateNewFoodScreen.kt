@@ -25,6 +25,7 @@ import br.com.digital.store.features.category.utils.CategoryUtils.ADD_CATEGORIES
 import br.com.digital.store.features.category.utils.CategoryUtils.NO_CATEGORIES_SELECTED
 import br.com.digital.store.features.food.data.dto.FoodRequestDTO
 import br.com.digital.store.features.food.ui.viewmodel.FoodViewModel
+import br.com.digital.store.features.food.ui.viewmodel.ResetFood
 import br.com.digital.store.features.food.utils.FoodUtils.CREATE_FOOD
 import br.com.digital.store.features.food.utils.FoodUtils.NAME_FOOD
 import br.com.digital.store.features.food.utils.checkBodyFoodIsNull
@@ -180,6 +181,7 @@ private fun ObserveNetworkStateHandlerCreateNewFood(
         },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.resetFood(reset = ResetFood.CREATE_FOOD)
             onSuccessful()
         }
     )

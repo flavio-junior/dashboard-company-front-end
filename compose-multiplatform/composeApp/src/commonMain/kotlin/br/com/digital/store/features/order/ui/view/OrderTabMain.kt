@@ -29,7 +29,10 @@ fun OrderTabMain(
         )
 
         NumbersUtils.NUMBER_TWO -> AddMoreItems(
-            orderResponseVO = orderResponseVO
+            orderResponseVO = orderResponseVO,
+            onRefresh = {
+                onRefresh(NumbersUtils.NUMBER_TWO)
+            }
         )
     }
 }
