@@ -103,9 +103,9 @@ class OrderService {
     ) {
         val orderSaved = getOrder(orderId = orderId, userId = user.id)
         val objectsSaved = objectService.saveObjects(userId = user.id, order = orderSaved, objectsToSave = objects)
+        orderRepository.updateQuantityOrder(orderId = orderId, objectsSaved.first?.size)
         incrementDataOrder(
             orderId = orderId,
-            quantity = objectsSaved.first?.size,
             total = objectsSaved.second
         )
     }
@@ -140,7 +140,6 @@ class OrderService {
                     )
                     incrementDataOrder(
                         orderId = orderId,
-                        quantity = objectActual.quantity,
                         total = priceCalculated
                     )
                 }
@@ -154,7 +153,6 @@ class OrderService {
                     )
                     decrementDataOrder(
                         orderId = orderId,
-                        quantity = objectActual.quantity,
                         total = priceCalculated
                     )
                 }
@@ -163,7 +161,7 @@ class OrderService {
                     objectService.deleteObject(orderId = orderSaved.id, objectId = objectSaved.id)
                     decrementDataOrder(
                         orderId = orderId,
-                        quantity = objectSaved.quantity,
+                        quantity = SUBTRACT_ONE,
                         total = objectSaved.total
                     )
                 }
@@ -176,10 +174,9 @@ class OrderService {
     @Transactional
     fun incrementDataOrder(
         orderId: Long,
-        quantity: Int? = 0,
         total: Double? = 0.0
     ) {
-        orderRepository.incrementDataOrder(orderId = orderId, quantity = quantity, total = total)
+        orderRepository.incrementDataOrder(orderId = orderId, total = total)
     }
 
     @Transactional
@@ -237,5 +234,6 @@ class OrderService {
 
     companion object {
         const val ORDER_NOT_FOUND = "Order not found!"
+        const val SUBTRACT_ONE = 1
     }
 }
