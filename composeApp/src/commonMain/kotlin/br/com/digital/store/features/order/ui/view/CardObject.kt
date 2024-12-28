@@ -155,7 +155,9 @@ private fun ListObject(
                             onItemSelected = onItemSelected,
                             onDisableItem = {
                                 selectedIndex = index
-                            }
+                            },
+                            goToAlternativeRoutes = goToAlternativeRoutes,
+                            onRefresh = onRefresh
                         )
                     }
                 }
@@ -233,7 +235,9 @@ private fun CardObject(
     objectResponseVO: ObjectResponseVO,
     selected: Boolean = false,
     onItemSelected: (ObjectResponseVO) -> Unit = {},
-    onDisableItem: () -> Unit = {}
+    onDisableItem: () -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -268,15 +272,17 @@ private fun CardObject(
             text = formatterMaskToMoney(price = objectResponseVO.total),
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )
-        DeleteObject(
+        RemoveObject(
             orderId = orderId,
             objectId = objectResponseVO.id,
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = onRefresh
         )
     }
 }
 
 @Composable
-private fun DeleteObject(
+private fun RemoveObject(
     orderId: Long,
     objectId: Long,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
@@ -311,7 +317,7 @@ private fun DeleteObject(
             }
         )
     }
-    ObserveNetworkStateHandlerDeleteObject(
+    ObserveNetworkStateHandlerRemoveObject(
         viewModel = viewModel,
         onError = {
             observer = it
@@ -325,13 +331,13 @@ private fun DeleteObject(
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerDeleteObject(
+private fun ObserveNetworkStateHandlerRemoveObject(
     viewModel: OrderViewModel,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.deleteObject }
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.removeObject }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {},
@@ -344,7 +350,7 @@ private fun ObserveNetworkStateHandlerDeleteObject(
         },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.resetOrder(reset = ResetOrder.DELETE_ORDER)
+            viewModel.resetOrder(reset = ResetOrder.REMOVE_OBJECT)
             onSuccessful()
         }
     )
@@ -515,7 +521,7 @@ private fun ObserveNetworkStateHandlerUpdateStatusDelivery(
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.updateOrder }
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.updateStatus }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {},
@@ -528,7 +534,7 @@ private fun ObserveNetworkStateHandlerUpdateStatusDelivery(
         },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.resetOrder(reset = ResetOrder.UPDATE_ORDER)
+            viewModel.resetOrder(reset = ResetOrder.UPDATE_STATUS_OBJECT)
             onSuccessful()
         }
     )

@@ -12,12 +12,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.onBorder
 
 @Composable
 fun LoadingButton(
     modifier: Modifier = Modifier,
+    background: Color = Themes.colors.secondary,
     label: String,
     isEnabled: Boolean = false,
     onClick: () -> Unit = {}
@@ -33,7 +35,7 @@ fun LoadingButton(
                 width = Themes.size.spaceSize2,
                 color = Themes.colors.primary
             )
-            .background(color = Themes.colors.secondary)
+            .background(color = background)
             .padding(all = Themes.size.spaceSize18)
             .fillMaxWidth()
     ) {

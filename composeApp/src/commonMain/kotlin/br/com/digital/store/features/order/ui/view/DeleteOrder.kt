@@ -17,7 +17,7 @@ import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.utils.reloadViewModels
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
-import br.com.digital.store.features.order.utils.OrderUtils.DELETE_ORDER
+import br.com.digital.store.features.order.utils.OrderUtils.CANCEL_ORDER
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import org.koin.mp.KoinPlatform.getKoin
@@ -39,7 +39,8 @@ fun DeleteOrder(
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
         LoadingButton(
-            label = DELETE_ORDER,
+            background = Themes.colors.error,
+            label = CANCEL_ORDER,
             onClick = {
                 openDialog = true
             },
@@ -49,7 +50,7 @@ fun DeleteOrder(
     }
     if (openDialog) {
         Alert(
-            label = "$DELETE_ORDER?",
+            label = "$CANCEL_ORDER?",
             onDismissRequest = {
                 openDialog = false
             },
@@ -94,7 +95,6 @@ private fun ObserveNetworkStateHandlerDeleteOrder(
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             viewModel.resetOrder(reset = ResetOrder.DELETE_ORDER)
-            reloadViewModels()
             onSuccessful()
         }
     )

@@ -16,7 +16,7 @@ object OrderUtils {
     const val TOTAL_NUMBER_RESERVATIONS = "Número Total de Reservas:"
     const val NUMBER_RESERVATIONS = "Número de reservas:"
     const val NUMBER_ITEMS = "Número de itens:"
-    const val DELETE_ORDER = "Apagar Pedido"
+    const val CANCEL_ORDER = "Cancelar Pedido"
     const val INCREMENT_ITEM = "Adicionar itens ao pedido?"
     const val DECREMENT_ITEM = "Remover itens do pedido?"
     const val UPDATE_STATUS = "Atualizar Status do Pedido?"

@@ -135,6 +135,7 @@ private fun IncrementMoreItemsObject(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccessful = {
             observer = Triple(first = false, second = false, third = EMPTY_TEXT)
+            quantity = NUMBER_ZERO
             onRefresh()
         }
     )
@@ -147,7 +148,7 @@ private fun ObserveNetworkStateHandlerIncrementMoreItemsObject(
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.updateOrder }
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.increment }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {},
@@ -160,7 +161,7 @@ private fun ObserveNetworkStateHandlerIncrementMoreItemsObject(
         },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.resetOrder(reset = ResetOrder.UPDATE_ORDER)
+            viewModel.resetOrder(reset = ResetOrder.INCREMENT)
             onSuccessful()
         }
     )
@@ -236,6 +237,7 @@ private fun DecrementItemsObject(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccessful = {
             observer = Triple(first = false, second = false, third = EMPTY_TEXT)
+            quantity = NUMBER_ZERO
             onRefresh()
         }
     )
@@ -248,7 +250,7 @@ private fun ObserveNetworkStateHandlerDecrementItemsObject(
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.updateOrder }
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.decrement }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {},
@@ -261,7 +263,7 @@ private fun ObserveNetworkStateHandlerDecrementItemsObject(
         },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.resetOrder(reset = ResetOrder.UPDATE_ORDER)
+            viewModel.resetOrder(reset = ResetOrder.DECREMENT)
             onSuccessful()
         }
     )

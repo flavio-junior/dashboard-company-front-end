@@ -124,7 +124,7 @@ private fun ObserveNetworkStateHandlerUpdateStatusDelivery(
         },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.resetOrder(reset = ResetOrder.UPDATE_ORDER)
+            viewModel.resetOrder(reset = ResetOrder.UPDATE_STATUS_DELIVERY)
             onSuccessful()
         }
     )

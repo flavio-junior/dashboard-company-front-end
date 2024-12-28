@@ -11,6 +11,7 @@ import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
 import br.com.digital.store.features.order.data.repository.OrderRepository
+import br.com.digital.store.features.order.domain.others.Action
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -22,10 +23,6 @@ class OrderViewModel(
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val createOrder: State<ObserveNetworkStateHandler<Unit>> = _createOrder
 
-    private val _updateOrder =
-        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val updateOrder: State<ObserveNetworkStateHandler<Unit>> = _updateOrder
-
     private val _deleteOrder =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val deleteOrder: State<ObserveNetworkStateHandler<Unit>> = _deleteOrder
@@ -34,19 +31,30 @@ class OrderViewModel(
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val updateStatusDelivery: State<ObserveNetworkStateHandler<Unit>> = _updateStatusDelivery
 
-    private val _incrementMoreObjectsOrder =
-        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val incrementMoreObjectsOrder: State<ObserveNetworkStateHandler<Unit>> =
-        _incrementMoreObjectsOrder
-
-    private val _deleteObject =
-        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val deleteObject: State<ObserveNetworkStateHandler<Unit>> = _deleteObject
-
     private val _closeOrder =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val closeOrder: State<ObserveNetworkStateHandler<Unit>> = _closeOrder
 
+    private val _updateStatus =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val updateStatus: State<ObserveNetworkStateHandler<Unit>> = _updateStatus
+
+    private val _increment =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val increment: State<ObserveNetworkStateHandler<Unit>> = _increment
+
+    private val _decrement =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val decrement: State<ObserveNetworkStateHandler<Unit>> = _decrement
+
+    private val _removeObject =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val removeObject: State<ObserveNetworkStateHandler<Unit>> = _removeObject
+
+    private val _incrementMoreObjectsOrder =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val incrementMoreObjectsOrder: State<ObserveNetworkStateHandler<Unit>> =
+        _incrementMoreObjectsOrder
 
     fun createOrder(order: OrderRequestDTO) {
         viewModelScope.launch {
@@ -62,17 +70,63 @@ class OrderViewModel(
 
     fun updateOrder(orderId: Long, objectId: Long, updateObject: UpdateObjectRequestDTO) {
         viewModelScope.launch {
-            repository.updateOrder(
-                orderId = orderId,
-                objectId = objectId,
-                updateObject = updateObject
-            )
-                .onStart {
-                    _updateOrder.value = ObserveNetworkStateHandler.Loading(l = true)
+            when (updateObject.action) {
+                Action.UPDATE_STATUS -> {
+                    repository.updateOrder(
+                        orderId = orderId,
+                        objectId = objectId,
+                        updateObject = updateObject
+                    )
+                        .onStart {
+                            _updateStatus.value = ObserveNetworkStateHandler.Loading(l = true)
+                        }
+                        .collect {
+                            _updateStatus.value = it
+                        }
                 }
-                .collect {
-                    _updateOrder.value = it
+
+                Action.INCREMENT -> {
+                    repository.updateOrder(
+                        orderId = orderId,
+                        objectId = objectId,
+                        updateObject = updateObject
+                    )
+                        .onStart {
+                            _increment.value = ObserveNetworkStateHandler.Loading(l = true)
+                        }
+                        .collect {
+                            _increment.value = it
+                        }
                 }
+
+                Action.DECREMENT -> {
+                    repository.updateOrder(
+                        orderId = orderId,
+                        objectId = objectId,
+                        updateObject = updateObject
+                    )
+                        .onStart {
+                            _decrement.value = ObserveNetworkStateHandler.Loading(l = true)
+                        }
+                        .collect {
+                            _decrement.value = it
+                        }
+                }
+
+                Action.REMOVE_OBJECT -> {
+                    repository.updateOrder(
+                        orderId = orderId,
+                        objectId = objectId,
+                        updateObject = updateObject
+                    )
+                        .onStart {
+                            _removeObject.value = ObserveNetworkStateHandler.Loading(l = true)
+                        }
+                        .collect {
+                            _removeObject.value = it
+                        }
+                }
+            }
         }
     }
 
@@ -138,16 +192,28 @@ class OrderViewModel(
 
     fun resetOrder(reset: ResetOrder) {
         when (reset) {
-            ResetOrder.UPDATE_ORDER -> {
-                _updateOrder.value = ObserveNetworkStateHandler.Loading(l = false)
+            ResetOrder.UPDATE_STATUS_DELIVERY -> {
+                _updateStatusDelivery.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
+            ResetOrder.UPDATE_STATUS_OBJECT -> {
+                _updateStatus.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
+            ResetOrder.INCREMENT -> {
+                _increment.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
+            ResetOrder.DECREMENT -> {
+                _decrement.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
+            ResetOrder.REMOVE_OBJECT -> {
+                _removeObject.value = ObserveNetworkStateHandler.Loading(l = false)
             }
 
             ResetOrder.DELETE_ORDER -> {
                 _deleteOrder.value = ObserveNetworkStateHandler.Loading(l = false)
-            }
-
-            ResetOrder.DELETE_OBJECT -> {
-                _deleteObject.value = ObserveNetworkStateHandler.Loading(l = false)
             }
 
             ResetOrder.CLOSE_ORDER -> {
@@ -162,9 +228,12 @@ class OrderViewModel(
 }
 
 enum class ResetOrder {
-    UPDATE_ORDER,
     DELETE_ORDER,
-    DELETE_OBJECT,
     CLOSE_ORDER,
+    UPDATE_STATUS_DELIVERY,
+    UPDATE_STATUS_OBJECT,
+    INCREMENT,
+    DECREMENT,
+    REMOVE_OBJECT,
     INCREMENT_MORE_OBJECTS_ORDER
 }
