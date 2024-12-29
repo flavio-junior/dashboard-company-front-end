@@ -197,6 +197,13 @@ fun NavGraphBuilder.dashboardNavigation(
         HistoryScreen(
             goToBackScreen = {
                 navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.History.item,
+                    nextScreen = it
+                )
             }
         )
     }

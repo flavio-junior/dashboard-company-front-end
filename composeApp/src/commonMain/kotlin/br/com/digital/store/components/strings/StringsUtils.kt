@@ -39,6 +39,7 @@ object StringsUtils {
     const val ORDER = "Pedido"
     const val RESERVATION = "Reserva"
     const val RESERVATIONS = "Reservas"
+    const val REPORT = "Relatório"
     const val HISTORY = "Histórico de Vendas"
     const val SETTINGS = "Configurações"
     const val CHANGE_TO_OTHER_ACCOUNT = "Trocar de conta"

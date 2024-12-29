@@ -10,11 +10,13 @@ import br.com.digital.store.components.strings.StringsUtils.HISTORY
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
 import br.com.digital.store.components.strings.StringsUtils.ORDERS
 import br.com.digital.store.components.strings.StringsUtils.PDV
+import br.com.digital.store.components.strings.StringsUtils.REPORT
 import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
 import br.com.digital.store.components.strings.StringsUtils.SETTINGS
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.box
 import br.com.digital.store.composeapp.generated.resources.data_usage
+import br.com.digital.store.composeapp.generated.resources.finance
 import br.com.digital.store.composeapp.generated.resources.food
 import br.com.digital.store.composeapp.generated.resources.home_pin
 import br.com.digital.store.composeapp.generated.resources.list
@@ -126,5 +128,10 @@ val availableServices = listOf(
         icon = Res.drawable.reservation,
         label = RESERVATIONS,
         route = ItemNavigation.RESERVATION.name
+    ),
+    ItemService(
+        icon = Res.drawable.finance,
+        label = REPORT,
+        route = ItemNavigation.HISTORY.name
     )
 )
