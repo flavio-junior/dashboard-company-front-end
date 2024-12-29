@@ -10,7 +10,7 @@ import br.com.digital.store.features.reservation.data.dto.EditReservationRequest
 import br.com.digital.store.features.reservation.data.dto.ReservationRequestDTO
 import br.com.digital.store.features.reservation.data.repository.ReservationRepository
 import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
-import br.com.digital.store.features.reservation.domain.ConverterReservation
+import br.com.digital.store.features.reservation.domain.converter.ConverterReservation
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE

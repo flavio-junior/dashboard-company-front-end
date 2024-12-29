@@ -27,14 +27,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.NUMBER
+import br.com.digital.store.components.strings.StringsUtils.STATUS
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
 import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
+import br.com.digital.store.features.reservation.domain.reservationFactory
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.onBorder
 import br.com.digital.store.utils.onClickable
 import kotlinx.coroutines.launch
@@ -116,7 +118,13 @@ fun HeaderReservationsPanel(
         )
         Description(
             description = NAME,
-            modifier = modifier.weight(weight = WEIGHT_SIZE_4)
+            modifier = modifier.weight(weight = WEIGHT_SIZE_2),
+            textAlign = TextAlign.Center
+        )
+        Description(
+            description = STATUS,
+            modifier = modifier.weight(weight = WEIGHT_SIZE_2),
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -151,8 +159,15 @@ fun ItemReservation(
         )
         Description(
             description = reservation.name ?: EMPTY_TEXT,
-            modifier = modifier.weight(weight = WEIGHT_SIZE_4),
-            color = if (selected) Themes.colors.background else Themes.colors.primary
+            modifier = modifier.weight(weight = WEIGHT_SIZE_2),
+            color = if (selected) Themes.colors.background else Themes.colors.primary,
+            textAlign = TextAlign.Center
+        )
+        Description(
+            description = reservationFactory(status = reservation.status),
+            modifier = modifier.weight(weight = WEIGHT_SIZE_2),
+            color = if (selected) Themes.colors.background else Themes.colors.primary,
+            textAlign = TextAlign.Center
         )
     }
 }

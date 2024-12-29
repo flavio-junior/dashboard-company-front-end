@@ -1,4 +1,4 @@
-package br.com.digital.store.features.reservation.domain
+package br.com.digital.store.features.reservation.domain.converter
 
 import br.com.digital.store.features.others.converterPageableDTOToVO
 import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
@@ -22,7 +22,8 @@ class ConverterReservation {
         return reservations.map {
             ReservationResponseVO(
                 id = it.id,
-                name = it.name
+                name = it.name,
+                status = it.status
             )
         }
     }
