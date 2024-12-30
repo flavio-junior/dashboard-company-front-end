@@ -31,6 +31,7 @@ import br.com.digital.store.features.order.domain.type.TypeItem
 import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.order.ui.view.AllObjects
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
+import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
@@ -222,6 +223,7 @@ private fun ObserveNetworkStateHandlerCreateNewOrder(
         },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.resetOrder(reset = ResetOrder.CREATE_ORDER)
             onSuccessful()
         }
     )

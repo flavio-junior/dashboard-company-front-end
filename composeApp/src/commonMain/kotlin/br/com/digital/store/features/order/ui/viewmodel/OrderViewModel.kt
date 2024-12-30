@@ -192,6 +192,10 @@ class OrderViewModel(
 
     fun resetOrder(reset: ResetOrder) {
         when (reset) {
+            ResetOrder.CREATE_ORDER -> {
+                _createOrder.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
             ResetOrder.UPDATE_STATUS_DELIVERY -> {
                 _updateStatusDelivery.value = ObserveNetworkStateHandler.Loading(l = false)
             }
@@ -228,6 +232,7 @@ class OrderViewModel(
 }
 
 enum class ResetOrder {
+    CREATE_ORDER,
     DELETE_ORDER,
     CLOSE_ORDER,
     UPDATE_STATUS_DELIVERY,

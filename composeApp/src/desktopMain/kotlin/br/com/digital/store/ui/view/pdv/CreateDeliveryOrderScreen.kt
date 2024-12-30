@@ -3,6 +3,8 @@ package br.com.digital.store.ui.view.pdv
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -23,6 +25,7 @@ import br.com.digital.store.composeapp.generated.resources.description
 import br.com.digital.store.composeapp.generated.resources.dialpad
 import br.com.digital.store.composeapp.generated.resources.home
 import br.com.digital.store.composeapp.generated.resources.personal_places
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
@@ -30,27 +33,16 @@ import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 
 @Composable
-fun CashRegisterFields(
-    itemSelected: String
+fun CreateDeliveryOrderScreen(
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
-    when (itemSelected) {
-        "Delivery" -> {
-            DeliveryAddress()
-        }
-
-        "Reserva" -> {
-
-        }
-
-        "Pedido" -> {
-
-        }
-    }
-}
-
-@Composable
-fun DeliveryAddress() {
-    Column(verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = Themes.size.spaceSize16),
+        verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
+    ) {
         var street: String by remember { mutableStateOf(value = EMPTY_TEXT) }
         var number: Int by remember { mutableIntStateOf(value = NUMBER_ZERO) }
         var district: String by remember { mutableStateOf(value = EMPTY_TEXT) }
@@ -100,7 +92,9 @@ fun DeliveryAddress() {
             number = number,
             district = district,
             complement = complement,
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = {
+                onRefresh()
                 street = EMPTY_TEXT
                 number = NUMBER_ZERO
                 district = EMPTY_TEXT
