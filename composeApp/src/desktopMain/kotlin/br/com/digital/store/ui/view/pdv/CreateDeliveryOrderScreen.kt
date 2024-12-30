@@ -47,11 +47,13 @@ fun CreateDeliveryOrderScreen(
         var number: Int by remember { mutableIntStateOf(value = NUMBER_ZERO) }
         var district: String by remember { mutableStateOf(value = EMPTY_TEXT) }
         var complement: String by remember { mutableStateOf(value = EMPTY_TEXT) }
+        var observer: Boolean by remember { mutableStateOf(value = false) }
         Description(description = ADDRESS)
         Row(horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)) {
             TextField(
                 label = STREET,
                 value = street,
+                isError = observer,
                 icon = Res.drawable.home,
                 onValueChange = {
                     street = it
@@ -61,6 +63,7 @@ fun CreateDeliveryOrderScreen(
             TextField(
                 label = NUMBER,
                 value = number.toString(),
+                isError = observer,
                 icon = Res.drawable.dialpad,
                 keyboardType = KeyboardType.Number,
                 onValueChange = {
@@ -71,6 +74,7 @@ fun CreateDeliveryOrderScreen(
             TextField(
                 label = DISTRICT,
                 value = district,
+                isError = observer,
                 icon = Res.drawable.personal_places,
                 onValueChange = {
                     district = it
@@ -80,6 +84,7 @@ fun CreateDeliveryOrderScreen(
             TextField(
                 label = COMPLEMENT,
                 value = complement,
+                isError = observer,
                 icon = Res.drawable.description,
                 onValueChange = {
                     complement = it
@@ -99,6 +104,9 @@ fun CreateDeliveryOrderScreen(
                 number = NUMBER_ZERO
                 district = EMPTY_TEXT
                 complement = EMPTY_TEXT
+            },
+            onError = {
+                observer = it
             }
         )
     }

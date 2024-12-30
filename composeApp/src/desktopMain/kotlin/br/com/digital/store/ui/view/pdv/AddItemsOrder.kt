@@ -46,7 +46,8 @@ fun AddItemsOrder(
     district: String,
     complement: String,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
+    onError: (Boolean) -> Unit = {}
 ) {
     val viewModel: OrderViewModel = getKoin().get()
     val objectsSelected = remember { mutableStateListOf<ObjectRequestDTO>() }
@@ -201,6 +202,7 @@ fun AddItemsOrder(
             onRefresh()
         }
     )
+    onError(observer.second)
 }
 
 @Composable
