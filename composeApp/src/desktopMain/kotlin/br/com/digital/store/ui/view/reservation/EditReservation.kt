@@ -26,9 +26,9 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.close
 import br.com.digital.store.composeapp.generated.resources.edit
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
 import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
 import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel

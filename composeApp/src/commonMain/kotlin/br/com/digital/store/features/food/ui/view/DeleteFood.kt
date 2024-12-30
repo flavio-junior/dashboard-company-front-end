@@ -12,9 +12,9 @@ import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.food.ui.viewmodel.FoodViewModel
 import br.com.digital.store.features.food.ui.viewmodel.ResetFood
 import br.com.digital.store.features.food.utils.FoodUtils.DELETE_FOOD
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import org.koin.mp.KoinPlatform.getKoin
 

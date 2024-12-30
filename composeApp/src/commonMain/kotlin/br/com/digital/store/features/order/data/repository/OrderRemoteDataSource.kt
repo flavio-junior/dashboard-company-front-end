@@ -1,8 +1,8 @@
 package br.com.digital.store.features.order.data.repository
 
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.toResultFlow
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.toResultFlow
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO

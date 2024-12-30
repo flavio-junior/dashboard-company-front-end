@@ -10,7 +10,7 @@ import br.com.digital.store.data.repository.local.DesktopLocalStorage
 import br.com.digital.store.features.account.data.repository.AccountRepository
 import br.com.digital.store.features.account.data.vo.TokenResponseVO
 import br.com.digital.store.features.account.domain.converter.ConverterAccount
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 

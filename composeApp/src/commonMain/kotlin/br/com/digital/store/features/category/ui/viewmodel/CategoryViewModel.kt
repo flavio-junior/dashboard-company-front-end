@@ -12,7 +12,7 @@ import br.com.digital.store.features.category.data.dto.EditCategoryRequestDTO
 import br.com.digital.store.features.category.data.repository.CategoryRepository
 import br.com.digital.store.features.category.data.vo.CategoriesResponseVO
 import br.com.digital.store.features.category.domain.ConverterCategory
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE

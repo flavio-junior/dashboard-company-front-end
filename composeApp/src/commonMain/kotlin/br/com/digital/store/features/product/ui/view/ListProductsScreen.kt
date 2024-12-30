@@ -12,9 +12,9 @@ import br.com.digital.store.components.ui.EmptyList
 import br.com.digital.store.components.ui.HeaderSearch
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.product.data.vo.ProductResponseVO
 import br.com.digital.store.features.product.data.vo.ProductsResponseVO
 import br.com.digital.store.features.product.ui.viewmodel.ProductViewModel

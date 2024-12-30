@@ -38,8 +38,8 @@ import br.com.digital.store.features.account.data.dto.SignInRequestDTO
 import br.com.digital.store.features.account.data.dto.TokenResponseDTO
 import br.com.digital.store.features.account.data.vo.TokenResponseVO
 import br.com.digital.store.features.account.domain.type.TypeAccount
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.viewmodel.ApiViewModel
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT

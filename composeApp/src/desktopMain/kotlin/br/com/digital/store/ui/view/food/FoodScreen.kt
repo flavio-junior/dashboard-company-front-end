@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import br.com.digital.store.components.strings.StringsUtils.FOODS
 import br.com.digital.store.domain.factory.availableServices
 import br.com.digital.store.features.food.ui.view.FoodTabs
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.ui.view.shared.BodyPage
 import br.com.digital.store.ui.view.shared.Services
 

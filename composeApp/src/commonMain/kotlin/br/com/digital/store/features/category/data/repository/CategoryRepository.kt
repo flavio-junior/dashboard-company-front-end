@@ -5,7 +5,7 @@ import br.com.digital.store.features.category.data.dto.CategoryNameRequestDTO
 import br.com.digital.store.features.category.data.dto.CategoryRequestDTO
 import br.com.digital.store.features.category.data.dto.CategoryResponseDTO
 import br.com.digital.store.features.category.data.dto.EditCategoryRequestDTO
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.NumbersUtils.NUMBER_SIXTY
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO

@@ -6,8 +6,8 @@ import br.com.digital.store.features.category.data.dto.CategoryNameRequestDTO
 import br.com.digital.store.features.category.data.dto.CategoryRequestDTO
 import br.com.digital.store.features.category.data.dto.CategoryResponseDTO
 import br.com.digital.store.features.category.data.dto.EditCategoryRequestDTO
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.toResultFlow
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.toResultFlow
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get

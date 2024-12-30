@@ -31,9 +31,9 @@ import br.com.digital.store.features.category.data.vo.CategoryResponseVO
 import br.com.digital.store.features.category.ui.viewmodel.CategoryViewModel
 import br.com.digital.store.features.category.utils.CategoryUtils.EDIT_CATEGORY
 import br.com.digital.store.features.category.utils.CategoryUtils.NEW_NAME_CATEGORY
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE

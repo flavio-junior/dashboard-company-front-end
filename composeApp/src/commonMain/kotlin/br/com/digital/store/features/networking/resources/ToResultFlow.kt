@@ -1,11 +1,11 @@
-package br.com.digital.store.features.networking.utils
+package br.com.digital.store.features.networking.resources
 
-import br.com.digital.store.features.networking.utils.StatusCode.NUMBER_200
-import br.com.digital.store.features.networking.utils.StatusCode.NUMBER_299
-import br.com.digital.store.features.networking.utils.StatusCode.NUMBER_400
-import br.com.digital.store.features.networking.utils.StatusCode.NUMBER_499
-import br.com.digital.store.features.networking.utils.StatusCode.NUMBER_500
-import br.com.digital.store.features.networking.utils.StatusCode.NUMBER_599
+import br.com.digital.store.features.networking.resources.StatusCode.NUMBER_200
+import br.com.digital.store.features.networking.resources.StatusCode.NUMBER_299
+import br.com.digital.store.features.networking.resources.StatusCode.NUMBER_400
+import br.com.digital.store.features.networking.resources.StatusCode.NUMBER_499
+import br.com.digital.store.features.networking.resources.StatusCode.NUMBER_500
+import br.com.digital.store.features.networking.resources.StatusCode.NUMBER_599
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.CoroutineDispatcher

@@ -1,4 +1,4 @@
-package br.com.digital.store.features.networking.utils
+package br.com.digital.store.features.networking.resources
 
 enum class AlternativesRoutes {
     ERROR_401,

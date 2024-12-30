@@ -5,7 +5,7 @@ import br.com.digital.store.features.item.data.dto.ItemRequestDTO
 import br.com.digital.store.features.item.data.dto.ItemResponseDTO
 import br.com.digital.store.features.item.data.dto.ItemsResponseDTO
 import br.com.digital.store.features.item.data.dto.UpdatePriceItemRequestDTO
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.NumbersUtils.NUMBER_SIXTY
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO

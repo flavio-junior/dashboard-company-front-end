@@ -1,11 +1,11 @@
 package br.com.digital.store.components.ui
 
 import androidx.compose.runtime.Composable
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ErrorType
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.StatusCode.NUMBER_403
-import br.com.digital.store.features.networking.utils.selectAlternativeRoute
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ErrorType
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.StatusCode.NUMBER_403
+import br.com.digital.store.features.networking.resources.selectAlternativeRoute
 import br.com.digital.store.utils.CommonUtils.UNAUTHORIZED_MESSAGE
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 

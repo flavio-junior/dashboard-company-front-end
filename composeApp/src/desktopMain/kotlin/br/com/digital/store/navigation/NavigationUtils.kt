@@ -1,7 +1,7 @@
 package br.com.digital.store.navigation
 
 import androidx.navigation.NavHostController
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 
 fun goToNextScreen(
     navHostController: NavHostController,

@@ -33,9 +33,9 @@ import br.com.digital.store.features.item.data.vo.ItemResponseVO
 import br.com.digital.store.features.item.ui.viewmodel.ItemViewModel
 import br.com.digital.store.features.item.utils.checkBodyItemIsNull
 import br.com.digital.store.features.item.utils.checkPriceIsEqualsZero
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.item.ItemUtils.EDIT_ITEM
 import br.com.digital.store.ui.view.item.ItemUtils.NEW_NAME_ITEM

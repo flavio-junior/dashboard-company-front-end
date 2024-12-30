@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.theme.Themes
 
 @Composable

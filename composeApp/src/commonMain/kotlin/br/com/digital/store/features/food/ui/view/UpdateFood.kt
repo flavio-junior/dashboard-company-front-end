@@ -27,9 +27,9 @@ import br.com.digital.store.features.food.utils.FoodUtils.NEW_NAME_FOOD
 import br.com.digital.store.features.food.utils.FoodUtils.NEW_PRICE_FOOD
 import br.com.digital.store.features.food.utils.checkBodyFoodIsNull
 import br.com.digital.store.features.item.utils.checkPriceIsEqualsZero
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT

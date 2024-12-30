@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.components.model.Menu
 import br.com.digital.store.components.ui.ItemMenu
 import br.com.digital.store.domain.factory.menus
-import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.navigation.ItemNavigation
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.shared.BodyPage

@@ -17,9 +17,9 @@ import br.com.digital.store.features.food.data.vo.FoodsResponseVO
 import br.com.digital.store.features.food.ui.viewmodel.FoodViewModel
 import br.com.digital.store.features.food.utils.FoodUtils.CREATE_FOOD
 import br.com.digital.store.features.food.utils.FoodUtils.EMPTY_LIST_FOODS
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import org.koin.mp.KoinPlatform.getKoin

@@ -2,8 +2,8 @@ package br.com.digital.store.features.account.data.repository
 
 import br.com.digital.store.features.account.data.dto.SignInRequestDTO
 import br.com.digital.store.features.account.data.dto.TokenResponseDTO
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.toResultFlow
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.toResultFlow
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody

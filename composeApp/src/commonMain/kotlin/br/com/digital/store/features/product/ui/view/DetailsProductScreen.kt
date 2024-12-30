@@ -16,7 +16,7 @@ import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.ResourceUnavailable
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.features.category.ui.view.ListCategoriesAvailableResponseVO
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.product.data.vo.ProductResponseVO
 import br.com.digital.store.features.product.utils.ProductUtils.DETAILS_PRODUCT
 import br.com.digital.store.features.product.utils.ProductUtils.UPDATE_PRODUCT

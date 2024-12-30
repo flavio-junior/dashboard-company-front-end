@@ -16,7 +16,7 @@ import br.com.digital.store.components.strings.StringsUtils.STATUS
 import br.com.digital.store.components.strings.StringsUtils.STREET
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.TextField
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.AddressResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.factory.addressFactory

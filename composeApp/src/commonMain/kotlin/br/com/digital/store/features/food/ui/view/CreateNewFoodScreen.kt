@@ -30,9 +30,9 @@ import br.com.digital.store.features.food.utils.FoodUtils.CREATE_FOOD
 import br.com.digital.store.features.food.utils.FoodUtils.NAME_FOOD
 import br.com.digital.store.features.food.utils.checkBodyFoodIsNull
 import br.com.digital.store.features.item.utils.checkPriceIsEqualsZero
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE

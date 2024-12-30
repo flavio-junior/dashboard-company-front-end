@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import br.com.digital.store.components.strings.StringsUtils.ORDER
 import br.com.digital.store.domain.factory.availableServices
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.order.ui.view.OrdersTabs
 import br.com.digital.store.ui.view.shared.BodyPage
 import br.com.digital.store.ui.view.shared.Services

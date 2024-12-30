@@ -2,7 +2,7 @@ package br.com.digital.store.features.account.data.repository
 
 import br.com.digital.store.features.account.data.dto.SignInRequestDTO
 import br.com.digital.store.features.account.data.dto.TokenResponseDTO
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {

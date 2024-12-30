@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
 import br.com.digital.store.domain.factory.availableServices
 import br.com.digital.store.features.item.data.vo.ItemResponseVO
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.shared.BodyPage
 import br.com.digital.store.ui.view.shared.Services

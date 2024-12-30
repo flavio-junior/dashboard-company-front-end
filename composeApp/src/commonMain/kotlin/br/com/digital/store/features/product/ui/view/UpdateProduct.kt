@@ -25,9 +25,9 @@ import br.com.digital.store.features.category.ui.view.SelectCategories
 import br.com.digital.store.features.category.utils.CategoryUtils.ADD_CATEGORIES
 import br.com.digital.store.features.category.utils.CategoryUtils.NO_CATEGORIES_SELECTED
 import br.com.digital.store.features.item.utils.checkPriceIsEqualsZero
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.reloadViewModels
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.product.data.dto.UpdateProductRequestDTO
 import br.com.digital.store.features.product.ui.viewmodel.ProductViewModel
 import br.com.digital.store.features.product.utils.ProductUtils.NEW_NAME_PRODUCT

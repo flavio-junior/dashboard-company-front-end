@@ -12,7 +12,7 @@ import br.com.digital.store.features.food.data.dto.UpdatePriceFoodRequestDTO
 import br.com.digital.store.features.food.data.repository.FoodRepository
 import br.com.digital.store.features.food.data.vo.FoodsResponseVO
 import br.com.digital.store.features.food.domain.ConverterFood
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE

@@ -18,7 +18,7 @@ import br.com.digital.store.features.category.ui.view.ListCategoriesAvailableRes
 import br.com.digital.store.features.food.data.vo.FoodResponseVO
 import br.com.digital.store.features.food.utils.FoodUtils.DETAILS_FOOD
 import br.com.digital.store.features.food.utils.FoodUtils.UPDATE_FOOD
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2

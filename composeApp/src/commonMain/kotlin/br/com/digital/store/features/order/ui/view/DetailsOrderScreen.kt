@@ -2,7 +2,7 @@ package br.com.digital.store.features.order.ui.view
 
 import androidx.compose.runtime.Composable
 import br.com.digital.store.components.ui.ResourceUnavailable
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO

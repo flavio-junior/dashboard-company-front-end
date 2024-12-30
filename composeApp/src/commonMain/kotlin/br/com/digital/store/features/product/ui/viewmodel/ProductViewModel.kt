@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.components.strings.StringsUtils.ASC
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.product.data.dto.ProductRequestDTO
 import br.com.digital.store.features.product.data.dto.ProductResponseDTO
 import br.com.digital.store.features.product.data.dto.RestockProductRequestDTO

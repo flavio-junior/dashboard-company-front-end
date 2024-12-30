@@ -1,6 +1,6 @@
-package br.com.digital.store.features.networking.utils
+package br.com.digital.store.features.networking.resources
 
-import br.com.digital.store.features.networking.utils.NetworkingUtils.COMMON_MODULES
+import br.com.digital.store.features.networking.resources.NetworkingUtils.COMMON_MODULES
 import org.koin.mp.KoinPlatform.getKoin
 
 fun reloadViewModels() {

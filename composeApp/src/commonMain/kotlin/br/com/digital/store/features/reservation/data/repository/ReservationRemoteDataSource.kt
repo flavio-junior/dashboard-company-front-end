@@ -4,8 +4,8 @@ import br.com.digital.store.features.reservation.data.dto.EditReservationRequest
 import br.com.digital.store.features.reservation.data.dto.ReservationRequestDTO
 import br.com.digital.store.features.reservation.data.dto.ReservationsResponseDTO
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.toResultFlow
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.toResultFlow
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get

@@ -33,8 +33,8 @@ import br.com.digital.store.components.ui.Search
 import br.com.digital.store.components.ui.SimpleButton
 import br.com.digital.store.components.ui.Tag
 import br.com.digital.store.components.ui.Title
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.product.data.dto.ProductResponseDTO
 import br.com.digital.store.features.product.ui.viewmodel.ProductViewModel
 import br.com.digital.store.features.product.ui.viewmodel.ResetProduct

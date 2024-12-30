@@ -14,8 +14,8 @@ import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.category.data.vo.CategoriesResponseVO
 import br.com.digital.store.features.category.data.vo.CategoryResponseVO
 import br.com.digital.store.features.category.ui.viewmodel.CategoryViewModel
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import org.koin.mp.KoinPlatform.getKoin

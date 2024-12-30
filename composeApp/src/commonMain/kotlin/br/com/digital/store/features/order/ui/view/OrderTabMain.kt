@@ -1,7 +1,7 @@
 package br.com.digital.store.features.order.ui.view
 
 import androidx.compose.runtime.Composable
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.utils.NumbersUtils
 

@@ -6,8 +6,8 @@ import br.com.digital.store.features.food.data.dto.FoodResponseDTO
 import br.com.digital.store.features.food.data.dto.FoodsResponseDTO
 import br.com.digital.store.features.food.data.dto.UpdateFoodRequestDTO
 import br.com.digital.store.features.food.data.dto.UpdatePriceFoodRequestDTO
-import br.com.digital.store.features.networking.utils.ObserveNetworkStateHandler
-import br.com.digital.store.features.networking.utils.toResultFlow
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.toResultFlow
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get

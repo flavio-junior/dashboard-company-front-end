@@ -3,7 +3,7 @@ package br.com.digital.store.ui.view.product
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import br.com.digital.store.domain.factory.availableServices
-import br.com.digital.store.features.networking.utils.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.product.ui.view.ProductsTabs
 import br.com.digital.store.features.product.utils.ProductUtils.PRODUCTS
 import br.com.digital.store.ui.view.shared.BodyPage
