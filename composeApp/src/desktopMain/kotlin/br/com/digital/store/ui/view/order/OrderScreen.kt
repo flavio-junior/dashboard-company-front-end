@@ -24,7 +24,10 @@ fun OrderScreen(
                     goToBackScreen = goToBackScreen,
                     goToNextScreen = goToNextScreen
                 )
-                OrdersTabs(goToAlternativeRoutes = goToAlternativeRoutes)
+                OrdersTabs(
+                    goToNextScreen = goToNextScreen,
+                    goToAlternativeRoutes = goToAlternativeRoutes
+                )
             }
         }
     )

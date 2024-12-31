@@ -79,13 +79,14 @@ fun IncrementMoreObjectsOrderScreen(
     AllObjects(
         objectSelected = objectsSelected,
         verifyObjects = verifyObjects,
-        objectsToSave = { objectsResult ->
-            objectsResult.forEach { objectResult ->
-                val existingItemIndex =
-                    objectsToSave.indexOfFirst { it.identifier == objectResult.identifier }
-                if (existingItemIndex != -1) {
-                    objectsToSave[existingItemIndex] = objectResult
-                } else {
+        onItemSelected = { objectResult ->
+            if (objectsSelected.contains(element = objectResult)) {
+                objectsSelected.remove(element = objectResult)
+            }
+        },
+        objectsToSave = {
+            it.forEach { objectResult ->
+                if (!objectsToSave.contains(objectResult)) {
                     objectsToSave.add(objectResult)
                 }
             }
