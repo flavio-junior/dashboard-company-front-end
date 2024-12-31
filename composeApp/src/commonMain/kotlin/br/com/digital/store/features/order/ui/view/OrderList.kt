@@ -21,7 +21,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import br.com.digital.store.components.strings.StringsUtils.ORDER
+import br.com.digital.store.components.strings.StringsUtils.PICKUP_ORDERS
 import br.com.digital.store.components.ui.Title
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.utils.OrderUtils.TOTAL_NUMBER_ORDERS
@@ -56,7 +56,7 @@ fun OrderList(
             .fillMaxHeight()
             .padding(horizontal = Themes.size.spaceSize16)
     ) {
-        Title(title = ORDER, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+        Title(title = PICKUP_ORDERS, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
         NumberTotalReservations(label = TOTAL_NUMBER_ORDERS, size = orderResponseVO.size)
         val scrollState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()

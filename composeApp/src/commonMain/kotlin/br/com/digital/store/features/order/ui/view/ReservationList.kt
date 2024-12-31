@@ -18,7 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import br.com.digital.store.components.strings.StringsUtils.RESERVATION
+import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
 import br.com.digital.store.components.ui.Title
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.utils.OrderUtils.TOTAL_NUMBER_RESERVATIONS
@@ -36,7 +36,7 @@ fun ReservationList(
             .padding(horizontal = Themes.size.spaceSize16)
             .fillMaxHeight()
     ) {
-        Title(title = RESERVATION, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+        Title(title = RESERVATIONS, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
         NumberTotalReservations(label = TOTAL_NUMBER_RESERVATIONS, size = orderResponseVO.size)
         val scrollState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
