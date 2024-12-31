@@ -14,7 +14,7 @@ import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
-import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel
+import br.com.digital.store.features.reservation.ui.viewmodel.ReservationViewModel
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.reservation.ReservationUtils.DELETE_RESERVATION
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT

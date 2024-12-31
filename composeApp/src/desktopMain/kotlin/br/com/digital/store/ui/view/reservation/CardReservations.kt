@@ -16,7 +16,7 @@ import br.com.digital.store.features.networking.resources.ObserveNetworkStateHan
 import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
 import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
-import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel
+import br.com.digital.store.features.reservation.ui.viewmodel.ReservationViewModel
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import org.koin.mp.KoinPlatform.getKoin

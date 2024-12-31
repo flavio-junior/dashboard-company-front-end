@@ -1,4 +1,4 @@
-package br.com.digital.store.features.reservation.viewmodel
+package br.com.digital.store.features.reservation.ui.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -8,6 +8,7 @@ import br.com.digital.store.components.strings.StringsUtils.ASC
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
 import br.com.digital.store.features.reservation.data.dto.ReservationRequestDTO
+import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
 import br.com.digital.store.features.reservation.data.repository.ReservationRepository
 import br.com.digital.store.features.reservation.data.vo.ReservationsResponseVO
 import br.com.digital.store.features.reservation.domain.converter.ConverterReservation
@@ -34,6 +35,13 @@ class ReservationViewModel(
         )
     val findAllReservations: State<ObserveNetworkStateHandler<ReservationsResponseVO>> =
         _findAllReservations
+
+    private val _findReservationByName =
+        mutableStateOf<ObserveNetworkStateHandler<List<ReservationResponseDTO>>>(
+            ObserveNetworkStateHandler.Loading(l = false)
+        )
+    val findReservationByName: State<ObserveNetworkStateHandler<List<ReservationResponseDTO>>> =
+        _findReservationByName
 
     private val _createNewReservation =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -95,6 +103,18 @@ class ReservationViewModel(
         }
     }
 
+    fun findReservationByName(name: String) {
+        viewModelScope.launch {
+            repository.finReservationByName(name = name)
+                .onStart {
+                    _findReservationByName.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _findReservationByName.value = it
+                }
+        }
+    }
+
     fun createReservation(reservation: String) {
         viewModelScope.launch {
             repository.createNewReservation(reservation = ReservationRequestDTO(name = reservation))
@@ -133,6 +153,10 @@ class ReservationViewModel(
 
     fun resetReservation(reset: ResetReservation) {
         when (reset) {
+            ResetReservation.FIND_RESERVATION_BY_NAME -> {
+                _findReservationByName.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
             ResetReservation.CREATE_RESERVATION -> {
                 _createNewReservation.value = ObserveNetworkStateHandler.Loading(l = false)
                 findAllReservations()
@@ -142,5 +166,6 @@ class ReservationViewModel(
 }
 
 enum class ResetReservation {
+    FIND_RESERVATION_BY_NAME,
     CREATE_RESERVATION
 }

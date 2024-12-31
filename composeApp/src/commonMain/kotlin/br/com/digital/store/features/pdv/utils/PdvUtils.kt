@@ -16,6 +16,8 @@ object PdvUtils {
     const val CREATE_ORDER = "Criar Pedido Para Retirada"
     const val CREATE_RESERVATION = "Criar Reserva"
     const val SELECT_ORDER = "Selecionar itens para retirada:"
+    const val SELECT_RESERVATIONS_TO_ORDER = "Selecionar reservas:"
+    const val SELECT_RESERVATIONS = "Selecionar itens para a reserva:"
 }
 
 data class TypeOrder(

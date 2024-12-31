@@ -1,11 +1,12 @@
 package br.com.digital.store.features.reservation.data.repository
 
-import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
-import br.com.digital.store.features.reservation.data.dto.ReservationRequestDTO
-import br.com.digital.store.features.reservation.data.dto.ReservationsResponseDTO
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.toResultFlow
+import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
+import br.com.digital.store.features.reservation.data.dto.ReservationRequestDTO
+import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
+import br.com.digital.store.features.reservation.data.dto.ReservationsResponseDTO
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
@@ -42,6 +43,21 @@ class ReservationRemoteDataSource(
                     parameters.append("page", page.toString())
                     parameters.append("size", size.toString())
                     parameters.append("sort", sort)
+                }
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+            }
+        }
+    }
+
+    override fun finReservationByName(
+        name: String
+    ): Flow<ObserveNetworkStateHandler<List<ReservationResponseDTO>>> {
+        return toResultFlow {
+            httpClient.get {
+                url {
+                    path("/api/dashboard/company/reservations/v1/find/reservation/by/$name")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")

@@ -31,7 +31,7 @@ import br.com.digital.store.features.networking.resources.ObserveNetworkStateHan
 import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
 import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
-import br.com.digital.store.features.reservation.viewmodel.ReservationViewModel
+import br.com.digital.store.features.reservation.ui.viewmodel.ReservationViewModel
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.reservation.ReservationUtils.EDIT_RESERVATION
 import br.com.digital.store.ui.view.reservation.ReservationUtils.NEW_NAME_RESERVATION
