@@ -13,6 +13,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import br.com.digital.store.theme.Themes
@@ -28,6 +29,8 @@ fun TextField(
     label: String,
     value: String,
     icon: DrawableResource? = null,
+    backgroundColor: Color = Themes.colors.background,
+    textColor: Color = Themes.colors.primary,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     isError: Boolean = false,
@@ -42,6 +45,8 @@ fun TextField(
             label = label,
             value = value,
             icon = icon,
+            backgroundColor = backgroundColor,
+            textColor = textColor,
             keyboardType = keyboardType,
             imeAction = imeAction,
             isError = isError,
@@ -55,6 +60,8 @@ fun TextField(
             enabled = enabled,
             label = label,
             value = value,
+            backgroundColor = backgroundColor,
+            textColor = textColor,
             keyboardType = keyboardType,
             imeAction = imeAction,
             isError = isError,
@@ -72,6 +79,8 @@ private fun TextFieldWithIcon(
     label: String,
     value: String,
     icon: DrawableResource,
+    backgroundColor: Color,
+    textColor: Color,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     isError: Boolean = false,
@@ -81,7 +90,7 @@ private fun TextFieldWithIcon(
 ) {
     Column(
         modifier = modifier
-            .background(color = Themes.colors.background)
+            .background(color = backgroundColor)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8)
@@ -94,7 +103,7 @@ private fun TextFieldWithIcon(
             },
             singleLine = true,
             label = {
-                Description(description = label, color = Themes.colors.primary)
+                Description(description = label, color = textColor)
             },
             isError = isError,
             modifier = Modifier.fillMaxWidth(),
@@ -102,11 +111,11 @@ private fun TextFieldWithIcon(
                 Icon(
                     painter = painterResource(resource = icon),
                     contentDescription = label,
-                    tint = Themes.colors.primary
+                    tint = textColor
                 )
 
             },
-            textStyle = Typography(color = Themes.colors.primary).simpleText(),
+            textStyle = Typography(color = textColor).simpleText(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
                 imeAction = imeAction
@@ -115,7 +124,7 @@ private fun TextFieldWithIcon(
                 onGo = { onGo() }
             ),
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Themes.colors.background,
+                backgroundColor = backgroundColor,
                 cursorColor = Themes.colors.primary,
                 focusedIndicatorColor = Themes.colors.primary,
                 unfocusedIndicatorColor = Themes.colors.primary
@@ -132,6 +141,8 @@ private fun TextFieldWithoutIcon(
     enabled: Boolean = true,
     label: String,
     value: String,
+    backgroundColor: Color,
+    textColor: Color,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     isError: Boolean = false,
@@ -141,7 +152,7 @@ private fun TextFieldWithoutIcon(
 ) {
     Column(
         modifier = modifier
-            .background(color = Themes.colors.background)
+            .background(color = backgroundColor)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8)
@@ -154,11 +165,11 @@ private fun TextFieldWithoutIcon(
             },
             singleLine = true,
             label = {
-                InfoText(text = label, color = Themes.colors.primary)
+                InfoText(text = label, color = textColor)
             },
             isError = isError,
             modifier = Modifier.fillMaxWidth(),
-            textStyle = Typography(color = Themes.colors.primary).simpleText(),
+            textStyle = Typography(color = textColor).simpleText(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
                 imeAction = imeAction
@@ -167,10 +178,10 @@ private fun TextFieldWithoutIcon(
                 onGo = { onGo() }
             ),
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Themes.colors.background,
-                cursorColor = Themes.colors.primary,
-                focusedIndicatorColor = Themes.colors.primary,
-                unfocusedIndicatorColor = Themes.colors.primary
+                backgroundColor = backgroundColor,
+                cursorColor = textColor,
+                focusedIndicatorColor = textColor,
+                unfocusedIndicatorColor = textColor
             ),
             shape = RoundedCornerShape(size = Themes.size.spaceSize16)
         )
