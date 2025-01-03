@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import br.com.digital.store.components.strings.StringsUtils.DELIVERED
 import br.com.digital.store.components.strings.StringsUtils.DETAILS
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
@@ -37,15 +36,13 @@ import br.com.digital.store.components.strings.StringsUtils.QTD
 import br.com.digital.store.components.strings.StringsUtils.STATUS
 import br.com.digital.store.components.strings.StringsUtils.UPDATE
 import br.com.digital.store.components.ui.Alert
+import br.com.digital.store.components.ui.ButtonCreate
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.DropdownMenu
-import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.components.ui.TextField
-import br.com.digital.store.composeapp.generated.resources.Res
-import br.com.digital.store.composeapp.generated.resources.add
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
@@ -129,9 +126,12 @@ private fun ListObject(
         ItemObject(
             spaceBy = Themes.size.spaceSize0,
             body = {
-                AddNewObjects(onItemSelected = {
-                    addMoreItems(Pair(first = orderResponseVO, second = NUMBER_TWO))
-                })
+                ButtonCreate(
+                    label = ADD_MORE_ITEMS_ORDER,
+                    onItemSelected = {
+                        addMoreItems(Pair(first = orderResponseVO, second = NUMBER_TWO))
+                    }
+                )
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
                     state = scrollState,
@@ -192,39 +192,6 @@ private fun ListObject(
                     onRefresh = onRefresh
                 )
             }
-        )
-    }
-}
-
-@Composable
-private fun AddNewObjects(
-    onItemSelected: () -> Unit = {},
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .onBorder(
-                onClick = {
-                    onItemSelected()
-                },
-                color = Themes.colors.primary,
-                spaceSize = Themes.size.spaceSize12,
-                width = Themes.size.spaceSize2
-            )
-            .background(color = Themes.colors.background)
-            .padding(all = Themes.size.spaceSize16)
-            .height(height = Themes.size.spaceSize200)
-            .width(width = Themes.size.spaceSize200),
-        verticalArrangement = Arrangement.Center
-    ) {
-        IconDefault(
-            icon = Res.drawable.add,
-            size = Themes.size.spaceSize72
-        )
-        Description(
-            description = ADD_MORE_ITEMS_ORDER,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
         )
     }
 }

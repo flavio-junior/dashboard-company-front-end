@@ -139,14 +139,15 @@ fun AddItemsOrder(
             },
             onConfirmation = {
                 it.forEach { product ->
-                    objectsSelected.add(
-                        ObjectRequestDTO(
-                            name = product.name,
-                            identifier = product.id,
-                            quantity = 0,
-                            type = TypeItem.PRODUCT
-                        )
+                    val productSelected = ObjectRequestDTO(
+                        name = product.name,
+                        identifier = product.id,
+                        quantity = 0,
+                        type = TypeItem.PRODUCT
                     )
+                    if (!objectsSelected.contains(element = productSelected)) {
+                        objectsSelected.add(productSelected)
+                    }
                     verifyObjects = false
                 }
                 addProduct = false
@@ -160,14 +161,15 @@ fun AddItemsOrder(
             },
             onConfirmation = {
                 it.forEach { food ->
-                    objectsSelected.add(
-                        ObjectRequestDTO(
-                            name = food.name,
-                            identifier = food.id,
-                            quantity = 0,
-                            type = TypeItem.FOOD
-                        )
+                    val foodSelected = ObjectRequestDTO(
+                        name = food.name,
+                        identifier = food.id,
+                        quantity = 0,
+                        type = TypeItem.FOOD
                     )
+                    if (!objectsSelected.contains(element = foodSelected)) {
+                        objectsSelected.add(element = foodSelected)
+                    }
                     verifyObjects = false
                 }
                 addFood = false
@@ -181,14 +183,15 @@ fun AddItemsOrder(
             },
             onConfirmation = {
                 it.forEach { item ->
-                    objectsSelected.add(
-                        ObjectRequestDTO(
-                            name = item.name,
-                            identifier = item.id,
-                            quantity = 0,
-                            type = TypeItem.ITEM
-                        )
+                    val itemSelected = ObjectRequestDTO(
+                        name = item.name,
+                        identifier = item.id,
+                        quantity = 0,
+                        type = TypeItem.ITEM
                     )
+                    if (!objectsSelected.contains(element = itemSelected)) {
+                        objectsSelected.add(element = itemSelected)
+                    }
                     verifyObjects = false
                 }
                 addItem = false

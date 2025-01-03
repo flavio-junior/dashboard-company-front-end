@@ -117,14 +117,15 @@ fun IncrementMoreObjectsOrderScreen(
             },
             onConfirmation = {
                 it.forEach { product ->
-                    objectsSelected.add(
-                        ObjectRequestDTO(
-                            name = product.name,
-                            identifier = product.id,
-                            quantity = 0,
-                            type = TypeItem.PRODUCT
-                        )
+                    val objectProduct = ObjectRequestDTO(
+                        name = product.name,
+                        identifier = product.id,
+                        quantity = 0,
+                        type = TypeItem.PRODUCT
                     )
+                    if (!objectsSelected.contains(element = objectProduct)) {
+                        objectsSelected.add(element = objectProduct)
+                    }
                     verifyObjects = false
                 }
                 addProduct = false
@@ -138,14 +139,15 @@ fun IncrementMoreObjectsOrderScreen(
             },
             onConfirmation = {
                 it.forEach { food ->
-                    objectsSelected.add(
-                        ObjectRequestDTO(
-                            name = food.name,
-                            identifier = food.id,
-                            quantity = 0,
-                            type = TypeItem.FOOD
-                        )
+                    val foodSelected = ObjectRequestDTO(
+                        name = food.name,
+                        identifier = food.id,
+                        quantity = 0,
+                        type = TypeItem.FOOD
                     )
+                    if (!objectsSelected.contains(element = foodSelected)) {
+                        objectsSelected.add(element = foodSelected)
+                    }
                     verifyObjects = false
                 }
                 addFood = false
@@ -159,14 +161,15 @@ fun IncrementMoreObjectsOrderScreen(
             },
             onConfirmation = {
                 it.forEach { item ->
-                    objectsSelected.add(
-                        ObjectRequestDTO(
-                            name = item.name,
-                            identifier = item.id,
-                            quantity = 0,
-                            type = TypeItem.ITEM
-                        )
+                    val itemSelected = ObjectRequestDTO(
+                        name = item.name,
+                        identifier = item.id,
+                        quantity = 0,
+                        type = TypeItem.ITEM
                     )
+                    if (!objectsSelected.contains(element = itemSelected)) {
+                        objectsSelected.add(element = itemSelected)
+                    }
                     verifyObjects = false
                 }
                 addItem = false

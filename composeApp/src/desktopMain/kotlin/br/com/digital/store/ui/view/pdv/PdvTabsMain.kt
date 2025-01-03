@@ -14,24 +14,31 @@ fun PdvTabsMain(
     when(index) {
         NumbersUtils.NUMBER_ZERO -> SelectTypeOrderScreen(goToNextTab = goToNextTab)
 
-        NumbersUtils.NUMBER_ONE -> CreateDeliveryOrderScreen(
+        NumbersUtils.NUMBER_ONE -> ShoppingCartScreen(
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = {
                 onRefresh(NumbersUtils.NUMBER_ONE)
             }
         )
 
-        NumbersUtils.NUMBER_TWO -> CreateOrderScreen(
+        NumbersUtils.NUMBER_TWO -> CreateDeliveryOrderScreen(
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = {
                 onRefresh(NumbersUtils.NUMBER_TWO)
             }
         )
 
-        NumbersUtils.NUMBER_THREE -> CreateReservationOrderScreen(
+        NumbersUtils.NUMBER_THREE -> CreateOrderScreen(
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = {
                 onRefresh(NumbersUtils.NUMBER_THREE)
+            }
+        )
+
+        NumbersUtils.NUMBER_FOUR -> CreateReservationOrderScreen(
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = {
+                onRefresh(NumbersUtils.NUMBER_FOUR)
             }
         )
     }

@@ -8,6 +8,7 @@ import br.com.digital.store.features.order.domain.type.TypeOrder
 
 fun detailsOrderFactory(type: TypeOrder? = null): String {
     return when (type) {
+        TypeOrder.SHOPPING_CART -> EMPTY_TYPE
         TypeOrder.DELIVERY -> DELIVERY
         TypeOrder.RESERVATION -> RESERVATION
         TypeOrder.ORDER -> ORDER

@@ -1,0 +1,178 @@
+package br.com.digital.store.ui.view.pdv
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import br.com.digital.store.components.strings.StringsUtils.ADD_PRODUCT
+import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
+import br.com.digital.store.components.ui.ButtonCreate
+import br.com.digital.store.components.ui.IsErrorMessage
+import br.com.digital.store.components.ui.LoadingButton
+import br.com.digital.store.components.ui.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
+import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
+import br.com.digital.store.features.order.data.dto.OrderRequestDTO
+import br.com.digital.store.features.order.domain.type.TypeItem
+import br.com.digital.store.features.order.domain.type.TypeOrder
+import br.com.digital.store.features.order.ui.view.AllObjects
+import br.com.digital.store.features.order.ui.view.ClosedOrderDialog
+import br.com.digital.store.features.order.ui.view.ItemObject
+import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
+import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
+import br.com.digital.store.features.order.utils.OrderUtils.CLOSE_ORDER
+import br.com.digital.store.features.product.ui.view.SelectProducts
+import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import org.koin.mp.KoinPlatform.getKoin
+
+@Composable
+fun ShoppingCartScreen(
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
+) {
+    val objectsSelected = remember { mutableStateListOf<ObjectRequestDTO>() }
+    val objectsToSave = remember { mutableStateListOf<ObjectRequestDTO>() }
+    var addProduct: Boolean by remember { mutableStateOf(value = false) }
+    var verifyObjects: Boolean by remember { mutableStateOf(value = false) }
+    var selectTypePayment: Boolean by remember { mutableStateOf(value = false) }
+    val viewModel: OrderViewModel = getKoin().get()
+    var observer: Triple<Boolean, Boolean, String> by remember {
+        mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
+    }
+    Column(
+        modifier = Modifier
+            .background(color = Themes.colors.background)
+            .fillMaxSize()
+            .padding(all = Themes.size.spaceSize16),
+        verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
+    ) {
+        ItemObject(
+            body = {
+                ButtonCreate(
+                    label = ADD_PRODUCT,
+                    onItemSelected = {
+                        addProduct = true
+                    }
+                )
+                AllObjects(
+                    objectSelected = objectsSelected,
+                    verifyObjects = verifyObjects,
+                    onItemSelected = { objectResult ->
+                        if (objectsSelected.contains(element = objectResult)) {
+                            objectsSelected.remove(element = objectResult)
+                        }
+                    },
+                    objectsToSave = {
+                        it.forEach { objectResult ->
+                            if (!objectsToSave.contains(objectResult)) {
+                                objectsToSave.add(objectResult)
+                            }
+                        }
+                    }
+                )
+            }
+        )
+        LoadingButton(
+            label = CLOSE_ORDER,
+            onClick = {
+                selectTypePayment = true
+            },
+            isEnabled = observer.first
+        )
+        IsErrorMessage(isError = observer.second, observer.third)
+    }
+    if (addProduct) {
+        SelectProducts(
+            onDismissRequest = {
+                addProduct = false
+            },
+            onConfirmation = {
+                it.forEach { product ->
+                    val productSelected = ObjectRequestDTO(
+                        name = product.name,
+                        identifier = product.id,
+                        quantity = 0,
+                        type = TypeItem.PRODUCT
+                    )
+                    if (!objectsSelected.contains(element = productSelected)) {
+                        objectsSelected.add(productSelected)
+                    }
+                    verifyObjects = false
+                    addProduct = false
+                }
+            }
+        )
+    }
+    if (selectTypePayment) {
+        ClosedOrderDialog(
+            onDismissRequest = {
+                selectTypePayment = false
+            },
+            onConfirmation = {
+                selectTypePayment = false
+                if (objectsSelected.isEmpty()) {
+                    observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
+                } else if (objectsToSave.all { it.quantity == 0 }) {
+                    verifyObjects = true
+                } else {
+                    observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                    viewModel.createOrder(
+                        order = OrderRequestDTO(
+                            type = TypeOrder.SHOPPING_CART,
+                            objects = objectsToSave.toList()
+                        )
+                    )
+                }
+            }
+        )
+    }
+    ObserveNetworkStateHandlerShoppingCart(
+        viewModel = viewModel,
+        onError = {
+            observer = it
+        },
+        goToAlternativeRoutes = goToAlternativeRoutes,
+        onSuccessful = {
+            objectsSelected.clear()
+            objectsToSave.clear()
+            onRefresh()
+        }
+    )
+}
+
+@Composable
+private fun ObserveNetworkStateHandlerShoppingCart(
+    viewModel: OrderViewModel,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    onSuccessful: () -> Unit = {}
+) {
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.createOrder }
+    ObserveNetworkStateHandler(
+        state = state,
+        onLoading = {},
+        onError = {
+            onError(Triple(first = false, second = true, third = it.orEmpty()))
+        },
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
+        onSuccess = {
+            onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.resetOrder(reset = ResetOrder.CREATE_ORDER)
+            onSuccessful()
+        }
+    )
+}
