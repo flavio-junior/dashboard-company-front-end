@@ -78,6 +78,7 @@ fun PdvTabs(
                             pagerState.animateScrollToPage(page = it)
                         }
                     },
+                    goToNextScreen = goToNextScreen,
                     goToAlternativeRoutes = goToAlternativeRoutes,
                     onRefresh = {
                         goToNextScreen(RouteApp.Pdv.item)

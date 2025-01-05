@@ -5,6 +5,7 @@ import br.com.digital.store.composeapp.generated.resources.delivery_truck
 import br.com.digital.store.composeapp.generated.resources.order
 import br.com.digital.store.composeapp.generated.resources.reservation
 import br.com.digital.store.composeapp.generated.resources.shopping_cart
+import br.com.digital.store.features.order.utils.OrderUtils.PENDING_ORDERS
 import br.com.digital.store.features.pdv.utils.PdvUtils.CREATE_DELIVERY_ORDER
 import br.com.digital.store.features.pdv.utils.PdvUtils.CREATE_ORDER
 import br.com.digital.store.features.pdv.utils.PdvUtils.CREATE_RESERVATION
@@ -23,9 +24,15 @@ object PdvUtils {
     const val SELECT_RESERVATIONS = "Selecionar itens para a reserva:"
 }
 
+enum class TypeNavigation {
+    NAVIGATION,
+    TAB
+}
+
 data class TypeOrder(
     val icon: DrawableResource,
     val label: String,
+    val navigation: TypeNavigation = TypeNavigation.TAB,
     val count: Int
 )
 
@@ -49,5 +56,11 @@ val selectTypeOrder = listOf(
         icon = Res.drawable.reservation,
         label = CREATE_RESERVATION,
         count = NumbersUtils.NUMBER_FOUR
+    ),
+    TypeOrder(
+        icon = Res.drawable.order,
+        label = PENDING_ORDERS,
+        navigation = TypeNavigation.NAVIGATION,
+        count = NumbersUtils.NUMBER_ONE
     )
 )

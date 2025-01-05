@@ -16,11 +16,13 @@ import br.com.digital.store.composeapp.generated.resources.draw
 import br.com.digital.store.composeapp.generated.resources.refresh
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.onClickable
+import org.jetbrains.compose.resources.DrawableResource
 
 @Composable
 fun EmptyList(
     modifier: Modifier = Modifier,
     title: String,
+    mainIcon: DrawableResource = Res.drawable.draw,
     description: String,
     onClick: () -> Unit = {},
     refresh: () -> Unit = {}
@@ -31,7 +33,7 @@ fun EmptyList(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconDefault(
-            icon = Res.drawable.draw,
+            icon = mainIcon,
             size = Themes.size.spaceSize100
         )
         Spacer(

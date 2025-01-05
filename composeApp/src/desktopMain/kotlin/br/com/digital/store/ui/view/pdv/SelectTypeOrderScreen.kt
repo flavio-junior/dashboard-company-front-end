@@ -14,15 +14,18 @@ import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.Title
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.arrow_outward
+import br.com.digital.store.features.pdv.utils.TypeNavigation
 import br.com.digital.store.features.pdv.utils.TypeOrder
 import br.com.digital.store.features.pdv.utils.selectTypeOrder
+import br.com.digital.store.navigation.RouteApp
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.onBorder
 
 @Composable
 fun SelectTypeOrderScreen(
-    goToNextTab: (Int) -> Unit = {}
+    goToNextTab: (Int) -> Unit = {},
+    goToNextScreen: (String) -> Unit = {}
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -34,7 +37,11 @@ fun SelectTypeOrderScreen(
             verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
         ) {
             selectTypeOrder.forEach {
-                SelectTypeOrder(type = it, goToNextTab = goToNextTab)
+                SelectTypeOrder(
+                    type = it,
+                    goToNextTab = goToNextTab,
+                    goToNextScreen = goToNextScreen
+                )
             }
         }
     }
@@ -43,14 +50,21 @@ fun SelectTypeOrderScreen(
 @Composable
 fun SelectTypeOrder(
     type: TypeOrder,
-    goToNextTab: (Int) -> Unit = {}
+    goToNextTab: (Int) -> Unit = {},
+    goToNextScreen: (String) -> Unit = {}
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .onBorder(
-                onClick = { goToNextTab(type.count) },
+                onClick = {
+                    if (type.navigation == TypeNavigation.NAVIGATION) {
+                        goToNextScreen(RouteApp.Order.item)
+                    } else {
+                        goToNextTab(type.count)
+                    }
+                },
                 spaceSize = Themes.size.spaceSize16,
                 width = Themes.size.spaceSize2,
                 color = Themes.colors.primary

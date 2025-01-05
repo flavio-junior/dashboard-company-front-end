@@ -9,10 +9,14 @@ fun PdvTabsMain(
     index: Int,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     goToNextTab: (Int) -> Unit = {},
+    goToNextScreen: (String) -> Unit = {},
     onRefresh: (Int) -> Unit = {}
 ) {
-    when(index) {
-        NumbersUtils.NUMBER_ZERO -> SelectTypeOrderScreen(goToNextTab = goToNextTab)
+    when (index) {
+        NumbersUtils.NUMBER_ZERO -> SelectTypeOrderScreen(
+            goToNextTab = goToNextTab,
+            goToNextScreen = goToNextScreen
+        )
 
         NumbersUtils.NUMBER_ONE -> ShoppingCartScreen(
             goToAlternativeRoutes = goToAlternativeRoutes,

@@ -12,14 +12,16 @@ import br.com.digital.store.components.ui.EmptyList
 import br.com.digital.store.components.ui.HeaderSearch
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.receipt
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
-import br.com.digital.store.features.product.utils.ProductUtils.CREATE_PRODUCT
-import br.com.digital.store.features.product.utils.ProductUtils.EMPTY_LIST_PRODUCTS
 import br.com.digital.store.features.report.data.vo.PaymentResponseVO
 import br.com.digital.store.features.report.data.vo.PaymentsResponseVO
 import br.com.digital.store.features.report.ui.viewmodel.ReportViewModel
+import br.com.digital.store.features.report.utils.ReportUtils.EMPTY_LIST_PAYMENTS
+import br.com.digital.store.features.report.utils.ReportUtils.NONE_PAYMENT
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import org.koin.mp.KoinPlatform.getKoin
@@ -28,7 +30,7 @@ import org.koin.mp.KoinPlatform.getKoin
 fun ListReportsScreen(
     onItemSelected: (PaymentResponseVO) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
-    onToCreateNewProduct: () -> Unit = {}
+    goToOrderScreen: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -60,7 +62,7 @@ fun ListReportsScreen(
         ObserveNetworkStateHandlerReports(
             viewModel = viewModel,
             onItemSelected = onItemSelected,
-            onToCreateNewProduct = onToCreateNewProduct,
+            goToOrderScreen = goToOrderScreen,
             goToAlternativeRoutes = goToAlternativeRoutes
         )
     }
@@ -70,7 +72,7 @@ fun ListReportsScreen(
 private fun ObserveNetworkStateHandlerReports(
     viewModel: ReportViewModel,
     onItemSelected: (PaymentResponseVO) -> Unit = {},
-    onToCreateNewProduct: () -> Unit = {},
+    goToOrderScreen: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     val state: ObserveNetworkStateHandler<PaymentsResponseVO> by remember { viewModel.findAllReports }
@@ -90,9 +92,10 @@ private fun ObserveNetworkStateHandlerReports(
         onSuccess = {
             if (showEmptyList) {
                 EmptyList(
-                    title = EMPTY_LIST_PRODUCTS,
-                    description = "$CREATE_PRODUCT?",
-                    onClick = onToCreateNewProduct,
+                    title = EMPTY_LIST_PAYMENTS,
+                    description = NONE_PAYMENT,
+                    mainIcon = Res.drawable.receipt,
+                    onClick = goToOrderScreen,
                     refresh = {
                         viewModel.findAllReports()
                     }
