@@ -8,6 +8,7 @@ import br.com.digital.store.utils.NumbersUtils
 @Composable
 fun ReportTabMain(
     index: Int,
+    report: ReportResponseVO = ReportResponseVO(),
     onItemSelected: (ReportResponseVO) -> Unit = {},
     onToCreateNewReport: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
@@ -20,7 +21,12 @@ fun ReportTabMain(
             goToAlternativeRoutes = goToAlternativeRoutes
         )
 
-        NumbersUtils.NUMBER_ONE -> DetailsReportScreen()
+        NumbersUtils.NUMBER_ONE -> DetailsReportScreen(
+            report = report,
+            onRefresh = {
+                onRefresh(NumbersUtils.NUMBER_ONE)
+            }
+        )
 
         NumbersUtils.NUMBER_TWO -> CreateNewReportScreen()
     }

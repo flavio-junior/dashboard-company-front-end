@@ -33,6 +33,8 @@ fun TextField(
     textColor: Color = Themes.colors.primary,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
+    maxLines: Int = Int.MAX_VALUE,
+    singleLine: Boolean = true,
     isError: Boolean = false,
     message: String = EMPTY_TEXT,
     onValueChange: (String) -> Unit = {},
@@ -49,6 +51,8 @@ fun TextField(
             textColor = textColor,
             keyboardType = keyboardType,
             imeAction = imeAction,
+            maxLines = maxLines,
+            singleLine = singleLine,
             isError = isError,
             message = message,
             onValueChange = onValueChange,
@@ -64,6 +68,8 @@ fun TextField(
             textColor = textColor,
             keyboardType = keyboardType,
             imeAction = imeAction,
+            maxLines = maxLines,
+            singleLine = singleLine,
             isError = isError,
             message = message,
             onValueChange = onValueChange,
@@ -83,6 +89,8 @@ private fun TextFieldWithIcon(
     textColor: Color,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
+    maxLines: Int = Int.MAX_VALUE,
+    singleLine: Boolean = true,
     isError: Boolean = false,
     message: String = EMPTY_TEXT,
     onValueChange: (String) -> Unit = {},
@@ -101,7 +109,8 @@ private fun TextFieldWithIcon(
             onValueChange = {
                 onValueChange(it)
             },
-            singleLine = true,
+            maxLines = maxLines,
+            singleLine = singleLine,
             label = {
                 Description(description = label, color = textColor)
             },
@@ -145,6 +154,8 @@ private fun TextFieldWithoutIcon(
     textColor: Color,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
+    maxLines: Int = Int.MAX_VALUE,
+    singleLine: Boolean = true,
     isError: Boolean = false,
     message: String = EMPTY_TEXT,
     onValueChange: (String) -> Unit = {},
@@ -163,7 +174,8 @@ private fun TextFieldWithoutIcon(
             onValueChange = {
                 onValueChange(it)
             },
-            singleLine = true,
+            maxLines = maxLines,
+            singleLine = singleLine,
             label = {
                 InfoText(text = label, color = textColor)
             },

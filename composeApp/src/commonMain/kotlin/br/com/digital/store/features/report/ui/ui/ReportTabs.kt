@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.report.data.vo.ReportResponseVO
+import br.com.digital.store.navigation.RouteApp
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.NumbersUtils
@@ -30,6 +31,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ReportTabs(
+    goToNextScreen: (String) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
@@ -76,6 +78,7 @@ fun ReportTabs(
             ) {
                 ReportTabMain(
                     index = it,
+                    report = reportResponseVO,
                     onItemSelected = {
                         reportResponseVO = it
                         scope.launch {
@@ -84,13 +87,14 @@ fun ReportTabs(
                     },
                     onToCreateNewReport = {
                         scope.launch {
-                            pagerState.animateScrollToPage(page = + NumbersUtils.NUMBER_TWO)
+                            pagerState.animateScrollToPage(page = +NumbersUtils.NUMBER_TWO)
                         }
                     },
                     goToAlternativeRoutes = goToAlternativeRoutes,
                     onRefresh = {
+                        goToNextScreen(RouteApp.Report.item)
                         scope.launch {
-                            pagerState.animateScrollToPage(page = - it)
+                            pagerState.animateScrollToPage(page = -it)
                         }
                     }
                 )

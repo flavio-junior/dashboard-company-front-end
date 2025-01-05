@@ -131,10 +131,14 @@ class ReportViewModel(
             ResetReport.CREATE_REPORT -> {
                 _createReport.value = ObserveNetworkStateHandler.Loading(l = false)
             }
+            ResetReport.DELETE_REPORT -> {
+                _deleteReport.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
         }
     }
 }
 
 enum class ResetReport {
-    CREATE_REPORT
+    CREATE_REPORT,
+    DELETE_REPORT
 }

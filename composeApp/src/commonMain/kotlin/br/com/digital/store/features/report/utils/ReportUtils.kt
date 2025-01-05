@@ -6,4 +6,5 @@ object ReportUtils {
     const val CREATE_NEW_REPORT = "Criar Novo Relatório"
     const val EMPTY_LIST_REPORTS = "Nenhum Relatório Encontrado!"
     const val NONE_REPORTS = "Crie seu primeiro relatório!"
+    const val DELETE_REPORT = "Apagar Relatório"
 }

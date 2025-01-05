@@ -24,7 +24,10 @@ fun ReportScreen(
                 goToBackScreen = goToBackScreen,
                 goToNextScreen = goToNextScreen
             )
-            ReportTabs(goToAlternativeRoutes = goToAlternativeRoutes)
+            ReportTabs(
+                goToNextScreen = goToNextScreen,
+                goToAlternativeRoutes = goToAlternativeRoutes
+            )
         }
     )
 }

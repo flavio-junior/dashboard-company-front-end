@@ -219,7 +219,7 @@ fun NavGraphBuilder.dashboardNavigation(
             goToNextScreen = {
                 goToNextScreen(
                     navHostController = navController,
-                    currentScreen = RouteApp.Payment.item,
+                    currentScreen = RouteApp.Report.item,
                     nextScreen = it
                 )
             },

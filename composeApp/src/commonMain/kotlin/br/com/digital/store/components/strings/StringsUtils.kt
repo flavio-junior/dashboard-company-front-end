@@ -51,7 +51,7 @@ object StringsUtils {
     const val REPORTS = "Relatórios"
     const val PAYMENTS = "Pagamentos"
     const val RESUME = "Resumo"
-    const val AUTHOR = "Author"
+    const val AUTHOR = "Autor"
     const val HISTORY = "Histórico de Vendas"
     const val SETTINGS = "Configurações"
     const val CHANGE_TO_OTHER_ACCOUNT = "Trocar de conta"
