@@ -41,10 +41,7 @@ import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun AddItemsOrder(
-    street: String,
-    number: Int,
-    district: String,
-    complement: String,
+    address: AddressRequestDTO,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {},
     onError: (Boolean) -> Unit = {}
@@ -103,10 +100,7 @@ fun AddItemsOrder(
         label = CREATE_NEW_ORDER,
         onClick = {
             if (checkBodyOrderIsNull(
-                    street = street,
-                    number = number,
-                    district = district,
-                    complement = complement,
+                    address = address,
                     objectSelected = objectsSelected
                 )
             ) {
@@ -118,12 +112,7 @@ fun AddItemsOrder(
                 viewModel.createOrder(
                     order = OrderRequestDTO(
                         type = TypeOrder.DELIVERY,
-                        address = AddressRequestDTO(
-                            street = street,
-                            number = number,
-                            district = district,
-                            complement = complement
-                        ),
+                        address = address,
                         objects = objectsToSave.toList()
                     )
                 )
@@ -240,11 +229,9 @@ private fun ObserveNetworkStateHandlerCreateNewOrder(
 }
 
 fun checkBodyOrderIsNull(
-    street: String,
-    number: Int,
-    district: String,
-    complement: String,
+    address: AddressRequestDTO,
     objectSelected: List<ObjectRequestDTO>? = null
 ): Boolean {
-    return (street.isEmpty() || number == NUMBER_ZERO || district.isEmpty() || complement.isEmpty() || objectSelected.isNullOrEmpty())
+    return (address.street.isEmpty() || address.number == NUMBER_ZERO || address.district.isEmpty()
+            || address.complement.isEmpty() || objectSelected.isNullOrEmpty())
 }

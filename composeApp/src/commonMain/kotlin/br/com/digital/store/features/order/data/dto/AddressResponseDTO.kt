@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AddressResponseDTO(
-    val id: Int? = 0,
+    val id: Long? = 0,
     val status: AddressStatus? = null,
     val complement: String? = "",
     val district: String? = "",

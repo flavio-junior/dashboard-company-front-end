@@ -8,8 +8,10 @@ import br.com.digital.store.features.order.utils.OrderUtils.MONEY
 import br.com.digital.store.features.order.utils.OrderUtils.PIX
 
 object OrderUtils {
+    const val ACTUAL_ADDRESS = "Endereço Atual:"
     const val PENDING_ORDERS = "Pedidos Pendentes"
     const val DETAILS_ORDER = "Detalhes do Pedido"
+    const val ALTER_ADDRESS = "Alterar Endereço"
     const val EMPTY_LIST_ORDERS = "Nenhum Pedido Encontrado!"
     const val TOTAL_DELIVERY = "Total de Items Para Entrega:"
     const val TOTAL_NUMBER_ORDERS = "Número Total de Pedidos:"

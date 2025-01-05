@@ -3,6 +3,7 @@ package br.com.digital.store.features.order.data.repository
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.toResultFlow
+import br.com.digital.store.features.order.data.dto.AddressRequestDTO
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
@@ -95,6 +96,22 @@ class OrderRemoteDataSource(
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
                 setBody(body = updateObject)
+            }
+        }
+    }
+
+    override fun updateAddressOrder(
+        orderId: Long,
+        addressId: Long,
+        updateAddress: AddressRequestDTO
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.put {
+                url(urlString = "/api/dashboard/company/orders/v1/$orderId/update/address/$addressId")
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+                setBody(body = updateAddress)
             }
         }
     }

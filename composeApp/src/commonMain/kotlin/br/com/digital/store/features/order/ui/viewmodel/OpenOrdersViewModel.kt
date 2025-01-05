@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.components.strings.StringsUtils.ASC
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.order.data.dto.AddressRequestDTO
 import br.com.digital.store.features.order.data.repository.OrderRepository
 import br.com.digital.store.features.order.data.vo.OrdersResponseVO
 import br.com.digital.store.features.order.domain.converter.ConverterOrder
@@ -31,6 +32,10 @@ class OpenOrdersViewModel(
         )
     val findAllOpenOrders: State<ObserveNetworkStateHandler<OrdersResponseVO>> =
         _findAllOpenOrders
+
+    private val _updateAddressOrder =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val updateAddressOrder: State<ObserveNetworkStateHandler<Unit>> = _updateAddressOrder
 
     var showEmptyList = mutableStateOf(value = true)
 
@@ -92,4 +97,34 @@ class OpenOrdersViewModel(
             findAllOpenOrders()
         }
     }
+
+    fun updateAddressOrder(
+        orderId: Long,
+        addressId: Long,
+        updateAddress: AddressRequestDTO
+    ) {
+        viewModelScope.launch {
+            repository.updateAddressOrder(
+                orderId = orderId,
+                addressId = addressId,
+                updateAddress = updateAddress
+            ).onStart {
+                _updateAddressOrder.value = ObserveNetworkStateHandler.Loading(l = true)
+            }.collect {
+                _updateAddressOrder.value = it
+            }
+        }
+    }
+
+    fun resetOpenOrders(reset: ResetOpenOrders) {
+        when (reset) {
+            ResetOpenOrders.UPDATE_ADDRESS_ORDER -> {
+                _updateAddressOrder.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+        }
+    }
+}
+
+enum class ResetOpenOrders {
+    UPDATE_ADDRESS_ORDER
 }

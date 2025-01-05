@@ -1,6 +1,7 @@
 package br.com.digital.store.features.order.data.repository
 
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.order.data.dto.AddressRequestDTO
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
@@ -25,10 +26,17 @@ interface OrderRepository {
     ): Flow<ObserveNetworkStateHandler<OrdersResponseDTO>>
 
     fun createNewOrder(order: OrderRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>
+
     fun updateOrder(
         orderId: Long,
         objectId: Long,
         updateObject: UpdateObjectRequestDTO
+    ): Flow<ObserveNetworkStateHandler<Unit>>
+
+    fun updateAddressOrder(
+        orderId: Long,
+        addressId: Long,
+        updateAddress: AddressRequestDTO
     ): Flow<ObserveNetworkStateHandler<Unit>>
 
     fun updateStatusDelivery(

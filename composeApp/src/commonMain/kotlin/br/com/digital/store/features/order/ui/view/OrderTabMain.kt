@@ -28,11 +28,20 @@ fun OrderTabMain(
             }
         )
 
-        NumbersUtils.NUMBER_TWO -> AddMoreItems(
+        NumbersUtils.NUMBER_TWO -> AlterAddress(
             orderResponseVO = orderResponseVO,
+            goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = {
                 onRefresh(NumbersUtils.NUMBER_TWO)
             }
         )
+
+        NumbersUtils.NUMBER_THREE ->
+            AddMoreItems(
+                orderResponseVO = orderResponseVO,
+                onRefresh = {
+                    onRefresh(NumbersUtils.NUMBER_TWO)
+                }
+            )
     }
 }

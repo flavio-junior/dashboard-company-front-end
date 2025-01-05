@@ -29,6 +29,6 @@ fun Button(
             .padding(all = Themes.size.spaceSize8),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        IconDefault(icon = icon, size = Themes.size.spaceSize48)
+        IconDefault(icon = icon, size = Themes.size.spaceSize48, onClick = onClick)
     }
 }

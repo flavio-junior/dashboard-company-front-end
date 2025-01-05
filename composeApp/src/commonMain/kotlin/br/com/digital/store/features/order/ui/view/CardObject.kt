@@ -68,7 +68,7 @@ import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
-import br.com.digital.store.utils.NumbersUtils.NUMBER_TWO
+import br.com.digital.store.utils.NumbersUtils.NUMBER_THREE
 import br.com.digital.store.utils.deliveryStatus
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
@@ -134,7 +134,7 @@ private fun ListObject(
                 ButtonCreate(
                     label = ADD_MORE_ITEMS_ORDER,
                     onItemSelected = {
-                        addMoreItems(Pair(first = orderResponseVO, second = NUMBER_TWO))
+                        addMoreItems(Pair(first = orderResponseVO, second = NUMBER_THREE))
                     }
                 )
                 LazyRow(
