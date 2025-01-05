@@ -14,6 +14,7 @@ import br.com.digital.store.ui.view.login.SignInScreen
 import br.com.digital.store.ui.view.order.OrderScreen
 import br.com.digital.store.ui.view.pdv.PdvScreen
 import br.com.digital.store.ui.view.product.ProductScreen
+import br.com.digital.store.ui.view.report.ReportScreen
 import br.com.digital.store.ui.view.reservation.ReservationScreen
 import br.com.digital.store.ui.view.settings.SettingsScreen
 
@@ -189,6 +190,20 @@ fun NavGraphBuilder.dashboardNavigation(
                     navController = navController,
                     currentScreen = RouteApp.Reservation.item,
                     alternativeRoutes = it
+                )
+            }
+        )
+    }
+    composable(RouteApp.REPORTS.item) {
+        ReportScreen(
+            goToBackScreen = {
+                navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.REPORTS.item,
+                    nextScreen = it
                 )
             }
         )

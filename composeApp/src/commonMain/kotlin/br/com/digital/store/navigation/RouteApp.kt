@@ -13,6 +13,7 @@ sealed class RouteApp(val item: String) {
     data object Product: RouteApp(ItemNavigation.PRODUCT.name)
     data object Order: RouteApp(ItemNavigation.ORDER.name)
     data object Reservation: RouteApp(ItemNavigation.RESERVATION.name)
+    data object REPORTS: RouteApp(ItemNavigation.REPORTS.name)
     data object History: RouteApp(ItemNavigation.HISTORY.name)
     data object Settings: RouteApp(ItemNavigation.SETTINGS.name)
 }

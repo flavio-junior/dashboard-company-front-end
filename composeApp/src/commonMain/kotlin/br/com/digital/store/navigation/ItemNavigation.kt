@@ -14,6 +14,7 @@ enum class ItemNavigation {
     ORDER,
     RESERVATION,
     HISTORY,
+    REPORTS,
     SETTINGS,
     CHANGE_TO_OTHER_ACCOUNT,
     EXIT

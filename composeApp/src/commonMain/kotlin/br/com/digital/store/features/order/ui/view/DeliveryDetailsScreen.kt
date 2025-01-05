@@ -14,12 +14,16 @@ import br.com.digital.store.components.strings.StringsUtils.DISTRICT
 import br.com.digital.store.components.strings.StringsUtils.NUMBER
 import br.com.digital.store.components.strings.StringsUtils.STATUS
 import br.com.digital.store.components.strings.StringsUtils.STREET
+import br.com.digital.store.components.ui.Button
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.TextField
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.edit
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.AddressResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.factory.addressFactory
+import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
@@ -45,6 +49,7 @@ fun DeliveryDetailsScreen(
             Object(
                 orderResponseVO = orderResponseVO,
                 objects = it,
+                type = TypeOrder.DELIVERY,
                 onItemSelected = onItemSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
@@ -96,5 +101,6 @@ private fun AddressOrder(
             onValueChange = {},
             modifier = Modifier.weight(weight = WEIGHT_SIZE_2)
         )
+        Button(icon = Res.drawable.edit)
     }
 }

@@ -9,7 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import br.com.digital.store.components.strings.StringsUtils.RESERVATION
+import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
 import br.com.digital.store.domain.factory.availableServices
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
@@ -32,7 +32,7 @@ fun ReservationScreen(
             var responseVO: ReservationResponseVO by remember { mutableStateOf(value = ReservationResponseVO()) }
             Row {
                 Services(
-                    label = RESERVATION,
+                    label = RESERVATIONS,
                     services = availableServices,
                     goToBackScreen = goToBackScreen,
                     goToNextScreen = goToNextScreen

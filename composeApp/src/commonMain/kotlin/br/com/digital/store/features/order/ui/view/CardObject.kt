@@ -41,6 +41,7 @@ import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.DropdownMenu
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
+import br.com.digital.store.components.ui.PrintDocument
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
@@ -53,6 +54,7 @@ import br.com.digital.store.features.order.domain.factory.objectFactory
 import br.com.digital.store.features.order.domain.factory.statusDeliveryStatus
 import br.com.digital.store.features.order.domain.others.Action
 import br.com.digital.store.features.order.domain.status.ObjectStatus
+import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.order.utils.OrderUtils.ADD_MORE_ITEMS_ORDER
@@ -77,6 +79,7 @@ import org.koin.mp.KoinPlatform.getKoin
 fun Object(
     orderResponseVO: OrderResponseVO,
     objects: List<ObjectResponseVO>,
+    type: TypeOrder? = null,
     onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
@@ -88,6 +91,7 @@ fun Object(
             modifier = Modifier
                 .weight(weight = WEIGHT_SIZE_3),
             objects = objects,
+            type = type,
             onItemSelected = {
                 itemSelected = it
             },
@@ -110,6 +114,7 @@ private fun ListObject(
     orderResponseVO: OrderResponseVO,
     modifier: Modifier = Modifier,
     objects: List<ObjectResponseVO>,
+    type: TypeOrder? = null,
     onItemSelected: (ObjectResponseVO) -> Unit = {},
     addMoreItems: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
@@ -163,10 +168,10 @@ private fun ListObject(
                 }
             }
         )
-
         UpdateStatusDelivery(
             orderId = orderResponseVO.id,
             status = statusDeliveryStatus(status = orderResponseVO.address?.status),
+            type = type,
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = onRefresh,
             modifier = Modifier
@@ -191,6 +196,7 @@ private fun ListObject(
                     goToAlternativeRoutes = goToAlternativeRoutes,
                     onRefresh = onRefresh
                 )
+                PrintDocument()
             }
         )
     }

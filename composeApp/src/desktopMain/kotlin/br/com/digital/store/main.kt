@@ -21,6 +21,7 @@ import br.com.digital.store.features.item.di.itemModule
 import br.com.digital.store.features.networking.di.networkModule
 import br.com.digital.store.features.order.di.orderModule
 import br.com.digital.store.features.product.di.productModule
+import br.com.digital.store.features.report.di.reportModule
 import br.com.digital.store.features.reservation.di.reservationModule
 import br.com.digital.store.navigation.Navigation
 import br.com.digital.store.theme.Themes
@@ -39,7 +40,8 @@ fun main() {
                 networkModule,
                 orderModule,
                 reservationModule,
-                productModule
+                productModule,
+                reportModule
             )
         )
     }

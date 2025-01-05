@@ -13,6 +13,7 @@ import br.com.digital.store.utils.NumbersUtils.NUMBER_TWENTY
 
 object CommonUtils {
     const val EMPTY_TEXT = ""
+    const val WEIGHT_SIZE_0_5 = 0.5f
     const val WEIGHT_SIZE = 1f
     const val WEIGHT_SIZE_2 = 2f
     const val WEIGHT_SIZE_3 = 3f

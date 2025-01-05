@@ -2,6 +2,10 @@ package br.com.digital.store.features.order.utils
 
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.status.ObjectStatus
+import br.com.digital.store.features.order.utils.OrderUtils.CREDIT_CAD
+import br.com.digital.store.features.order.utils.OrderUtils.DEBIT_CAD
+import br.com.digital.store.features.order.utils.OrderUtils.MONEY
+import br.com.digital.store.features.order.utils.OrderUtils.PIX
 
 object OrderUtils {
     const val PENDING_ORDERS = "Pedidos Pendentes"
@@ -27,13 +31,20 @@ object OrderUtils {
     const val SELECTED_TYPE_PAYMENT = "Selecione o Tipo de Pagamento!"
     const val TYPE_OF_PAYMENT = "Tipo de Pagamento:"
     const val NO_SELECTED_ITEMS = "Nenhum item selecionado!"
+    const val CREDIT_CAD = "Cartão de Crédito"
+    const val DEBIT_CAD = "Cartão de Débito"
+    const val MONEY = "Dinheiro"
+    const val PIX = "PIX"
+    const val SHOPPING_CART = "Carrinho de Compras"
+    const val DELIVERY = "Delivery"
+    const val RESERVATION = "Reserva"
 }
 
 val typePayment = listOf(
-    "Cartão de Crédito",
-    "Cartão de Débito",
-    "Dinheiro",
-    "PIX"
+    CREDIT_CAD,
+    DEBIT_CAD,
+    MONEY,
+    PIX
 )
 
 fun countPendingObjects(order: OrderResponseVO): String {

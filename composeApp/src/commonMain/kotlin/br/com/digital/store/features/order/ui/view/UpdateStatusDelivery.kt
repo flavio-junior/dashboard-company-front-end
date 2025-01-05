@@ -20,6 +20,7 @@ import br.com.digital.store.features.networking.resources.ObserveNetworkStateHan
 import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
 import br.com.digital.store.features.order.domain.status.AddressStatus
+import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.order.utils.OrderUtils.UPDATE_STATUS
@@ -33,6 +34,7 @@ fun UpdateStatusDelivery(
     modifier: Modifier = Modifier,
     orderId: Long,
     status: String,
+    type: TypeOrder? = null,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
@@ -44,53 +46,55 @@ fun UpdateStatusDelivery(
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
     val viewModel: OrderViewModel = getKoin().get()
-    ItemObject(
-        modifier = Modifier.padding(
-            top = Themes.size.spaceSize8,
-            end = Themes.size.spaceSize16
-        ),
-        body = {
-            DropdownMenu(
-                selectedValue = itemSelected,
-                items = updateStatusDelivery,
-                label = STATUS_ORDER,
-                onValueChangedEvent = {
-                    itemSelected = it
-                },
-                modifier = modifier
-            )
-            LoadingButton(
-                label = UPDATE,
-                onClick = {
-                    openDialog = true
-                },
-                isEnabled = observer.first,
-                modifier = modifier
-            )
-            if (openDialog) {
-                Alert(
-                    label = UPDATE_STATUS,
-                    onDismissRequest = {
-                        openDialog = false
+    if (type != null) {
+        ItemObject(
+            modifier = Modifier.padding(
+                top = Themes.size.spaceSize8,
+                end = Themes.size.spaceSize16
+            ),
+            body = {
+                DropdownMenu(
+                    selectedValue = itemSelected,
+                    items = updateStatusDelivery,
+                    label = STATUS_ORDER,
+                    onValueChangedEvent = {
+                        itemSelected = it
                     },
-                    onConfirmation = {
-                        observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                        viewModel.updateStatusDelivery(
-                            orderId = orderId,
-                            status = UpdateStatusDeliveryRequestDTO(
-                                status = when (itemSelected) {
-                                    PENDING_DELIVERY -> AddressStatus.PENDING_DELIVERY
-                                    SENDING -> AddressStatus.SENDING
-                                    else -> AddressStatus.DELIVERED
-                                }
-                            )
-                        )
-                        openDialog = false
-                    }
+                    modifier = modifier
                 )
+                LoadingButton(
+                    label = UPDATE,
+                    onClick = {
+                        openDialog = true
+                    },
+                    isEnabled = observer.first,
+                    modifier = modifier
+                )
+                if (openDialog) {
+                    Alert(
+                        label = UPDATE_STATUS,
+                        onDismissRequest = {
+                            openDialog = false
+                        },
+                        onConfirmation = {
+                            observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                            viewModel.updateStatusDelivery(
+                                orderId = orderId,
+                                status = UpdateStatusDeliveryRequestDTO(
+                                    status = when (itemSelected) {
+                                        PENDING_DELIVERY -> AddressStatus.PENDING_DELIVERY
+                                        SENDING -> AddressStatus.SENDING
+                                        else -> AddressStatus.DELIVERED
+                                    }
+                                )
+                            )
+                            openDialog = false
+                        }
+                    )
+                }
             }
-        }
-    )
+        )
+    }
     ObserveNetworkStateHandlerUpdateStatusDelivery(
         viewModel = viewModel,
         onError = {
