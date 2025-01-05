@@ -41,7 +41,7 @@ import br.com.digital.store.features.report.domain.factory.reportTypeOrderFactor
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_0_5
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_1_5
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
 import br.com.digital.store.utils.onClickable
@@ -119,7 +119,7 @@ fun HeaderReportsPanel(
     ) {
         Description(
             description = ID,
-            modifier = modifier.weight(weight = WEIGHT_SIZE),
+            modifier = modifier.weight(weight = WEIGHT_SIZE_1_5),
             textAlign = TextAlign.Center
         )
         Description(
@@ -129,7 +129,7 @@ fun HeaderReportsPanel(
         )
         Description(
             description = HOUR,
-            modifier = modifier.weight(weight = WEIGHT_SIZE_0_5),
+            modifier = modifier.weight(weight = WEIGHT_SIZE),
             textAlign = TextAlign.Center
         )
         Description(
@@ -181,7 +181,7 @@ fun ItemReport(
     ) {
         Description(
             description = payment.code.toString(),
-            modifier = modifier.weight(weight = WEIGHT_SIZE),
+            modifier = modifier.weight(weight = WEIGHT_SIZE_1_5),
             textAlign = TextAlign.Center,
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )
@@ -193,7 +193,7 @@ fun ItemReport(
         )
         Description(
             description = payment.hour.toString(),
-            modifier = modifier.weight(weight = WEIGHT_SIZE_0_5),
+            modifier = modifier.weight(weight = WEIGHT_SIZE),
             color = if (selected) Themes.colors.background else Themes.colors.primary,
             textAlign = TextAlign.Center
         )

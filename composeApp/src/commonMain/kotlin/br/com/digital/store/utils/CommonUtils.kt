@@ -13,8 +13,8 @@ import br.com.digital.store.utils.NumbersUtils.NUMBER_TWENTY
 
 object CommonUtils {
     const val EMPTY_TEXT = ""
-    const val WEIGHT_SIZE_0_5 = 0.5f
     const val WEIGHT_SIZE = 1f
+    const val WEIGHT_SIZE_1_5 = 1.5f
     const val WEIGHT_SIZE_2 = 2f
     const val WEIGHT_SIZE_3 = 3f
     const val WEIGHT_SIZE_4 = 4f
@@ -32,12 +32,6 @@ fun checkNameIsNull(name: String): Boolean {
 fun checkPriceIsNull(price: Double): Boolean {
     return (price == 0.0)
 }
-
-val typeOrder = listOf(
-    "Delivery",
-    "Reserva",
-    "Pedido"
-)
 
 val updateStatusDelivery = listOf(
     PENDING_DELIVERY,
