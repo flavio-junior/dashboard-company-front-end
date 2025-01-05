@@ -1,5 +1,7 @@
 package br.com.digital.store.features.pdv.utils
 
+import br.com.digital.store.components.model.BodyButton
+import br.com.digital.store.components.model.TypeNavigation
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.delivery_truck
 import br.com.digital.store.composeapp.generated.resources.order
@@ -11,7 +13,6 @@ import br.com.digital.store.features.pdv.utils.PdvUtils.CREATE_ORDER
 import br.com.digital.store.features.pdv.utils.PdvUtils.CREATE_RESERVATION
 import br.com.digital.store.features.pdv.utils.PdvUtils.SHOPPING_CART
 import br.com.digital.store.utils.NumbersUtils
-import org.jetbrains.compose.resources.DrawableResource
 
 object PdvUtils {
     const val PDV = "Ponto de Vendas"
@@ -24,40 +25,28 @@ object PdvUtils {
     const val SELECT_RESERVATIONS = "Selecionar itens para a reserva:"
 }
 
-enum class TypeNavigation {
-    NAVIGATION,
-    TAB
-}
-
-data class TypeOrder(
-    val icon: DrawableResource,
-    val label: String,
-    val navigation: TypeNavigation = TypeNavigation.TAB,
-    val count: Int
-)
-
-val selectTypeOrder = listOf(
-    TypeOrder(
+val selectBodyButtons = listOf(
+    BodyButton(
         icon = Res.drawable.shopping_cart,
         label = SHOPPING_CART,
         count = NumbersUtils.NUMBER_ONE
     ),
-    TypeOrder(
+    BodyButton(
         icon = Res.drawable.delivery_truck,
         label = CREATE_DELIVERY_ORDER,
         count = NumbersUtils.NUMBER_TWO
     ),
-    TypeOrder(
+    BodyButton(
         icon = Res.drawable.order,
         label = CREATE_ORDER,
         count = NumbersUtils.NUMBER_THREE
     ),
-    TypeOrder(
+    BodyButton(
         icon = Res.drawable.reservation,
         label = CREATE_RESERVATION,
         count = NumbersUtils.NUMBER_FOUR
     ),
-    TypeOrder(
+    BodyButton(
         icon = Res.drawable.order,
         label = PENDING_ORDERS,
         navigation = TypeNavigation.NAVIGATION,
