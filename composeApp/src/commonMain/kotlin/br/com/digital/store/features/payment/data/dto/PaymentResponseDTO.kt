@@ -1,4 +1,4 @@
-package br.com.digital.store.features.report.data.dto
+package br.com.digital.store.features.payment.data.dto
 
 import br.com.digital.store.features.order.domain.type.PaymentType
 import br.com.digital.store.features.order.domain.type.TypeOrder

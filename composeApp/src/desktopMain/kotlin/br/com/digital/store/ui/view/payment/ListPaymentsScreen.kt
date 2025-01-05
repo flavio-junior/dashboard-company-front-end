@@ -1,4 +1,4 @@
-package br.com.digital.store.ui.view.report
+package br.com.digital.store.ui.view.payment
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,17 +17,17 @@ import br.com.digital.store.composeapp.generated.resources.receipt
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
-import br.com.digital.store.features.report.data.vo.PaymentResponseVO
-import br.com.digital.store.features.report.data.vo.PaymentsResponseVO
-import br.com.digital.store.features.report.ui.viewmodel.ReportViewModel
-import br.com.digital.store.features.report.utils.ReportUtils.EMPTY_LIST_PAYMENTS
-import br.com.digital.store.features.report.utils.ReportUtils.NONE_PAYMENT
+import br.com.digital.store.features.payment.data.vo.PaymentResponseVO
+import br.com.digital.store.features.payment.data.vo.PaymentsResponseVO
+import br.com.digital.store.features.payment.ui.viewmodel.PaymentViewModel
+import br.com.digital.store.features.payment.utils.PaymentUtils.EMPTY_LIST_PAYMENTS
+import br.com.digital.store.features.payment.utils.PaymentUtils.NONE_PAYMENT
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_4
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
-fun ListReportsScreen(
+fun ListPaymentsScreen(
     onItemSelected: (PaymentResponseVO) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     goToOrderScreen: () -> Unit = {}
@@ -41,25 +41,25 @@ fun ListReportsScreen(
             )
             .fillMaxSize()
     ) {
-        val viewModel: ReportViewModel = getKoin().get()
+        val viewModel: PaymentViewModel = getKoin().get()
         LaunchedEffect(key1 = Unit) {
-            viewModel.findAllReports()
+            viewModel.findAllPayments()
         }
         HeaderSearch(
             onSearch = { _, size, sort, route ->
-                viewModel.findAllReports(size = size, sort = sort, route = route)
+                viewModel.findAllPayments(size = size, sort = sort, route = route)
             },
             onSort = { _, size, sort, route ->
-                viewModel.findAllReports(size = size, sort = sort, route = route)
+                viewModel.findAllPayments(size = size, sort = sort, route = route)
             },
             onFilter = { _, size, sort, route ->
-                viewModel.findAllReports(size = size, sort = sort, route = route)
+                viewModel.findAllPayments(size = size, sort = sort, route = route)
             },
             onRefresh = { _, size, sort, route ->
-                viewModel.findAllReports(size = size, sort = sort, route = route)
+                viewModel.findAllPayments(size = size, sort = sort, route = route)
             }
         )
-        ObserveNetworkStateHandlerReports(
+        ObserveNetworkStateHandlerPayments(
             viewModel = viewModel,
             onItemSelected = onItemSelected,
             goToOrderScreen = goToOrderScreen,
@@ -69,13 +69,13 @@ fun ListReportsScreen(
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerReports(
-    viewModel: ReportViewModel,
+private fun ObserveNetworkStateHandlerPayments(
+    viewModel: PaymentViewModel,
     onItemSelected: (PaymentResponseVO) -> Unit = {},
     goToOrderScreen: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<PaymentsResponseVO> by remember { viewModel.findAllReports }
+    val state: ObserveNetworkStateHandler<PaymentsResponseVO> by remember { viewModel.findAllPayments }
     val showEmptyList: Boolean by remember { viewModel.showEmptyList }
     ObserveNetworkStateHandler(
         state = state,
@@ -97,12 +97,12 @@ private fun ObserveNetworkStateHandlerReports(
                     mainIcon = Res.drawable.receipt,
                     onClick = goToOrderScreen,
                     refresh = {
-                        viewModel.findAllReports()
+                        viewModel.findAllPayments()
                     }
                 )
             } else {
                 it.result?.let { response ->
-                    ReportsResult(paymentsResponseVO = response, onItemSelected = onItemSelected)
+                    PaymentsResult(paymentsResponseVO = response, onItemSelected = onItemSelected)
                 } ?: viewModel.showEmptyList(show = true)
             }
         }
@@ -110,12 +110,12 @@ private fun ObserveNetworkStateHandlerReports(
 }
 
 @Composable
-private fun ReportsResult(
+private fun PaymentsResult(
     paymentsResponseVO: PaymentsResponseVO,
     onItemSelected: (PaymentResponseVO) -> Unit = {}
 ) {
     Column {
-        ListReports(
+        ListPayments(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(weight = WEIGHT_SIZE_4)
@@ -123,6 +123,6 @@ private fun ReportsResult(
             checkouts = paymentsResponseVO,
             onItemSelected = onItemSelected
         )
-        PageIndicatorReports(content = paymentsResponseVO)
+        PageIndicatorPayments(content = paymentsResponseVO)
     }
 }

@@ -1,4 +1,4 @@
-package br.com.digital.store.ui.view.report
+package br.com.digital.store.ui.view.payment
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -6,17 +6,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.ui.PageIndicator
-import br.com.digital.store.features.report.data.vo.PaymentsResponseVO
-import br.com.digital.store.features.report.ui.viewmodel.ReportViewModel
+import br.com.digital.store.features.payment.data.vo.PaymentsResponseVO
+import br.com.digital.store.features.payment.ui.viewmodel.PaymentViewModel
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_2
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
-fun PageIndicatorReports(
+fun PageIndicatorPayments(
     modifier: Modifier = Modifier,
     content: PaymentsResponseVO
 ) {
-    val viewModel: ReportViewModel = getKoin().get()
+    val viewModel: PaymentViewModel = getKoin().get()
     Row(
         modifier = modifier
     ) {

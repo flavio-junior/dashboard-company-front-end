@@ -1,22 +1,22 @@
-package br.com.digital.store.features.report.domain.converter
+package br.com.digital.store.features.payment.domain.converter
 
 import br.com.digital.store.features.others.converterPageableDTOToVO
-import br.com.digital.store.features.report.data.dto.PaymentResponseDTO
-import br.com.digital.store.features.report.data.dto.PaymentsResponseDTO
-import br.com.digital.store.features.report.data.vo.PaymentResponseVO
-import br.com.digital.store.features.report.data.vo.PaymentsResponseVO
+import br.com.digital.store.features.payment.data.dto.PaymentResponseDTO
+import br.com.digital.store.features.payment.data.dto.PaymentsResponseDTO
+import br.com.digital.store.features.payment.data.vo.PaymentResponseVO
+import br.com.digital.store.features.payment.data.vo.PaymentsResponseVO
 
-class ConverterReport {
+class ConverterPayment {
 
     fun converterContentDTOToVO(content: PaymentsResponseDTO): PaymentsResponseVO {
         return PaymentsResponseVO(
             totalPages = content.totalPages,
-            content = converterCheckoutsResponseDTOToVO(products = content.content),
+            content = converterPaymentsResponseDTOToVO(products = content.content),
             pageable = converterPageableDTOToVO(pageable = content.pageable)
         )
     }
 
-    private fun converterCheckoutsResponseDTOToVO(
+    private fun converterPaymentsResponseDTOToVO(
         products: List<PaymentResponseDTO>
     ): List<PaymentResponseVO> {
         return products.map {

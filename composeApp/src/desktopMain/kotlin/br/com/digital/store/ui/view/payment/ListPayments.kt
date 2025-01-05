@@ -1,4 +1,4 @@
-package br.com.digital.store.ui.view.report
+package br.com.digital.store.ui.view.payment
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
@@ -34,10 +34,10 @@ import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.TYPE_PAYMENT
 import br.com.digital.store.components.strings.StringsUtils.VALUE
 import br.com.digital.store.components.ui.Description
-import br.com.digital.store.features.report.data.vo.PaymentResponseVO
-import br.com.digital.store.features.report.data.vo.PaymentsResponseVO
-import br.com.digital.store.features.report.domain.factory.reportPaymentFactory
-import br.com.digital.store.features.report.domain.factory.reportTypeOrderFactory
+import br.com.digital.store.features.payment.data.vo.PaymentResponseVO
+import br.com.digital.store.features.payment.data.vo.PaymentsResponseVO
+import br.com.digital.store.features.payment.domain.factory.paymentTypeFactory
+import br.com.digital.store.features.payment.domain.factory.typeOrderFactory
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
@@ -48,7 +48,7 @@ import br.com.digital.store.utils.onClickable
 import kotlinx.coroutines.launch
 
 @Composable
-fun ListReports(
+fun ListPayments(
     modifier: Modifier = Modifier,
     checkouts: PaymentsResponseVO,
     onItemSelected: (PaymentResponseVO) -> Unit = {}
@@ -59,7 +59,7 @@ fun ListReports(
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        HeaderReportsPanel(modifier = Modifier.padding(top = Themes.size.spaceSize16))
+        HeaderPaymentsPanel(modifier = Modifier.padding(top = Themes.size.spaceSize16))
         val scrollState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
         var selectedIndex by remember { mutableStateOf(value = -1) }
@@ -85,7 +85,7 @@ fun ListReports(
                 .padding(all = Themes.size.spaceSize36)
         ) {
             itemsIndexed(checkouts.content) { index, checkoutResponseVO ->
-                ItemReport(
+                ItemPayment(
                     index = index,
                     selected = selectedIndex == index,
                     payment = checkoutResponseVO,
@@ -100,7 +100,7 @@ fun ListReports(
 }
 
 @Composable
-fun HeaderReportsPanel(
+fun HeaderPaymentsPanel(
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -161,7 +161,7 @@ fun HeaderReportsPanel(
 }
 
 @Composable
-fun ItemReport(
+fun ItemPayment(
     index: Int,
     selected: Boolean = false,
     modifier: Modifier = Modifier,
@@ -198,13 +198,13 @@ fun ItemReport(
             textAlign = TextAlign.Center
         )
         Description(
-            description = reportTypeOrderFactory(type = payment.typeOrder),
+            description = typeOrderFactory(type = payment.typeOrder),
             modifier = modifier.weight(weight = WEIGHT_SIZE),
             color = if (selected) Themes.colors.background else Themes.colors.primary,
             textAlign = TextAlign.Center
         )
         Description(
-            description = reportPaymentFactory(payment = payment.typePayment),
+            description = paymentTypeFactory(payment = payment.typePayment),
             modifier = modifier.weight(weight = WEIGHT_SIZE),
             color = if (selected) Themes.colors.background else Themes.colors.primary,
             textAlign = TextAlign.Center

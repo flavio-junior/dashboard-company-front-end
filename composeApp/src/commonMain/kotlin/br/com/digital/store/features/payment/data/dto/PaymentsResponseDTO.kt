@@ -1,4 +1,4 @@
-package br.com.digital.store.features.report.data.dto
+package br.com.digital.store.features.payment.data.dto
 
 import br.com.digital.store.features.others.dto.PageableDTO
 import kotlinx.serialization.Serializable

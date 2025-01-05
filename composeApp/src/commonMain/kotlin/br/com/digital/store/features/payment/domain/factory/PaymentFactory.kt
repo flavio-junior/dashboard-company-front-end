@@ -1,4 +1,4 @@
-package br.com.digital.store.features.report.domain.factory
+package br.com.digital.store.features.payment.domain.factory
 
 import br.com.digital.store.components.strings.StringsUtils.ORDER
 import br.com.digital.store.components.strings.StringsUtils.RESERVATION
@@ -12,7 +12,7 @@ import br.com.digital.store.features.order.utils.OrderUtils.PIX
 import br.com.digital.store.features.order.utils.OrderUtils.SHOPPING_CART
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 
-fun reportPaymentFactory(
+fun paymentTypeFactory(
     payment: PaymentType? = null
 ): String {
     return when (payment) {
@@ -24,7 +24,7 @@ fun reportPaymentFactory(
     }
 }
 
-fun reportTypeOrderFactory(
+fun typeOrderFactory(
     type: TypeOrder? = null
 ): String {
     return when (type) {

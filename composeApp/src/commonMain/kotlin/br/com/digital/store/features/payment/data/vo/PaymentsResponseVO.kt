@@ -1,4 +1,4 @@
-package br.com.digital.store.features.report.data.vo
+package br.com.digital.store.features.payment.data.vo
 
 import br.com.digital.store.features.others.vo.PageableVO
 

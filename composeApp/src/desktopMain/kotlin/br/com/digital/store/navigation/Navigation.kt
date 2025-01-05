@@ -12,6 +12,7 @@ import br.com.digital.store.ui.view.history.HistoryScreen
 import br.com.digital.store.ui.view.item.ItemScreen
 import br.com.digital.store.ui.view.login.SignInScreen
 import br.com.digital.store.ui.view.order.OrderScreen
+import br.com.digital.store.ui.view.payment.PaymentScreen
 import br.com.digital.store.ui.view.pdv.PdvScreen
 import br.com.digital.store.ui.view.product.ProductScreen
 import br.com.digital.store.ui.view.report.ReportScreen
@@ -57,7 +58,9 @@ fun NavGraphBuilder.dashboardNavigation(
 ) {
     composable(RouteApp.Dashboard.item) {
         DashboardScreen(
-            goToNextScreen = { navigateBetweenMainRoutes(navGraph = navController, route = it) }
+            goToNextScreen = {
+                navigateBetweenMainRoutes(navGraph = navController, route = it)
+            }
         )
     }
 
@@ -194,7 +197,21 @@ fun NavGraphBuilder.dashboardNavigation(
             }
         )
     }
-    composable(RouteApp.REPORTS.item) {
+    composable(RouteApp.Payment.item) {
+        PaymentScreen(
+            goToBackScreen = {
+                navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Payment.item,
+                    nextScreen = it
+                )
+            }
+        )
+    }
+    composable(RouteApp.Report.item) {
         ReportScreen(
             goToBackScreen = {
                 navController.popBackStack()
@@ -202,7 +219,7 @@ fun NavGraphBuilder.dashboardNavigation(
             goToNextScreen = {
                 goToNextScreen(
                     navHostController = navController,
-                    currentScreen = RouteApp.REPORTS.item,
+                    currentScreen = RouteApp.Payment.item,
                     nextScreen = it
                 )
             }

@@ -35,17 +35,19 @@ private fun navigateBetweenDashboardScreen(
         ItemNavigation.RESERVATION.name ->
             navGraph.navigate(route = RouteApp.Reservation.item)
 
+        ItemNavigation.PAYMENT.name ->
+            navGraph.navigate(route = RouteApp.Payment.item)
+
+        ItemNavigation.REPORT.name ->
+            navGraph.navigate(route = RouteApp.Report.item)
+
         ItemNavigation.HISTORY.name ->
             navGraph.navigate(route = RouteApp.History.item)
 
         ItemNavigation.SETTINGS.name ->
             navGraph.navigate(route = RouteApp.Settings.item)
 
-        ItemNavigation.CHANGE_TO_OTHER_ACCOUNT.name ->
-            navGraph.navigate(route = RouteApp.SignIn.item) {
-                popUpTo(RouteApp.SignIn.item) {
-                    inclusive = true
-                }
-            }
+        ItemNavigation.SIGN_IN.name ->
+            navGraph.navigate(route = RouteApp.SignIn.item)
     }
 }

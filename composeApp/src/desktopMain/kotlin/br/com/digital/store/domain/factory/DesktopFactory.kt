@@ -2,12 +2,12 @@ package br.com.digital.store.domain.factory
 
 import br.com.digital.store.components.model.Menu
 import br.com.digital.store.components.strings.StringsUtils.CATEGORIES
-import br.com.digital.store.components.strings.StringsUtils.CHANGE_TO_OTHER_ACCOUNT
 import br.com.digital.store.components.strings.StringsUtils.DASHBOARD
 import br.com.digital.store.components.strings.StringsUtils.EXIT
 import br.com.digital.store.components.strings.StringsUtils.FOODS
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
 import br.com.digital.store.components.strings.StringsUtils.ORDERS
+import br.com.digital.store.components.strings.StringsUtils.PAYMENTS
 import br.com.digital.store.components.strings.StringsUtils.PDV
 import br.com.digital.store.components.strings.StringsUtils.REPORTS
 import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
@@ -22,7 +22,7 @@ import br.com.digital.store.composeapp.generated.resources.home_pin
 import br.com.digital.store.composeapp.generated.resources.list
 import br.com.digital.store.composeapp.generated.resources.logout
 import br.com.digital.store.composeapp.generated.resources.order
-import br.com.digital.store.composeapp.generated.resources.refresh
+import br.com.digital.store.composeapp.generated.resources.receipt
 import br.com.digital.store.composeapp.generated.resources.reservation
 import br.com.digital.store.composeapp.generated.resources.settings
 import br.com.digital.store.composeapp.generated.resources.shopping_cart
@@ -67,9 +67,9 @@ val menus = listOf(
         route = ItemNavigation.RESERVATION.name
     ),
     Menu(
-        icon = Res.drawable.finance,
-        label = REPORTS,
-        route = ItemNavigation.REPORTS.name
+        icon = Res.drawable.receipt,
+        label = PAYMENTS,
+        route = ItemNavigation.PAYMENT.name
     ),
     Menu(
         icon = Res.drawable.data_usage,
@@ -77,14 +77,14 @@ val menus = listOf(
         route = ItemNavigation.HISTORY.name
     ),
     Menu(
+        icon = Res.drawable.finance,
+        label = REPORTS,
+        route = ItemNavigation.REPORT.name
+    ),
+    Menu(
         icon = Res.drawable.settings,
         label = SETTINGS,
         route = ItemNavigation.SETTINGS.name
-    ),
-    Menu(
-        icon = Res.drawable.refresh,
-        label = CHANGE_TO_OTHER_ACCOUNT,
-        route = ItemNavigation.CHANGE_TO_OTHER_ACCOUNT.name
     ),
     Menu(
         icon = Res.drawable.logout,
@@ -135,13 +135,18 @@ val availableServices = listOf(
         route = ItemNavigation.RESERVATION.name
     ),
     ItemService(
-        icon = Res.drawable.finance,
-        label = REPORTS,
-        route = ItemNavigation.REPORTS.name
+        icon = Res.drawable.receipt,
+        label = PAYMENTS,
+        route = ItemNavigation.PAYMENT.name
     ),
     ItemService(
         icon = Res.drawable.data_usage,
         label = RESUME,
         route = ItemNavigation.HISTORY.name
+    ),
+    ItemService(
+        icon = Res.drawable.finance,
+        label = REPORTS,
+        route = ItemNavigation.REPORT.name
     )
 )
