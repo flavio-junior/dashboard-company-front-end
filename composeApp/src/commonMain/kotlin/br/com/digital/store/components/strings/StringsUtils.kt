@@ -52,6 +52,7 @@ object StringsUtils {
     const val PAYMENTS = "Pagamentos"
     const val RESUME = "Resumo"
     const val AUTHOR = "Autor"
+    const val NAME_AUTHOR = "Nome do Autor"
     const val HISTORY = "Histórico de Vendas"
     const val SETTINGS = "Configurações"
     const val CHANGE_TO_OTHER_ACCOUNT = "Trocar de conta"

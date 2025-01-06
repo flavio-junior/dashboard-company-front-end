@@ -28,6 +28,11 @@ fun ReportTabMain(
             }
         )
 
-        NumbersUtils.NUMBER_TWO -> CreateNewReportScreen()
+        NumbersUtils.NUMBER_TWO -> CreateNewReportScreen(
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = {
+                onRefresh(NumbersUtils.NUMBER_TWO)
+            }
+        )
     }
 }

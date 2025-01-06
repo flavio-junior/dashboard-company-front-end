@@ -7,4 +7,5 @@ object ReportUtils {
     const val EMPTY_LIST_REPORTS = "Nenhum Relatório Encontrado!"
     const val NONE_REPORTS = "Crie seu primeiro relatório!"
     const val DELETE_REPORT = "Apagar Relatório"
+    const val MAX_LIMIT_RESUME = "O limite máximo é de 1000 caracteres!"
 }
