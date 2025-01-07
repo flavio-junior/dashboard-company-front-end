@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import br.com.digital.store.components.strings.StringsUtils.CREATE_NEW_ORDER
 import br.com.digital.store.components.strings.StringsUtils.DELIVERY
 import br.com.digital.store.components.strings.StringsUtils.ORDERS
 import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
@@ -28,7 +29,6 @@ import br.com.digital.store.features.order.data.vo.OrdersResponseVO
 import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.order.ui.viewmodel.OpenOrdersViewModel
 import br.com.digital.store.features.order.utils.OrderUtils.EMPTY_LIST_ORDERS
-import br.com.digital.store.features.product.utils.ProductUtils.CREATE_PRODUCT
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_3
@@ -79,7 +79,7 @@ private fun ObserveNetworkStateHandlerPendingOrders(
             if (showEmptyList) {
                 EmptyList(
                     title = EMPTY_LIST_ORDERS,
-                    description = "$CREATE_PRODUCT?",
+                    description = "$CREATE_NEW_ORDER?",
                     onClick = onToCreateNewProduct,
                     refresh = {
                         viewModel.findAllOpenOrders()

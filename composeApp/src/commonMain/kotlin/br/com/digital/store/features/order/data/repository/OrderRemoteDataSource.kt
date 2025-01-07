@@ -52,26 +52,6 @@ class OrderRemoteDataSource(
         }
     }
 
-    override fun findAllClosedOrders(
-        page: Int,
-        size: Int,
-        sort: String
-    ): Flow<ObserveNetworkStateHandler<OrdersResponseDTO>> {
-        return toResultFlow {
-            httpClient.get {
-                url {
-                    path("/api/dashboard/company/orders/v1/closed")
-                    parameters.append("page", page.toString())
-                    parameters.append("size", size.toString())
-                    parameters.append("sort", sort)
-                }
-                headers {
-                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
-                }
-            }
-        }
-    }
-
     override fun createNewOrder(order: OrderRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.post {

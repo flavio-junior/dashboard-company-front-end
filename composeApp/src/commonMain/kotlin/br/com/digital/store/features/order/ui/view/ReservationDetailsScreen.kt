@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +47,7 @@ fun ReservationDetailsScreen(
         modifier = Modifier
             .background(color = Themes.colors.background)
             .padding(top = Themes.size.spaceSize16, end = Themes.size.spaceSize16)
+            .verticalScroll(state = rememberScrollState())
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {

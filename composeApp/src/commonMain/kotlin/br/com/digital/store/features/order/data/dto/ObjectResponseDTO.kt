@@ -13,5 +13,6 @@ data class ObjectResponseDTO(
     val price: Double,
     val quantity: Int,
     val total: Double,
-    val status: ObjectStatus? = null
+    val status: ObjectStatus? = null,
+    val overview: List<OverviewResponseDTO>? = null
 )

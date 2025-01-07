@@ -13,13 +13,8 @@ import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import kotlinx.coroutines.flow.Flow
 
 interface OrderRepository {
-    fun findAllOpenOrders(
-        page: Int = NUMBER_ZERO,
-        size: Int = NUMBER_SIXTY,
-        sort: String
-    ): Flow<ObserveNetworkStateHandler<OrdersResponseDTO>>
 
-    fun findAllClosedOrders(
+    fun findAllOpenOrders(
         page: Int = NUMBER_ZERO,
         size: Int = NUMBER_SIXTY,
         sort: String

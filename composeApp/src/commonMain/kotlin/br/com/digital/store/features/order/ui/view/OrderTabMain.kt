@@ -28,7 +28,7 @@ fun OrderTabMain(
             }
         )
 
-        NumbersUtils.NUMBER_TWO -> AlterAddress(
+        NumbersUtils.NUMBER_TWO -> DetailsItem(
             orderResponseVO = orderResponseVO,
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = {
@@ -36,11 +36,19 @@ fun OrderTabMain(
             }
         )
 
-        NumbersUtils.NUMBER_THREE ->
+        NumbersUtils.NUMBER_THREE -> AlterAddress(
+            orderResponseVO = orderResponseVO,
+            goToAlternativeRoutes = goToAlternativeRoutes,
+            onRefresh = {
+                onRefresh(NumbersUtils.NUMBER_THREE)
+            }
+        )
+
+        NumbersUtils.NUMBER_FOUR ->
             AddMoreItems(
                 orderResponseVO = orderResponseVO,
                 onRefresh = {
-                    onRefresh(NumbersUtils.NUMBER_TWO)
+                    onRefresh(NumbersUtils.NUMBER_FOUR)
                 }
             )
     }

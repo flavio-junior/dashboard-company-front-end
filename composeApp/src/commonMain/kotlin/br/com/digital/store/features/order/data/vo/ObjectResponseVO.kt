@@ -11,5 +11,6 @@ data class ObjectResponseVO(
     val price: Double = 0.0,
     val quantity: Int = 0,
     val total: Double = 0.0,
-    val status: ObjectStatus? = null
+    val status: ObjectStatus? = null,
+    val overview: List<OverviewResponseVO>? = null
 )

@@ -4,11 +4,13 @@ import br.com.digital.store.features.order.data.dto.AddressResponseDTO
 import br.com.digital.store.features.order.data.dto.ObjectResponseDTO
 import br.com.digital.store.features.order.data.dto.OrderResponseDTO
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
+import br.com.digital.store.features.order.data.dto.OverviewResponseDTO
 import br.com.digital.store.features.order.data.dto.PaymentResponseDTO
 import br.com.digital.store.features.order.data.vo.AddressResponseVO
 import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.data.vo.OrdersResponseVO
+import br.com.digital.store.features.order.data.vo.OverviewResponseVO
 import br.com.digital.store.features.order.data.vo.PaymentResponseVO
 import br.com.digital.store.features.others.converterPageableDTOToVO
 import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
@@ -46,11 +48,11 @@ class ConverterOrder {
     private fun converterReservationsResponseDTOToVO(
         reservations: List<ReservationResponseDTO>? = null
     ): List<ReservationResponseVO>? {
-       return reservations?.map {
-           ReservationResponseVO(
-               id = it.id,
-               name = it.name
-           )
+        return reservations?.map {
+            ReservationResponseVO(
+                id = it.id,
+                name = it.name
+            )
         }
     }
 
@@ -70,7 +72,7 @@ class ConverterOrder {
     private fun converterObjectResponseDTOToVO(
         objects: List<ObjectResponseDTO>? = null
     ): List<ObjectResponseVO>? {
-       return objects?.map {
+        return objects?.map {
             ObjectResponseVO(
                 id = it.id,
                 identifier = it.identifier,
@@ -79,9 +81,23 @@ class ConverterOrder {
                 quantity = it.quantity,
                 total = it.total,
                 type = it.type,
-                status = it.status
+                status = it.status,
+                overview = converterOverviewResponseDTOToVO(objects = it.overview)
             )
         }
+    }
+
+    private fun converterOverviewResponseDTOToVO(
+        objects: List<OverviewResponseDTO>? = null
+    ): List<OverviewResponseVO> {
+        return objects?.map {
+            OverviewResponseVO(
+                id = it.id,
+                createdAt = it.createdAt,
+                status = it.status,
+                quantity = it.quantity
+            )
+        } ?: emptyList()
     }
 
     private fun converterPaymentResponseDTOToVO(

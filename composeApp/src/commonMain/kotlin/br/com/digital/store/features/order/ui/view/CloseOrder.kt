@@ -1,12 +1,16 @@
 package br.com.digital.store.features.order.ui.view
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
@@ -16,6 +20,7 @@ import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.order.utils.OrderUtils.CLOSE_ORDER
+import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import org.koin.mp.KoinPlatform.getKoin
 
@@ -31,7 +36,10 @@ fun CloseOrder(
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
     var openDialog: Boolean by remember { mutableStateOf(value = false) }
-    Column(modifier = modifier) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+        modifier = modifier
+    ) {
         LoadingButton(
             label = CLOSE_ORDER,
             onClick = {
@@ -39,6 +47,8 @@ fun CloseOrder(
             },
             isEnabled = observer.first
         )
+        IsErrorMessage(isError = observer.second, message = observer.third)
+        Spacer(modifier = Modifier.height(height = Themes.size.spaceSize16))
     }
     if (openDialog) {
         ClosedOrderDialog(
