@@ -1,6 +1,5 @@
 package br.com.digital.store.features.order.ui.view
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,82 +19,70 @@ import br.com.digital.store.features.networking.resources.ObserveNetworkStateHan
 import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
 import br.com.digital.store.features.order.domain.status.AddressStatus
-import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
-import br.com.digital.store.features.order.utils.OrderUtils.UPDATE_STATUS
-import br.com.digital.store.theme.Themes
+import br.com.digital.store.features.order.utils.OrderUtils.UPDATE_STATUS_DELIVERY
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.updateStatusDelivery
+import br.com.digital.store.utils.deliveryStatus
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun UpdateStatusDelivery(
-    modifier: Modifier = Modifier,
     orderId: Long,
+    modifier: Modifier = Modifier,
     status: String,
-    type: TypeOrder? = null,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {}
 ) {
+    val viewModel: OrderViewModel = getKoin().get()
+    var observer: Triple<Boolean, Boolean, String> by remember {
+        mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
+    }
     var openDialog: Boolean by remember { mutableStateOf(value = false) }
     var itemSelected: String by remember {
         mutableStateOf(value = status)
     }
-    var observer: Triple<Boolean, Boolean, String> by remember {
-        mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
-    }
-    val viewModel: OrderViewModel = getKoin().get()
-    if (type != null) {
-        ItemObject(
-            modifier = Modifier.padding(
-                top = Themes.size.spaceSize8,
-                end = Themes.size.spaceSize16
-            ),
-            body = {
-                DropdownMenu(
-                    selectedValue = itemSelected,
-                    items = updateStatusDelivery,
-                    label = STATUS_ORDER,
-                    onValueChangedEvent = {
-                        itemSelected = it
-                    },
-                    modifier = modifier
-                )
-                LoadingButton(
-                    label = UPDATE,
-                    onClick = {
-                        openDialog = true
-                    },
-                    isEnabled = observer.first,
-                    modifier = modifier
-                )
-                if (openDialog) {
-                    Alert(
-                        label = UPDATE_STATUS,
-                        onDismissRequest = {
-                            openDialog = false
-                        },
-                        onConfirmation = {
-                            observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                            viewModel.updateStatusDelivery(
-                                orderId = orderId,
-                                status = UpdateStatusDeliveryRequestDTO(
-                                    status = when (itemSelected) {
-                                        PENDING_DELIVERY -> AddressStatus.PENDING_DELIVERY
-                                        SENDING -> AddressStatus.SENDING
-                                        else -> AddressStatus.DELIVERED
-                                    }
-                                )
-                            )
-                            openDialog = false
+    DropdownMenu(
+        selectedValue = itemSelected,
+        items = deliveryStatus,
+        label = STATUS_ORDER,
+        onValueChangedEvent = {
+            itemSelected = it
+        }
+    )
+    LoadingButton(
+        label = UPDATE,
+        onClick = {
+            openDialog = true
+        },
+        isEnabled = observer.first,
+        modifier = modifier
+    )
+
+    if (openDialog) {
+        Alert(
+            label = UPDATE_STATUS_DELIVERY,
+            onDismissRequest = {
+                openDialog = false
+            },
+            onConfirmation = {
+                observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                viewModel.updateStatusDelivery(
+                    orderId = orderId,
+                    status = UpdateStatusDeliveryRequestDTO(
+                        status = when (itemSelected) {
+                            PENDING_DELIVERY -> AddressStatus.PENDING_DELIVERY
+                            SENDING -> AddressStatus.SENDING
+                            else -> AddressStatus.DELIVERED
                         }
                     )
-                }
+                )
+                openDialog = false
             }
         )
     }
-    ObserveNetworkStateHandlerUpdateStatusDelivery(
+    ObserveNetworkStateHandlerUpdateStatusObject(
         viewModel = viewModel,
         onError = {
             observer = it
@@ -106,10 +93,11 @@ fun UpdateStatusDelivery(
             onRefresh()
         }
     )
+    onError(observer)
 }
 
 @Composable
-private fun ObserveNetworkStateHandlerUpdateStatusDelivery(
+private fun ObserveNetworkStateHandlerUpdateStatusObject(
     viewModel: OrderViewModel,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},

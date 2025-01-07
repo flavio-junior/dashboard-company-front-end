@@ -37,6 +37,6 @@ fun AddMoreItems(
             )
         }
     } else {
-        ResourceUnavailable()
+        ResourceUnavailable(modifier = Modifier.fillMaxSize())
     }
 }

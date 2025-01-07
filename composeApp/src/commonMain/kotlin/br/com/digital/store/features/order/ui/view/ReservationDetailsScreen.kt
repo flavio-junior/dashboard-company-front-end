@@ -28,6 +28,7 @@ import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
@@ -40,6 +41,7 @@ import kotlinx.coroutines.launch
 fun ReservationDetailsScreen(
     orderResponseVO: OrderResponseVO,
     onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
+    objectSelected: (Pair<Long, ObjectResponseVO>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
@@ -66,6 +68,7 @@ fun ReservationDetailsScreen(
                 orderResponseVO = orderResponseVO,
                 objects = it,
                 onItemSelected = onItemSelected,
+                objectSelected = objectSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )

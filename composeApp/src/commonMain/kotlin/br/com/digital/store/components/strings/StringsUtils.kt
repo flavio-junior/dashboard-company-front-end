@@ -8,6 +8,7 @@ object StringsUtils {
     const val ID = "Código"
     const val NAME = "Nome"
     const val PRICE = "Preço"
+    const val TOTAL = "Total"
     const val QUANTITY = "Quantidade"
     const val DATE = "Data"
     const val HOUR = "Hora"
@@ -94,4 +95,5 @@ object StringsUtils {
     const val SELECT_ITEMS = "Selecionar Itens:"
     const val SELECTED_ITEMS = "Itens Selecionados:"
     const val CREATE_NEW_ORDER = "Criar Novo Pedido"
+    const val TYPE = "Tipo"
 }

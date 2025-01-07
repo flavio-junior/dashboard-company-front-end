@@ -1,8 +1,11 @@
 package br.com.digital.store.features.order.ui.view
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import br.com.digital.store.components.ui.ResourceUnavailable
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
@@ -12,6 +15,7 @@ fun DetailsOrderScreen(
     orderResponseVO: OrderResponseVO,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
+    objectSelected: (Pair<Long, ObjectResponseVO>) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
     if (orderResponseVO.id > NUMBER_ZERO) {
@@ -19,6 +23,7 @@ fun DetailsOrderScreen(
             TypeOrder.DELIVERY -> DeliveryDetailsScreen(
                 orderResponseVO = orderResponseVO,
                 onItemSelected = onItemSelected,
+                objectSelected = objectSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )
@@ -26,6 +31,7 @@ fun DetailsOrderScreen(
             TypeOrder.ORDER -> OrderDetailsScreen(
                 orderResponseVO = orderResponseVO,
                 onItemSelected = onItemSelected,
+                objectSelected = objectSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )
@@ -33,6 +39,7 @@ fun DetailsOrderScreen(
             TypeOrder.RESERVATION -> ReservationDetailsScreen(
                 orderResponseVO = orderResponseVO,
                 onItemSelected = onItemSelected,
+                objectSelected = objectSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )
@@ -40,6 +47,6 @@ fun DetailsOrderScreen(
             else -> {}
         }
     } else {
-        ResourceUnavailable()
+        ResourceUnavailable(modifier = Modifier.fillMaxSize())
     }
 }

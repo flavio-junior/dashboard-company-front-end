@@ -35,17 +35,21 @@ class OrderViewModel(
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val closeOrder: State<ObserveNetworkStateHandler<Unit>> = _closeOrder
 
-    private val _updateStatus =
+    private val _updateStatusObject =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val updateStatus: State<ObserveNetworkStateHandler<Unit>> = _updateStatus
+    val updateStatusObject: State<ObserveNetworkStateHandler<Unit>> = _updateStatusObject
 
-    private val _increment =
+    private val _updateStatusOverview =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val increment: State<ObserveNetworkStateHandler<Unit>> = _increment
+    val updateStatusOverview: State<ObserveNetworkStateHandler<Unit>> = _updateStatusOverview
 
-    private val _decrement =
+    private val _incrementOverview =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val decrement: State<ObserveNetworkStateHandler<Unit>> = _decrement
+    val incrementOverview: State<ObserveNetworkStateHandler<Unit>> = _incrementOverview
+
+    private val _removeOverview =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val removeOverview: State<ObserveNetworkStateHandler<Unit>> = _removeOverview
 
     private val _removeObject =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -71,45 +75,59 @@ class OrderViewModel(
     fun updateOrder(orderId: Long, objectId: Long, updateObject: UpdateObjectRequestDTO) {
         viewModelScope.launch {
             when (updateObject.action) {
-                Action.UPDATE_STATUS -> {
+                Action.UPDATE_STATUS_OBJECT -> {
                     repository.updateOrder(
                         orderId = orderId,
                         objectId = objectId,
                         updateObject = updateObject
                     )
                         .onStart {
-                            _updateStatus.value = ObserveNetworkStateHandler.Loading(l = true)
+                            _updateStatusObject.value = ObserveNetworkStateHandler.Loading(l = true)
                         }
                         .collect {
-                            _updateStatus.value = it
+                            _updateStatusObject.value = it
                         }
                 }
 
-                Action.INCREMENT -> {
+                Action.UPDATE_STATUS_OVERVIEW -> {
                     repository.updateOrder(
                         orderId = orderId,
                         objectId = objectId,
                         updateObject = updateObject
                     )
                         .onStart {
-                            _increment.value = ObserveNetworkStateHandler.Loading(l = true)
+                            _updateStatusOverview.value = ObserveNetworkStateHandler.Loading(l = true)
                         }
                         .collect {
-                            _increment.value = it
+                            _updateStatusOverview.value = it
                         }
                 }
 
-                Action.DECREMENT -> {
+                Action.INCREMENT_OVERVIEW -> {
                     repository.updateOrder(
                         orderId = orderId,
                         objectId = objectId,
                         updateObject = updateObject
                     )
                         .onStart {
-                            _decrement.value = ObserveNetworkStateHandler.Loading(l = true)
+                            _incrementOverview.value = ObserveNetworkStateHandler.Loading(l = true)
                         }
                         .collect {
-                            _decrement.value = it
+                            _incrementOverview.value = it
+                        }
+                }
+
+                Action.REMOVE_OVERVIEW -> {
+                    repository.updateOrder(
+                        orderId = orderId,
+                        objectId = objectId,
+                        updateObject = updateObject
+                    )
+                        .onStart {
+                            _removeOverview.value = ObserveNetworkStateHandler.Loading(l = true)
+                        }
+                        .collect {
+                            _removeOverview.value = it
                         }
                 }
 
@@ -201,15 +219,19 @@ class OrderViewModel(
             }
 
             ResetOrder.UPDATE_STATUS_OBJECT -> {
-                _updateStatus.value = ObserveNetworkStateHandler.Loading(l = false)
+                _updateStatusObject.value = ObserveNetworkStateHandler.Loading(l = false)
             }
 
-            ResetOrder.INCREMENT -> {
-                _increment.value = ObserveNetworkStateHandler.Loading(l = false)
+            ResetOrder.UPDATE_STATUS_OVERVIEW -> {
+                _updateStatusOverview.value = ObserveNetworkStateHandler.Loading(l = false)
             }
 
-            ResetOrder.DECREMENT -> {
-                _decrement.value = ObserveNetworkStateHandler.Loading(l = false)
+            ResetOrder.INCREMENT_OVERVIEW -> {
+                _incrementOverview.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
+            ResetOrder.REMOVE_OVERVIEW -> {
+                _removeOverview.value = ObserveNetworkStateHandler.Loading(l = false)
             }
 
             ResetOrder.REMOVE_OBJECT -> {
@@ -236,9 +258,10 @@ enum class ResetOrder {
     DELETE_ORDER,
     CLOSE_ORDER,
     UPDATE_STATUS_DELIVERY,
+    UPDATE_STATUS_OVERVIEW,
     UPDATE_STATUS_OBJECT,
-    INCREMENT,
-    DECREMENT,
+    INCREMENT_OVERVIEW,
+    REMOVE_OVERVIEW,
     REMOVE_OBJECT,
     INCREMENT_MORE_OBJECTS_ORDER
 }

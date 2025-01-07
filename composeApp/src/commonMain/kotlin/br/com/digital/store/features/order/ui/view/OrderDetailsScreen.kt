@@ -10,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.theme.Themes
 
@@ -17,6 +18,7 @@ import br.com.digital.store.theme.Themes
 fun OrderDetailsScreen(
     orderResponseVO: OrderResponseVO,
     onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
+    objectSelected: (Pair<Long, ObjectResponseVO>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
@@ -34,6 +36,7 @@ fun OrderDetailsScreen(
                 orderResponseVO = orderResponseVO,
                 objects = it,
                 onItemSelected = onItemSelected,
+                objectSelected = objectSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )

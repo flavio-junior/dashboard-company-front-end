@@ -1,7 +1,5 @@
 package br.com.digital.store.features.order.ui.view
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.ui.Alert
-import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
@@ -27,27 +24,23 @@ fun DeleteOrder(
     orderId: Long,
     modifier: Modifier = Modifier,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
-    onRefresh: () -> Unit = {}
+    onRefresh: () -> Unit = {},
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {}
 ) {
     val viewModel: OrderViewModel = getKoin().get()
     var openDialog: Boolean by remember { mutableStateOf(value = false) }
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
-    ) {
-        LoadingButton(
-            background = Themes.colors.error,
-            label = CANCEL_ORDER,
-            onClick = {
-                openDialog = true
-            },
-            isEnabled = observer.first
-        )
-        IsErrorMessage(isError = observer.second, message = observer.third)
-    }
+    LoadingButton(
+        background = Themes.colors.error,
+        label = CANCEL_ORDER,
+        onClick = {
+            openDialog = true
+        },
+        isEnabled = observer.first,
+        modifier = modifier
+    )
     if (openDialog) {
         Alert(
             label = "$CANCEL_ORDER?",
@@ -72,6 +65,7 @@ fun DeleteOrder(
             onRefresh()
         }
     )
+    onError(observer)
 }
 
 @Composable

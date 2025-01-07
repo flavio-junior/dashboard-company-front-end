@@ -2,6 +2,7 @@ package br.com.digital.store.features.order.ui.view
 
 import androidx.compose.runtime.Composable
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.utils.NumbersUtils
 
@@ -9,7 +10,9 @@ import br.com.digital.store.utils.NumbersUtils
 fun OrderTabMain(
     index: Int,
     orderResponseVO: OrderResponseVO = OrderResponseVO(),
+    objectResponseVO: Pair<Long, ObjectResponseVO>,
     onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
+    objectResult: (Pair<Long, ObjectResponseVO>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: (Int) -> Unit = {}
 ) {
@@ -22,6 +25,7 @@ fun OrderTabMain(
         NumbersUtils.NUMBER_ONE -> DetailsOrderScreen(
             orderResponseVO = orderResponseVO,
             goToAlternativeRoutes = goToAlternativeRoutes,
+            objectSelected = objectResult,
             onItemSelected = onItemSelected,
             onRefresh = {
                 onRefresh(NumbersUtils.NUMBER_ONE)
@@ -29,7 +33,8 @@ fun OrderTabMain(
         )
 
         NumbersUtils.NUMBER_TWO -> DetailsItem(
-            orderResponseVO = orderResponseVO,
+            orderId = objectResponseVO.first,
+            objectResponseVO = objectResponseVO.second,
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = {
                 onRefresh(NumbersUtils.NUMBER_TWO)
@@ -47,6 +52,7 @@ fun OrderTabMain(
         NumbersUtils.NUMBER_FOUR ->
             AddMoreItems(
                 orderResponseVO = orderResponseVO,
+                goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = {
                     onRefresh(NumbersUtils.NUMBER_FOUR)
                 }

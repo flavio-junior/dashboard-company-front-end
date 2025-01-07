@@ -4,7 +4,7 @@ import br.com.digital.store.features.order.domain.status.ObjectStatus
 
 data class OverviewResponseVO(
     var id: Long = 0,
-    var createdAt: String? = null,
+    var createdAt: String? = "",
     var status: ObjectStatus? = null,
     var quantity: Int = 0
 )

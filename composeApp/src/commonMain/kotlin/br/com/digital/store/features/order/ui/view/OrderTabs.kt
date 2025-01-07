@@ -22,10 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.navigation.RouteApp
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.NumbersUtils.NUMBER_TWO
 import kotlinx.coroutines.launch
 
 @Composable
@@ -37,6 +39,9 @@ fun OrdersTabs(
     val pagerState = rememberPagerState(pageCount = { ItemsOrder.entries.size })
     val selectedTabIndex = remember { derivedStateOf { pagerState.currentPage } }
     var ordersResponseVO: OrderResponseVO by remember { mutableStateOf(value = OrderResponseVO()) }
+    var objectResponseVO: Pair<Long, ObjectResponseVO> by remember {
+        mutableStateOf(value = Pair(0L, ObjectResponseVO()))
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,22 +78,29 @@ fun OrdersTabs(
                 modifier = Modifier
                     .background(color = Themes.colors.background)
                     .fillMaxSize(),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.TopCenter
             ) {
                 OrderTabMain(
                     index = it,
                     orderResponseVO = ordersResponseVO,
+                    objectResponseVO = objectResponseVO,
                     onItemSelected = {
                         ordersResponseVO = it.first
                         scope.launch {
                             pagerState.animateScrollToPage(page = it.second)
                         }
                     },
+                    objectResult = {
+                        objectResponseVO = it
+                        scope.launch {
+                            pagerState.animateScrollToPage(page = NUMBER_TWO)
+                        }
+                    },
                     goToAlternativeRoutes = goToAlternativeRoutes,
                     onRefresh = {
                         goToNextScreen(RouteApp.Order.item)
                         scope.launch {
-                            pagerState.animateScrollToPage(page = - it)
+                            pagerState.animateScrollToPage(page = -it)
                         }
                     }
                 )

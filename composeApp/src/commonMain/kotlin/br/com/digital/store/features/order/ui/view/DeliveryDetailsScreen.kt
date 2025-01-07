@@ -10,14 +10,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.utils.NumbersUtils.NUMBER_TWO
+import br.com.digital.store.utils.NumbersUtils.NUMBER_THREE
 
 @Composable
 fun DeliveryDetailsScreen(
     orderResponseVO: OrderResponseVO,
+    objectSelected: (Pair<Long, ObjectResponseVO>) -> Unit = {},
     onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
@@ -35,7 +37,7 @@ fun DeliveryDetailsScreen(
             addressResponseVO = orderResponseVO.address,
             showAction = true,
             onItemSelected = {
-               onItemSelected(Pair(orderResponseVO, NUMBER_TWO))
+               onItemSelected(Pair(orderResponseVO, NUMBER_THREE))
             }
         )
         orderResponseVO.objects?.let {
@@ -44,6 +46,7 @@ fun DeliveryDetailsScreen(
                 objects = it,
                 type = TypeOrder.DELIVERY,
                 onItemSelected = onItemSelected,
+                objectSelected = objectSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh
             )

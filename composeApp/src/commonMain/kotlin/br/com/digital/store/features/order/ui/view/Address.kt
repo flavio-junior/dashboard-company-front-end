@@ -155,7 +155,7 @@ fun AlterAddress(
             )
         }
     } else {
-        ResourceUnavailable()
+        ResourceUnavailable(modifier = Modifier.fillMaxSize())
     }
 }
 

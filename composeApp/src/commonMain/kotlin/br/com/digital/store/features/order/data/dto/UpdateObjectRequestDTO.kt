@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UpdateObjectRequestDTO(
     var action: Action,
+    var overview: Long = 0,
     var status: ObjectStatus? = null,
     var quantity: Int = 0
 )

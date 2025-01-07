@@ -37,7 +37,7 @@ fun Alert(
                     color = Themes.colors.primary
                 )
                 .background(color = Themes.colors.background)
-                .size(width = Themes.size.spaceSize300, height = Themes.size.spaceSize200)
+                .size(width = Themes.size.spaceSize400, height = Themes.size.spaceSize200)
                 .padding(all = Themes.size.spaceSize16),
             verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8),
             horizontalAlignment = Alignment.CenterHorizontally,
