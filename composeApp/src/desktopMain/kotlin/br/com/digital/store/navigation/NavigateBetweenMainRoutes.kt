@@ -41,8 +41,8 @@ private fun navigateBetweenDashboardScreen(
         ItemNavigation.REPORT.name ->
             navGraph.navigate(route = RouteApp.Report.item)
 
-        ItemNavigation.HISTORY.name ->
-            navGraph.navigate(route = RouteApp.History.item)
+        ItemNavigation.RESUME.name ->
+            navGraph.navigate(route = RouteApp.Resume.item)
 
         ItemNavigation.SETTINGS.name ->
             navGraph.navigate(route = RouteApp.Settings.item)

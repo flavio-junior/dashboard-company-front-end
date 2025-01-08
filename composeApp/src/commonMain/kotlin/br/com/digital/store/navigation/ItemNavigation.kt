@@ -13,7 +13,7 @@ enum class ItemNavigation {
     PRODUCT,
     ORDER,
     RESERVATION,
-    HISTORY,
+    RESUME,
     PAYMENT,
     REPORT,
     SETTINGS,

@@ -15,6 +15,6 @@ sealed class RouteApp(val item: String) {
     data object Reservation: RouteApp(item = ItemNavigation.RESERVATION.name)
     data object Payment: RouteApp(item = ItemNavigation.PAYMENT.name)
     data object Report: RouteApp(item = ItemNavigation.REPORT.name)
-    data object History: RouteApp(item = ItemNavigation.HISTORY.name)
+    data object Resume: RouteApp(item = ItemNavigation.RESUME.name)
     data object Settings: RouteApp(item = ItemNavigation.SETTINGS.name)
 }

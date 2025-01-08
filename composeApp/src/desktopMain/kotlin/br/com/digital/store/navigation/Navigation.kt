@@ -8,7 +8,6 @@ import androidx.navigation.compose.composable
 import br.com.digital.store.ui.view.category.CategoryScreen
 import br.com.digital.store.ui.view.dashboard.DashboardScreen
 import br.com.digital.store.ui.view.food.FoodScreen
-import br.com.digital.store.ui.view.history.HistoryScreen
 import br.com.digital.store.ui.view.item.ItemScreen
 import br.com.digital.store.ui.view.login.SignInScreen
 import br.com.digital.store.ui.view.order.OrderScreen
@@ -17,6 +16,7 @@ import br.com.digital.store.ui.view.pdv.PdvScreen
 import br.com.digital.store.ui.view.product.ProductScreen
 import br.com.digital.store.ui.view.report.ReportScreen
 import br.com.digital.store.ui.view.reservation.ReservationScreen
+import br.com.digital.store.ui.view.resume.ResumeScreen
 import br.com.digital.store.ui.view.settings.SettingsScreen
 
 @Composable
@@ -232,15 +232,15 @@ fun NavGraphBuilder.dashboardNavigation(
             }
         )
     }
-    composable(RouteApp.History.item) {
-        HistoryScreen(
+    composable(RouteApp.Resume.item) {
+        ResumeScreen(
             goToBackScreen = {
                 navController.popBackStack()
             },
             goToNextScreen = {
                 goToNextScreen(
                     navHostController = navController,
-                    currentScreen = RouteApp.History.item,
+                    currentScreen = RouteApp.Resume.item,
                     nextScreen = it
                 )
             }

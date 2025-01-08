@@ -24,6 +24,7 @@ import br.com.digital.store.features.payment.di.paymentModule
 import br.com.digital.store.features.product.di.productModule
 import br.com.digital.store.features.report.di.reportModule
 import br.com.digital.store.features.reservation.di.reservationModule
+import br.com.digital.store.features.resume.di.resumeModule
 import br.com.digital.store.navigation.Navigation
 import br.com.digital.store.theme.Themes
 import org.jetbrains.compose.resources.painterResource
@@ -41,6 +42,7 @@ fun main() {
                 networkModule,
                 orderModule,
                 reservationModule,
+                resumeModule,
                 productModule,
                 paymentModule,
                 reportModule

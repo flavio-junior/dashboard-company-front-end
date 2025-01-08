@@ -74,7 +74,7 @@ val menus = listOf(
     Menu(
         icon = Res.drawable.data_usage,
         label = RESUME,
-        route = ItemNavigation.HISTORY.name
+        route = ItemNavigation.RESUME.name
     ),
     Menu(
         icon = Res.drawable.finance,
@@ -142,7 +142,7 @@ val availableServices = listOf(
     ItemService(
         icon = Res.drawable.data_usage,
         label = RESUME,
-        route = ItemNavigation.HISTORY.name
+        route = ItemNavigation.RESUME.name
     ),
     ItemService(
         icon = Res.drawable.finance,
