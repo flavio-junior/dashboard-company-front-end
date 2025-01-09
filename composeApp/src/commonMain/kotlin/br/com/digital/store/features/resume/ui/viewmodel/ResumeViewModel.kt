@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.resume.data.repository.ResumeRepository
-import br.com.digital.store.features.resume.data.vo.AnalisePaymentResponseVO
+import br.com.digital.store.features.resume.data.vo.AnaliseDayVO
 import br.com.digital.store.features.resume.domain.ConverterResume
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import kotlinx.coroutines.flow.onStart
@@ -18,10 +18,10 @@ class ResumeViewModel(
 ) : ViewModel() {
 
     private val _getAnalysisDay =
-        mutableStateOf<ObserveNetworkStateHandler<AnalisePaymentResponseVO>>(
+        mutableStateOf<ObserveNetworkStateHandler<AnaliseDayVO>>(
             ObserveNetworkStateHandler.Loading(l = false)
         )
-    val getAnalysisDay: State<ObserveNetworkStateHandler<AnalisePaymentResponseVO>> =
+    val getAnalysisDay: State<ObserveNetworkStateHandler<AnaliseDayVO>> =
         _getAnalysisDay
 
     fun getAnalysisDay(
@@ -35,7 +35,7 @@ class ResumeViewModel(
                 .collect {
                     it.result?.let { response ->
                         val objectConverted =
-                            converterResume.converterContentDTOToVO(content = response)
+                            converterResume.converterAnaliseDayDTOToVO(content = response)
                         _getAnalysisDay.value = ObserveNetworkStateHandler.Success(
                             s = objectConverted
                         )

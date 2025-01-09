@@ -1,29 +1,47 @@
 package br.com.digital.store.features.resume.domain
 
-import br.com.digital.store.features.resume.data.dto.AnalisePaymentResponseDTO
-import br.com.digital.store.features.resume.data.dto.PaymentSummaryResumeResponseDTO
-import br.com.digital.store.features.resume.data.vo.AnalisePaymentResponseVO
-import br.com.digital.store.features.resume.data.vo.PaymentSummaryResponseVO
+import br.com.digital.store.features.resume.data.dto.AnaliseDayDTO
+import br.com.digital.store.features.resume.data.dto.DescriptionPaymentResponseDTO
+import br.com.digital.store.features.resume.data.dto.TypePaymentDTO
+import br.com.digital.store.features.resume.data.vo.AnaliseDayVO
+import br.com.digital.store.features.resume.data.vo.DescriptionPaymentResponseVO
+import br.com.digital.store.features.resume.data.vo.TypePaymentVO
 
 class ConverterResume {
 
-    fun converterContentDTOToVO(content: AnalisePaymentResponseDTO): AnalisePaymentResponseVO {
-        return AnalisePaymentResponseVO(
-            analise = converterPaymentSummaryResponseDTOToVO(analise = content.analise),
+    fun converterAnaliseDayDTOToVO(content: AnaliseDayDTO): AnaliseDayVO {
+        return AnaliseDayVO(
+            content = convertContentAnaliseDayResponseDTOToVO(content = content.content),
+            numberOrders = content.numberOrders,
             total = content.total,
             discount = content.discount
         )
     }
 
-    private fun converterPaymentSummaryResponseDTOToVO(
-        analise: List<PaymentSummaryResumeResponseDTO>?
-    ): List<PaymentSummaryResponseVO>? {
+    private fun convertContentAnaliseDayResponseDTOToVO(
+        content: List<TypePaymentDTO>?
+    ):List<TypePaymentVO>? {
+        return content?.map {
+            TypePaymentVO(
+                typeOrder = it.typeOrder,
+                analise = converterDescriptionPaymentResponseDTOToVO(it.analise),
+                numberOrders = it.numberOrders,
+                total = it.total,
+                discount = it.discount
+            )
+        }
+    }
+
+    private fun converterDescriptionPaymentResponseDTOToVO(
+        analise: List<DescriptionPaymentResponseDTO>? = null
+    ): List<DescriptionPaymentResponseVO>? {
         return analise?.map {
-            PaymentSummaryResponseVO(
+            DescriptionPaymentResponseVO(
                 typeOrder = it.typeOrder,
                 typePayment = it.typePayment,
-                count = it.count,
-                total = it.total
+                numberItems = it.numberItems,
+                total = it.total,
+                discount = it.discount
             )
         }
     }

@@ -8,13 +8,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
-import br.com.digital.store.features.resume.data.vo.AnalisePaymentResponseVO
+import br.com.digital.store.features.resume.data.vo.AnaliseDayVO
+import br.com.digital.store.features.resume.ui.view.PieChart
 import br.com.digital.store.features.resume.ui.viewmodel.ResumeViewModel
 import br.com.digital.store.theme.Themes
 import org.koin.mp.KoinPlatform.getKoin
@@ -23,7 +23,7 @@ import org.koin.mp.KoinPlatform.getKoin
 fun GetAnaliseDayScreen() {
     Column(
         modifier = Modifier
-            .background(color = Themes.colors.success)
+            .background(color = Themes.colors.background)
             .fillMaxSize()
     ) {
         val viewModel: ResumeViewModel = getKoin().get()
@@ -31,7 +31,10 @@ fun GetAnaliseDayScreen() {
             viewModel.getAnalysisDay()
         }
         ObserveNetworkStateHandlerGetAnaliseDay(
-            viewModel = viewModel
+            viewModel = viewModel,
+            onSuccess = {
+                PieChart(analise = it)
+            }
         )
     }
 }
@@ -40,8 +43,9 @@ fun GetAnaliseDayScreen() {
 private fun ObserveNetworkStateHandlerGetAnaliseDay(
     viewModel: ResumeViewModel,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onSuccess: @Composable (AnaliseDayVO) -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<AnalisePaymentResponseVO> by remember { viewModel.getAnalysisDay }
+    val state: ObserveNetworkStateHandler<AnaliseDayVO> by remember { viewModel.getAnalysisDay }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {
@@ -55,7 +59,7 @@ private fun ObserveNetworkStateHandlerGetAnaliseDay(
             reloadViewModels()
         },
         onSuccess = {
-            Description(description = it.result?.analise.toString())
+            it.result?.let { result -> onSuccess(result) }
         }
     )
 }

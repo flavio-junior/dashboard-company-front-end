@@ -3,7 +3,7 @@ package br.com.digital.store.features.resume.data.repository
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.toResultFlow
-import br.com.digital.store.features.resume.data.dto.AnalisePaymentResponseDTO
+import br.com.digital.store.features.resume.data.dto.AnaliseDayDTO
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
@@ -23,7 +23,7 @@ class ResumeRemoteDataSource(
 
     override fun getAnalysisDay(
         date: String
-    ): Flow<ObserveNetworkStateHandler<AnalisePaymentResponseDTO>> {
+    ): Flow<ObserveNetworkStateHandler<AnaliseDayDTO>> {
         return toResultFlow {
             httpClient.get {
                 url {
