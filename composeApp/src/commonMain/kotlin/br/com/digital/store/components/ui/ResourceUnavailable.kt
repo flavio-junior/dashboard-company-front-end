@@ -3,6 +3,7 @@ package br.com.digital.store.components.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,7 +19,7 @@ fun ResourceUnavailable(
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconDefault(

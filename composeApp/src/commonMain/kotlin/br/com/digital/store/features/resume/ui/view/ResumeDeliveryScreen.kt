@@ -1,10 +1,15 @@
 package br.com.digital.store.features.resume.ui.view
 
 import androidx.compose.runtime.Composable
+import br.com.digital.store.components.ui.ResourceUnavailable
 
 @Composable
 fun ResumeDeliveryScreen(
     pierChart: PierChart
 ) {
-    AnaliseDay(pierChart = pierChart)
+    if (pierChart.graphic != null) {
+        AnaliseDay(pierChart = pierChart)
+    } else {
+        ResourceUnavailable()
+    }
 }
