@@ -14,7 +14,7 @@ import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.resume.data.vo.AnaliseDayVO
-import br.com.digital.store.features.resume.ui.view.PieChart
+import br.com.digital.store.features.resume.ui.view.AnaliseDay
 import br.com.digital.store.features.resume.ui.viewmodel.ResumeViewModel
 import br.com.digital.store.theme.Themes
 import org.koin.mp.KoinPlatform.getKoin
@@ -33,7 +33,7 @@ fun GetAnaliseDayScreen() {
         ObserveNetworkStateHandlerGetAnaliseDay(
             viewModel = viewModel,
             onSuccess = {
-                PieChart(analise = it)
+                AnaliseDay(analise = it)
             }
         )
     }
