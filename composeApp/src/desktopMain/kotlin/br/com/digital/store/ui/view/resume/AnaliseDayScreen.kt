@@ -29,7 +29,7 @@ import br.com.digital.store.features.resume.ui.view.PierChart
 import br.com.digital.store.features.resume.ui.view.ResumePieChart
 import br.com.digital.store.features.resume.ui.viewmodel.ResumeViewModel
 import br.com.digital.store.features.resume.utils.ColorsResume
-import br.com.digital.store.features.resume.utils.ResumeUtils.ANALISE_DAY
+import br.com.digital.store.features.resume.utils.ResumeUtils.RESUME_DAY
 import br.com.digital.store.features.resume.utils.ResumeUtils.NUMBER_DISCOUNT
 import br.com.digital.store.features.resume.utils.ResumeUtils.NUMBER_ORDERS
 import br.com.digital.store.features.resume.utils.ResumeUtils.RESUME_COMPLETED
@@ -55,7 +55,7 @@ fun GetAnaliseDayScreen() {
 
                 val pieChart = PierChart(
                     graphic = Graphic(
-                        title = ANALISE_DAY,
+                        title = RESUME_DAY,
                         graphic = ORDERS,
                         details = TYPE_ORDERS,
                         information = it.content?.mapIndexed { index, value ->
