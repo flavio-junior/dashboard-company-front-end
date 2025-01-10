@@ -22,28 +22,32 @@ import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.SubTitle
 import br.com.digital.store.components.ui.Title
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.NumbersUtils
 import br.com.digital.store.utils.onBorder
+import br.com.digital.store.utils.onClickable
 import org.jetbrains.compose.resources.DrawableResource
 
 @Composable
 fun DetailsAnalise(
     modifier: Modifier = Modifier,
-    graphic: Graphic,
-    resume: ResumePieChart
+    graphic: Graphic? = null,
+    resume: ResumePieChart? = null,
+    onItemSelect: (Pair<Boolean, String>) -> Unit = {}
 ) {
     Column(modifier = modifier) {
-        Title(title = graphic.details)
+        Title(title = graphic?.details ?: EMPTY_TEXT)
         BodyAnalise(
             modifier = Modifier.weight(weight = WEIGHT_SIZE),
-            information = graphic.information,
+            information = graphic?.information,
+            onItemSelect = onItemSelect
         )
-        Title(title = resume.title)
+        Title(title = resume?.title ?: EMPTY_TEXT)
         Spacer(modifier = Modifier.height(height = Themes.size.spaceSize8))
         DetailsCompletedAnalise(
             modifier = Modifier.weight(weight = WEIGHT_SIZE),
-            details = resume.details
+            details = resume?.details
         )
     }
 }
@@ -52,6 +56,7 @@ fun DetailsAnalise(
 fun BodyAnalise(
     modifier: Modifier = Modifier,
     information: List<InformationPieChat>? = null,
+    onItemSelect: (Pair<Boolean, String>) -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -60,7 +65,7 @@ fun BodyAnalise(
         verticalArrangement = Arrangement.Center
     ) {
         information?.forEach {
-            DetailsPieChartItem(information = it)
+            DetailsPieChartItem(information = it, onItemSelect = onItemSelect)
             Spacer(modifier = Modifier.height(height = Themes.size.spaceSize8))
         }
     }
@@ -68,16 +73,24 @@ fun BodyAnalise(
 
 @Composable
 fun DetailsPieChartItem(
-    information: InformationPieChat
+    information: InformationPieChat,
+    onItemSelect: (Pair<Boolean, String>) -> Unit = {}
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .onClickable {
+                onItemSelect(Pair(true, information.label))
+            }
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
                 .onBorder(
+                    onClick = {
+                        onItemSelect(Pair(true, information.label))
+                    },
                     spaceSize = Themes.size.spaceSize12,
                     width = Themes.size.spaceSize2,
                     color = information.color
@@ -86,15 +99,27 @@ fun DetailsPieChartItem(
                 .size(size = Themes.size.spaceSize48)
         )
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .onClickable {
+                    onItemSelect(Pair(true, information.label))
+                }
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8)
         ) {
-            SubTitle(subTitle = information.label)
+            SubTitle(
+                subTitle = information.label,
+                modifier = Modifier.onClickable {
+                    onItemSelect(Pair(true, information.label))
+                }
+            )
             Description(
                 description = if (information.value > NumbersUtils.NUMBER_ONE) {
                     "${information.value} $ORDERS"
                 } else {
                     "${information.value} $ORDER"
+                },
+                modifier = Modifier.onClickable {
+                    onItemSelect(Pair(true, information.label))
                 }
             )
         }
@@ -104,13 +129,13 @@ fun DetailsPieChartItem(
 @Composable
 fun DetailsCompletedAnalise(
     modifier: Modifier = Modifier,
-    details: List<DetailsPieChart>
+    details: List<DetailsPieChart>? = null
 ) {
     Column(
         modifier = modifier.padding(all = Themes.size.spaceSize16),
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
-        details.forEach {
+        details?.forEach {
             LabelWithInfoAnalise(
                 icon = it.icon,
                 label = it.label,

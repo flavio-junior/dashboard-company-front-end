@@ -25,6 +25,7 @@ import br.com.digital.store.theme.FontSize.fontSize18
 import br.com.digital.store.theme.FontSize.fontSize36
 import br.com.digital.store.theme.SpaceSize.spaceSize48
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -32,12 +33,12 @@ import kotlin.math.sin
 fun PierChartAnalise(
     modifier: Modifier,
     radiusOuter: Dp = Themes.size.spaceSize200,
-    graphic: Graphic,
+    graphic: Graphic? = null,
 ) {
-    val titleGraphic = graphic.graphic
+    val titleGraphic = graphic?.graphic
     val textMeasurer = rememberTextMeasurer()
     val textLayoutResult = textMeasurer.measure(
-        text = AnnotatedString(text = titleGraphic),
+        text = AnnotatedString(text = titleGraphic ?: EMPTY_TEXT),
         style = TextStyle(
             color = Color.Black,
             fontSize = fontSize36,
@@ -48,7 +49,7 @@ fun PierChartAnalise(
     val textSize = textLayoutResult.size
     Box(modifier = modifier.fillMaxHeight()) {
         Title(
-            title = graphic.title,
+            title = graphic?.title ?: EMPTY_TEXT,
             modifier = Modifier.align(alignment = Alignment.TopStart)
         )
         Canvas(
@@ -57,10 +58,10 @@ fun PierChartAnalise(
                 .size(size = radiusOuter * 2f)
                 .padding(all = Themes.size.spaceSize36)
         ) {
-            val total = graphic.total
+            val total = graphic?.total ?: 0
             var startAngle = 0f
             val spacingAngle = 5f
-            graphic.information?.forEach { analytic ->
+            graphic?.information?.forEach { analytic ->
                 val sweepAngle = (analytic.value.toFloat() / total) * 360f
                 drawArc(
                     color = analytic.color,
@@ -93,7 +94,7 @@ fun PierChartAnalise(
             }
             drawText(
                 textMeasurer = textMeasurer,
-                text = titleGraphic,
+                text = titleGraphic ?: EMPTY_TEXT,
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = fontSize36,

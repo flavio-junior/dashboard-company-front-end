@@ -16,7 +16,8 @@ import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 
 @Composable
 fun AnaliseDay(
-    pierChart: PierChart
+    pierChart: PierChart,
+    onItemSelect: (Pair<Boolean, String>) -> Unit = {}
 ) {
     var animationPlayed by remember { mutableStateOf(value = false) }
     LaunchedEffect(key1 = true) {
@@ -37,7 +38,8 @@ fun AnaliseDay(
         DetailsAnalise(
             modifier = Modifier.weight(weight = WEIGHT_SIZE),
             graphic = pierChart.graphic,
-            resume = pierChart.resume
+            resume = pierChart.resume,
+            onItemSelect = onItemSelect
         )
     }
 }

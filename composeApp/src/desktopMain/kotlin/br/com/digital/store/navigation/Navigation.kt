@@ -243,6 +243,13 @@ fun NavGraphBuilder.dashboardNavigation(
                     currentScreen = RouteApp.Resume.item,
                     nextScreen = it
                 )
+            },
+            goToAlternativeRoutes = {
+                navigateToAlternativeRoutes(
+                    navController = navController,
+                    currentScreen = RouteApp.Resume.item,
+                    alternativeRoutes = it
+                )
             }
         )
     }

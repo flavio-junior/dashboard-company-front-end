@@ -3,6 +3,8 @@ package br.com.digital.store.ui.view.resume
 import androidx.compose.runtime.Composable
 import br.com.digital.store.components.strings.StringsUtils.RESUME
 import br.com.digital.store.domain.factory.availableServices
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.resume.ui.view.ResumeTabs
 import br.com.digital.store.ui.view.shared.BodyPage
 import br.com.digital.store.ui.view.shared.Services
 import br.com.digital.store.utils.TypeLayout
@@ -10,7 +12,8 @@ import br.com.digital.store.utils.TypeLayout
 @Composable
 fun ResumeScreen(
     goToBackScreen: () -> Unit = {},
-    goToNextScreen: (String) -> Unit = {}
+    goToNextScreen: (String) -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     BodyPage(
         typeLayout = TypeLayout.ROW,
@@ -21,7 +24,7 @@ fun ResumeScreen(
                 goToBackScreen = goToBackScreen,
                 goToNextScreen = goToNextScreen
             )
-            GetAnaliseDayScreen()
+            ResumeTabs(goToAlternativeRoutes = goToAlternativeRoutes)
         }
     )
 }

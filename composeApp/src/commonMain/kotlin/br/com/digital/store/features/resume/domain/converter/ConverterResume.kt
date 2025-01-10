@@ -1,4 +1,4 @@
-package br.com.digital.store.features.resume.domain
+package br.com.digital.store.features.resume.domain.converter
 
 import br.com.digital.store.features.resume.data.dto.AnaliseDayDTO
 import br.com.digital.store.features.resume.data.dto.DescriptionPaymentResponseDTO

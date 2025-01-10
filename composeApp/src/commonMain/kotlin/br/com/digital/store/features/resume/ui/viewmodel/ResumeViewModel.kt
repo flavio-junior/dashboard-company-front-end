@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.resume.data.repository.ResumeRepository
 import br.com.digital.store.features.resume.data.vo.AnaliseDayVO
-import br.com.digital.store.features.resume.domain.ConverterResume
+import br.com.digital.store.features.resume.domain.converter.ConverterResume
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -42,9 +42,5 @@ class ResumeViewModel(
                     }
                 }
         }
-    }
-
-    fun resetResume() {
-        _getAnalysisDay.value = ObserveNetworkStateHandler.Loading(l = false)
     }
 }

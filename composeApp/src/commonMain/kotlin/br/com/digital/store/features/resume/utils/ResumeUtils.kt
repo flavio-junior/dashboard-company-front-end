@@ -7,7 +7,7 @@ import br.com.digital.store.theme.Themes
 import kotlin.math.PI
 
 object ResumeUtils {
-    const val RESUME_DAY = "Resumo do dia:"
+    const val RESUME_DAY = "Resumo do dia"
     const val TYPE_ORDERS = "Tipo do Pedido:"
     const val NUMBER_ORDERS = "Número de Pedidos:"
     const val RESUME_COMPLETED = "Resumo Completo:"
