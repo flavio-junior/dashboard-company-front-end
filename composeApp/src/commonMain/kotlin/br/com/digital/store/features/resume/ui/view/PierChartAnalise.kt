@@ -33,7 +33,7 @@ import kotlin.math.sin
 fun PierChartAnalise(
     modifier: Modifier,
     radiusOuter: Dp = Themes.size.spaceSize200,
-    graphic: Graphic? = null,
+    graphic: Graphic? = null
 ) {
     val titleGraphic = graphic?.graphic
     val textMeasurer = rememberTextMeasurer()
@@ -70,19 +70,26 @@ fun PierChartAnalise(
                     useCenter = false,
                     style = Stroke(spaceSize48.toPx(), cap = StrokeCap.Butt)
                 )
-                val angle = startAngle + sweepAngle / 2f
-                val percentageX = center.x + (radiusOuter.toPx() / 2f) * cos(angle.toRadians())
-                val percentageY = center.y + (radiusOuter.toPx() / 2f) * sin(angle.toRadians())
+                val percentageX: Float
+                val percentageY: Float
                 val percentage = "${((analytic.value.toFloat() / total) * 100).toInt()}%"
                 val percentageTextLayoutResult =
                     textMeasurer.measure(text = AnnotatedString(percentage))
                 val percentageTextSize = percentageTextLayoutResult.size
+                if (total == 1L) {
+                    percentageX = (this.size.width - percentageTextSize.width) / 2f
+                    percentageY = this.size.height - percentageTextSize.height - spaceSize48.toPx()
+                } else {
+                    val angle = startAngle + sweepAngle / 2f
+                    percentageX = center.x + (radiusOuter.toPx() / 2f) * cos(angle.toRadians())
+                    percentageY = center.y + (radiusOuter.toPx() / 2f) * sin(angle.toRadians())
+                }
                 drawText(
                     textMeasurer = textMeasurer,
                     text = percentage,
                     topLeft = Offset(
-                        x = percentageX - percentageTextSize.width / 2f,
-                        y = percentageY - percentageTextSize.height / 2f
+                        x = percentageX,
+                        y = percentageY
                     ),
                     style = TextStyle(
                         color = Color.Black,

@@ -17,7 +17,7 @@ data class Graphic(
     val graphic: String = "",
     val details: String = "",
     val information: List<InformationPieChat>? = null,
-    val total: Long = 9
+    val total: Long = 0
 )
 
 data class InformationPieChat(
