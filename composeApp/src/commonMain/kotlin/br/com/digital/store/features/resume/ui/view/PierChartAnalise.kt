@@ -15,12 +15,14 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import br.com.digital.store.components.strings.StringsUtils.ORDERS
 import br.com.digital.store.components.ui.Title
-import br.com.digital.store.features.resume.utils.ResumeUtils.ANALISE_DAY
 import br.com.digital.store.features.resume.utils.toRadians
+import br.com.digital.store.theme.FontSize.fontSize18
+import br.com.digital.store.theme.FontSize.fontSize36
 import br.com.digital.store.theme.SpaceSize.spaceSize48
 import br.com.digital.store.theme.Themes
 import kotlin.math.cos
@@ -30,54 +32,78 @@ import kotlin.math.sin
 fun PierChartAnalise(
     modifier: Modifier,
     radiusOuter: Dp = Themes.size.spaceSize200,
-    floatValue: List<Float>,
-    colors: List<Color>
+    graphic: Graphic,
 ) {
-    val myText = ORDERS
+    val titleGraphic = graphic.graphic
     val textMeasurer = rememberTextMeasurer()
-    val textLayoutResult = textMeasurer.measure(text = AnnotatedString(myText))
+    val textLayoutResult = textMeasurer.measure(
+        text = AnnotatedString(text = titleGraphic),
+        style = TextStyle(
+            color = Color.Black,
+            fontSize = fontSize36,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+    )
     val textSize = textLayoutResult.size
     Box(modifier = modifier.fillMaxHeight()) {
-        Title(title = ANALISE_DAY, modifier = Modifier.align(alignment = Alignment.TopStart))
+        Title(
+            title = graphic.title,
+            modifier = Modifier.align(alignment = Alignment.TopStart)
+        )
         Canvas(
             modifier = Modifier
                 .align(alignment = Alignment.Center)
                 .size(size = radiusOuter * 2f)
                 .padding(all = Themes.size.spaceSize36)
         ) {
-            val total = floatValue.sum()
+            val total = graphic.total
             var startAngle = 0f
-            floatValue.forEachIndexed { index, value ->
+            val spacingAngle = 5f
+            graphic.information?.forEach { analytic ->
+                val sweepAngle = (analytic.value.toFloat() / total) * 360f
                 drawArc(
-                    color = colors[index],
-                    startAngle,
-                    value,
+                    color = analytic.color,
+                    startAngle = startAngle + spacingAngle / 2f,
+                    sweepAngle = sweepAngle - spacingAngle,
                     useCenter = false,
                     style = Stroke(spaceSize48.toPx(), cap = StrokeCap.Butt)
                 )
-                val angle = startAngle + value / 2f
+                val angle = startAngle + sweepAngle / 2f
                 val percentageX = center.x + (radiusOuter.toPx() / 2f) * cos(angle.toRadians())
                 val percentageY = center.y + (radiusOuter.toPx() / 2f) * sin(angle.toRadians())
-                val percentageText = "${((value / total) * 100).toInt()}%"
+                val percentage = "${((analytic.value.toFloat() / total) * 100).toInt()}%"
                 val percentageTextLayoutResult =
-                    textMeasurer.measure(text = AnnotatedString(percentageText))
+                    textMeasurer.measure(text = AnnotatedString(percentage))
                 val percentageTextSize = percentageTextLayoutResult.size
                 drawText(
-                    textMeasurer, percentageText,
+                    textMeasurer = textMeasurer,
+                    text = percentage,
                     topLeft = Offset(
                         x = percentageX - percentageTextSize.width / 2f,
                         y = percentageY - percentageTextSize.height / 2f
                     ),
-                    style = TextStyle(color = Color.Black)
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = fontSize18,
+                        fontWeight = FontWeight.Bold
+                    )
                 )
-                startAngle += value
+                startAngle += sweepAngle
             }
             drawText(
-                textMeasurer, myText,
+                textMeasurer = textMeasurer,
+                text = titleGraphic,
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = fontSize36,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                ),
                 topLeft = Offset(
                     x = (this.size.width - textSize.width) / 2f,
                     y = (this.size.height - textSize.height) / 2f
-                ),
+                )
             )
         }
     }

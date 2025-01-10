@@ -19,4 +19,7 @@ object FontSize {
     val fontSize48 = 48.sp
     val fontSize52 = 52.sp
     val fontSize56 = 56.sp
+    val fontSize64 = 64.sp
+    val fontSize72 = 72.sp
+    val fontSize80 = 80.sp
 }

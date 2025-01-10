@@ -43,6 +43,7 @@ object StringsUtils {
     const val FOODS = "Pratos"
     const val PRODUCT = "Produto"
     const val ORDER = "Pedido"
+    const val PICKUP = "Retirada"
     const val PICKUP_ORDERS = "Pedidos Para Retirada"
     const val RESERVATION = "Reserva"
     const val RESERVATIONS = "Reservas"
