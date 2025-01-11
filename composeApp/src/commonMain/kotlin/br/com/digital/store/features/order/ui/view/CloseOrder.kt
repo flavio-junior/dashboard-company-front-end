@@ -11,7 +11,6 @@ import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
-import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.order.utils.OrderUtils.CLOSE_ORDER
@@ -31,14 +30,14 @@ fun CloseOrder(
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
     var openDialog: Boolean by remember { mutableStateOf(value = false) }
-        LoadingButton(
-            label = CLOSE_ORDER,
-            onClick = {
-                openDialog = true
-            },
-            isEnabled = observer.first,
-            modifier = modifier
-        )
+    LoadingButton(
+        label = CLOSE_ORDER,
+        onClick = {
+            openDialog = true
+        },
+        isEnabled = observer.first,
+        modifier = modifier
+    )
     if (openDialog) {
         ClosedOrderDialog(
             onDismissRequest = {
@@ -46,7 +45,7 @@ fun CloseOrder(
             },
             onConfirmation = {
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                viewModel.closeOrder(orderId = orderId, payment = PaymentRequestDTO(type = it))
+                viewModel.closeOrder(orderId = orderId, payment = it)
                 openDialog = false
             }
         )

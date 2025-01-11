@@ -9,5 +9,6 @@ data class OrderRequestDTO(
     val type: TypeOrder? = null,
     val reservations: List<ReservationResponseDTO>? = null,
     val address: AddressRequestDTO? = null,
-    val objects: List<ObjectRequestDTO>
+    val objects: List<ObjectRequestDTO>,
+    val payment: PaymentRequestDTO? = null
 )

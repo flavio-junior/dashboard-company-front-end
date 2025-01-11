@@ -130,7 +130,8 @@ fun ShoppingCartScreen(
                     viewModel.createOrder(
                         order = OrderRequestDTO(
                             type = TypeOrder.SHOPPING_CART,
-                            objects = objectsToSave.toList()
+                            objects = objectsToSave.toList(),
+                            payment = it
                         )
                     )
                 }

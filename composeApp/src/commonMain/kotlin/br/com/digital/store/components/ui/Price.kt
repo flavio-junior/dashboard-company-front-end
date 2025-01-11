@@ -26,6 +26,7 @@ import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 
 @Composable
 fun Price(
+    enabled: Boolean = true,
     value: String,
     label: String? = null,
     onValueChange: (String) -> Unit,
@@ -51,6 +52,7 @@ fun Price(
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8)
     ) {
         OutlinedTextField(
+            enabled = enabled,
             value = text,
             onValueChange = { newValue ->
                 val digitsOnly = newValue.filter { it.isDigit() }

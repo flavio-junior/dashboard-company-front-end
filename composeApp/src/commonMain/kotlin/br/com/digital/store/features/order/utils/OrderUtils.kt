@@ -40,6 +40,8 @@ object OrderUtils {
     const val UPDATE_RESUME = "Atualizar Status do Resumo?"
     const val RESUME_SELECTED = "Resumo Selecionado:"
     const val DELETE_RESUME = "Apagar Resumo?"
+    const val DIGIT_ONE_VALUE_TO_DISCOUNT = "Digite o valor do disconto!"
+    const val VALUE_DISCOUNT = "Valor do Desconto:"
 }
 
 val typePayment = listOf(
