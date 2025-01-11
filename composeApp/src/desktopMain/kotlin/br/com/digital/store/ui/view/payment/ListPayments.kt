@@ -42,6 +42,7 @@ import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE_1_5
+import br.com.digital.store.utils.definitionState
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
 import br.com.digital.store.utils.onClickable
@@ -216,7 +217,7 @@ fun ItemPayment(
             textAlign = TextAlign.Center
         )
         Description(
-            description = payment.discount.toString(),
+            description = definitionState(state = payment.discount ?: false),
             modifier = modifier.weight(weight = WEIGHT_SIZE),
             color = if (selected) Themes.colors.background else Themes.colors.primary,
             textAlign = TextAlign.Center

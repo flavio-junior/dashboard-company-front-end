@@ -95,4 +95,6 @@ object StringsUtils {
     const val SELECTED_ITEMS = "Itens Selecionados:"
     const val CREATE_NEW_ORDER = "Criar Novo Pedido"
     const val TYPE = "Tipo"
+    const val YES = "Sim"
+    const val NO = "Não"
 }

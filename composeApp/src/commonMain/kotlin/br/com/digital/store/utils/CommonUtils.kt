@@ -1,8 +1,10 @@
 package br.com.digital.store.utils
 
 import br.com.digital.store.components.strings.StringsUtils.DELIVERED
+import br.com.digital.store.components.strings.StringsUtils.NO
 import br.com.digital.store.components.strings.StringsUtils.PENDING_DELIVERY
 import br.com.digital.store.components.strings.StringsUtils.SENDING
+import br.com.digital.store.components.strings.StringsUtils.YES
 import br.com.digital.store.utils.NumbersUtils.NUMBER_EIGHTY
 import br.com.digital.store.utils.NumbersUtils.NUMBER_FIFTY
 import br.com.digital.store.utils.NumbersUtils.NUMBER_FORTY
@@ -31,6 +33,10 @@ fun checkNameIsNull(name: String): Boolean {
 
 fun checkPriceIsNull(price: Double): Boolean {
     return (price == 0.0)
+}
+
+fun definitionState(state: Boolean): String {
+    return if (state) YES else NO
 }
 
 val updateStatusDelivery = listOf(
