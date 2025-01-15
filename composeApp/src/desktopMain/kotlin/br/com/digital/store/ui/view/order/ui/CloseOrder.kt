@@ -41,20 +41,20 @@ fun CloseOrder(
     LoadingButton(
         label = CLOSE_ORDER,
         onClick = {
-            openPrint = true
+            openDialog = true
         },
         isEnabled = observer.first,
         modifier = modifier
     )
-    if (openPrint) {
+    if (openDialog) {
         ClosedOrderDialog(
             onDismissRequest = {
-                openPrint = false
+                openDialog = false
             },
             onConfirmation = {
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)
                 viewModel.closeOrder(orderId = orderId, payment = it)
-                openPrint = false
+                openDialog = false
             }
         )
     }
@@ -66,7 +66,7 @@ fun CloseOrder(
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccessful = {
             observer = Triple(first = false, second = false, third = EMPTY_TEXT)
-            openDialog = true
+            openPrint = true
             if (it != null) {
                 getOrder = it
             }
@@ -74,13 +74,13 @@ fun CloseOrder(
     )
     val textToDisplay = formatOrderToPrint(order = getOrder)
     val inputStream = ByteArrayInputStream(textToDisplay.toByteArray(Charsets.UTF_8))
-    if (openDialog) {
+    if (openPrint) {
         SelectPrint(
             onDismissRequest = {
-                openDialog = false
+                openPrint = false
             },
             onConfirmation = { printerName ->
-                openDialog = false
+                openPrint = false
                 thermalPrinter.printInputStream(inputStream, printerName)
                 onRefresh()
             }
