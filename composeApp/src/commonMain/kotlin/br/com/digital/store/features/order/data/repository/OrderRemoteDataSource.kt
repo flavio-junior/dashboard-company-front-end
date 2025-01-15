@@ -53,7 +53,9 @@ class OrderRemoteDataSource(
         }
     }
 
-    override fun createNewOrder(order: OrderRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
+    override fun createNewOrder(
+        order: OrderRequestDTO
+    ): Flow<ObserveNetworkStateHandler<OrderResponseDTO>> {
         return toResultFlow {
             httpClient.post {
                 url(urlString = "/api/dashboard/company/orders/v1")

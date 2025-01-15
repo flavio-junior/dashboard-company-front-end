@@ -23,6 +23,7 @@ import br.com.digital.store.features.networking.resources.ObserveNetworkStateHan
 import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
+import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.type.TypeItem
 import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
@@ -30,11 +31,15 @@ import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.order.utils.OrderUtils.CLOSE_ORDER
 import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.ui.view.components.ui.SelectPrint
+import br.com.digital.store.ui.view.components.utils.ThermalPrinter
 import br.com.digital.store.ui.view.order.ui.AllObjects
 import br.com.digital.store.ui.view.order.ui.ClosedOrderDialog
 import br.com.digital.store.ui.view.order.ui.ItemObject
+import br.com.digital.store.ui.view.order.utils.formatOrderToPrint
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import org.koin.mp.KoinPlatform.getKoin
+import java.io.ByteArrayInputStream
 
 @Composable
 fun ShoppingCartScreen(
@@ -46,6 +51,9 @@ fun ShoppingCartScreen(
     var addProduct: Boolean by remember { mutableStateOf(value = false) }
     var verifyObjects: Boolean by remember { mutableStateOf(value = false) }
     var selectTypePayment: Boolean by remember { mutableStateOf(value = false) }
+    var openPrint: Boolean by remember { mutableStateOf(value = false) }
+    var getOrder by remember { mutableStateOf(value = OrderResponseVO()) }
+    val thermalPrinter = ThermalPrinter()
     val viewModel: OrderViewModel = getKoin().get()
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
@@ -145,11 +153,32 @@ fun ShoppingCartScreen(
         },
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccessful = {
-            objectsSelected.clear()
-            objectsToSave.clear()
-            onRefresh()
+            observer = Triple(first = false, second = false, third = EMPTY_TEXT)
+            openPrint = true
+            if (it != null) {
+                getOrder = it
+            }
         }
     )
+    val textToDisplay = formatOrderToPrint(order = getOrder)
+    val inputStream = ByteArrayInputStream(textToDisplay.toByteArray(Charsets.UTF_8))
+    if (openPrint) {
+        SelectPrint(
+            onDismissRequest = {
+                openPrint = false
+            },
+            onConfirmation = { printerName ->
+                openPrint = false
+                thermalPrinter.printInputStream(
+                    inputStream = inputStream,
+                    printerName = printerName
+                )
+                objectsSelected.clear()
+                objectsToSave.clear()
+                onRefresh()
+            }
+        )
+    }
 }
 
 @Composable
@@ -157,9 +186,9 @@ private fun ObserveNetworkStateHandlerShoppingCart(
     viewModel: OrderViewModel,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
-    onSuccessful: () -> Unit = {}
+    onSuccessful: (OrderResponseVO?) -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.createOrder }
+    val state: ObserveNetworkStateHandler<OrderResponseVO> by remember { viewModel.createOrder }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {},
@@ -173,7 +202,7 @@ private fun ObserveNetworkStateHandlerShoppingCart(
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             viewModel.resetOrder(reset = ResetOrder.CREATE_ORDER)
-            onSuccessful()
+            onSuccessful(it.result)
         }
     )
 }

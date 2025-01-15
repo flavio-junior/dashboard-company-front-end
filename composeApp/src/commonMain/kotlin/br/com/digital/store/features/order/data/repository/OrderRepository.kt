@@ -21,7 +21,7 @@ interface OrderRepository {
         sort: String
     ): Flow<ObserveNetworkStateHandler<OrdersResponseDTO>>
 
-    fun createNewOrder(order: OrderRequestDTO): Flow<ObserveNetworkStateHandler<Unit>>
+    fun createNewOrder(order: OrderRequestDTO): Flow<ObserveNetworkStateHandler<OrderResponseDTO>>
 
     fun updateOrder(
         orderId: Long,

@@ -23,8 +23,8 @@ class OrderViewModel(
 ) : ViewModel() {
 
     private val _createOrder =
-        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val createOrder: State<ObserveNetworkStateHandler<Unit>> = _createOrder
+        mutableStateOf<ObserveNetworkStateHandler<OrderResponseVO>>(ObserveNetworkStateHandler.Loading(l = false))
+    val createOrder: State<ObserveNetworkStateHandler<OrderResponseVO>> = _createOrder
 
     private val _deleteOrder =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -74,7 +74,11 @@ class OrderViewModel(
                     _createOrder.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _createOrder.value = it
+                    it.result?.let { response ->
+                        val objectConverted =
+                            converter.converterOrderResponseDTOToVO(order = response)
+                        _createOrder.value = ObserveNetworkStateHandler.Success(s = objectConverted)
+                    }
                 }
         }
     }

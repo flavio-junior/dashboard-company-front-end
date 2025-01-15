@@ -27,6 +27,7 @@ import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.order.data.dto.AddressRequestDTO
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
+import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.type.TypeItem
 import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
@@ -209,7 +210,7 @@ private fun ObserveNetworkStateHandlerCreateNewOrder(
     onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
-    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.createOrder }
+    val state: ObserveNetworkStateHandler<OrderResponseVO> by remember { viewModel.createOrder }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {},
