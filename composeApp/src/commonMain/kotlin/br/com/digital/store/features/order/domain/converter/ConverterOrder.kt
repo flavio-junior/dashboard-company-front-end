@@ -26,6 +26,22 @@ class ConverterOrder {
         )
     }
 
+    fun converterOrderResponseDTOToVO(order: OrderResponseDTO): OrderResponseVO {
+        return OrderResponseVO(
+            id = order.id,
+            createdAt = order.createdAt,
+            qrCode = order.qrCode,
+            type = order.type,
+            status = order.status,
+            reservations = converterReservationsResponseDTOToVO(reservations = order.reservations),
+            address = converterAddressResponseDTOToVO(address = order.address),
+            objects = converterObjectResponseDTOToVO(objects = order.objects),
+            quantity = order.quantity,
+            total = order.total,
+            payment = converterPaymentResponseDTOToVO(payment = order.payment)
+        )
+    }
+
     private fun converterOrdersResponseDTOToVO(
         orders: List<OrderResponseDTO>
     ): List<OrderResponseVO> {
@@ -33,6 +49,7 @@ class ConverterOrder {
             OrderResponseVO(
                 id = it.id,
                 createdAt = it.createdAt,
+                qrCode = it.qrCode,
                 type = it.type,
                 status = it.status,
                 reservations = converterReservationsResponseDTOToVO(reservations = it.reservations),
@@ -104,9 +121,15 @@ class ConverterOrder {
         payment: PaymentResponseDTO? = null
     ): PaymentResponseVO {
         return PaymentResponseVO(
-            id = payment?.id,
-            createdAt = payment?.createdAt,
-            type = payment?.type
+            id = payment?.id ?: 0,
+            date = payment?.date,
+            hour = payment?.hour,
+            code = payment?.code,
+            typeOrder = payment?.typeOrder,
+            typePayment = payment?.typePayment,
+            discount = payment?.discount,
+            valueDiscount = payment?.valueDiscount,
+            total = payment?.total ?: 0.0
         )
     }
 }

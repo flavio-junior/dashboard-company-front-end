@@ -10,7 +10,7 @@ import br.com.digital.store.ui.view.dashboard.DashboardScreen
 import br.com.digital.store.ui.view.food.FoodScreen
 import br.com.digital.store.ui.view.item.ItemScreen
 import br.com.digital.store.ui.view.login.SignInScreen
-import br.com.digital.store.ui.view.order.OrderScreen
+import br.com.digital.store.ui.view.order.ui.OrderScreen
 import br.com.digital.store.ui.view.payment.PaymentScreen
 import br.com.digital.store.ui.view.pdv.PdvScreen
 import br.com.digital.store.ui.view.product.ProductScreen

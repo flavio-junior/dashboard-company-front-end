@@ -97,4 +97,6 @@ object StringsUtils {
     const val TYPE = "Tipo"
     const val YES = "Sim"
     const val NO = "Não"
+    const val SELECTED_PRINT = "Impressora Selecionada"
+    const val SELECT_PRINT = "Selecione uma impressora"
 }

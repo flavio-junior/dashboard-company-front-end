@@ -11,8 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
-import br.com.digital.store.features.order.ui.view.GetAddressOrder
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.ui.view.order.ui.GetAddressOrder
 
 @Composable
 fun CreateDeliveryOrderScreen(

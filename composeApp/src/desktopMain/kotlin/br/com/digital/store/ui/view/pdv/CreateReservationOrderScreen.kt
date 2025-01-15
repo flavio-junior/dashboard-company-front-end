@@ -34,7 +34,6 @@ import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.domain.type.TypeItem
 import br.com.digital.store.features.order.domain.type.TypeOrder
-import br.com.digital.store.features.order.ui.view.AllObjects
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.pdv.utils.PdvUtils.SELECT_RESERVATIONS
@@ -43,6 +42,7 @@ import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
 import br.com.digital.store.features.reservation.ui.ui.SelectReservations
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.ui.view.order.ui.AllObjects
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import org.koin.mp.KoinPlatform.getKoin

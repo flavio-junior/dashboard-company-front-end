@@ -33,7 +33,10 @@ object OrderUtils {
     const val DEBIT_CAD = "Cartão de Débito"
     const val MONEY = "Dinheiro"
     const val PIX = "PIX"
+    const val CREDIT_CAD_LATIN = "Cartao de Credito"
+    const val DEBIT_CAD_LATIN = "Cartao de Debito"
     const val SHOPPING_CART = "Carrinho de Compras"
+    const val BUY_PRODUCTS = "Compras"
     const val DELIVERY = "Delivery"
     const val RESERVATION = "Reserva"
     const val RESUME_ITEM = "Resumo do Item:"
@@ -54,4 +57,18 @@ val typePayment = listOf(
 fun countPendingObjects(order: OrderResponseVO): String {
     val numberObjects = order.objects?.count { it.status == ObjectStatus.PENDING } ?: 0
     return numberObjects.toString()
+}
+
+fun centerText(text: String, totalWidth: Int = 32): String {
+    val padding = (totalWidth - text.length) / 2
+    return " ".repeat(padding.coerceAtLeast(0)) + text
+}
+
+fun alignLeftRight(left: String, right: String, totalWidth: Int = 32): String {
+    val padding = totalWidth - left.length - right.length
+    return if (padding > 0) {
+        left + " ".repeat(padding) + right
+    } else {
+        left + right.takeLast(totalWidth - left.length)
+    }
 }

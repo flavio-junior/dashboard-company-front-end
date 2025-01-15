@@ -25,14 +25,14 @@ import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
 import br.com.digital.store.features.order.domain.type.TypeItem
 import br.com.digital.store.features.order.domain.type.TypeOrder
-import br.com.digital.store.features.order.ui.view.AllObjects
-import br.com.digital.store.features.order.ui.view.ClosedOrderDialog
-import br.com.digital.store.features.order.ui.view.ItemObject
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.order.utils.OrderUtils.CLOSE_ORDER
 import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.ui.view.order.ui.AllObjects
+import br.com.digital.store.ui.view.order.ui.ClosedOrderDialog
+import br.com.digital.store.ui.view.order.ui.ItemObject
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import org.koin.mp.KoinPlatform.getKoin
 

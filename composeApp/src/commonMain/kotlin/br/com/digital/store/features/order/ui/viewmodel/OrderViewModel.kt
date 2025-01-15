@@ -11,12 +11,15 @@ import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
 import br.com.digital.store.features.order.data.repository.OrderRepository
+import br.com.digital.store.features.order.data.vo.OrderResponseVO
+import br.com.digital.store.features.order.domain.converter.ConverterOrder
 import br.com.digital.store.features.order.domain.others.Action
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class OrderViewModel(
-    private val repository: OrderRepository
+    private val repository: OrderRepository,
+    private val converter: ConverterOrder
 ) : ViewModel() {
 
     private val _createOrder =
@@ -32,8 +35,12 @@ class OrderViewModel(
     val updateStatusDelivery: State<ObserveNetworkStateHandler<Unit>> = _updateStatusDelivery
 
     private val _closeOrder =
-        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val closeOrder: State<ObserveNetworkStateHandler<Unit>> = _closeOrder
+        mutableStateOf<ObserveNetworkStateHandler<OrderResponseVO>>(
+            ObserveNetworkStateHandler.Loading(
+                l = false
+            )
+        )
+    val closeOrder: State<ObserveNetworkStateHandler<OrderResponseVO>> = _closeOrder
 
     private val _updateStatusObject =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -96,7 +103,8 @@ class OrderViewModel(
                         updateObject = updateObject
                     )
                         .onStart {
-                            _updateStatusOverview.value = ObserveNetworkStateHandler.Loading(l = true)
+                            _updateStatusOverview.value =
+                                ObserveNetworkStateHandler.Loading(l = true)
                         }
                         .collect {
                             _updateStatusOverview.value = it
@@ -203,7 +211,11 @@ class OrderViewModel(
                     _closeOrder.value = ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
-                    _closeOrder.value = it
+                    it.result?.let { response ->
+                        val objectConverted =
+                            converter.converterOrderResponseDTOToVO(order = response)
+                        _closeOrder.value = ObserveNetworkStateHandler.Success(s = objectConverted)
+                    }
                 }
         }
     }

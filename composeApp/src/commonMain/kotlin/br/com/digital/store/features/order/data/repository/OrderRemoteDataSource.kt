@@ -6,6 +6,7 @@ import br.com.digital.store.features.networking.resources.toResultFlow
 import br.com.digital.store.features.order.data.dto.AddressRequestDTO
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
+import br.com.digital.store.features.order.data.dto.OrderResponseDTO
 import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
 import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
@@ -140,7 +141,7 @@ class OrderRemoteDataSource(
     override fun closeOrder(
         orderId: Long,
         payment: PaymentRequestDTO
-    ): Flow<ObserveNetworkStateHandler<Unit>> {
+    ): Flow<ObserveNetworkStateHandler<OrderResponseDTO>> {
         return toResultFlow {
             httpClient.put {
                 url(urlString = "api/dashboard/company/orders/v1/payment/$orderId")

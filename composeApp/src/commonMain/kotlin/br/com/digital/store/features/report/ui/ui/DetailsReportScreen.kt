@@ -18,13 +18,15 @@ import br.com.digital.store.components.strings.StringsUtils.HOUR
 import br.com.digital.store.components.strings.StringsUtils.ID
 import br.com.digital.store.components.strings.StringsUtils.RESUME
 import br.com.digital.store.components.ui.Alert
+import br.com.digital.store.components.ui.Button
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
-import br.com.digital.store.components.ui.PrintDocument
 import br.com.digital.store.components.ui.ResourceUnavailable
 import br.com.digital.store.components.ui.TextField
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.print
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
@@ -114,7 +116,7 @@ fun HeaderDetailsReport(
                 isEnabled = observer.first,
                 modifier = Modifier.weight(weight = WEIGHT_SIZE)
             )
-            PrintDocument()
+            Button(icon = Res.drawable.print)
         }
         TextField(
             enabled = false,
