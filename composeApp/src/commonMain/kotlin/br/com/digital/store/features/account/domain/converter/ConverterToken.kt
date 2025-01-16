@@ -3,7 +3,7 @@ package br.com.digital.store.features.account.domain.converter
 import br.com.digital.store.features.account.data.dto.TokenResponseDTO
 import br.com.digital.store.features.account.data.vo.TokenResponseVO
 
-class ConverterAccount {
+class ConverterToken {
 
     fun converterTokenRequestDTOToTokenResponseVO(token: TokenResponseDTO): TokenResponseVO {
         return TokenResponseVO(

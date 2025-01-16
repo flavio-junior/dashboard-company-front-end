@@ -1,4 +1,4 @@
-package br.com.digital.store.data
+package br.com.digital.store.features.account.data.repository.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -9,7 +9,7 @@ import br.com.digital.store.features.account.data.vo.TokenResponseVO
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class AndroidLocalStorage(
+class LocalStorage(
     private val dataStore: DataStore<Preferences>
 ) {
 

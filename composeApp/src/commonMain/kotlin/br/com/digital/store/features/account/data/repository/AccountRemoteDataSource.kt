@@ -6,6 +6,7 @@ import br.com.digital.store.features.networking.resources.ObserveNetworkStateHan
 import br.com.digital.store.features.networking.resources.toResultFlow
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import kotlinx.coroutines.flow.Flow
 
@@ -19,6 +20,16 @@ class AccountRemoteDataSource(
         return toResultFlow {
             httpClient.post(urlString = "api/auth/v1/signIn") {
                 setBody(signIn)
+            }
+        }
+    }
+
+    override suspend fun refreshToken(
+        email: String
+    ): Flow<ObserveNetworkStateHandler<TokenResponseDTO>> {
+        return toResultFlow {
+            httpClient.put(urlString = "api/auth/v1/signIn") {
+                setBody(email)
             }
         }
     }

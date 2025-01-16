@@ -14,6 +14,7 @@ import br.com.digital.store.utils.NumbersUtils.NUMBER_TEN
 import br.com.digital.store.utils.NumbersUtils.NUMBER_TWENTY
 
 object CommonUtils {
+    const val DELAY: Long = 3000
     const val EMPTY_TEXT = ""
     const val WEIGHT_SIZE = 1f
     const val WEIGHT_SIZE_1_5 = 1.5f

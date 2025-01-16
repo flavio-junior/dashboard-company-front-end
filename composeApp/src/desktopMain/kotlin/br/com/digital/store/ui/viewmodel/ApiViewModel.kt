@@ -9,7 +9,7 @@ import br.com.digital.store.features.account.data.dto.TokenResponseDTO
 import br.com.digital.store.data.repository.local.DesktopLocalStorage
 import br.com.digital.store.features.account.data.repository.AccountRepository
 import br.com.digital.store.features.account.data.vo.TokenResponseVO
-import br.com.digital.store.features.account.domain.converter.ConverterAccount
+import br.com.digital.store.features.account.domain.converter.ConverterToken
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class ApiViewModel(
     private val localStorage: DesktopLocalStorage,
     private val repository: AccountRepository,
-    private val converter: ConverterAccount
+    private val converter: ConverterToken
 ) : ViewModel() {
 
     private val _signIn =

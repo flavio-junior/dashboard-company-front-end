@@ -1,6 +1,7 @@
 package br.com.digital.store.navigation
 
 enum class ItemNavigation {
+    SPLASH_SCREEN,
     SIGN_IN,
     SEND_RECOVER_TOKEN,
     CHECK_RECOVER_TOKEN,
