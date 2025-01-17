@@ -6,6 +6,7 @@ enum class ItemNavigation {
     SEND_RECOVER_TOKEN,
     CHECK_RECOVER_TOKEN,
     RESET_PASSWORD,
+    DELIVERY,
     DASHBOARD,
     PDV,
     CATEGORY,

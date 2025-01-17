@@ -25,6 +25,7 @@ import br.com.digital.store.components.strings.StringsUtils.FORGOT_PASS
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
 import br.com.digital.store.components.strings.StringsUtils.PASSWORD
 import br.com.digital.store.components.strings.isNotBlankAndEmpty
+import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.SimpleText
@@ -67,7 +68,7 @@ internal fun SignInScreen(
         modifier = Modifier
             .background(color = Themes.colors.background)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()) // Aplicado antes de outros modificadores
+            .verticalScroll(rememberScrollState())
             .padding(all = Themes.size.spaceSize36)
             .wrapContentHeight(align = Alignment.CenterVertically),
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
@@ -83,7 +84,15 @@ internal fun SignInScreen(
                 password = it.second
             }
         )
+        IsErrorMessage(isError = isError, message = errorMessage)
         ForgetPassword(goToSendRecoverTokenScreen = goToSendRecoverTokenScreen)
+        LoadingButton(
+            onClick = {
+                checkSignIn(email, password)
+            },
+            isEnabled = isEnabled,
+            label = ENTER_YOUR_ACCOUNT
+        )
         ObserveStateSignIn(
             viewModel = viewModel,
             onError = {
@@ -93,14 +102,6 @@ internal fun SignInScreen(
             },
             goToDashboardScreen = goToDashboardScreen,
             goToAlternativeRoutes = goToAlternativeRoutes
-        )
-        LoadingButton(
-            onClick = {
-                isEnabled = true
-                checkSignIn(email, password)
-            },
-            isEnabled = isEnabled,
-            label = ENTER_YOUR_ACCOUNT
         )
     }
 }
@@ -163,9 +164,7 @@ private fun ObserveStateSignIn(
     ObserveNetworkStateHandler(
         state = state,
         onError = {
-            it?.let { result ->
-                onError(Triple(first = true, second = false, third = result))
-            }
+            onError(Triple(first = true, second = false, third = it.orEmpty()))
         },
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccess = {

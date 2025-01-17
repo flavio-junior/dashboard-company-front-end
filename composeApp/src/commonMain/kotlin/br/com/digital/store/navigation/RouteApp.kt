@@ -7,6 +7,7 @@ sealed class RouteApp(val item: String) {
     data object CheckRecoverToken : RouteApp(item = ItemNavigation.CHECK_RECOVER_TOKEN.name)
     data object ResetPassword : RouteApp(item = ItemNavigation.RESET_PASSWORD.name)
     data object Dashboard : RouteApp(item = ItemNavigation.DASHBOARD.name)
+    data object Delivery : RouteApp(item = ItemNavigation.DELIVERY.name)
     data object Pdv : RouteApp(item = ItemNavigation.PDV.name)
     data object Category : RouteApp(item = ItemNavigation.CATEGORY.name)
     data object Item : RouteApp(item = ItemNavigation.ITEM.name)

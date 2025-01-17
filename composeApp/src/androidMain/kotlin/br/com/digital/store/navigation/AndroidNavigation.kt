@@ -8,6 +8,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.digital.store.features.account.ui.SignInScreen
 import br.com.digital.store.features.dashboard.ui.DashboardScreen
+import br.com.digital.store.features.dashboard.ui.DeliveryScreen
+import br.com.digital.store.features.dashboard.ui.OrderScreen
+import br.com.digital.store.features.dashboard.ui.ReservationScreen
 import br.com.digital.store.features.splash.SplashScreen
 
 @Composable
@@ -68,5 +71,27 @@ private fun NavGraphBuilder.dashboardNavigation(
 ) {
     composable(RouteApp.Dashboard.item) {
         DashboardScreen(navGraph = navController)
+    }
+    composable(RouteApp.Delivery.item) {
+        DeliveryScreen(
+            goToBack = {
+                navController.popBackStack()
+            }
+        )
+    }
+    composable(RouteApp.Order.item) {
+        OrderScreen(
+            goToBack = {
+                navController.popBackStack()
+            }
+        )
+    }
+
+    composable(RouteApp.Reservation.item) {
+        ReservationScreen(
+            goToBack = {
+                navController.popBackStack()
+            }
+        )
     }
 }

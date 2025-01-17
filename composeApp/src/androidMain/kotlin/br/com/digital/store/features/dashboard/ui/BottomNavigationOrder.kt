@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import br.com.digital.store.navigation.RouteApp
 
 @Composable
 fun BottomNavigationOrder(
@@ -24,7 +25,11 @@ fun BottomNavigationOrder(
             PendingOrdersScreen()
         }
         composable(BottomNavigationRoute.Settings.route.name) {
-            SettingsScreen()
+            SettingsScreen(
+                goToLoginScreen = {
+                    navGraph.navigate(route = RouteApp.SignIn.item)
+                }
+            )
         }
     }
 }

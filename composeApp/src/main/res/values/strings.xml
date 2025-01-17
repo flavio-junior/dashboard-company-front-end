@@ -3,4 +3,6 @@
     <string name="orders">Pedidos</string>
     <string name="SETTINGS">Ajustes</string>
     <string name="pdv">PDV</string>
+    <string name="reservations">Reservas</string>
+    <string name="delivery">Delivery</string>
 </resources>

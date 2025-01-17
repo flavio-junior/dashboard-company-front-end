@@ -28,7 +28,7 @@ class AccountRemoteDataSource(
         email: String
     ): Flow<ObserveNetworkStateHandler<TokenResponseDTO>> {
         return toResultFlow {
-            httpClient.put(urlString = "api/auth/v1/signIn") {
+            httpClient.put(urlString = "/api/auth/v1/refresh/$email") {
                 setBody(email)
             }
         }
