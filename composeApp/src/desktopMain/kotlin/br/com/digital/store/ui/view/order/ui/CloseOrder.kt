@@ -78,6 +78,7 @@ fun CloseOrder(
         SelectPrint(
             onDismissRequest = {
                 openPrint = false
+                onRefresh()
             },
             onConfirmation = { printerName ->
                 openPrint = false

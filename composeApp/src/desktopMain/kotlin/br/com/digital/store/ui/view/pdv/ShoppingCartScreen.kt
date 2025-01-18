@@ -166,6 +166,7 @@ fun ShoppingCartScreen(
         SelectPrint(
             onDismissRequest = {
                 openPrint = false
+                onRefresh()
             },
             onConfirmation = { printerName ->
                 openPrint = false
