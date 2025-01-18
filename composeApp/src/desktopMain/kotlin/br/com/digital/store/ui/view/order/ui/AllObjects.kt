@@ -19,7 +19,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import kotlinx.coroutines.launch
+
+data class BodyObject(
+    val name: String,
+    val quantity: Int
+)
 
 @Composable
 fun AllObjects(
@@ -32,6 +38,17 @@ fun AllObjects(
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     var selectedIndex by remember { mutableStateOf(value = -1) }
+    val contentObjects = remember { mutableStateListOf<BodyObject>() }
+
+    fun updateBodyObject(name: String, newQuantity: Int) {
+        val existingIndex = contentObjects.indexOfFirst { it.name == name }
+        if (existingIndex != -1) {
+            contentObjects[existingIndex] = contentObjects[existingIndex].copy(quantity = newQuantity)
+        } else {
+            contentObjects.add(BodyObject(name = name, quantity = newQuantity))
+        }
+    }
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
         state = scrollState,
@@ -47,14 +64,20 @@ fun AllObjects(
             )
     ) {
         itemsIndexed(items = objectSelected) { index, objectResult ->
+            val quantity = contentObjects.find { it.name == objectResult.name }?.quantity
+                ?: NUMBER_ZERO
             ItemObject(
                 body = {
                     CardObjectSelect(
                         objectRequestDTO = objectResult,
+                        quantity = quantity,
                         selected = selectedIndex == index,
                         verifyObject = verifyObjects,
                         onItemSelected = { objectResult ->
                             onItemSelected(objectResult)
+                        },
+                        onQuantityChange = { newQuantity ->
+                            updateBodyObject(objectResult.name, newQuantity)
                         },
                         onDisableItem = {
                             selectedIndex = index

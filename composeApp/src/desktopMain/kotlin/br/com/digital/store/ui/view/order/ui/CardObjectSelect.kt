@@ -32,14 +32,16 @@ import br.com.digital.store.utils.onBorder
 @Composable
 fun CardObjectSelect(
     objectRequestDTO: ObjectRequestDTO,
+    quantity: Int = NUMBER_ZERO,
     selected: Boolean = false,
     verifyObject: Boolean = false,
     onItemSelected: (ObjectRequestDTO) -> Unit = {},
+    onQuantityChange: (Int) -> Unit = {},
     onResult: (ObjectRequestDTO) -> Unit = {},
     onDisableItem: () -> Unit = {}
 ) {
     var openDialog: Boolean by remember { mutableStateOf(value = false) }
-    var quantity: Int by remember { mutableStateOf(value = NUMBER_ZERO) }
+    var newQuantity: Int by remember { mutableStateOf(value = quantity) }
     var observer: Pair<Boolean, String> by remember {
         mutableStateOf(value = Pair(first = false, second = EMPTY_TEXT))
     }
@@ -73,22 +75,23 @@ fun CardObjectSelect(
             enabled = false,
             isError = observer.first,
             keyboardType = KeyboardType.Number,
-            onValueChange = {
-                quantity = it.toIntOrNull() ?: NUMBER_ZERO
-            }
+            onValueChange = {}
         )
         TextField(
             label = QUANTITY,
-            value = quantity.toString(),
+            value = newQuantity.toString(),
             backgroundColor = if (selected) ITEM_SELECTED else Themes.colors.background,
             textColor = if (selected) Themes.colors.background else Themes.colors.primary,
             isError = observer.first,
             message = observer.second,
             keyboardType = KeyboardType.Number,
             onValueChange = {
-                quantity = it.toIntOrNull() ?: NUMBER_ZERO
+                newQuantity = it.toIntOrNull() ?: NUMBER_ZERO
             }
         )
+        if (newQuantity > NUMBER_ZERO) {
+            onQuantityChange(newQuantity)
+        }
         if (verifyObject) {
             if (quantity > NUMBER_ZERO) {
                 observer = Pair(first = false, second = EMPTY_TEXT)
