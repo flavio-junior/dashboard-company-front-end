@@ -82,6 +82,8 @@ fun IncrementMoreObjectsOrderScreen(
         onItemSelected = { objectResult ->
             if (objectsSelected.contains(element = objectResult)) {
                 objectsSelected.remove(element = objectResult)
+                objectsToSave.remove(element = objectResult)
+                viewModel.resetOrder(reset = ResetOrder.INCREMENT_MORE_OBJECTS_ORDER)
             }
         },
         objectsToSave = {

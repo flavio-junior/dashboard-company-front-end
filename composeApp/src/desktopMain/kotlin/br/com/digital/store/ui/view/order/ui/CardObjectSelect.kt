@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.QUANTITY
-import br.com.digital.store.components.strings.StringsUtils.REMOVER_RESERVATION
+import br.com.digital.store.components.strings.StringsUtils.REMOVE_ITEM
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.components.ui.Title
@@ -109,7 +109,7 @@ fun CardObjectSelect(
         }
         if (openDialog) {
             Alert(
-                label = REMOVER_RESERVATION,
+                label = REMOVE_ITEM,
                 onDismissRequest = {
                     openDialog = false
                 },
