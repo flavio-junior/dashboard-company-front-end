@@ -18,7 +18,7 @@ class AccountRemoteDataSource(
         signIn: SignInRequestDTO
     ): Flow<ObserveNetworkStateHandler<TokenResponseDTO>> {
         return toResultFlow {
-            httpClient.post(urlString = "api/auth/v1/signIn") {
+            httpClient.post(urlString = "/api/auth/v1/signIn") {
                 setBody(signIn)
             }
         }

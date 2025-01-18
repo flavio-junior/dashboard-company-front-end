@@ -30,7 +30,6 @@ import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.features.account.data.dto.SignInRequestDTO
-import br.com.digital.store.features.account.data.dto.TokenResponseDTO
 import br.com.digital.store.features.account.viewmodel.AccountViewModel
 import br.com.digital.store.features.components.TextField
 import br.com.digital.store.features.components.TextPassword
@@ -158,9 +157,7 @@ private fun ObserveStateSignIn(
     goToDashboardScreen: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
 ) {
-    val state: ObserveNetworkStateHandler<TokenResponseDTO> by remember {
-        viewModel.signIn
-    }
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.signIn }
     ObserveNetworkStateHandler(
         state = state,
         onError = {
@@ -170,7 +167,6 @@ private fun ObserveStateSignIn(
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
             state.result?.let {
-                viewModel.saveToken(token = it)
                 goToDashboardScreen()
             }
         }

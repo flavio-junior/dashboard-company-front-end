@@ -8,7 +8,7 @@ import br.com.digital.store.components.strings.StringsUtils.INVALID_EMAIL
 import br.com.digital.store.components.strings.validateEmail
 import br.com.digital.store.features.account.data.dto.SignInRequestDTO
 import br.com.digital.store.features.account.data.dto.TokenResponseDTO
-import br.com.digital.store.features.account.data.repository.AccountRemoteDataSource
+import br.com.digital.store.features.account.data.repository.AccountRepository
 import br.com.digital.store.features.account.data.repository.local.LocalStorage
 import br.com.digital.store.features.account.data.vo.TokenResponseVO
 import br.com.digital.store.features.account.domain.converter.ConverterToken
@@ -18,17 +18,17 @@ import kotlinx.coroutines.launch
 
 class AccountViewModel(
     private val localStorage: LocalStorage,
-    private val accountRemoteDataSource: AccountRemoteDataSource,
+    private val repository: AccountRepository,
     private val converterToken: ConverterToken
 ) : ViewModel(), AccountViewModelImpl {
 
     private val _signIn =
-        mutableStateOf<ObserveNetworkStateHandler<TokenResponseDTO>>(
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(
             ObserveNetworkStateHandler.Loading(
                 l = false
             )
         )
-    val signIn: State<ObserveNetworkStateHandler<TokenResponseDTO>> = _signIn
+    val signIn: State<ObserveNetworkStateHandler<Unit>> = _signIn
 
     private val _getTokenSaved =
         mutableStateOf<ObserveNetworkStateHandler<TokenResponseVO>>(
@@ -49,12 +49,11 @@ class AccountViewModel(
     override fun signIn(signInRequestDTO: SignInRequestDTO) {
         if (validateEmail(email = signInRequestDTO.email)) {
             viewModelScope.launch {
-                accountRemoteDataSource.signIn(signIn = signInRequestDTO)
+                repository.signIn(signIn = signInRequestDTO)
                     .onStart {
                         _signIn.value = ObserveNetworkStateHandler.Loading(l = true)
                     }
                     .collect {
-                        _signIn.value = it
                         it.result?.let { result -> saveToken(token = result) }
                     }
             }
@@ -86,7 +85,7 @@ class AccountViewModel(
             when (refresh) {
                 RefreshToken.REFRESH_TOKEN -> {
                     if (email != null) {
-                        accountRemoteDataSource.refreshToken(email)
+                        repository.refreshToken(email)
                             .onStart {
                                 _refreshToken.value = ObserveNetworkStateHandler.Loading(l = true)
                             }
