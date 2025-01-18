@@ -23,7 +23,11 @@ class OrderViewModel(
 ) : ViewModel() {
 
     private val _createOrder =
-        mutableStateOf<ObserveNetworkStateHandler<OrderResponseVO>>(ObserveNetworkStateHandler.Loading(l = false))
+        mutableStateOf<ObserveNetworkStateHandler<OrderResponseVO>>(
+            ObserveNetworkStateHandler.Loading(
+                l = false
+            )
+        )
     val createOrder: State<ObserveNetworkStateHandler<OrderResponseVO>> = _createOrder
 
     private val _deleteOrder =
@@ -66,6 +70,11 @@ class OrderViewModel(
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val incrementMoreObjectsOrder: State<ObserveNetworkStateHandler<Unit>> =
         _incrementMoreObjectsOrder
+
+    private val _removeReservationOrder =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val removeReservationOrder: State<ObserveNetworkStateHandler<Unit>> =
+        _removeReservationOrder
 
     fun createOrder(order: OrderRequestDTO) {
         viewModelScope.launch {
@@ -193,6 +202,21 @@ class OrderViewModel(
         }
     }
 
+    fun removeReservationOrder(
+        orderId: Long,
+        reservationId: Long
+    ) {
+        viewModelScope.launch {
+            repository.removeReservationOrder(orderId = orderId, reservationId = reservationId)
+                .onStart {
+                    _removeReservationOrder.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _removeReservationOrder.value = it
+                }
+        }
+    }
+
     fun deleteOrder(id: Long) {
         viewModelScope.launch {
             repository.deleteOrder(id = id)
@@ -265,6 +289,10 @@ class OrderViewModel(
             ResetOrder.INCREMENT_MORE_OBJECTS_ORDER -> {
                 _incrementMoreObjectsOrder.value = ObserveNetworkStateHandler.Loading(l = false)
             }
+
+            ResetOrder.REMOVE_RESERVATION -> {
+                _removeReservationOrder.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
         }
     }
 }
@@ -279,5 +307,6 @@ enum class ResetOrder {
     INCREMENT_OVERVIEW,
     REMOVE_OVERVIEW,
     REMOVE_OBJECT,
+    REMOVE_RESERVATION,
     INCREMENT_MORE_OBJECTS_ORDER
 }

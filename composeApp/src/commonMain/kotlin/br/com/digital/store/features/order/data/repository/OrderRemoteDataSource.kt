@@ -129,6 +129,20 @@ class OrderRemoteDataSource(
         }
     }
 
+    override fun removeReservationOrder(
+        orderId: Long,
+        reservationId: Long
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.delete {
+                url(urlString = "/api/dashboard/company/orders/v1/${orderId}/remove/reservation/${reservationId}")
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+            }
+        }
+    }
+
     override fun deleteOrder(id: Long): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.delete {

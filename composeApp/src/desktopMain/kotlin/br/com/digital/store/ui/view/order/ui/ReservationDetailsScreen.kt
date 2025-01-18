@@ -24,18 +24,26 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import br.com.digital.store.components.strings.StringsUtils.REMOVE_ITEM
 import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
+import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.Description
+import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.SimpleText
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
+import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
+import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.onBorder
 import kotlinx.coroutines.launch
+import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun ReservationDetailsScreen(
@@ -54,13 +62,11 @@ fun ReservationDetailsScreen(
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
         HeaderDetailsOrder(orderResponseVO = orderResponseVO)
-        var itemSelected: ReservationResponseVO by remember { mutableStateOf(value = ReservationResponseVO()) }
         orderResponseVO.reservations?.let {
             ListReservations(
+                orderId = orderResponseVO.id,
                 reservations = it,
-                onItemSelected = { item ->
-                    itemSelected = item
-                }
+                onRefresh = onRefresh
             )
         }
         orderResponseVO.objects?.let {
@@ -78,9 +84,10 @@ fun ReservationDetailsScreen(
 
 @Composable
 private fun ListReservations(
+    orderId: Long,
     modifier: Modifier = Modifier,
     reservations: List<ReservationResponseVO>,
-    onItemSelected: (ReservationResponseVO) -> Unit = {}
+    onRefresh: () -> Unit = {}
 ) {
     Column(
         modifier = modifier,
@@ -107,12 +114,13 @@ private fun ListReservations(
         ) {
             itemsIndexed(items = reservations) { index, objectResult ->
                 CardReservation(
-                    reservations = objectResult,
+                    orderId = orderId,
+                    reservation = objectResult,
                     selected = selectedIndex == index,
-                    onItemSelected = onItemSelected,
                     onDisableItem = {
                         selectedIndex = index
-                    }
+                    },
+                    onRefresh = onRefresh
                 )
             }
         }
@@ -121,17 +129,21 @@ private fun ListReservations(
 
 @Composable
 private fun CardReservation(
-    reservations: ReservationResponseVO,
+    orderId: Long,
+    reservation: ReservationResponseVO,
     selected: Boolean = false,
-    onItemSelected: (ReservationResponseVO) -> Unit = {},
-    onDisableItem: () -> Unit = {}
+    onDisableItem: () -> Unit = {},
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onRefresh: () -> Unit = {}
 ) {
+    var openDialog: Boolean by remember { mutableStateOf(value = false) }
+    val viewModel: OrderViewModel = getKoin().get()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .onBorder(
                 onClick = {
-                    onItemSelected(reservations)
+                    openDialog = true
                     onDisableItem()
                 },
                 color = Themes.colors.primary,
@@ -145,8 +157,55 @@ private fun CardReservation(
         verticalArrangement = Arrangement.Center
     ) {
         SimpleText(
-            text = reservations.name ?: EMPTY_TEXT,
+            text = reservation.name ?: EMPTY_TEXT,
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )
     }
+    if (openDialog) {
+        Alert(
+            label = REMOVE_ITEM,
+            onDismissRequest = {
+                openDialog = false
+            },
+            onConfirmation = {
+                openDialog = false
+                viewModel.removeReservationOrder(
+                    orderId = orderId,
+                    reservationId = reservation.id ?: 0
+                )
+            }
+        )
+    }
+    ObserveNetworkStateHandlerRemoveReservationOrder(
+        viewModel = viewModel,
+        onError = {},
+        goToAlternativeRoutes = goToAlternativeRoutes,
+        onSuccessful = onRefresh
+    )
+}
+
+@Composable
+private fun ObserveNetworkStateHandlerRemoveReservationOrder(
+    viewModel: OrderViewModel,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    onSuccessful: () -> Unit = {}
+) {
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.removeReservationOrder }
+    ObserveNetworkStateHandler(
+        state = state,
+        onLoading = {},
+        onError = {
+            onError(Triple(first = false, second = true, third = it.orEmpty()))
+        },
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
+        onSuccess = {
+            onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.resetOrder(reset = ResetOrder.REMOVE_RESERVATION)
+            onSuccessful()
+        }
+    )
 }

@@ -45,6 +45,11 @@ interface OrderRepository {
         incrementObjects: List<ObjectRequestDTO>
     ): Flow<ObserveNetworkStateHandler<Unit>>
 
+    fun removeReservationOrder(
+        orderId: Long,
+        reservationId: Long
+    ): Flow<ObserveNetworkStateHandler<Unit>>
+
     fun deleteOrder(id: Long): Flow<ObserveNetworkStateHandler<Unit>>
 
     fun closeOrder(
