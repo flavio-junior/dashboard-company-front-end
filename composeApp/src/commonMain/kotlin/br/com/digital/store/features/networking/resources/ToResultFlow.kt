@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
@@ -27,7 +28,6 @@ inline fun <reified T> toResultFlow(
                 val data = response.body<T>()
                 emit(ObserveNetworkStateHandler.Success(s = data))
             }
-
             in NUMBER_400..NUMBER_499 -> {
                 val errorResponse = response.body<ResponseError>()
                 emit(
@@ -37,7 +37,6 @@ inline fun <reified T> toResultFlow(
                     )
                 )
             }
-
             in NUMBER_500..NUMBER_599 -> {
                 emit(
                     ObserveNetworkStateHandler.Error(
@@ -47,7 +46,6 @@ inline fun <reified T> toResultFlow(
                     )
                 )
             }
-
             else -> {
                 emit(
                     ObserveNetworkStateHandler.Error(
@@ -60,4 +58,6 @@ inline fun <reified T> toResultFlow(
     } catch (e: Exception) {
         emit(ObserveNetworkStateHandler.Error(type = ErrorType.INTERNAL, e = e.message.orEmpty()))
     }
+}.catch {
+    emit(ObserveNetworkStateHandler.Error(type = ErrorType.INTERNAL, e = it.message.orEmpty()))
 }.flowOn(dispatcher)
