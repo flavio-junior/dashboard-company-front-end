@@ -7,6 +7,7 @@ import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,8 +29,11 @@ import br.com.digital.store.components.strings.StringsUtils.REMOVE_ITEM
 import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
 import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.Description
+import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.SimpleText
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.arrow_outward
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
@@ -37,10 +41,13 @@ import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
+import br.com.digital.store.features.order.utils.OrderUtils.ADD_RESERVATIONS
 import br.com.digital.store.features.reservation.data.vo.ReservationResponseVO
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.NumbersUtils
 import br.com.digital.store.utils.onBorder
 import kotlinx.coroutines.launch
 import org.koin.mp.KoinPlatform.getKoin
@@ -62,11 +69,27 @@ fun ReservationDetailsScreen(
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
         HeaderDetailsOrder(orderResponseVO = orderResponseVO)
+        Description(description = "$RESERVATIONS:")
         orderResponseVO.reservations?.let {
-            ListReservations(
-                orderId = orderResponseVO.id,
-                reservations = it,
-                onRefresh = onRefresh
+            ItemObject(
+                spaceBy = Themes.size.spaceSize0,
+                body = {
+                    AddMoreReservations(
+                        onClick = {
+                            onItemSelected(
+                                Pair(
+                                    orderResponseVO,
+                                    NumbersUtils.NUMBER_FIVE
+                                )
+                            )
+                        }
+                    )
+                    ListReservations(
+                        orderId = orderResponseVO.id,
+                        reservations = it,
+                        onRefresh = onRefresh
+                    )
+                }
             )
         }
         orderResponseVO.objects?.let {
@@ -93,7 +116,6 @@ private fun ListReservations(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize8)
     ) {
-        Description(description = "$RESERVATIONS:")
         val scrollState = rememberLazyListState()
         val coroutineScope = rememberCoroutineScope()
         var selectedIndex by remember { mutableStateOf(value = -1) }
@@ -123,6 +145,38 @@ private fun ListReservations(
                     onRefresh = onRefresh
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun AddMoreReservations(
+    onClick: () -> Unit = {}
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .onBorder(
+                onClick = onClick,
+                color = Themes.colors.primary,
+                spaceSize = Themes.size.spaceSize12,
+                width = Themes.size.spaceSize2
+            )
+            .background(color = Themes.colors.background)
+            .padding(all = Themes.size.spaceSize16)
+            .height(height = Themes.size.spaceSize40)
+            .width(width = Themes.size.spaceSize200),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
+        ) {
+            SimpleText(
+                text = ADD_RESERVATIONS,
+                modifier = Modifier.weight(weight = WEIGHT_SIZE)
+            )
+            IconDefault(icon = Res.drawable.arrow_outward)
         }
     }
 }

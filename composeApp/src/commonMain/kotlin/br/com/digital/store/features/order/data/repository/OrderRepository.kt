@@ -9,6 +9,7 @@ import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
 import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
+import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
 import br.com.digital.store.utils.NumbersUtils.NUMBER_SIXTY
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import kotlinx.coroutines.flow.Flow
@@ -43,6 +44,11 @@ interface OrderRepository {
     fun incrementMoreObjectsOrder(
         orderId: Long,
         incrementObjects: List<ObjectRequestDTO>
+    ): Flow<ObserveNetworkStateHandler<Unit>>
+
+    fun incrementMoreReservationsOrder(
+        orderId: Long,
+        reservationsToSava: List<ReservationResponseDTO>
     ): Flow<ObserveNetworkStateHandler<Unit>>
 
     fun removeReservationOrder(

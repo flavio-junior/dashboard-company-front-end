@@ -25,6 +25,7 @@ object OrderUtils {
     const val UPDATE_STATUS_ITEM = "Atualizar Status do Item?"
     const val DELETE_OBJECT = "Apagar Item do Pedido?"
     const val ADD_MORE_ITEMS_ORDER = "Adicionar Itens no Pedido"
+    const val ADD_RESERVATIONS = "Adicionar Reservas"
     const val CLOSE_ORDER = "Fechar Pedido"
     const val SELECTED_TYPE_PAYMENT = "Selecione o Tipo de Pagamento!"
     const val TYPE_OF_PAYMENT = "Tipo de Pagamento:"

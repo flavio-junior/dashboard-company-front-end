@@ -11,6 +11,7 @@ import br.com.digital.store.features.order.data.dto.OrdersResponseDTO
 import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.UpdateStatusDeliveryRequestDTO
+import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
@@ -125,6 +126,21 @@ class OrderRemoteDataSource(
                     append(name = HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
                 setBody(body = incrementObjects)
+            }
+        }
+    }
+
+    override fun incrementMoreReservationsOrder(
+        orderId: Long,
+        reservationsToSava: List<ReservationResponseDTO>
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.post {
+                url(urlString = "/api/dashboard/company/orders/v1/${orderId}/increment/more/reservations/order")
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+                setBody(body = reservationsToSava)
             }
         }
     }

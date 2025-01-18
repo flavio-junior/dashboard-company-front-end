@@ -57,5 +57,14 @@ fun OrderTabMain(
                     onRefresh(NumbersUtils.NUMBER_FOUR)
                 }
             )
+
+        NumbersUtils.NUMBER_FIVE ->
+            AddMoreReservationsScreen(
+                orderId = orderResponseVO.id,
+                goToAlternativeRoutes = goToAlternativeRoutes,
+                onRefresh = {
+                    onRefresh(NumbersUtils.NUMBER_FIVE)
+                }
+            )
     }
 }

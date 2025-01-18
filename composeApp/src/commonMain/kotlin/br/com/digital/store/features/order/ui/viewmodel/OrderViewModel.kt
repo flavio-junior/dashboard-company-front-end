@@ -14,6 +14,7 @@ import br.com.digital.store.features.order.data.repository.OrderRepository
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.converter.ConverterOrder
 import br.com.digital.store.features.order.domain.others.Action
+import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -70,6 +71,11 @@ class OrderViewModel(
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val incrementMoreObjectsOrder: State<ObserveNetworkStateHandler<Unit>> =
         _incrementMoreObjectsOrder
+
+    private val _incrementMoreReservationsOrder =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val incrementMoreReservationsOrder: State<ObserveNetworkStateHandler<Unit>> =
+        _incrementMoreReservationsOrder
 
     private val _removeReservationOrder =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -202,14 +208,37 @@ class OrderViewModel(
         }
     }
 
+    fun incrementMoreReservationsOrder(
+        orderId: Long,
+        reservationsToSava: List<ReservationResponseDTO>
+    ) {
+        viewModelScope.launch {
+            repository.incrementMoreReservationsOrder(
+                orderId = orderId,
+                reservationsToSava = reservationsToSava
+            )
+                .onStart {
+                    _incrementMoreReservationsOrder.value =
+                        ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _incrementMoreReservationsOrder.value = it
+                }
+        }
+    }
+
     fun removeReservationOrder(
         orderId: Long,
         reservationId: Long
     ) {
         viewModelScope.launch {
-            repository.removeReservationOrder(orderId = orderId, reservationId = reservationId)
+            repository.removeReservationOrder(
+                orderId = orderId,
+                reservationId = reservationId
+            )
                 .onStart {
-                    _removeReservationOrder.value = ObserveNetworkStateHandler.Loading(l = true)
+                    _removeReservationOrder.value =
+                        ObserveNetworkStateHandler.Loading(l = true)
                 }
                 .collect {
                     _removeReservationOrder.value = it
@@ -242,7 +271,8 @@ class OrderViewModel(
                     it.result?.let { response ->
                         val objectConverted =
                             converter.converterOrderResponseDTOToVO(order = response)
-                        _closeOrder.value = ObserveNetworkStateHandler.Success(s = objectConverted)
+                        _closeOrder.value =
+                            ObserveNetworkStateHandler.Success(s = objectConverted)
                     }
                 }
         }
@@ -287,11 +317,18 @@ class OrderViewModel(
             }
 
             ResetOrder.INCREMENT_MORE_OBJECTS_ORDER -> {
-                _incrementMoreObjectsOrder.value = ObserveNetworkStateHandler.Loading(l = false)
+                _incrementMoreObjectsOrder.value =
+                    ObserveNetworkStateHandler.Loading(l = false)
+            }
+
+            ResetOrder.INCREMENT_MORE_RESERVATIONS_ORDER -> {
+                _incrementMoreReservationsOrder.value =
+                    ObserveNetworkStateHandler.Loading(l = false)
             }
 
             ResetOrder.REMOVE_RESERVATION -> {
-                _removeReservationOrder.value = ObserveNetworkStateHandler.Loading(l = false)
+                _removeReservationOrder.value =
+                    ObserveNetworkStateHandler.Loading(l = false)
             }
         }
     }
@@ -307,6 +344,7 @@ enum class ResetOrder {
     INCREMENT_OVERVIEW,
     REMOVE_OVERVIEW,
     REMOVE_OBJECT,
+    INCREMENT_MORE_RESERVATIONS_ORDER,
     REMOVE_RESERVATION,
     INCREMENT_MORE_OBJECTS_ORDER
 }
