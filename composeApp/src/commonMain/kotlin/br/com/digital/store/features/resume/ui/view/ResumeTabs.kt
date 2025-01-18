@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ResumeTabs(
+    goToOrderScreen: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
@@ -81,6 +82,7 @@ fun ResumeTabs(
                             pagerState.animateScrollToPage(page = it.second)
                         }
                     },
+                    goToOrderScreen = goToOrderScreen,
                     goToAlternativeRoutes = goToAlternativeRoutes
                 )
             }

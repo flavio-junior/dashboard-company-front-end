@@ -24,6 +24,7 @@ import org.koin.mp.KoinPlatform.getKoin
 @Composable
 fun GetAnaliseDayScreen(
     onItemSelected: (Pair<PierChart, Int>) -> Unit = {},
+    goToOrderScreen: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     var observer: Pair<Boolean, String?> by remember {
@@ -49,6 +50,10 @@ fun GetAnaliseDayScreen(
                     ),
                     onItemSelect = { itemSelected ->
                         observer = itemSelected
+                    },
+                    goToOrderScreen = goToOrderScreen,
+                    refreshPage = {
+                        viewModel.getAnalysisDay()
                     }
                 )
             },

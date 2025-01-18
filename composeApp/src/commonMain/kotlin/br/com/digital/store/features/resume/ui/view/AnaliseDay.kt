@@ -11,13 +11,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import br.com.digital.store.components.ui.EmptyList
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.data_usage
+import br.com.digital.store.features.resume.utils.ResumeUtils.EMPTY_LIST_RESUME
+import br.com.digital.store.features.resume.utils.ResumeUtils.NONE_RESUME
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 
 @Composable
 fun AnaliseDay(
     pierChart: PierChart,
-    onItemSelect: (Pair<Boolean, String>) -> Unit = {}
+    onItemSelect: (Pair<Boolean, String>) -> Unit = {},
+    goToOrderScreen: () -> Unit = {},
+    refreshPage: () -> Unit = {}
 ) {
     var animationPlayed by remember { mutableStateOf(value = false) }
     LaunchedEffect(key1 = true) {
@@ -31,15 +38,25 @@ fun AnaliseDay(
         ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        PierChartAnalise(
-            modifier = Modifier.weight(weight = WEIGHT_SIZE),
-            graphic = pierChart.graphic
-        )
-        DetailsAnalise(
-            modifier = Modifier.weight(weight = WEIGHT_SIZE),
-            graphic = pierChart.graphic,
-            resume = pierChart.resume,
-            onItemSelect = onItemSelect
-        )
+        if (pierChart.graphic?.total != 0L && pierChart.graphic?.information?.isNotEmpty() == true) {
+            PierChartAnalise(
+                modifier = Modifier.weight(weight = WEIGHT_SIZE),
+                graphic = pierChart.graphic
+            )
+            DetailsAnalise(
+                modifier = Modifier.weight(weight = WEIGHT_SIZE),
+                graphic = pierChart.graphic,
+                resume = pierChart.resume,
+                onItemSelect = onItemSelect
+            )
+        } else {
+            EmptyList(
+                title = EMPTY_LIST_RESUME,
+                description = NONE_RESUME,
+                mainIcon = Res.drawable.data_usage,
+                onClick = goToOrderScreen,
+                refresh = refreshPage
+            )
+        }
     }
 }

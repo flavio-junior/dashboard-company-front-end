@@ -12,6 +12,8 @@ object ResumeUtils {
     const val NUMBER_ORDERS = "Número de Pedidos:"
     const val RESUME_COMPLETED = "Resumo Completo:"
     const val NUMBER_DISCOUNT = "Número de Descontos:"
+    const val EMPTY_LIST_RESUME = "Nenhum Resumo Encontrado!"
+    const val NONE_RESUME = "Nenhum Resume para hoje!"
 }
 
 @Composable

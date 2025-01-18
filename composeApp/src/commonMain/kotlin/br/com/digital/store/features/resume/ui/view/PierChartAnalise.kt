@@ -32,7 +32,7 @@ import kotlin.math.sin
 @Composable
 fun PierChartAnalise(
     modifier: Modifier,
-    radiusOuter: Dp = Themes.size.spaceSize200,
+    radiusOuter: Dp = Themes.size.spaceSize250,
     graphic: Graphic? = null
 ) {
     val titleGraphic = graphic?.graphic
