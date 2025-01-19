@@ -121,7 +121,7 @@ private fun ListObject(
             }
         )
         FooterOrder(
-            orderId = orderResponseVO.id,
+            orderResponseVO = orderResponseVO,
             status = statusDeliveryStatus(status = orderResponseVO.address?.status),
             type = type,
             goToAlternativeRoutes = goToAlternativeRoutes,
