@@ -2,7 +2,7 @@ package br.com.digital.store.components.strings
 
 object StringsUtils {
     const val CLEAN = "Limpar"
-    const val MAIN_NAME = "CANDEEIROS BAR"
+    const val MAIN_NAME = "Comanda Digital"
     const val EMAIL = "Email"
     const val PASSWORD = "Senha"
     const val ID = "Código"
