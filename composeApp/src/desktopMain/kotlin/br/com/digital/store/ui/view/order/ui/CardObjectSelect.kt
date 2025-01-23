@@ -37,8 +37,6 @@ fun CardObjectSelect(
     verifyObject: Boolean = false,
     onItemSelected: (ObjectRequestDTO) -> Unit = {},
     onQuantityChange: (Int) -> Unit = {},
-    onResult: (ObjectRequestDTO) -> Unit = {},
-    onDisableItem: () -> Unit = {}
 ) {
     var openDialog: Boolean by remember { mutableStateOf(value = false) }
     var newQuantity: Int by remember { mutableStateOf(value = quantity) }
@@ -51,7 +49,6 @@ fun CardObjectSelect(
             .onBorder(
                 onClick = {
                     openDialog = true
-                    onDisableItem()
                 },
                 color = Themes.colors.primary,
                 spaceSize = Themes.size.spaceSize12,
@@ -93,18 +90,10 @@ fun CardObjectSelect(
             onQuantityChange(newQuantity)
         }
         if (verifyObject) {
-            if (quantity > NUMBER_ZERO) {
-                observer = Pair(first = false, second = EMPTY_TEXT)
-                onResult(
-                    ObjectRequestDTO(
-                        name = objectRequestDTO.name,
-                        identifier = objectRequestDTO.identifier,
-                        quantity = quantity,
-                        type = objectRequestDTO.type
-                    )
-                )
+            observer = if (quantity > NUMBER_ZERO) {
+                Pair(first = false, second = EMPTY_TEXT)
             } else {
-                observer = Pair(first = true, second = NUMBER_EQUALS_ZERO)
+                Pair(first = true, second = NUMBER_EQUALS_ZERO)
             }
         }
         if (openDialog) {

@@ -33,6 +33,7 @@ import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -42,7 +43,6 @@ fun IncrementMoreObjectsOrderScreen(
     onRefresh: () -> Unit = {}
 ) {
     val viewModel: OrderViewModel = getKoin().get()
-    val objectsSelected = remember { mutableStateListOf<ObjectRequestDTO>() }
     val objectsToSave = remember { mutableStateListOf<ObjectRequestDTO>() }
     var addProduct: Boolean by remember { mutableStateOf(value = false) }
     var addFood: Boolean by remember { mutableStateOf(value = false) }
@@ -76,28 +76,27 @@ fun IncrementMoreObjectsOrderScreen(
         )
     }
     Description(description = SELECTED_ITEMS)
-    AllObjects(
-        objectSelected = objectsSelected,
-        verifyObjects = verifyObjects,
-        onItemSelected = { objectResult ->
-            if (objectsSelected.contains(element = objectResult)) {
-                objectsSelected.remove(element = objectResult)
-                objectsToSave.remove(element = objectResult)
-                viewModel.resetOrder(reset = ResetOrder.INCREMENT_MORE_OBJECTS_ORDER)
-            }
-        },
-        objectsToSave = {
-            it.forEach { objectResult ->
-                if (!objectsToSave.contains(objectResult)) {
-                    objectsToSave.add(objectResult)
+    objectsToSave.forEach { objectResult ->
+        val quantity = objectsToSave.find { it.name == objectResult.name }?.quantity
+            ?: NUMBER_ZERO
+        CardObjectSelect(
+            objectRequestDTO = objectResult,
+            verifyObject = verifyObjects,
+            quantity = quantity,
+            onQuantityChange = {
+                objectResult.quantity = it
+            },
+            onItemSelected = {
+                if (objectsToSave.contains(element = it)) {
+                    objectsToSave.remove(element = it)
                 }
             }
-        }
-    )
+        )
+    }
     LoadingButton(
         label = ADD_MORE_ITEMS_ORDER,
         onClick = {
-            if (objectsSelected.isEmpty()) {
+            if (objectsToSave.isEmpty()) {
                 observer = Triple(first = false, second = true, third = NO_SELECTED_ITEMS)
             } else if (objectsToSave.all { it.quantity == 0 }) {
                 verifyObjects = true
@@ -125,8 +124,8 @@ fun IncrementMoreObjectsOrderScreen(
                         quantity = 0,
                         type = TypeItem.PRODUCT
                     )
-                    if (!objectsSelected.contains(element = objectProduct)) {
-                        objectsSelected.add(element = objectProduct)
+                    if (!objectsToSave.contains(element = objectProduct)) {
+                        objectsToSave.add(element = objectProduct)
                     }
                     verifyObjects = false
                 }
@@ -147,8 +146,8 @@ fun IncrementMoreObjectsOrderScreen(
                         quantity = 0,
                         type = TypeItem.FOOD
                     )
-                    if (!objectsSelected.contains(element = foodSelected)) {
-                        objectsSelected.add(element = foodSelected)
+                    if (!objectsToSave.contains(element = foodSelected)) {
+                        objectsToSave.add(element = foodSelected)
                     }
                     verifyObjects = false
                 }
@@ -169,8 +168,8 @@ fun IncrementMoreObjectsOrderScreen(
                         quantity = 0,
                         type = TypeItem.ITEM
                     )
-                    if (!objectsSelected.contains(element = itemSelected)) {
-                        objectsSelected.add(element = itemSelected)
+                    if (!objectsToSave.contains(element = itemSelected)) {
+                        objectsToSave.add(element = itemSelected)
                     }
                     verifyObjects = false
                 }
@@ -185,7 +184,6 @@ fun IncrementMoreObjectsOrderScreen(
         },
         goToAlternativeRoutes = goToAlternativeRoutes,
         onSuccessful = {
-            objectsSelected.clear()
             objectsToSave.clear()
             onRefresh()
         }

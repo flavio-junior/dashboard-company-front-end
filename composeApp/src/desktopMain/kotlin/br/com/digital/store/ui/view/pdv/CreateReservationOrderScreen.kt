@@ -43,9 +43,10 @@ import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
 import br.com.digital.store.features.reservation.ui.ui.SelectReservations
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.ui.view.order.ui.AllObjects
+import br.com.digital.store.ui.view.order.ui.CardObjectSelect
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -55,7 +56,6 @@ fun CreateReservationOrderScreen(
 ) {
     val viewModel: OrderViewModel = getKoin().get()
     val reservationsToSave = remember { mutableStateListOf<ReservationResponseDTO>() }
-    val objectsSelected = remember { mutableStateListOf<ObjectRequestDTO>() }
     val objectsToSave = remember { mutableStateListOf<ObjectRequestDTO>() }
     var addReservations: Boolean by remember { mutableStateOf(value = false) }
     var addProduct: Boolean by remember { mutableStateOf(value = false) }
@@ -112,28 +112,29 @@ fun CreateReservationOrderScreen(
             )
         }
         Description(description = SELECTED_ITEMS)
-        AllObjects(
-            objectSelected = objectsSelected,
-            verifyObjects = verifyObjects,
-            onItemSelected = { objectResult ->
-                if (objectsSelected.contains(element = objectResult)) {
-                    objectsSelected.remove(element = objectResult)
-                }
-            },
-            objectsToSave = {
-                it.forEach { objectResult ->
-                    if (!objectsToSave.contains(objectResult)) {
-                        objectsToSave.add(objectResult)
+        objectsToSave.forEach { objectResult ->
+            val quantity = objectsToSave.find { it.name == objectResult.name }?.quantity
+                ?: NUMBER_ZERO
+            CardObjectSelect(
+                objectRequestDTO = objectResult,
+                verifyObject = verifyObjects,
+                quantity = quantity,
+                onQuantityChange = {
+                    objectResult.quantity = it
+                },
+                onItemSelected = {
+                    if (objectsToSave.contains(element = it)) {
+                        objectsToSave.remove(element = it)
                     }
                 }
-            }
-        )
+            )
+        }
         LoadingButton(
             label = CREATE_NEW_ORDER,
             onClick = {
                 if (checkBodyReservationOrderIsNull(
                         reservations = reservationsToSave,
-                        objectSelected = objectsSelected
+                        objectSelected = objectsToSave
                     )
                 ) {
                     observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
@@ -180,8 +181,8 @@ fun CreateReservationOrderScreen(
                             quantity = 0,
                             type = TypeItem.PRODUCT
                         )
-                        if (!objectsSelected.contains(element = productSelected)) {
-                            objectsSelected.add(productSelected)
+                        if (!objectsToSave.contains(element = productSelected)) {
+                            objectsToSave.add(productSelected)
                         }
                         verifyObjects = false
                     }
@@ -202,8 +203,8 @@ fun CreateReservationOrderScreen(
                             quantity = 0,
                             type = TypeItem.FOOD
                         )
-                        if (!objectsSelected.contains(element = foodSelected)) {
-                            objectsSelected.add(element = foodSelected)
+                        if (!objectsToSave.contains(element = foodSelected)) {
+                            objectsToSave.add(element = foodSelected)
                         }
                         verifyObjects = false
                     }
@@ -224,8 +225,8 @@ fun CreateReservationOrderScreen(
                             quantity = 0,
                             type = TypeItem.ITEM
                         )
-                        if (!objectsSelected.contains(element = itemSelected)) {
-                            objectsSelected.add(element = itemSelected)
+                        if (!objectsToSave.contains(element = itemSelected)) {
+                            objectsToSave.add(element = itemSelected)
                         }
                         verifyObjects = false
                     }
@@ -240,7 +241,6 @@ fun CreateReservationOrderScreen(
             },
             goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
-                objectsSelected.clear()
                 objectsToSave.clear()
                 reservationsToSave.clear()
                 onRefresh()

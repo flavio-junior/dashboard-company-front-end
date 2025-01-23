@@ -33,11 +33,12 @@ import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.components.ui.SelectPrint
 import br.com.digital.store.ui.view.components.utils.ThermalPrinter
-import br.com.digital.store.ui.view.order.ui.AllObjects
+import br.com.digital.store.ui.view.order.ui.CardObjectSelect
 import br.com.digital.store.ui.view.order.ui.ClosedOrderDialog
 import br.com.digital.store.ui.view.order.ui.ItemObject
 import br.com.digital.store.ui.view.order.utils.formatOrderToPrint
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import org.koin.mp.KoinPlatform.getKoin
 import java.io.ByteArrayInputStream
 
@@ -46,7 +47,6 @@ fun ShoppingCartScreen(
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
-    val objectsSelected = remember { mutableStateListOf<ObjectRequestDTO>() }
     val objectsToSave = remember { mutableStateListOf<ObjectRequestDTO>() }
     var addProduct: Boolean by remember { mutableStateOf(value = false) }
     var verifyObjects: Boolean by remember { mutableStateOf(value = false) }
@@ -73,22 +73,23 @@ fun ShoppingCartScreen(
                         addProduct = true
                     }
                 )
-                AllObjects(
-                    objectSelected = objectsSelected,
-                    verifyObjects = verifyObjects,
-                    onItemSelected = { objectResult ->
-                        if (objectsSelected.contains(element = objectResult)) {
-                            objectsSelected.remove(element = objectResult)
-                        }
-                    },
-                    objectsToSave = {
-                        it.forEach { objectResult ->
-                            if (!objectsToSave.contains(objectResult)) {
-                                objectsToSave.add(objectResult)
+                objectsToSave.forEach { objectResult ->
+                    val quantity = objectsToSave.find { it.name == objectResult.name }?.quantity
+                        ?: NUMBER_ZERO
+                    CardObjectSelect(
+                        objectRequestDTO = objectResult,
+                        verifyObject = verifyObjects,
+                        quantity = quantity,
+                        onQuantityChange = {
+                            objectResult.quantity = it
+                        },
+                        onItemSelected = {
+                            if (objectsToSave.contains(element = it)) {
+                                objectsToSave.remove(element = it)
                             }
                         }
-                    }
-                )
+                    )
+                }
             }
         )
         LoadingButton(
@@ -113,8 +114,8 @@ fun ShoppingCartScreen(
                         quantity = 0,
                         type = TypeItem.PRODUCT
                     )
-                    if (!objectsSelected.contains(element = productSelected)) {
-                        objectsSelected.add(productSelected)
+                    if (!objectsToSave.contains(element = productSelected)) {
+                        objectsToSave.add(productSelected)
                     }
                     verifyObjects = false
                     addProduct = false
@@ -129,9 +130,9 @@ fun ShoppingCartScreen(
             },
             onConfirmation = {
                 selectTypePayment = false
-                if (objectsSelected.isEmpty()) {
+                if (objectsToSave.isEmpty()) {
                     observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
-                } else if (objectsToSave.all { it.quantity == 0 }) {
+                } else if (objectsToSave.all { checkObject -> checkObject.quantity == 0 }) {
                     verifyObjects = true
                 } else {
                     observer = Triple(first = true, second = false, third = EMPTY_TEXT)
@@ -174,7 +175,6 @@ fun ShoppingCartScreen(
                     inputStream = inputStream,
                     printerName = printerName
                 )
-                objectsSelected.clear()
                 objectsToSave.clear()
                 onRefresh()
             }
