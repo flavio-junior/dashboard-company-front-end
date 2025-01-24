@@ -14,6 +14,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import br.com.digital.store.components.strings.StringsUtils.ACTUAL_STOCK
+import br.com.digital.store.components.strings.StringsUtils.INSUFFICIENT_STOCK
 import br.com.digital.store.components.strings.StringsUtils.NAME
 import br.com.digital.store.components.strings.StringsUtils.QUANTITY
 import br.com.digital.store.components.strings.StringsUtils.REMOVE_ITEM
@@ -22,6 +24,7 @@ import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.components.ui.Title
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.domain.factory.typeOrderFactory
+import br.com.digital.store.features.order.domain.type.TypeItem
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
@@ -74,6 +77,22 @@ fun CardObjectSelect(
             keyboardType = KeyboardType.Number,
             onValueChange = {}
         )
+        if (objectRequestDTO.type == TypeItem.PRODUCT) {
+            TextField(
+                label = ACTUAL_STOCK,
+                value = objectRequestDTO.actualQuantity.toString(),
+                backgroundColor = if (selected) ITEM_SELECTED else Themes.colors.background,
+                textColor = if (selected) Themes.colors.background else Themes.colors.primary,
+                enabled = false,
+                isError = observer.first,
+                onValueChange = {}
+            )
+            if (newQuantity > objectRequestDTO.actualQuantity) {
+                observer = Pair(first = true, second = INSUFFICIENT_STOCK)
+            } else {
+                observer = Pair(first = false, second = EMPTY_TEXT)
+            }
+        }
         TextField(
             label = QUANTITY,
             value = newQuantity.toString(),

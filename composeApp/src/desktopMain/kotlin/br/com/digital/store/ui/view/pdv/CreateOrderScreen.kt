@@ -88,22 +88,24 @@ fun CreateOrderScreen(
             )
         }
         Description(description = SELECTED_ITEMS)
-        objectsToSave.forEach { objectResult ->
-            val quantity = objectsToSave.find { it.name == objectResult.name }?.quantity
-                ?: NUMBER_ZERO
-            CardObjectSelect(
-                objectRequestDTO = objectResult,
-                verifyObject = verifyObjects,
-                quantity = quantity,
-                onQuantityChange = {
-                    objectResult.quantity = it
-                },
-                onItemSelected = {
-                    if (objectsToSave.contains(element = it)) {
-                        objectsToSave.remove(element = it)
+        Row(horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)) {
+            objectsToSave.forEach { objectResult ->
+                val quantity = objectsToSave.find { it.name == objectResult.name }?.quantity
+                    ?: NUMBER_ZERO
+                CardObjectSelect(
+                    objectRequestDTO = objectResult,
+                    verifyObject = verifyObjects,
+                    quantity = quantity,
+                    onQuantityChange = {
+                        objectResult.quantity = it
+                    },
+                    onItemSelected = {
+                        if (objectsToSave.contains(element = it)) {
+                            objectsToSave.remove(element = it)
+                        }
                     }
-                }
-            )
+                )
+            }
         }
         LoadingButton(
             label = CREATE_NEW_ORDER,
@@ -136,6 +138,7 @@ fun CreateOrderScreen(
                         val productSelected = ObjectRequestDTO(
                             name = product.name,
                             identifier = product.id,
+                            actualQuantity = product.quantity,
                             quantity = 0,
                             type = TypeItem.PRODUCT
                         )

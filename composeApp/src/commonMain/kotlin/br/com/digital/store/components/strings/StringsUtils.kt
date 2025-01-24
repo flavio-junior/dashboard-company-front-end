@@ -18,6 +18,8 @@ object StringsUtils {
     const val QTD = "QTD"
     const val OPTIONS = "Opções"
     const val ACTUAL_NAME = "Nome atual"
+    const val ACTUAL_STOCK = "Estoque atual"
+    const val INSUFFICIENT_STOCK = "Estoque Insuficiente!"
     const val ALERT = "Alerta!"
     const val WARNING = "Atenção!"
     const val CANCEL = "Cancelar"

@@ -111,6 +111,7 @@ fun ShoppingCartScreen(
                     val productSelected = ObjectRequestDTO(
                         name = product.name,
                         identifier = product.id,
+                        actualQuantity = product.quantity,
                         quantity = 0,
                         type = TypeItem.PRODUCT
                     )

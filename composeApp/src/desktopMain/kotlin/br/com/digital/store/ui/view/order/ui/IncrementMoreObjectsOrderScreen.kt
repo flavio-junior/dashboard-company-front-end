@@ -76,22 +76,24 @@ fun IncrementMoreObjectsOrderScreen(
         )
     }
     Description(description = SELECTED_ITEMS)
-    objectsToSave.forEach { objectResult ->
-        val quantity = objectsToSave.find { it.name == objectResult.name }?.quantity
-            ?: NUMBER_ZERO
-        CardObjectSelect(
-            objectRequestDTO = objectResult,
-            verifyObject = verifyObjects,
-            quantity = quantity,
-            onQuantityChange = {
-                objectResult.quantity = it
-            },
-            onItemSelected = {
-                if (objectsToSave.contains(element = it)) {
-                    objectsToSave.remove(element = it)
+    Row(horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)) {
+        objectsToSave.forEach { objectResult ->
+            val quantity = objectsToSave.find { it.name == objectResult.name }?.quantity
+                ?: NUMBER_ZERO
+            CardObjectSelect(
+                objectRequestDTO = objectResult,
+                verifyObject = verifyObjects,
+                quantity = quantity,
+                onQuantityChange = {
+                    objectResult.quantity = it
+                },
+                onItemSelected = {
+                    if (objectsToSave.contains(element = it)) {
+                        objectsToSave.remove(element = it)
+                    }
                 }
-            }
-        )
+            )
+        }
     }
     LoadingButton(
         label = ADD_MORE_ITEMS_ORDER,
@@ -121,6 +123,7 @@ fun IncrementMoreObjectsOrderScreen(
                     val objectProduct = ObjectRequestDTO(
                         name = product.name,
                         identifier = product.id,
+                        actualQuantity = product.quantity,
                         quantity = 0,
                         type = TypeItem.PRODUCT
                     )
