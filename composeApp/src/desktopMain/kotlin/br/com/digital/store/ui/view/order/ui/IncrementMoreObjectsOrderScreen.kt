@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.components.strings.StringsUtils.ADD_FOOD
 import br.com.digital.store.components.strings.StringsUtils.ADD_ITEM
 import br.com.digital.store.components.strings.StringsUtils.ADD_PRODUCT
-import br.com.digital.store.components.strings.StringsUtils.SELECTED_ITEMS
 import br.com.digital.store.components.strings.StringsUtils.SELECT_ITEMS
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.IsErrorMessage
@@ -33,7 +32,6 @@ import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -75,26 +73,15 @@ fun IncrementMoreObjectsOrderScreen(
             modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
     }
-    Description(description = SELECTED_ITEMS)
-    Row(horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)) {
-        objectsToSave.forEach { objectResult ->
-            val quantity = objectsToSave.find { it.name == objectResult.name }?.quantity
-                ?: NUMBER_ZERO
-            CardObjectSelect(
-                objectRequestDTO = objectResult,
-                verifyObject = verifyObjects,
-                quantity = quantity,
-                onQuantityChange = {
-                    objectResult.quantity = it
-                },
-                onItemSelected = {
-                    if (objectsToSave.contains(element = it)) {
-                        objectsToSave.remove(element = it)
-                    }
-                }
-            )
+    BodyCard(
+        objectsToSave = objectsToSave,
+        verifyObjects = verifyObjects,
+        onItemSelected = {
+            if (objectsToSave.contains(element = it)) {
+                objectsToSave.remove(element = it)
+            }
         }
-    }
+    )
     LoadingButton(
         label = ADD_MORE_ITEMS_ORDER,
         onClick = {

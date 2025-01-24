@@ -14,8 +14,6 @@ import br.com.digital.store.components.strings.StringsUtils.ADD_ITEM
 import br.com.digital.store.components.strings.StringsUtils.ADD_PRODUCT
 import br.com.digital.store.components.strings.StringsUtils.CREATE_NEW_ORDER
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
-import br.com.digital.store.components.strings.StringsUtils.SELECTED_ITEMS
-import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
@@ -34,7 +32,7 @@ import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
 import br.com.digital.store.features.order.ui.viewmodel.ResetOrder
 import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.ui.view.order.ui.CardObjectSelect
+import br.com.digital.store.ui.view.order.ui.BodyCard
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
@@ -79,26 +77,15 @@ fun AddItemsOrder(
             modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
     }
-    Description(description = SELECTED_ITEMS)
-    Row(horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)) {
-        objectsToSave.forEach { objectResult ->
-            val quantity = objectsToSave.find { it.name == objectResult.name }?.quantity
-                ?: NUMBER_ZERO
-            CardObjectSelect(
-                objectRequestDTO = objectResult,
-                verifyObject = verifyObjects,
-                quantity = quantity,
-                onQuantityChange = {
-                    objectResult.quantity = it
-                },
-                onItemSelected = {
-                    if (objectsToSave.contains(element = it)) {
-                        objectsToSave.remove(element = it)
-                    }
-                }
-            )
+    BodyCard(
+        objectsToSave = objectsToSave,
+        verifyObjects = verifyObjects,
+        onItemSelected = {
+            if (objectsToSave.contains(element = it)) {
+                objectsToSave.remove(element = it)
+            }
         }
-    }
+    )
     LoadingButton(
         label = CREATE_NEW_ORDER,
         onClick = {

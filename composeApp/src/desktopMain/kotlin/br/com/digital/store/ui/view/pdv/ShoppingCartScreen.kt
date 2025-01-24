@@ -33,12 +33,12 @@ import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.components.ui.SelectPrint
 import br.com.digital.store.ui.view.components.utils.ThermalPrinter
-import br.com.digital.store.ui.view.order.ui.CardObjectSelect
+import br.com.digital.store.ui.view.order.ui.BodyCard
 import br.com.digital.store.ui.view.order.ui.ClosedOrderDialog
 import br.com.digital.store.ui.view.order.ui.ItemObject
 import br.com.digital.store.ui.view.order.utils.formatOrderToPrint
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
+import br.com.digital.store.utils.CommonUtils.NUMBER_EQUALS_ZERO
 import org.koin.mp.KoinPlatform.getKoin
 import java.io.ByteArrayInputStream
 
@@ -73,23 +73,17 @@ fun ShoppingCartScreen(
                         addProduct = true
                     }
                 )
-                objectsToSave.forEach { objectResult ->
-                    val quantity = objectsToSave.find { it.name == objectResult.name }?.quantity
-                        ?: NUMBER_ZERO
-                    CardObjectSelect(
-                        objectRequestDTO = objectResult,
-                        verifyObject = verifyObjects,
-                        quantity = quantity,
-                        onQuantityChange = {
-                            objectResult.quantity = it
-                        },
-                        onItemSelected = {
-                            if (objectsToSave.contains(element = it)) {
-                                objectsToSave.remove(element = it)
-                            }
+                BodyCard(
+                    objectsToSave = objectsToSave,
+                    title = false,
+                    verifyObjects = verifyObjects,
+                    isError = observer.second,
+                    onItemSelected = {
+                        if (objectsToSave.contains(element = it)) {
+                            objectsToSave.remove(element = it)
                         }
-                    )
-                }
+                    }
+                )
             }
         )
         LoadingButton(
@@ -133,17 +127,21 @@ fun ShoppingCartScreen(
                 selectTypePayment = false
                 if (objectsToSave.isEmpty()) {
                     observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
-                } else if (objectsToSave.all { checkObject -> checkObject.quantity == 0 }) {
-                    verifyObjects = true
                 } else {
-                    observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                    viewModel.createOrder(
-                        order = OrderRequestDTO(
-                            type = TypeOrder.SHOPPING_CART,
-                            objects = objectsToSave.toList(),
-                            payment = it
+                    verifyObjects = objectsToSave.any { it.quantity == 0 }
+                    if (verifyObjects) {
+                        observer =
+                            Triple(first = false, second = true, third = NUMBER_EQUALS_ZERO)
+                    } else {
+                        observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                        viewModel.createOrder(
+                            order = OrderRequestDTO(
+                                type = TypeOrder.SHOPPING_CART,
+                                objects = objectsToSave.toList(),
+                                payment = it
+                            )
                         )
-                    )
+                    }
                 }
             }
         )

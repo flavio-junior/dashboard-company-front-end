@@ -38,20 +38,22 @@ fun CardObjectSelect(
     quantity: Int = NUMBER_ZERO,
     selected: Boolean = false,
     verifyObject: Boolean = false,
+    isError: Boolean = false,
     onItemSelected: (ObjectRequestDTO) -> Unit = {},
     onQuantityChange: (Int) -> Unit = {},
+    onDisableItem: () -> Unit = {}
 ) {
     var openDialog: Boolean by remember { mutableStateOf(value = false) }
     var newQuantity: Int by remember { mutableStateOf(value = quantity) }
-    var observer: Pair<Boolean, String> by remember {
-        mutableStateOf(value = Pair(first = false, second = EMPTY_TEXT))
-    }
+    var error: Boolean by remember { mutableStateOf(value = isError) }
+    var message: String by remember { mutableStateOf(value = EMPTY_TEXT) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .onBorder(
                 onClick = {
                     openDialog = true
+                    onDisableItem()
                 },
                 color = Themes.colors.primary,
                 spaceSize = Themes.size.spaceSize12,
@@ -73,7 +75,7 @@ fun CardObjectSelect(
             backgroundColor = if (selected) ITEM_SELECTED else Themes.colors.background,
             textColor = if (selected) Themes.colors.background else Themes.colors.primary,
             enabled = false,
-            isError = observer.first,
+            isError = error,
             keyboardType = KeyboardType.Number,
             onValueChange = {}
         )
@@ -84,13 +86,15 @@ fun CardObjectSelect(
                 backgroundColor = if (selected) ITEM_SELECTED else Themes.colors.background,
                 textColor = if (selected) Themes.colors.background else Themes.colors.primary,
                 enabled = false,
-                isError = observer.first,
+                isError = error,
                 onValueChange = {}
             )
             if (newQuantity > objectRequestDTO.actualQuantity) {
-                observer = Pair(first = true, second = INSUFFICIENT_STOCK)
+                error = true
+                message = INSUFFICIENT_STOCK
             } else {
-                observer = Pair(first = false, second = EMPTY_TEXT)
+                error = false
+                message = EMPTY_TEXT
             }
         }
         TextField(
@@ -98,21 +102,28 @@ fun CardObjectSelect(
             value = newQuantity.toString(),
             backgroundColor = if (selected) ITEM_SELECTED else Themes.colors.background,
             textColor = if (selected) Themes.colors.background else Themes.colors.primary,
-            isError = observer.first,
-            message = observer.second,
+            isError = isError,
+            message = message,
             keyboardType = KeyboardType.Number,
             onValueChange = {
                 newQuantity = it.toIntOrNull() ?: NUMBER_ZERO
             }
         )
-        if (newQuantity > NUMBER_ZERO) {
+        if (
+            objectRequestDTO.type == TypeItem.PRODUCT && newQuantity > NUMBER_ZERO &&
+            newQuantity <= objectRequestDTO.actualQuantity
+        ) {
+            onQuantityChange(newQuantity)
+        } else if (newQuantity > NUMBER_ZERO && objectRequestDTO.type != TypeItem.PRODUCT) {
             onQuantityChange(newQuantity)
         }
         if (verifyObject) {
-            observer = if (quantity > NUMBER_ZERO) {
-                Pair(first = false, second = EMPTY_TEXT)
+            if (quantity > NUMBER_ZERO) {
+                error = false
+                message = EMPTY_TEXT
             } else {
-                Pair(first = true, second = NUMBER_EQUALS_ZERO)
+                error = true
+                message = NUMBER_EQUALS_ZERO
             }
         }
         if (openDialog) {
