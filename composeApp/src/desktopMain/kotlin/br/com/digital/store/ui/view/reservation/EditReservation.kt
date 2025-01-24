@@ -65,7 +65,10 @@ fun EditReservation(
             } else {
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)
                 viewModel.editReservation(
-                    reservation = EditReservationRequestDTO(id = reservationVO.id, name = reservation)
+                    reservation = EditReservationRequestDTO(
+                        id = reservationVO.id,
+                        name = reservation
+                    )
                 )
             }
         }
@@ -157,6 +160,11 @@ fun EditReservation(
             onSuccessful = {
                 onCleanReservations()
             }
+        )
+        GenerateReservations(
+            viewModel = viewModel,
+            modifier = Modifier,
+            goToAlternativeRoutes = goToAlternativeRoutes
         )
     }
 }

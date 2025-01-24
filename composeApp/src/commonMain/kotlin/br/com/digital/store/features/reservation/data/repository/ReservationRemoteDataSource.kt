@@ -4,6 +4,7 @@ import br.com.digital.store.features.account.data.repository.LocalStorageImp
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.toResultFlow
 import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
+import br.com.digital.store.features.reservation.data.dto.GenerateReservationsRequestVO
 import br.com.digital.store.features.reservation.data.dto.ReservationRequestDTO
 import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
 import br.com.digital.store.features.reservation.data.dto.ReservationsResponseDTO
@@ -74,6 +75,20 @@ class ReservationRemoteDataSource(
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
                 setBody(reservation)
+            }
+        }
+    }
+
+    override fun generateReservations(
+        body: GenerateReservationsRequestVO
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.post {
+                url(urlString = "/api/dashboard/company/reservations/v1/generate/reservations")
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+                setBody(body = body)
             }
         }
     }

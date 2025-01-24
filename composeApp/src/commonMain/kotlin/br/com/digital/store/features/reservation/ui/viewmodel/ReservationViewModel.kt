@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.digital.store.components.strings.StringsUtils.ASC
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.reservation.data.dto.EditReservationRequestDTO
+import br.com.digital.store.features.reservation.data.dto.GenerateReservationsRequestVO
 import br.com.digital.store.features.reservation.data.dto.ReservationRequestDTO
 import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
 import br.com.digital.store.features.reservation.data.repository.ReservationRepository
@@ -46,6 +47,10 @@ class ReservationViewModel(
     private val _createNewReservation =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val createNewReservation: State<ObserveNetworkStateHandler<Unit>> = _createNewReservation
+
+    private val _generateReservations =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
+    val generateReservations: State<ObserveNetworkStateHandler<Unit>> = _generateReservations
 
     private val _editReservation =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
@@ -127,6 +132,18 @@ class ReservationViewModel(
         }
     }
 
+    fun generateReservations(body: GenerateReservationsRequestVO) {
+        viewModelScope.launch {
+            repository.generateReservations(body = body)
+                .onStart {
+                    _generateReservations.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _generateReservations.value = it
+                }
+        }
+    }
+
     fun editReservation(reservation: EditReservationRequestDTO) {
         viewModelScope.launch {
             repository.editReservation(reservation = reservation)
@@ -161,11 +178,17 @@ class ReservationViewModel(
                 _createNewReservation.value = ObserveNetworkStateHandler.Loading(l = false)
                 findAllReservations()
             }
+
+            ResetReservation.GENERATE_RESERVATIONS -> {
+                _generateReservations.value = ObserveNetworkStateHandler.Loading(l = false)
+                findAllReservations()
+            }
         }
     }
 }
 
 enum class ResetReservation {
     FIND_RESERVATION_BY_NAME,
-    CREATE_RESERVATION
+    CREATE_RESERVATION,
+    GENERATE_RESERVATIONS
 }
