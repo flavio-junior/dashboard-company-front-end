@@ -203,7 +203,6 @@ fun CreateOrderScreen(
     }
 }
 
-
 @Composable
 private fun ObserveNetworkStateHandlerCreateNewOrder(
     viewModel: OrderViewModel,

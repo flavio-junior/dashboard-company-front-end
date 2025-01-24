@@ -44,6 +44,7 @@ import br.com.digital.store.features.reservation.ui.ui.SelectReservations
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.order.ui.BodyCard
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.NUMBER_EQUALS_ZERO
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import org.koin.mp.KoinPlatform.getKoin
 
@@ -111,6 +112,7 @@ fun CreateReservationOrderScreen(
         }
         BodyCard(
             objectsToSave = objectsToSave,
+            isError = observer.second,
             verifyObjects = verifyObjects,
             onItemSelected = {
                 if (objectsToSave.contains(element = it)) {
@@ -127,17 +129,21 @@ fun CreateReservationOrderScreen(
                     )
                 ) {
                     observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
-                } else if (objectsToSave.all { it.quantity == 0 }) {
-                    verifyObjects = true
                 } else {
-                    observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                    viewModel.createOrder(
-                        order = OrderRequestDTO(
-                            type = TypeOrder.RESERVATION,
-                            reservations = reservationsToSave.toList(),
-                            objects = objectsToSave.toList()
+                    verifyObjects = objectsToSave.any { it.quantity == 0 }
+                    if (verifyObjects) {
+                        observer =
+                            Triple(first = false, second = true, third = NUMBER_EQUALS_ZERO)
+                    } else {
+                        observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                        viewModel.createOrder(
+                            order = OrderRequestDTO(
+                                type = TypeOrder.RESERVATION,
+                                reservations = reservationsToSave.toList(),
+                                objects = objectsToSave.toList()
+                            )
                         )
-                    )
+                    }
                 }
             },
             isEnabled = observer.first

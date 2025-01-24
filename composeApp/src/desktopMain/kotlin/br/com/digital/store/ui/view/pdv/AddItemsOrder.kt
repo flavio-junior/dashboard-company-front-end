@@ -34,6 +34,7 @@ import br.com.digital.store.features.product.ui.view.SelectProducts
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.order.ui.BodyCard
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.NUMBER_EQUALS_ZERO
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import org.koin.mp.KoinPlatform.getKoin
@@ -79,6 +80,7 @@ fun AddItemsOrder(
     }
     BodyCard(
         objectsToSave = objectsToSave,
+        isError = observer.second,
         verifyObjects = verifyObjects,
         onItemSelected = {
             if (objectsToSave.contains(element = it)) {
@@ -95,17 +97,21 @@ fun AddItemsOrder(
                 )
             ) {
                 observer = Triple(first = false, second = true, third = NOT_BLANK_OR_EMPTY)
-            } else if (objectsToSave.all { it.quantity == 0 }) {
-                verifyObjects = true
             } else {
-                observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                viewModel.createOrder(
-                    order = OrderRequestDTO(
-                        type = TypeOrder.DELIVERY,
-                        address = address,
-                        objects = objectsToSave.toList()
+                verifyObjects = objectsToSave.any { it.quantity == 0 }
+                if (verifyObjects) {
+                    observer =
+                        Triple(first = false, second = true, third = NUMBER_EQUALS_ZERO)
+                } else {
+                    observer = Triple(first = true, second = false, third = EMPTY_TEXT)
+                    viewModel.createOrder(
+                        order = OrderRequestDTO(
+                            type = TypeOrder.DELIVERY,
+                            address = address,
+                            objects = objectsToSave.toList()
+                        )
                     )
-                )
+                }
             }
         },
         isEnabled = observer.first
