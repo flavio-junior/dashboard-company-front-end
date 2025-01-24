@@ -2,8 +2,12 @@ package br.com.digital.store.ui.view.pdv
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -51,7 +55,8 @@ fun CreateOrderScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(all = Themes.size.spaceSize16),
+            .padding(all = Themes.size.spaceSize16)
+            .verticalScroll(state = rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
         Description(description = SELECT_ORDER)
@@ -102,6 +107,7 @@ fun CreateOrderScreen(
             isEnabled = observer.first
         )
         IsErrorMessage(isError = observer.second, observer.third)
+        Spacer(modifier = Modifier.height(height = Themes.size.spaceSize64))
         ObserveNetworkStateHandlerCreateNewOrder(
             viewModel = viewModel,
             onError = {
