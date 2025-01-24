@@ -110,8 +110,11 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = NameSpace.APP
+            packageName = NameSpace.PACKAGE_NAME
             packageVersion = "1.0.0"
+            windows {
+                iconFile.set(project.file("src/desktopMain/resources/icons/logo.ico"))
+            }
         }
     }
 }
