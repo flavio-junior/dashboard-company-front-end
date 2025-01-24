@@ -23,6 +23,7 @@ import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 
 @Composable
 fun SelectObjects(
+    onItemSelected: Pair<Boolean, ObjectRequestDTO>,
     objectsSelected: (List<ObjectRequestDTO>) -> Unit = {}
 ) {
     val objectsToSave = remember { mutableStateListOf<ObjectRequestDTO>() }
@@ -117,6 +118,9 @@ fun SelectObjects(
         )
     }
     if (objectsToSave.isNotEmpty()) {
+        if (onItemSelected.first && objectsToSave.contains(element = onItemSelected.second)) {
+            objectsToSave.remove(element = onItemSelected.second)
+        }
         objectsSelected(objectsToSave)
     }
 }

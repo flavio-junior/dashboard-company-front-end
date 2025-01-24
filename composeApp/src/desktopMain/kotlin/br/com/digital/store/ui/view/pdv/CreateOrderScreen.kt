@@ -45,6 +45,9 @@ fun CreateOrderScreen(
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
+    var onItemSelected: Pair<Boolean, ObjectRequestDTO> by remember {
+        mutableStateOf(value = Pair(first = false, second = ObjectRequestDTO()))
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,6 +56,7 @@ fun CreateOrderScreen(
     ) {
         Description(description = SELECT_ORDER)
         SelectObjects(
+            onItemSelected = onItemSelected,
             objectsSelected = {
                 it.forEach { objectSelected ->
                     if (!objectsToSave.contains(objectSelected)) {
@@ -68,6 +72,7 @@ fun CreateOrderScreen(
             isError = observer.second,
             onItemSelected = {
                 if (objectsToSave.contains(element = it)) {
+                    onItemSelected = Pair(first = true, second = it)
                     objectsToSave.remove(element = it)
                 }
             }

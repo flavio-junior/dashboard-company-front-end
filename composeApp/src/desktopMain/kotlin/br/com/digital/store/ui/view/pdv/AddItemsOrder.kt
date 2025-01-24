@@ -41,7 +41,11 @@ fun AddItemsOrder(
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
+    var onItemSelected: Pair<Boolean, ObjectRequestDTO> by remember {
+        mutableStateOf(value = Pair(first = false, second = ObjectRequestDTO()))
+    }
     SelectObjects(
+        onItemSelected = onItemSelected,
         objectsSelected = {
             it.forEach { objectSelected ->
                 if (!objectsToSave.contains(objectSelected)) {
@@ -56,6 +60,7 @@ fun AddItemsOrder(
         verifyObjects = verifyObjects,
         onItemSelected = {
             if (objectsToSave.contains(element = it)) {
+                onItemSelected = Pair(first = true, second = it)
                 objectsToSave.remove(element = it)
             }
         }

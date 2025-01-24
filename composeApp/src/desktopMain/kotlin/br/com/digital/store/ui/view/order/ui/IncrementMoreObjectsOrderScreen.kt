@@ -30,12 +30,16 @@ fun IncrementMoreObjectsOrderScreen(
 ) {
     val viewModel: OrderViewModel = getKoin().get()
     val objectsToSave = remember { mutableStateListOf<ObjectRequestDTO>() }
+    var onItemSelected: Pair<Boolean, ObjectRequestDTO> by remember {
+        mutableStateOf(value = Pair(first = false, second = ObjectRequestDTO()))
+    }
     var verifyObjects: Boolean by remember { mutableStateOf(value = false) }
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
     Description(description = SELECT_ITEMS)
     SelectObjects(
+        onItemSelected = onItemSelected,
         objectsSelected = {
             it.forEach { objectSelected ->
                 if (!objectsToSave.contains(objectSelected)) {
@@ -46,9 +50,11 @@ fun IncrementMoreObjectsOrderScreen(
     )
     BodyCard(
         objectsToSave = objectsToSave,
+        isError = observer.second,
         verifyObjects = verifyObjects,
         onItemSelected = {
             if (objectsToSave.contains(element = it)) {
+                onItemSelected = Pair(first = true, second = it)
                 objectsToSave.remove(element = it)
             }
         }
