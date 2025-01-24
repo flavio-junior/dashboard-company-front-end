@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -102,6 +103,7 @@ fun ReservationDetailsScreen(
                 onRefresh = onRefresh
             )
         }
+        Spacer(modifier = Modifier.height(height = Themes.size.spaceSize64))
     }
 }
 
