@@ -2,7 +2,9 @@ package br.com.digital.store.ui.view.pdv
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -127,6 +129,7 @@ fun CreateReservationOrderScreen(
             isEnabled = observer.first
         )
         IsErrorMessage(isError = observer.second, observer.third)
+        Spacer(modifier = Modifier.height(height = Themes.size.spaceSize64))
         if (addReservations) {
             SelectReservations(
                 onDismissRequest = {
