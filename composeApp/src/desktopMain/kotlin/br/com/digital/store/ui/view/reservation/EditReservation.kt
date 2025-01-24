@@ -153,9 +153,6 @@ fun EditReservation(
             viewModel = viewModel,
             id = reservationVO.id ?: 0,
             modifier = Modifier,
-            onError = {
-                observer = it
-            },
             goToAlternativeRoutes = goToAlternativeRoutes,
             onSuccessful = {
                 onCleanReservations()

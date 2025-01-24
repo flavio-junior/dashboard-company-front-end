@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.ui.Alert
+import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
@@ -24,7 +25,6 @@ fun DeleteReservation(
     viewModel: ReservationViewModel,
     id: Long,
     modifier: Modifier = Modifier,
-    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onSuccessful: () -> Unit = {}
 ) {
@@ -43,10 +43,10 @@ fun DeleteReservation(
             },
             isEnabled = observer.first
         )
+        IsErrorMessage(isError = observer.second, message = observer.third)
         ObserveNetworkStateHandlerEditReservation(
             viewModel = viewModel,
             onError = {
-                onError(it)
                 observer = it
             },
             goToAlternativeRoutes = goToAlternativeRoutes,
@@ -83,18 +83,16 @@ private fun ObserveNetworkStateHandlerEditReservation(
         state = state,
         onLoading = {},
         onError = {
-            it?.let {
-                Triple(first = false, second = true, third = it)
-            }
+            onError(Triple(first = false, second = true, third = it ?: EMPTY_TEXT))
         },
         goToAlternativeRoutes = {
             goToAlternativeRoutes(it)
             reloadViewModels()
         },
         onSuccess = {
-            onSuccessful()
-            viewModel.findAllReservations()
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.findAllReservations()
+            onSuccessful()
         }
     )
 }
