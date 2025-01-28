@@ -19,4 +19,7 @@ sealed class RouteApp(val item: String) {
     data object Report : RouteApp(item = ItemNavigation.REPORT.name)
     data object Resume : RouteApp(item = ItemNavigation.RESUME.name)
     data object Settings : RouteApp(item = ItemNavigation.SETTINGS.name)
+    data object Fee : RouteApp(item = ItemNavigation.FEE.name)
+    data object Employee : RouteApp(item = ItemNavigation.EMPLOYEE.name)
+    data object UserConfig : RouteApp(item = ItemNavigation.USER_CONFIG.name)
 }

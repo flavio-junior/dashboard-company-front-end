@@ -52,24 +52,24 @@ val deliveryStatus = listOf(
 )
 
 val sizeList = listOf(
-    "10 Items",
-    "20 Items",
-    "40 Items",
-    "50 Items",
-    "60 Items",
-    "80 Items",
-    "100 Items"
+    "10 Itens",
+    "20 Itens",
+    "40 Itens",
+    "50 Itens",
+    "60 Itens",
+    "80 Itens",
+    "100 Itens"
 )
 
 fun converterSizeStringToInt(size: String): Int {
     return when (size) {
-        "10 Items" -> NUMBER_TEN
-        "20 Items" -> NUMBER_TWENTY
-        "40 Items" -> NUMBER_FORTY
-        "50 Items" -> NUMBER_FIFTY
-        "60 Items" -> NUMBER_SIXTY
-        "80 Items" -> NUMBER_EIGHTY
-        "100 Items" -> NUMBER_ONE_HUNDRED
+        "10 Itens" -> NUMBER_TEN
+        "20 Itens" -> NUMBER_TWENTY
+        "40 Itens" -> NUMBER_FORTY
+        "50 Itens" -> NUMBER_FIFTY
+        "60 Itens" -> NUMBER_SIXTY
+        "80 Itens" -> NUMBER_EIGHTY
+        "100 Itens" -> NUMBER_ONE_HUNDRED
         else -> 60
     }
 }

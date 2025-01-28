@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.digital.store.ui.view.category.CategoryScreen
 import br.com.digital.store.ui.view.dashboard.DashboardScreen
+import br.com.digital.store.ui.view.employee.EmployeeScreen
+import br.com.digital.store.ui.view.fee.FeeScreen
 import br.com.digital.store.ui.view.food.FoodScreen
 import br.com.digital.store.ui.view.item.ItemScreen
 import br.com.digital.store.ui.view.login.SignInScreen
@@ -18,6 +20,7 @@ import br.com.digital.store.ui.view.report.ReportScreen
 import br.com.digital.store.ui.view.reservation.ReservationScreen
 import br.com.digital.store.ui.view.resume.ResumeScreen
 import br.com.digital.store.ui.view.settings.SettingsScreen
+import br.com.digital.store.ui.view.user.UserConfigScreen
 
 @Composable
 fun Navigation(
@@ -27,6 +30,7 @@ fun Navigation(
     NavHost(navController = navController, startDestination = startDestination) {
         signInNavigation(navController = navController)
         dashboardNavigation(navController = navController)
+        settingsNavigation(navController = navController)
     }
 }
 
@@ -257,6 +261,69 @@ fun NavGraphBuilder.dashboardNavigation(
         SettingsScreen(
             goToBackScreen = {
                 navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Settings.item,
+                    nextScreen = it
+                )
+            }
+        )
+    }
+}
+
+fun NavGraphBuilder.settingsNavigation(
+    navController: NavHostController
+) {
+    composable(RouteApp.Fee.item) {
+        FeeScreen(
+            goToBackScreen = {
+                navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Fee.item,
+                    nextScreen = it
+                )
+            },
+            goToAlternativeRoutes = {
+                navigateToAlternativeRoutes(
+                    navController = navController,
+                    currentScreen = RouteApp.Fee.item,
+                    alternativeRoutes = it
+                )
+            }
+        )
+    }
+
+    composable(RouteApp.Employee.item) {
+        EmployeeScreen(
+            goToBackScreen = {
+                navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Employee.item,
+                    nextScreen = it
+                )
+            }
+        )
+    }
+
+    composable(RouteApp.UserConfig.item) {
+        UserConfigScreen(
+            goToBackScreen = {
+                navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.UserConfig.item,
+                    nextScreen = it
+                )
             }
         )
     }

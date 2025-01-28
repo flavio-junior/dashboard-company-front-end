@@ -3,7 +3,9 @@ package br.com.digital.store.domain.factory
 import br.com.digital.store.components.model.Menu
 import br.com.digital.store.components.strings.StringsUtils.CATEGORIES
 import br.com.digital.store.components.strings.StringsUtils.DASHBOARD
+import br.com.digital.store.components.strings.StringsUtils.EMPLOYEES
 import br.com.digital.store.components.strings.StringsUtils.EXIT
+import br.com.digital.store.components.strings.StringsUtils.FEES
 import br.com.digital.store.components.strings.StringsUtils.FOODS
 import br.com.digital.store.components.strings.StringsUtils.ITEMS
 import br.com.digital.store.components.strings.StringsUtils.ORDERS
@@ -148,5 +150,28 @@ val availableServices = listOf(
         icon = Res.drawable.finance,
         label = REPORTS,
         route = ItemNavigation.REPORT.name
+    )
+)
+
+val settings = listOf(
+    ItemService(
+        icon = Res.drawable.home_pin,
+        label = DASHBOARD,
+        route = ItemNavigation.DASHBOARD.name
+    ),
+    ItemService(
+        icon = Res.drawable.shopping_cart,
+        label = FEES,
+        route = ItemNavigation.FEE.name
+    ),
+    ItemService(
+        icon = Res.drawable.box,
+        label = EMPLOYEES,
+        route = ItemNavigation.EMPLOYEE.name
+    ),
+    ItemService(
+        icon = Res.drawable.list,
+        label = SETTINGS,
+        route = ItemNavigation.USER_CONFIG.name
     )
 )

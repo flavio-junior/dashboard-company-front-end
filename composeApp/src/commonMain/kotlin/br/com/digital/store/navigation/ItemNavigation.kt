@@ -19,5 +19,8 @@ enum class ItemNavigation {
     PAYMENT,
     REPORT,
     SETTINGS,
+    FEE,
+    EMPLOYEE,
+    USER_CONFIG,
     EXIT
 }
