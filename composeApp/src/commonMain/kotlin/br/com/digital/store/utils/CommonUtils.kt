@@ -3,7 +3,6 @@ package br.com.digital.store.utils
 import br.com.digital.store.components.strings.StringsUtils.DELIVERED
 import br.com.digital.store.components.strings.StringsUtils.NO
 import br.com.digital.store.components.strings.StringsUtils.PENDING_DELIVERY
-import br.com.digital.store.components.strings.StringsUtils.SENDING
 import br.com.digital.store.components.strings.StringsUtils.YES
 import br.com.digital.store.utils.NumbersUtils.NUMBER_EIGHTY
 import br.com.digital.store.utils.NumbersUtils.NUMBER_FIFTY
@@ -21,7 +20,6 @@ object CommonUtils {
     const val WEIGHT_SIZE_2 = 2f
     const val WEIGHT_SIZE_3 = 3f
     const val WEIGHT_SIZE_4 = 4f
-    const val WEIGHT_SIZE_5 = 5f
     const val WEIGHT_SIZE_9 = 9f
     const val ZERO_DOUBLE = "0.0"
     const val UNAUTHORIZED_MESSAGE = "Token expired, please login again."
@@ -39,12 +37,6 @@ fun checkPriceIsNull(price: Double): Boolean {
 fun definitionState(state: Boolean): String {
     return if (state) YES else NO
 }
-
-val updateStatusDelivery = listOf(
-    PENDING_DELIVERY,
-    SENDING,
-    DELIVERED
-)
 
 val deliveryStatus = listOf(
     PENDING_DELIVERY,
