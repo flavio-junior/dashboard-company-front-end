@@ -22,28 +22,13 @@ import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.Tag
 import br.com.digital.store.features.fee.data.dto.DayRequestDTO
 import br.com.digital.store.features.fee.domain.day.DayOfWeek
+import br.com.digital.store.features.fee.domain.factory.daysOfWeek
 import br.com.digital.store.features.fee.ui.viewmodel.FeeViewModel
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
-
-data class AvailableDay(
-    val title: String,
-    val dayOfWeek: DayOfWeek
-)
-
-private val daysOfWeek = listOf(
-    AvailableDay(title = "Todos", dayOfWeek = DayOfWeek.ALL),
-    AvailableDay(title = "Domingo", dayOfWeek = DayOfWeek.SUNDAY),
-    AvailableDay(title = "Segunda-feira", dayOfWeek = DayOfWeek.MONDAY),
-    AvailableDay(title = "Terça-feira", dayOfWeek = DayOfWeek.TUESDAY),
-    AvailableDay(title = "Quarta-feira", dayOfWeek = DayOfWeek.WEDNESDAY),
-    AvailableDay(title = "Quinta-feira", dayOfWeek = DayOfWeek.THURSDAY),
-    AvailableDay(title = "Sexta-feira", dayOfWeek = DayOfWeek.FRIDAY),
-    AvailableDay(title = "Sábado", dayOfWeek = DayOfWeek.SATURDAY)
-)
 
 @Composable
 fun AddDaysOkWeek(

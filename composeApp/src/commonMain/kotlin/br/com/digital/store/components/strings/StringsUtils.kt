@@ -122,4 +122,13 @@ object StringsUtils {
     const val ADD_DAYS = "Adicionar dias"
     const val SAVE_DAYS_OF_WEEK = "Salvar dias da semana"
     const val NO_SELECTED_DAYS_OF_WEEK = "Sem dias das semana selecionados!"
+    const val ALL = "Todos"
+    const val SUNDAY = "Domingo"
+    const val MONDAY = "Segunda-feira"
+    const val TUESDAY = "Terça-feira"
+    const val WEDNESDAY = "Quarta-feira"
+    const val THURSDAY = "Quinta-feira"
+    const val FRIDAY = "Sexta-feira"
+    const val SATURDAY = "Sábado"
+    const val DAYS_OF_FEES = "Dias da Taxa:"
 }

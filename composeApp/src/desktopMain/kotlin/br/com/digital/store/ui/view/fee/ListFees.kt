@@ -49,7 +49,8 @@ import kotlinx.coroutines.launch
 fun ListFees(
     modifier: Modifier = Modifier,
     fees: List<FeeResponseVO>,
-    onItemSelected: (FeeResponseVO) -> Unit = {}
+    onItemSelected: (FeeResponseVO) -> Unit = {},
+    registerDays: (Long) -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -89,6 +90,7 @@ fun ListFees(
                     selected = selectedIndex == index,
                     fee = fee,
                     onItemSelected = onItemSelected,
+                    registerDays = registerDays,
                     onDisableItem = {
                         selectedIndex = index
                     }
@@ -146,12 +148,14 @@ fun ItemFee(
     modifier: Modifier = Modifier,
     fee: FeeResponseVO,
     onItemSelected: (FeeResponseVO) -> Unit = {},
+    registerDays: (Long) -> Unit = {},
     onDisableItem: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
             .onClickable {
                 onDisableItem()
+                onItemSelected(fee)
             }
             .background(color = if (selected) ITEM_SELECTED else Themes.colors.background)
             .fillMaxWidth()
@@ -192,7 +196,7 @@ fun ItemFee(
                     .padding(end = Themes.size.spaceSize8)
                     .weight(weight = WEIGHT_SIZE),
                 onClick = {
-                    onItemSelected(fee)
+                    registerDays(fee.id)
                 }
             )
         }
