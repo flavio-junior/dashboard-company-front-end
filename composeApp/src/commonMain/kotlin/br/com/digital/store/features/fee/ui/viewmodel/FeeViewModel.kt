@@ -62,6 +62,5 @@ class FeeViewModel(
 
     fun resetFee() {
         _addDaysOkWeek.value = ObserveNetworkStateHandler.Loading(l = false)
-        findAllFees()
     }
 }

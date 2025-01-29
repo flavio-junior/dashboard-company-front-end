@@ -23,7 +23,10 @@ fun FeeScreen(
                 goToBackScreen = goToBackScreen,
                 goToNextScreen = goToNextScreen
             )
-            ListFeeScreen(goToAlternativeRoutes = goToAlternativeRoutes)
+            ListFeeScreen(
+                goToAlternativeRoutes = goToAlternativeRoutes,
+                goToNextScreen = goToNextScreen
+            )
         }
     )
 }
