@@ -1,13 +1,21 @@
 package br.com.digital.store.ui.view.fee
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.strings.StringsUtils.ADD_DAYS
@@ -30,6 +38,7 @@ import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import kotlinx.coroutines.launch
 
 @Composable
 fun AvailableDaysFee(
@@ -55,17 +64,34 @@ fun AvailableDaysFee(
                     .fillMaxWidth()
                     .weight(weight = CommonUtils.WEIGHT_SIZE_3)
             ) {
-                dayOfWeek.forEach { day ->
-                    Tag(
-                        text = dayFactory(day = day.day),
-                        value = day,
-                        onCheck = {
-                            if (it) {
-                                dayId = day.id
-                                deleteDay = true
+                val scrollState = rememberLazyListState()
+                val coroutineScope = rememberCoroutineScope()
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+                    state = scrollState,
+                    modifier = Modifier
+                        .background(color = Themes.colors.background)
+                        .draggable(
+                            orientation = Orientation.Horizontal,
+                            state = rememberDraggableState { delta ->
+                                coroutineScope.launch {
+                                    scrollState.scrollBy(value = -delta)
+                                }
+                            },
+                        )
+                ) {
+                    items(items = dayOfWeek) { day ->
+                        Tag(
+                            text = dayFactory(day = day.day),
+                            value = day,
+                            onCheck = {
+                                if (it) {
+                                    dayId = day.id
+                                    deleteDay = true
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
             if (!dayOfWeek.any { it.day == DayOfWeek.ALL }) {
