@@ -4,12 +4,14 @@ import br.com.digital.store.features.account.data.repository.LocalStorageImp
 import br.com.digital.store.features.fee.data.dto.CreateFeeRequestDTO
 import br.com.digital.store.features.fee.data.dto.DayRequestDTO
 import br.com.digital.store.features.fee.data.dto.FeeResponseDTO
+import br.com.digital.store.features.fee.data.dto.UpdatePriceFeeRequestDTO
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.toResultFlow
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
+import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.HttpHeaders
@@ -68,6 +70,23 @@ class FeeRemoteDataSource(
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
                 setBody(body = daysOfWeek)
+            }
+        }
+    }
+
+    override fun updatePriceFee(
+        feeId: Long,
+        price: UpdatePriceFeeRequestDTO
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.patch {
+                url {
+                    path("/api/dashboard/company/fees/v1/update/price/fee/$feeId")
+                }
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+                setBody(body = price)
             }
         }
     }

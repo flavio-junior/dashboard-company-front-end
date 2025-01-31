@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digital.store.features.fee.data.dto.CreateFeeRequestDTO
 import br.com.digital.store.features.fee.data.dto.DayRequestDTO
+import br.com.digital.store.features.fee.data.dto.UpdatePriceFeeRequestDTO
 import br.com.digital.store.features.fee.data.repository.FeeRepository
 import br.com.digital.store.features.fee.data.vo.FeeResponseVO
 import br.com.digital.store.features.fee.domain.converter.ConverterFee
@@ -52,6 +53,13 @@ class FeeViewModel(
         )
     val deleteFee: State<ObserveNetworkStateHandler<Unit>> =
         _deleteFee
+
+    private val _updatePriceFee =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(
+            ObserveNetworkStateHandler.Loading(l = false)
+        )
+    val updatePriceFee: State<ObserveNetworkStateHandler<Unit>> =
+        _updatePriceFee
 
     fun findAllFees() {
         viewModelScope.launch {
@@ -118,6 +126,18 @@ class FeeViewModel(
         }
     }
 
+    fun updatePriceFee(feeId: Long, price: UpdatePriceFeeRequestDTO) {
+        viewModelScope.launch {
+            repository.updatePriceFee(feeId = feeId, price = price)
+                .onStart {
+                    _updatePriceFee.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _updatePriceFee.value = ObserveNetworkStateHandler.Success(s = Unit)
+                }
+        }
+    }
+
     fun resetFee(reset: ResetFee) {
         when (reset) {
             ResetFee.ADD_DAYS_OK_WEEK -> {
@@ -131,6 +151,10 @@ class FeeViewModel(
             ResetFee.DELETE_FEE -> {
                 _deleteFee.value = ObserveNetworkStateHandler.Loading(l = false)
             }
+
+            ResetFee.UPDATE_PRICE_FEE -> {
+                _updatePriceFee.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
         }
     }
 }
@@ -138,5 +162,6 @@ class FeeViewModel(
 enum class ResetFee {
     ADD_DAYS_OK_WEEK,
     DELETE_DAY_OF_FEE,
-    DELETE_FEE
+    DELETE_FEE,
+    UPDATE_PRICE_FEE
 }

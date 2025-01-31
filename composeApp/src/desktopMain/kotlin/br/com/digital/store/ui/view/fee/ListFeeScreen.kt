@@ -20,7 +20,7 @@ import br.com.digital.store.features.networking.resources.ObserveNetworkStateHan
 import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.navigation.ItemNavigation
 import br.com.digital.store.theme.Themes
-import br.com.digital.store.utils.NumbersUtils
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -61,7 +61,7 @@ private fun ObserveNetworkStateHandlerFees(
     val state: ObserveNetworkStateHandler<List<FeeResponseVO>> by remember { viewModel.findAllFees }
     var feeId: Long by remember { mutableStateOf(value = 0) }
     var isChecked: Boolean by remember { mutableStateOf(value = false) }
-    var dayOfWeek by remember { mutableStateOf(value = FeeResponseVO()) }
+    var feeResponseVO by remember { mutableStateOf(value = FeeResponseVO()) }
     ObserveNetworkStateHandler(
         state = state,
         onLoading = {
@@ -81,27 +81,27 @@ private fun ObserveNetworkStateHandlerFees(
                     goToAlternativeRoutes = goToAlternativeRoutes,
                     fees = it.result,
                     onItemSelected = { itemSelected ->
-                        dayOfWeek = itemSelected
+                        feeResponseVO = itemSelected
                     },
                     registerDays = { idSaved ->
                         feeId = idSaved
-                        if (feeId > NumbersUtils.NUMBER_ZERO) {
+                        if (feeId > NUMBER_ZERO) {
                             isChecked = true
                         }
                     },
                     onSuccess = onSuccess
                 )
                 AvailableDaysFee(
-                    feeId = dayOfWeek.id,
+                    feeId = feeResponseVO.id,
                     viewModel = viewModel,
-                    dayOfWeek = dayOfWeek.days,
+                    dayOfWeek = feeResponseVO.days,
                     onClick = {
                         isChecked = true
                     },
                     onSuccess = onSuccess
                 )
                 AddDaysOkWeek(
-                    id = dayOfWeek.id,
+                    id = feeResponseVO.id,
                     viewModel = viewModel,
                     enabled = isChecked,
                     onSuccess = {
@@ -109,6 +109,13 @@ private fun ObserveNetworkStateHandlerFees(
                         onSuccess()
                     }
                 )
+               if (feeResponseVO.id > NUMBER_ZERO) {
+                UpdatePriceFee(
+                    feeId = feeResponseVO.id,
+                    viewModel = viewModel,
+                    onSuccess = onSuccess
+                )
+                   }
             } else {
                 CreateNewFee(viewModel = viewModel, onSuccess = onSuccess)
             }
