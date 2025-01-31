@@ -7,6 +7,7 @@ import br.com.digital.store.features.fee.data.dto.FeeResponseDTO
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.toResultFlow
 import io.ktor.client.HttpClient
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
@@ -67,6 +68,22 @@ class FeeRemoteDataSource(
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
                 setBody(body = daysOfWeek)
+            }
+        }
+    }
+
+    override fun deleteDayFee(
+        feeId: Long,
+        dayId: Long
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.delete {
+                url {
+                    path("/api/dashboard/company/fees/v1/fee/$feeId/$dayId")
+                }
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
             }
         }
     }

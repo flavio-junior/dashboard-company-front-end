@@ -39,6 +39,13 @@ class FeeViewModel(
     val addDaysOkWeek: State<ObserveNetworkStateHandler<Unit>> =
         _addDaysOkWeek
 
+    private val _deleteDayOFee =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(
+            ObserveNetworkStateHandler.Loading(l = false)
+        )
+    val deleteDayOFee: State<ObserveNetworkStateHandler<Unit>> =
+        _deleteDayOFee
+
     fun findAllFees() {
         viewModelScope.launch {
             repository.findAllFees()
@@ -80,7 +87,32 @@ class FeeViewModel(
         }
     }
 
-    fun resetFee() {
-        _addDaysOkWeek.value = ObserveNetworkStateHandler.Loading(l = false)
+    fun deleteDayFee(feeId: Long, dayId: Long) {
+        viewModelScope.launch {
+            repository.deleteDayFee(feeId = feeId, dayId = dayId)
+                .onStart {
+                    _deleteDayOFee.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _deleteDayOFee.value = ObserveNetworkStateHandler.Success(s = Unit)
+                }
+        }
     }
+
+    fun resetFee(reset: ResetFee) {
+        when (reset) {
+            ResetFee.ADD_DAYS_OK_WEEK -> {
+                _addDaysOkWeek.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+
+            ResetFee.DELETE_DAY_OF_FEE -> {
+                _deleteDayOFee.value = ObserveNetworkStateHandler.Loading(l = false)
+            }
+        }
+    }
+}
+
+enum class ResetFee {
+    ADD_DAYS_OK_WEEK,
+    DELETE_DAY_OF_FEE
 }

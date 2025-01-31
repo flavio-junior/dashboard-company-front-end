@@ -10,6 +10,7 @@ object StringsUtils {
     const val PRICE = "Preço"
     const val VALUE_FEE = "Valor da taxa"
     const val CREATE_NEW_FEE = "Criar nova taxa:"
+    const val DELETE_DAY_FEE = "Apagar dia da taxa?"
     const val ADD_FEE = "Adicionar taxa"
     const val TOTAL = "Total"
     const val QUANTITY = "Quantidade"

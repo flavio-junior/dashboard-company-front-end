@@ -24,6 +24,7 @@ import br.com.digital.store.features.fee.data.dto.DayRequestDTO
 import br.com.digital.store.features.fee.domain.day.DayOfWeek
 import br.com.digital.store.features.fee.domain.factory.daysOfWeek
 import br.com.digital.store.features.fee.ui.viewmodel.FeeViewModel
+import br.com.digital.store.features.fee.ui.viewmodel.ResetFee
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
@@ -57,11 +58,9 @@ fun AddDaysOkWeek(
                     enabled = daysSelected.contains(element = day.dayOfWeek),
                     onCheck = { isChecked ->
                         if (isChecked) {
-                            if (!daysSelected.contains(element = day.dayOfWeek)) {
-                                daysSelected.add(element = day.dayOfWeek)
-                            }
+                            daysSelected.add(element = day.dayOfWeek)
                         } else {
-                            daysSelected.remove(element = day.dayOfWeek)
+                            daysSelected.removeIf { it == day.dayOfWeek }
                         }
                     }
                 )
@@ -75,7 +74,7 @@ fun AddDaysOkWeek(
                     observer = Triple(first = true, second = false, third = EMPTY_TEXT)
                     viewModel.addDaysOkWeek(
                         id = id,
-                        daysOfWeek = DayRequestDTO(days = daysSelected)
+                        daysOfWeek = DayRequestDTO(days = daysSelected.toList())
                     )
                 } else {
                     observer =
@@ -119,7 +118,7 @@ private fun ObserveNetworkStateHandlerAddDaysOkWeek(
         },
         onSuccess = {
             onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.resetFee()
+            viewModel.resetFee(reset = ResetFee.ADD_DAYS_OK_WEEK)
             onSuccess()
         }
     )
