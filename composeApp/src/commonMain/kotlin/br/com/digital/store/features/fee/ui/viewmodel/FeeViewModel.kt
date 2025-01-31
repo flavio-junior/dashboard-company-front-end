@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.digital.store.features.fee.data.dto.CreateFeeRequestDTO
 import br.com.digital.store.features.fee.data.dto.DayRequestDTO
 import br.com.digital.store.features.fee.data.repository.FeeRepository
 import br.com.digital.store.features.fee.data.vo.FeeResponseVO
@@ -23,6 +24,13 @@ class FeeViewModel(
         )
     val findAllFees: State<ObserveNetworkStateHandler<List<FeeResponseVO>>> =
         _findAllFees
+
+    private val _createNewFee =
+        mutableStateOf<ObserveNetworkStateHandler<Unit>>(
+            ObserveNetworkStateHandler.Loading(l = false)
+        )
+    val createNewFee: State<ObserveNetworkStateHandler<Unit>> =
+        _createNewFee
 
     private val _addDaysOkWeek =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(
@@ -44,6 +52,18 @@ class FeeViewModel(
                             s = objectConverted
                         )
                     }
+                }
+        }
+    }
+
+    fun createNewFee(fee: CreateFeeRequestDTO) {
+        viewModelScope.launch {
+            repository.createNewFee(fee = fee)
+                .onStart {
+                    _createNewFee.value = ObserveNetworkStateHandler.Loading(l = true)
+                }
+                .collect {
+                    _createNewFee.value = ObserveNetworkStateHandler.Success(s = Unit)
                 }
         }
     }

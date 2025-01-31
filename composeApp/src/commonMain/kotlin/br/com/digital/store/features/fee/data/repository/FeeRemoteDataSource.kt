@@ -1,6 +1,7 @@
 package br.com.digital.store.features.fee.data.repository
 
 import br.com.digital.store.features.account.data.repository.LocalStorageImp
+import br.com.digital.store.features.fee.data.dto.CreateFeeRequestDTO
 import br.com.digital.store.features.fee.data.dto.DayRequestDTO
 import br.com.digital.store.features.fee.data.dto.FeeResponseDTO
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
@@ -33,6 +34,22 @@ class FeeRemoteDataSource(
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
+            }
+        }
+    }
+
+    override fun createNewFee(
+        fee: CreateFeeRequestDTO
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.post {
+                url {
+                    path("/api/dashboard/company/fees/v1")
+                }
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+                setBody(body = fee)
             }
         }
     }

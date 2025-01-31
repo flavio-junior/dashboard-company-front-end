@@ -1,5 +1,6 @@
 package br.com.digital.store.ui.view.fee
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -85,54 +86,58 @@ private fun ObserveNetworkStateHandlerFees(
             reloadViewModels()
         },
         onSuccess = {
-            ListFees(
-                fees = it.result ?: emptyList(),
-                onItemSelected = { itemSelected ->
-                    dayOfWeek = itemSelected
-                },
-                registerDays = { idSaved ->
-                    feeId = idSaved
-                    if (feeId > NumbersUtils.NUMBER_ZERO) {
-                        isChecked = true
-                    }
-                }
-            )
-            if (dayOfWeek.days != null) {
-                Description(description = DAYS_OF_FEES)
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
-                        modifier = Modifier.fillMaxWidth()
-                            .weight(weight = CommonUtils.WEIGHT_SIZE_3)
-                    ) {
-                        dayOfWeek.days?.forEach { day ->
-                            Tag(
-                                text = dayFactory(day = day.day),
-                                value = day
-                            )
-                        }
-                    }
-                    LoadingButton(
-                        label = ADD_DAYS,
-                        modifier = Modifier.weight(weight = WEIGHT_SIZE),
-                        onClick = {
+            if (it.result?.isNotEmpty() == true) {
+                ListFees(
+                    fees = it.result,
+                    onItemSelected = { itemSelected ->
+                        dayOfWeek = itemSelected
+                    },
+                    registerDays = { idSaved ->
+                        feeId = idSaved
+                        if (feeId > NumbersUtils.NUMBER_ZERO) {
                             isChecked = true
                         }
-                    )
+                    }
+                )
+                if (!dayOfWeek.days.isNullOrEmpty()) {
+                    Description(description = DAYS_OF_FEES)
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+                        modifier = Modifier.background(color = Themes.colors.success).fillMaxWidth()
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+                            modifier = Modifier.fillMaxWidth()
+                                .weight(weight = CommonUtils.WEIGHT_SIZE_3)
+                        ) {
+                            dayOfWeek.days?.forEach { day ->
+                                Tag(
+                                    text = dayFactory(day = day.day),
+                                    value = day
+                                )
+                            }
+                        }
+                        LoadingButton(
+                            label = ADD_DAYS,
+                            modifier = Modifier.weight(weight = WEIGHT_SIZE),
+                            onClick = {
+                                isChecked = true
+                            }
+                        )
+                    }
                 }
+                AddDaysOkWeek(
+                    id = dayOfWeek.id,
+                    viewModel = viewModel,
+                    enabled = isChecked,
+                    onSuccess = {
+                        isChecked = false
+                        onSuccess()
+                    }
+                )
+            } else {
+                CreateNewFee(viewModel = viewModel, onSuccess = onSuccess)
             }
-            AddDaysOkWeek(
-                id = dayOfWeek.id,
-                viewModel = viewModel,
-                enabled = isChecked,
-                onSuccess = {
-                    isChecked = false
-                    onSuccess()
-                }
-            )
         }
     )
 }
