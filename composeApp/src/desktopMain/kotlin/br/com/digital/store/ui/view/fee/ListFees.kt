@@ -27,18 +27,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import br.com.digital.store.components.strings.StringsUtils.ADD_DAYS
 import br.com.digital.store.components.strings.StringsUtils.ASSIGNED
+import br.com.digital.store.components.strings.StringsUtils.DELETE_FEE
 import br.com.digital.store.components.strings.StringsUtils.LIST_FEES
 import br.com.digital.store.components.strings.StringsUtils.NUMBER
+import br.com.digital.store.components.strings.StringsUtils.OPTIONS
 import br.com.digital.store.components.strings.StringsUtils.PRICE
 import br.com.digital.store.components.strings.StringsUtils.WITH_DAYS_OF_WEEK
 import br.com.digital.store.components.strings.StringsUtils.YES
+import br.com.digital.store.components.ui.Alert
 import br.com.digital.store.components.ui.Description
+import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.LoadingButton
+import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.components.ui.Title
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.delete
 import br.com.digital.store.features.fee.data.vo.FeeResponseVO
 import br.com.digital.store.features.fee.domain.factory.functionFactory
+import br.com.digital.store.features.fee.ui.viewmodel.FeeViewModel
+import br.com.digital.store.features.fee.ui.viewmodel.ResetFee
+import br.com.digital.store.features.networking.resources.AlternativesRoutes
+import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
+import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
@@ -47,10 +60,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ListFees(
+    viewModel: FeeViewModel,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit,
     modifier: Modifier = Modifier,
     fees: List<FeeResponseVO>,
     onItemSelected: (FeeResponseVO) -> Unit = {},
-    registerDays: (Long) -> Unit = {}
+    registerDays: (Long) -> Unit = {},
+    onSuccess: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -86,6 +102,8 @@ fun ListFees(
         ) {
             itemsIndexed(fees) { index, fee ->
                 ItemFee(
+                    viewModel = viewModel,
+                    goToAlternativeRoutes = goToAlternativeRoutes,
                     index = index,
                     selected = selectedIndex == index,
                     fee = fee,
@@ -93,7 +111,8 @@ fun ListFees(
                     registerDays = registerDays,
                     onDisableItem = {
                         selectedIndex = index
-                    }
+                    },
+                    onSuccess = onSuccess
                 )
             }
         }
@@ -138,19 +157,28 @@ fun HeaderFeesPanel(
             modifier = modifier.weight(weight = WEIGHT_SIZE),
             textAlign = TextAlign.Center
         )
+        Description(
+            description = OPTIONS,
+            modifier = modifier.weight(weight = WEIGHT_SIZE),
+            textAlign = TextAlign.Center
+        )
     }
 }
 
 @Composable
 fun ItemFee(
+    viewModel: FeeViewModel,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     index: Int,
     selected: Boolean = false,
     modifier: Modifier = Modifier,
     fee: FeeResponseVO,
     onItemSelected: (FeeResponseVO) -> Unit = {},
     registerDays: (Long) -> Unit = {},
-    onDisableItem: () -> Unit = {}
+    onDisableItem: () -> Unit = {},
+    onSuccess: () -> Unit = {}
 ) {
+    var deleteFee: Boolean by remember { mutableStateOf(value = false) }
     Row(
         modifier = modifier
             .onClickable {
@@ -200,5 +228,62 @@ fun ItemFee(
                 }
             )
         }
+        IconDefault(
+            icon = Res.drawable.delete,
+            backgroundColor = if (selected) ITEM_SELECTED else Themes.colors.background,
+            tint = if (selected) Themes.colors.background else Themes.colors.primary,
+            modifier = modifier
+                .align(alignment = Alignment.CenterVertically)
+                .weight(weight = WEIGHT_SIZE),
+            onClick = {
+                deleteFee = true
+            }
+        )
+        if (deleteFee) {
+            Alert(
+                label = DELETE_FEE,
+                onDismissRequest = {
+                    deleteFee = false
+                },
+                onConfirmation = {
+                    viewModel.deleteFee(feeId = fee.id)
+                    deleteFee = false
+                }
+            )
+        }
     }
+    ObserveNetworkStateHandlerDeleteFee(
+        viewModel = viewModel,
+        goToAlternativeRoutes = goToAlternativeRoutes,
+        onError = {},
+        onSuccess = {
+            onSuccess()
+        }
+    )
+}
+
+@Composable
+private fun ObserveNetworkStateHandlerDeleteFee(
+    viewModel: FeeViewModel,
+    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
+    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
+    onSuccess: () -> Unit = {}
+) {
+    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.deleteFee }
+    ObserveNetworkStateHandler(
+        state = state,
+        onLoading = {},
+        onError = {
+            onError(Triple(first = false, second = true, third = it ?: EMPTY_TEXT))
+        },
+        goToAlternativeRoutes = {
+            goToAlternativeRoutes(it)
+            reloadViewModels()
+        },
+        onSuccess = {
+            onError(Triple(first = false, second = false, third = EMPTY_TEXT))
+            viewModel.resetFee(reset = ResetFee.DELETE_FEE)
+            onSuccess()
+        }
+    )
 }

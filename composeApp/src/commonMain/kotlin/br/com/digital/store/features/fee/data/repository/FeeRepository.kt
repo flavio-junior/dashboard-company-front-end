@@ -14,4 +14,5 @@ interface FeeRepository {
         daysOfWeek: DayRequestDTO
     ): Flow<ObserveNetworkStateHandler<Unit>>
     fun deleteDayFee(feeId: Long, dayId: Long): Flow<ObserveNetworkStateHandler<Unit>>
+    fun deleteFee(feeId: Long): Flow<ObserveNetworkStateHandler<Unit>>
 }

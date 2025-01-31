@@ -87,4 +87,19 @@ class FeeRemoteDataSource(
             }
         }
     }
+
+    override fun deleteFee(
+        feeId: Long
+    ): Flow<ObserveNetworkStateHandler<Unit>> {
+        return toResultFlow {
+            httpClient.delete {
+                url {
+                    path("/api/dashboard/company/fees/v1/$feeId")
+                }
+                headers {
+                    append(HttpHeaders.Authorization, value = "Bearer $accessToken")
+                }
+            }
+        }
+    }
 }

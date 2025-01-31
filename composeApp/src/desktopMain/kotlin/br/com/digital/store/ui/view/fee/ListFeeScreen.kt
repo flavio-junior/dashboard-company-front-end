@@ -77,6 +77,8 @@ private fun ObserveNetworkStateHandlerFees(
         onSuccess = {
             if (it.result?.isNotEmpty() == true) {
                 ListFees(
+                    viewModel = viewModel,
+                    goToAlternativeRoutes = goToAlternativeRoutes,
                     fees = it.result,
                     onItemSelected = { itemSelected ->
                         dayOfWeek = itemSelected
@@ -86,7 +88,8 @@ private fun ObserveNetworkStateHandlerFees(
                         if (feeId > NumbersUtils.NUMBER_ZERO) {
                             isChecked = true
                         }
-                    }
+                    },
+                    onSuccess = onSuccess
                 )
                 AvailableDaysFee(
                     feeId = dayOfWeek.id,
