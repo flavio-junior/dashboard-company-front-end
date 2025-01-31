@@ -21,12 +21,12 @@ fun <R : ObserveNetworkStateHandler<*>> ObserveNetworkStateHandler(
         is ObserveNetworkStateHandler.Loading<*> -> onLoading()
 
         is ObserveNetworkStateHandler.Error<*> -> {
-            when (state.type) {
+            when (state.exception.type) {
                 ErrorType.CLIENT -> {
                     if (state.exception.code == NUMBER_403 && state.exception.message == UNAUTHORIZED_MESSAGE) {
                         goToAlternativeRoutes(selectAlternativeRoute(code = state.exception.code))
                     } else {
-                        onError(state.e)
+                        onError(state.exception.message)
                     }
                 }
 

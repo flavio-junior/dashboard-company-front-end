@@ -1,7 +1,9 @@
 package br.com.digital.store.features.networking.di
 
+import br.com.digital.store.features.networking.resources.NetworkingUtils.TIMEOUT_SIZE
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -30,6 +32,11 @@ val networkModule = module {
                     port = 8003
                 }
                 contentType(type = ContentType.Application.Json)
+            }
+            install(plugin = HttpTimeout) {
+                requestTimeoutMillis = TIMEOUT_SIZE
+                connectTimeoutMillis = TIMEOUT_SIZE
+                socketTimeoutMillis = TIMEOUT_SIZE
             }
         }
     }

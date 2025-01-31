@@ -15,13 +15,15 @@ sealed class ObserveNetworkStateHandler<T>(
         ObserveNetworkStateHandler<T>(status = NetworkStatus.LOADING)
 
     data class Error<T>(
-        val code: Int? = null,
-        val type: ErrorType = ErrorType.CLIENT,
-        val e: String? = null
+        val e: DescriptionError = DescriptionError(
+            code = 0,
+            type = ErrorType.CLIENT,
+            message = EMPTY_TEXT
+        )
     ) :
         ObserveNetworkStateHandler<T>(
             status = NetworkStatus.ERROR,
-            exception = DescriptionError(code = code, type = type, message = e)
+            exception = e
         )
 
     data class Success<T>(val s: T?) :

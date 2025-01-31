@@ -10,6 +10,9 @@ import br.com.digital.store.features.product.di.productModule
 import br.com.digital.store.features.reservation.di.reservationModule
 
 object NetworkingUtils {
+    const val ERROR_TIMEOUT = "Conexão Perdida com o Servidor!"
+    const val ERROR_UNKNOWN = "Error desconhecido"
+    const val TIMEOUT_SIZE = 60000L
     val COMMON_MODULES = listOf(
         accountModule,
         categoryModule,

@@ -4,6 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.digital.store.features.networking.resources.DescriptionError
+import br.com.digital.store.features.networking.resources.ErrorType
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
@@ -15,6 +17,9 @@ import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.converter.ConverterOrder
 import br.com.digital.store.features.order.domain.others.Action
 import br.com.digital.store.features.reservation.data.dto.ReservationResponseDTO
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -83,18 +88,39 @@ class OrderViewModel(
         _removeReservationOrder
 
     fun createOrder(order: OrderRequestDTO) {
-        viewModelScope.launch {
-            repository.createNewOrder(order = order)
-                .onStart {
-                    _createOrder.value = ObserveNetworkStateHandler.Loading(l = true)
-                }
-                .collect {
-                    it.result?.let { response ->
-                        val objectConverted =
-                            converter.converterOrderResponseDTOToVO(order = response)
-                        _createOrder.value = ObserveNetworkStateHandler.Success(s = objectConverted)
+        CoroutineScope(context = Dispatchers.IO).launch {
+            try {
+                repository.createNewOrder(order = order)
+                    .collect { response ->
+                        when (response) {
+                            is ObserveNetworkStateHandler.Loading -> {
+                                _createOrder.value =
+                                    ObserveNetworkStateHandler.Loading(l = response.l)
+                            }
+
+                            is ObserveNetworkStateHandler.Error -> {
+                                _createOrder.value =
+                                    ObserveNetworkStateHandler.Error(e = response.exception)
+                            }
+
+                            is ObserveNetworkStateHandler.Success -> {
+                                response.result?.let { result ->
+                                    val objectConverted =
+                                        converter.converterOrderResponseDTOToVO(order = result)
+                                    _createOrder.value =
+                                        ObserveNetworkStateHandler.Success(s = objectConverted)
+                                }
+                            }
+                        }
                     }
-                }
+            } catch (e: Exception) {
+                _createOrder.value = ObserveNetworkStateHandler.Error(
+                    e = DescriptionError(
+                        type = ErrorType.CLIENT,
+                        message = e.message
+                    )
+                )
+            }
         }
     }
 
@@ -262,19 +288,39 @@ class OrderViewModel(
         orderId: Long,
         payment: PaymentRequestDTO
     ) {
-        viewModelScope.launch {
-            repository.closeOrder(orderId = orderId, payment = payment)
-                .onStart {
-                    _closeOrder.value = ObserveNetworkStateHandler.Loading(l = true)
-                }
-                .collect {
-                    it.result?.let { response ->
-                        val objectConverted =
-                            converter.converterOrderResponseDTOToVO(order = response)
-                        _closeOrder.value =
-                            ObserveNetworkStateHandler.Success(s = objectConverted)
+        CoroutineScope(context = Dispatchers.IO).launch {
+            try {
+                repository.closeOrder(orderId = orderId, payment = payment)
+                    .collect { response ->
+                        when (response) {
+                            is ObserveNetworkStateHandler.Loading -> {
+                                _closeOrder.value =
+                                    ObserveNetworkStateHandler.Loading(l = response.l)
+                            }
+
+                            is ObserveNetworkStateHandler.Error -> {
+                                _closeOrder.value =
+                                    ObserveNetworkStateHandler.Error(e = response.exception)
+                            }
+
+                            is ObserveNetworkStateHandler.Success -> {
+                                response.result?.let { result ->
+                                    val objectConverted =
+                                        converter.converterOrderResponseDTOToVO(order = result)
+                                    _closeOrder.value =
+                                        ObserveNetworkStateHandler.Success(s = objectConverted)
+                                }
+                            }
+                        }
                     }
-                }
+            } catch (e: Exception) {
+                _closeOrder.value = ObserveNetworkStateHandler.Error(
+                    e = DescriptionError(
+                        type = ErrorType.CLIENT,
+                        message = e.message
+                    )
+                )
+            }
         }
     }
 
