@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 data class OrderRequestDTO(
     val type: TypeOrder? = null,
     val reservations: List<ReservationResponseDTO>? = null,
+    var fee: RequestFeeDTO? = null,
     val address: AddressRequestDTO? = null,
     val objects: List<ObjectRequestDTO>,
     val payment: PaymentRequestDTO? = null

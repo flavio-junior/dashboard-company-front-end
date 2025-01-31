@@ -15,18 +15,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import br.com.digital.store.components.strings.StringsUtils.ADD_EMPLOYEE_TO_ORDER
 import br.com.digital.store.components.strings.StringsUtils.ADD_RESERVATION
 import br.com.digital.store.components.strings.StringsUtils.CREATE_NEW_ORDER
+import br.com.digital.store.components.strings.StringsUtils.EMPLOYEES
 import br.com.digital.store.components.strings.StringsUtils.NOT_BLANK_OR_EMPTY
+import br.com.digital.store.components.strings.StringsUtils.SELECTED_EMPLOYEE
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.IsErrorMessage
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
+import br.com.digital.store.features.employee.data.dto.EmployeeResponseDTO
+import br.com.digital.store.features.employee.ui.view.FindEmployeeByName
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.order.data.dto.ObjectRequestDTO
 import br.com.digital.store.features.order.data.dto.OrderRequestDTO
+import br.com.digital.store.features.order.data.dto.RequestFeeDTO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.order.ui.viewmodel.OrderViewModel
@@ -50,7 +56,9 @@ fun CreateReservationOrderScreen(
     val reservationsToSave = remember { mutableStateListOf<ReservationResponseDTO>() }
     val objectsToSave = remember { mutableStateListOf<ObjectRequestDTO>() }
     var addReservations: Boolean by remember { mutableStateOf(value = false) }
+    var addEmployee: Boolean by remember { mutableStateOf(value = false) }
     var verifyObjects: Boolean by remember { mutableStateOf(value = false) }
+    var employeeSelected by remember { mutableStateOf(value = EmployeeResponseDTO()) }
     var observer: Triple<Boolean, Boolean, String> by remember {
         mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
     }
@@ -79,6 +87,17 @@ fun CreateReservationOrderScreen(
                 }
             }
         )
+        Description(description = "$EMPLOYEES:")
+        LoadingButton(
+            label = ADD_EMPLOYEE_TO_ORDER,
+            onClick = {
+                addEmployee = true
+            },
+        )
+        if (employeeSelected.id > 0) {
+            Description(description = SELECTED_EMPLOYEE)
+            Description(description = employeeSelected.name ?: EMPTY_TEXT)
+        }
         SelectObjects(
             onItemSelected = onItemSelected,
             objectsSelected = {
@@ -120,6 +139,7 @@ fun CreateReservationOrderScreen(
                             order = OrderRequestDTO(
                                 type = TypeOrder.RESERVATION,
                                 reservations = reservationsToSave.toList(),
+                                fee = employeeSelected.name?.let { RequestFeeDTO(assigned = it) },
                                 objects = objectsToSave.toList()
                             )
                         )
@@ -141,6 +161,17 @@ fun CreateReservationOrderScreen(
                         verifyObjects = false
                     }
                     addReservations = false
+                }
+            )
+        }
+        if (addEmployee) {
+            FindEmployeeByName(
+                onDismissRequest = {
+                    addEmployee = false
+                },
+                onConfirmation = {
+                    employeeSelected = it
+                    addEmployee = false
                 }
             )
         }

@@ -16,6 +16,7 @@ import br.com.digital.store.composeapp.generated.resources.logo
 import br.com.digital.store.di.desktopModule
 import br.com.digital.store.features.account.di.accountModule
 import br.com.digital.store.features.category.di.categoryModule
+import br.com.digital.store.features.employee.di.employeeModule
 import br.com.digital.store.features.fee.di.feeModule
 import br.com.digital.store.features.food.di.foodModule
 import br.com.digital.store.features.item.di.itemModule
@@ -42,6 +43,7 @@ fun main() {
                 foodModule,
                 itemModule,
                 networkModule,
+                employeeModule,
                 orderModule,
                 reservationModule,
                 resumeModule,

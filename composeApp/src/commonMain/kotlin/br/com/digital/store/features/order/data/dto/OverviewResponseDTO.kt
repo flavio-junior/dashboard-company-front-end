@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class OverviewResponseDTO(
     var id: Long = 0,
-    @SerialName("created_at")
+    @SerialName(value = "created_at")
     var createdAt: String? = "",
     var status: ObjectStatus? = null,
     var quantity: Int = 0
