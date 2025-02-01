@@ -129,6 +129,8 @@ class ConverterOrder {
             typePayment = payment?.typePayment,
             discount = payment?.discount,
             valueDiscount = payment?.valueDiscount,
+            fee = payment?.fee,
+            valueFee = payment?.valueFee,
             total = payment?.total ?: 0.0
         )
     }

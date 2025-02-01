@@ -12,5 +12,7 @@ data class PaymentResponseVO(
     var typePayment: PaymentType? = null,
     var discount: Boolean? = null,
     var valueDiscount: Double? = null,
+    var fee: Boolean? = null,
+    var valueFee: Double? = null,
     var total: Double = 0.0
 )

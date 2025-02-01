@@ -18,5 +18,7 @@ data class PaymentResponseDTO(
     var discount: Boolean? = null,
     @SerialName("value_discount")
     var valueDiscount: Double? = null,
+    var fee: Boolean? = null,
+    var valueFee: Double? = null,
     var total: Double = 0.0
 )

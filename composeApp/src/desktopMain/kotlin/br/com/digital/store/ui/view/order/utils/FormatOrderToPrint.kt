@@ -130,6 +130,18 @@ fun formatOrderToPrint(
     ).append("\n")
     builder.append(
         alignLeftRight(
+            left = "Taxa:",
+            right = if (order.payment?.fee == true) "Sim" else "Nao"
+        )
+    ).append("\n")
+    builder.append(
+        alignLeftRight(
+            left = "Valor da Taxa:",
+            right = "$ ${String.format("%.2f", order.payment?.valueFee ?: 0.0)}"
+        )
+    ).append("\n")
+    builder.append(
+        alignLeftRight(
             left = "Total do Pedido:",
             right = "$ ${String.format("%.2f", order.payment?.total)}"
         )
