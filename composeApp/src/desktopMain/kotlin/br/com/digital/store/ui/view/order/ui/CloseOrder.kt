@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
+import br.com.digital.store.features.fee.data.vo.FeeResponseOrderVO
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.reloadViewModels
@@ -25,6 +26,7 @@ import java.io.ByteArrayInputStream
 @Composable
 fun CloseOrder(
     orderId: Long,
+    fee: FeeResponseOrderVO? = null,
     modifier: Modifier = Modifier,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {},
@@ -48,6 +50,7 @@ fun CloseOrder(
     )
     if (openDialog) {
         ClosedOrderDialog(
+            fee = fee,
             onDismissRequest = {
                 openDialog = false
             },

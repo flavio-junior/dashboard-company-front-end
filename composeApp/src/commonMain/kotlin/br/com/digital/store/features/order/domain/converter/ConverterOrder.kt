@@ -1,5 +1,9 @@
 package br.com.digital.store.features.order.domain.converter
 
+import br.com.digital.store.features.fee.data.dto.AuthorResponseDTO
+import br.com.digital.store.features.fee.data.dto.FeeResponseOrderDTO
+import br.com.digital.store.features.fee.data.vo.AuthorResponseVO
+import br.com.digital.store.features.fee.data.vo.FeeResponseOrderVO
 import br.com.digital.store.features.order.data.dto.AddressResponseDTO
 import br.com.digital.store.features.order.data.dto.ObjectResponseDTO
 import br.com.digital.store.features.order.data.dto.OrderResponseDTO
@@ -34,6 +38,7 @@ class ConverterOrder {
             type = order.type,
             status = order.status,
             reservations = converterReservationsResponseDTOToVO(reservations = order.reservations),
+            fee = converterFeeResponseDTOToVO(fee = order.fee),
             address = converterAddressResponseDTOToVO(address = order.address),
             objects = converterObjectResponseDTOToVO(objects = order.objects),
             quantity = order.quantity,
@@ -71,6 +76,26 @@ class ConverterOrder {
                 name = it.name
             )
         }
+    }
+
+    private fun converterFeeResponseDTOToVO(
+        fee: FeeResponseOrderDTO? = null
+    ): FeeResponseOrderVO {
+        return FeeResponseOrderVO(
+            id = fee?.id,
+            assigned = fee?.assigned,
+            author = converterAuthorResponseDTOToVO(fee = fee?.author)
+        )
+    }
+
+    private fun converterAuthorResponseDTOToVO(
+        fee: AuthorResponseDTO? = null
+    ): AuthorResponseVO {
+        return AuthorResponseVO(
+            id = fee?.id ?: 0,
+            author = fee?.author ?: "",
+            assigned = fee?.assigned ?: ""
+        )
     }
 
     private fun converterAddressResponseDTOToVO(

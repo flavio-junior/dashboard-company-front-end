@@ -62,6 +62,7 @@ fun FooterOrder(
             )
             CloseOrder(
                 orderId = orderResponseVO.id,
+                fee = orderResponseVO.fee,
                 modifier = modifier,
                 goToAlternativeRoutes = goToAlternativeRoutes,
                 onRefresh = onRefresh,

@@ -31,6 +31,7 @@ import br.com.digital.store.components.ui.SimpleButton
 import br.com.digital.store.components.ui.Title
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.brand_awareness
+import br.com.digital.store.features.fee.data.vo.FeeResponseOrderVO
 import br.com.digital.store.features.item.utils.checkPriceIsEqualsZero
 import br.com.digital.store.features.order.data.dto.PaymentRequestDTO
 import br.com.digital.store.features.order.domain.factory.typePaymentFactory
@@ -48,6 +49,7 @@ import br.com.digital.store.utils.onBorder
 
 @Composable
 fun ClosedOrderDialog(
+    fee: FeeResponseOrderVO? = null,
     onDismissRequest: () -> Unit = {},
     onConfirmation: (PaymentRequestDTO) -> Unit = {}
 ) {
@@ -112,6 +114,10 @@ fun ClosedOrderDialog(
                     applyDiscount = it
                 }
             )
+            //if (fee != null) {
+             Description(description = "Pedido com taxa!")
+             Description(description = fee?.percentage.toString())
+           // }
             IsErrorMessage(isError = observer.first, message = observer.second)
             Row(
                 modifier = Modifier
