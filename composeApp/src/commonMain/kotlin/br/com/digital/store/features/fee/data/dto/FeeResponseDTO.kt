@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 data class FeeResponseDTO(
     val id: Long = 0,
     var assigned: Function? = null,
-    val price: Double = 0.0,
+    val percentage: Int = 0,
     var days: List<DayResponseDTO>? = null
 )

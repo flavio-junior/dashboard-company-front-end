@@ -53,7 +53,6 @@ import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.formatterMaskToMoney
 import br.com.digital.store.utils.onBorder
 import br.com.digital.store.utils.onClickable
 import kotlinx.coroutines.launch
@@ -199,7 +198,7 @@ fun ItemFee(
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )
         Description(
-            description = formatterMaskToMoney(fee.price),
+            description = fee.percentage.toString(),
             modifier = modifier.weight(weight = WEIGHT_SIZE),
             color = if (selected) Themes.colors.background else Themes.colors.primary,
             textAlign = TextAlign.Center

@@ -12,7 +12,7 @@ class ConverterFee {
             FeeResponseVO(
                 id = it.id,
                 assigned = it.assigned,
-                price = it.price,
+                percentage = it.percentage,
                 days = convertDayOfWeek(days = it.days ?: emptyList())
             )
         }

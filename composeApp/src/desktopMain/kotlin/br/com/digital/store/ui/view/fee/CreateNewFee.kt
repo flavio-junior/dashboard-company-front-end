@@ -43,25 +43,25 @@ fun CreateNewFee(
     ) {
         Title(title = CREATE_NEW_FEE)
         ItemObject {
-            var price: String by remember { mutableStateOf(value = ZERO_DOUBLE) }
+            var percentage: String by remember { mutableStateOf(value = ZERO_DOUBLE) }
             Price(
                 label = VALUE_FEE,
-                value = price,
+                value = percentage,
                 isError = observer.first,
                 message = observer.third,
                 onValueChange = {
-                    price = it
+                    percentage = it
                 },
                 modifier = Modifier.weight(weight = WEIGHT_SIZE)
             )
             LoadingButton(
                 label = ADD_FEE,
                 onClick = {
-                    if (price != ZERO_DOUBLE) {
+                    if (percentage != ZERO_DOUBLE) {
                         observer = Triple(first = false, second = true, third = EMPTY_TEXT)
                         viewModel.createNewFee(
                             fee = CreateFeeRequestDTO(
-                                price = price.toDouble(),
+                                percentage = percentage.toInt(),
                                 assigned = Function.WAITER
                             )
                         )

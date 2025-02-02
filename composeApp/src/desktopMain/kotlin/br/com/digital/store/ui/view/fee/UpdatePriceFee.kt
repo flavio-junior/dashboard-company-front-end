@@ -44,26 +44,26 @@ fun UpdatePriceFee(
     ) {
         Title(title = UPDATE_PRICE_FEE)
         ItemObject {
-            var price: String by remember { mutableStateOf(value = ZERO_DOUBLE) }
+            var percentage: String by remember { mutableStateOf(value = ZERO_DOUBLE) }
             Price(
                 label = NEW_VALUE_FEE,
-                value = price,
+                value = percentage,
                 isError = observer.first,
                 message = observer.third,
                 onValueChange = {
-                    price = it
+                    percentage = it
                 },
                 modifier = Modifier.weight(weight = WEIGHT_SIZE)
             )
             LoadingButton(
                 label = SEND_REQUEST_UPDATE_PRICE_FEE,
                 onClick = {
-                    if (price != ZERO_DOUBLE) {
+                    if (percentage != ZERO_DOUBLE) {
                         observer = Triple(first = false, second = true, third = EMPTY_TEXT)
                         viewModel.updatePriceFee(
                             feeId = feeId,
                             price = UpdatePriceFeeRequestDTO(
-                                price = price.toDouble()
+                                percentage = percentage.toInt()
                             )
                         )
                     } else {
