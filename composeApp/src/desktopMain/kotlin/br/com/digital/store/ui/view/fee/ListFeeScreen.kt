@@ -110,7 +110,7 @@ private fun ObserveNetworkStateHandlerFees(
                     }
                 )
                if (feeResponseVO.id > NUMBER_ZERO) {
-                UpdatePriceFee(
+                UpdatePercentageFee(
                     feeId = feeResponseVO.id,
                     viewModel = viewModel,
                     onSuccess = onSuccess

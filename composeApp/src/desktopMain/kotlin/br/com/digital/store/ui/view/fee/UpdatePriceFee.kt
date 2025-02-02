@@ -5,16 +5,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import br.com.digital.store.components.strings.StringsUtils.NEW_VALUE_FEE
 import br.com.digital.store.components.strings.StringsUtils.SEND_REQUEST_UPDATE_PRICE_FEE
-import br.com.digital.store.components.strings.StringsUtils.UPDATE_PRICE_FEE
+import br.com.digital.store.components.strings.StringsUtils.UPDATE_PERCENTAGE_FEE
 import br.com.digital.store.components.ui.LoadingButton
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
-import br.com.digital.store.components.ui.Price
+import br.com.digital.store.components.ui.TextField
 import br.com.digital.store.components.ui.Title
 import br.com.digital.store.features.fee.data.dto.UpdatePriceFeeRequestDTO
 import br.com.digital.store.features.fee.ui.viewmodel.FeeViewModel
@@ -27,10 +29,10 @@ import br.com.digital.store.ui.view.order.ui.ItemObject
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.NUMBER_EQUALS_ZERO
 import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
-import br.com.digital.store.utils.CommonUtils.ZERO_DOUBLE
+import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 
 @Composable
-fun UpdatePriceFee(
+fun UpdatePercentageFee(
     feeId: Long,
     viewModel: FeeViewModel,
     onSuccess: () -> Unit = {}
@@ -42,28 +44,29 @@ fun UpdatePriceFee(
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
         modifier = Modifier.background(color = Themes.colors.background)
     ) {
-        Title(title = UPDATE_PRICE_FEE)
+        Title(title = UPDATE_PERCENTAGE_FEE)
         ItemObject {
-            var percentage: String by remember { mutableStateOf(value = ZERO_DOUBLE) }
-            Price(
+            var percentage:Int by remember { mutableIntStateOf(value = NUMBER_ZERO) }
+            TextField(
                 label = NEW_VALUE_FEE,
-                value = percentage,
-                isError = observer.first,
+                value = percentage.toString(),
+                isError = observer.second,
                 message = observer.third,
+                keyboardType = KeyboardType.Number,
                 onValueChange = {
-                    percentage = it
+                    percentage = it.toIntOrNull() ?: NUMBER_ZERO
                 },
                 modifier = Modifier.weight(weight = WEIGHT_SIZE)
             )
             LoadingButton(
                 label = SEND_REQUEST_UPDATE_PRICE_FEE,
                 onClick = {
-                    if (percentage != ZERO_DOUBLE) {
+                    if (percentage != NUMBER_ZERO) {
                         observer = Triple(first = false, second = true, third = EMPTY_TEXT)
                         viewModel.updatePriceFee(
                             feeId = feeId,
                             price = UpdatePriceFeeRequestDTO(
-                                percentage = percentage.toInt()
+                                percentage = percentage
                             )
                         )
                     } else {

@@ -31,7 +31,7 @@ import br.com.digital.store.components.strings.StringsUtils.DELETE_FEE
 import br.com.digital.store.components.strings.StringsUtils.LIST_FEES
 import br.com.digital.store.components.strings.StringsUtils.NUMBER
 import br.com.digital.store.components.strings.StringsUtils.OPTIONS
-import br.com.digital.store.components.strings.StringsUtils.PRICE
+import br.com.digital.store.components.strings.StringsUtils.PERCENTAGE
 import br.com.digital.store.components.strings.StringsUtils.WITH_DAYS_OF_WEEK
 import br.com.digital.store.components.strings.StringsUtils.YES
 import br.com.digital.store.components.ui.Alert
@@ -142,7 +142,7 @@ fun HeaderFeesPanel(
             textAlign = TextAlign.Center
         )
         Description(
-            description = PRICE,
+            description = PERCENTAGE,
             modifier = modifier.weight(weight = WEIGHT_SIZE),
             textAlign = TextAlign.Center
         )
@@ -198,7 +198,7 @@ fun ItemFee(
             color = if (selected) Themes.colors.background else Themes.colors.primary
         )
         Description(
-            description = fee.percentage.toString(),
+            description = "${fee.percentage} %",
             modifier = modifier.weight(weight = WEIGHT_SIZE),
             color = if (selected) Themes.colors.background else Themes.colors.primary,
             textAlign = TextAlign.Center
