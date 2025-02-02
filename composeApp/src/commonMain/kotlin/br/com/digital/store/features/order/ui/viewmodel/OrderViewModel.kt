@@ -52,10 +52,6 @@ class OrderViewModel(
         )
     val closeOrder: State<ObserveNetworkStateHandler<OrderResponseVO>> = _closeOrder
 
-    private val _updateStatusObject =
-        mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
-    val updateStatusObject: State<ObserveNetworkStateHandler<Unit>> = _updateStatusObject
-
     private val _updateStatusOverview =
         mutableStateOf<ObserveNetworkStateHandler<Unit>>(ObserveNetworkStateHandler.Loading(l = false))
     val updateStatusOverview: State<ObserveNetworkStateHandler<Unit>> = _updateStatusOverview
@@ -127,20 +123,6 @@ class OrderViewModel(
     fun updateOrder(orderId: Long, objectId: Long, updateObject: UpdateObjectRequestDTO) {
         viewModelScope.launch {
             when (updateObject.action) {
-                Action.UPDATE_STATUS_OBJECT -> {
-                    repository.updateOrder(
-                        orderId = orderId,
-                        objectId = objectId,
-                        updateObject = updateObject
-                    )
-                        .onStart {
-                            _updateStatusObject.value = ObserveNetworkStateHandler.Loading(l = true)
-                        }
-                        .collect {
-                            _updateStatusObject.value = it
-                        }
-                }
-
                 Action.UPDATE_STATUS_OVERVIEW -> {
                     repository.updateOrder(
                         orderId = orderId,
@@ -334,10 +316,6 @@ class OrderViewModel(
                 _updateStatusDelivery.value = ObserveNetworkStateHandler.Loading(l = false)
             }
 
-            ResetOrder.UPDATE_STATUS_OBJECT -> {
-                _updateStatusObject.value = ObserveNetworkStateHandler.Loading(l = false)
-            }
-
             ResetOrder.UPDATE_STATUS_OVERVIEW -> {
                 _updateStatusOverview.value = ObserveNetworkStateHandler.Loading(l = false)
             }
@@ -386,7 +364,6 @@ enum class ResetOrder {
     CLOSE_ORDER,
     UPDATE_STATUS_DELIVERY,
     UPDATE_STATUS_OVERVIEW,
-    UPDATE_STATUS_OBJECT,
     INCREMENT_OVERVIEW,
     REMOVE_OVERVIEW,
     REMOVE_OBJECT,
