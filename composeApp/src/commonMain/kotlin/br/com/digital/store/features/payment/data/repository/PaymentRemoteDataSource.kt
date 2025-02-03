@@ -22,6 +22,7 @@ class PaymentRemoteDataSource(
     }
 
     override fun findAllPayments(
+        code: String,
         page: Int,
         size: Int,
         sort: String
@@ -29,7 +30,8 @@ class PaymentRemoteDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/payment/v1/find/all")
+                    path("/api/dashboard/company/payment/v1/details/all")
+                    parameters.append(name = "code", value = code)
                     parameters.append(name = "page", value = page.toString())
                     parameters.append(name = "size", value = size.toString())
                     parameters.append(name = "sort", value = sort)

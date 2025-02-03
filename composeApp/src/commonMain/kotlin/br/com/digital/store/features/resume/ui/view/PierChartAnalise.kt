@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -19,22 +23,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import br.com.digital.store.components.strings.StringsUtils.TYPE_ANALYSIS
+import br.com.digital.store.components.ui.DropdownMenu
 import br.com.digital.store.components.ui.Title
+import br.com.digital.store.features.resume.domain.factory.analiseDayFactory
+import br.com.digital.store.features.resume.domain.type.TypeAnalysis
+import br.com.digital.store.features.resume.ui.viewmodel.ResumeViewModel
+import br.com.digital.store.features.resume.utils.listAnalise
 import br.com.digital.store.features.resume.utils.toRadians
 import br.com.digital.store.theme.FontSize.fontSize18
 import br.com.digital.store.theme.FontSize.fontSize36
 import br.com.digital.store.theme.SpaceSize.spaceSize48
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import org.koin.mp.KoinPlatform.getKoin
 import kotlin.math.cos
 import kotlin.math.sin
 
 @Composable
 fun PierChartAnalise(
     modifier: Modifier,
+    label: String,
+    enabled: Boolean = true,
     radiusOuter: Dp = Themes.size.spaceSize250,
-    graphic: Graphic? = null
+    graphic: Graphic? = null,
+    refreshPage: (Pair<TypeAnalysis, String>) -> Unit = {}
 ) {
+    val viewModel: ResumeViewModel = getKoin().get()
     val titleGraphic = graphic?.graphic
     val textMeasurer = rememberTextMeasurer()
     val textLayoutResult = textMeasurer.measure(
@@ -48,10 +63,22 @@ fun PierChartAnalise(
     )
     val textSize = textLayoutResult.size
     Box(modifier = modifier.fillMaxHeight()) {
-        Title(
-            title = graphic?.title ?: EMPTY_TEXT,
-            modifier = Modifier.align(alignment = Alignment.TopStart)
-        )
+        if (enabled) {
+            var itemSelected: String by remember { mutableStateOf(value = label) }
+            DropdownMenu(
+                selectedValue = itemSelected,
+                items = listAnalise,
+                label = TYPE_ANALYSIS,
+                onValueChangedEvent = {
+                    itemSelected = it
+                    val converterAnalise = analiseDayFactory(label = it)
+                    refreshPage(Pair(first = converterAnalise, second = it))
+                },
+                modifier = Modifier.align(alignment = Alignment.TopStart)
+            )
+        } else {
+            Title(title = viewModel.analiseDay)
+        }
         Canvas(
             modifier = Modifier
                 .align(alignment = Alignment.Center)

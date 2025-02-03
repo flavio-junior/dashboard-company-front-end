@@ -110,6 +110,17 @@ private fun HeaderDetailsItem(
         )
         TextField(
             enabled = false,
+            label = STATUS,
+            value = objectFactory(status = objectResponseVO.status),
+            onValueChange = {},
+            modifier = Modifier.weight(weight = WEIGHT_SIZE)
+        )
+    }
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+    ) {
+        TextField(
+            enabled = false,
             label = PRICE,
             value = formatterMaskToMoney(price = objectResponseVO.price),
             onValueChange = {},
@@ -127,25 +138,6 @@ private fun HeaderDetailsItem(
             label = TOTAL,
             value = formatterMaskToMoney(price = objectResponseVO.total),
             onValueChange = {},
-            modifier = Modifier.weight(weight = WEIGHT_SIZE)
-        )
-    }
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
-    ) {
-        TextField(
-            enabled = false,
-            label = STATUS,
-            value = objectFactory(status = objectResponseVO.status),
-            onValueChange = {},
-            modifier = Modifier.weight(weight = WEIGHT_SIZE)
-        )
-        UpdateStatusObject(
-            orderId = orderId,
-            objectId = objectResponseVO.id,
-            status = objectFactory(status = objectResponseVO.status),
-            goToAlternativeRoutes = goToAlternativeRoutes,
-            onRefresh = onRefresh,
             modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
         RemoveObject(

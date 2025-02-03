@@ -11,7 +11,6 @@ import br.com.digital.store.components.strings.StringsUtils.ADD_ITEM
 import br.com.digital.store.components.strings.StringsUtils.DELIVERED
 import br.com.digital.store.components.strings.StringsUtils.PENDING_DELIVERY
 import br.com.digital.store.components.strings.StringsUtils.QTD
-import br.com.digital.store.components.strings.StringsUtils.STATUS
 import br.com.digital.store.components.strings.StringsUtils.STATUS_ORDER
 import br.com.digital.store.components.strings.StringsUtils.UPDATE
 import br.com.digital.store.components.ui.Alert
@@ -34,107 +33,11 @@ import br.com.digital.store.features.order.utils.OrderUtils.DELETE_OBJECT
 import br.com.digital.store.features.order.utils.OrderUtils.DELETE_RESUME
 import br.com.digital.store.features.order.utils.OrderUtils.INCREMENT_ITEM
 import br.com.digital.store.features.order.utils.OrderUtils.UPDATE_RESUME
-import br.com.digital.store.features.order.utils.OrderUtils.UPDATE_STATUS_ITEM
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.CommonUtils.NUMBER_EQUALS_ZERO
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ZERO
 import br.com.digital.store.utils.deliveryStatus
 import org.koin.mp.KoinPlatform.getKoin
-
-@Composable
-fun UpdateStatusObject(
-    modifier: Modifier = Modifier,
-    orderId: Long,
-    objectId: Long,
-    status: String,
-    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
-    onRefresh: () -> Unit = {}
-) {
-    var openDialog: Boolean by remember { mutableStateOf(value = false) }
-    var itemSelected: String by remember {
-        mutableStateOf(value = status)
-    }
-    var observer: Triple<Boolean, Boolean, String> by remember {
-        mutableStateOf(value = Triple(first = false, second = false, third = EMPTY_TEXT))
-    }
-    val viewModel: OrderViewModel = getKoin().get()
-    DropdownMenu(
-        selectedValue = itemSelected,
-        items = deliveryStatus,
-        label = STATUS,
-        onValueChangedEvent = {
-            itemSelected = it
-        }
-    )
-    LoadingButton(
-        label = UPDATE,
-        onClick = {
-            openDialog = true
-        },
-        isEnabled = observer.first,
-        modifier = modifier
-    )
-    if (openDialog) {
-        Alert(
-            label = UPDATE_STATUS_ITEM,
-            onDismissRequest = {
-                openDialog = false
-            },
-            onConfirmation = {
-                observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                viewModel.updateOrder(
-                    orderId = orderId,
-                    objectId = objectId,
-                    updateObject = UpdateObjectRequestDTO(
-                        action = Action.UPDATE_STATUS_OBJECT,
-                        status = when (itemSelected) {
-                            DELIVERED -> ObjectStatus.DELIVERED
-                            else -> ObjectStatus.PENDING
-                        }
-                    )
-                )
-                openDialog = false
-            }
-        )
-    }
-    ObserveNetworkStateHandlerUpdateStatusObject(
-        viewModel = viewModel,
-        onError = {
-            observer = it
-        },
-        goToAlternativeRoutes = goToAlternativeRoutes,
-        onSuccessful = {
-            observer = Triple(first = false, second = false, third = EMPTY_TEXT)
-            onRefresh()
-        }
-    )
-}
-
-@Composable
-private fun ObserveNetworkStateHandlerUpdateStatusObject(
-    viewModel: OrderViewModel,
-    goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
-    onError: (Triple<Boolean, Boolean, String>) -> Unit = {},
-    onSuccessful: () -> Unit = {}
-) {
-    val state: ObserveNetworkStateHandler<Unit> by remember { viewModel.updateStatusObject }
-    ObserveNetworkStateHandler(
-        state = state,
-        onLoading = {},
-        onError = {
-            onError(Triple(first = false, second = true, third = it ?: EMPTY_TEXT))
-        },
-        goToAlternativeRoutes = {
-            goToAlternativeRoutes(it)
-            reloadViewModels()
-        },
-        onSuccess = {
-            onError(Triple(first = false, second = false, third = EMPTY_TEXT))
-            viewModel.resetOrder(reset = ResetOrder.UPDATE_STATUS_OBJECT)
-            onSuccessful()
-        }
-    )
-}
 
 @Composable
 fun UpdateStatusOverview(

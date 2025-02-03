@@ -8,7 +8,7 @@ fun ResumeDeliveryScreen(
     pierChart: PierChart
 ) {
     if (pierChart.graphic != null) {
-        AnaliseDay(pierChart = pierChart)
+        AnaliseDay(pierChart = pierChart, enabled = false)
     } else {
         ResourceUnavailable()
     }

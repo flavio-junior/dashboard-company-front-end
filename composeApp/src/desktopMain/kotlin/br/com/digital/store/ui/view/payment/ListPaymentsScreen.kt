@@ -46,17 +46,17 @@ fun ListPaymentsScreen(
             viewModel.findAllPayments()
         }
         HeaderSearch(
-            onSearch = { _, size, sort, route ->
-                viewModel.findAllPayments(size = size, sort = sort, route = route)
+            onSearch = { code, size, sort, route ->
+                viewModel.findAllPayments(code = code, size = size, sort = sort, route = route)
             },
-            onSort = { _, size, sort, route ->
-                viewModel.findAllPayments(size = size, sort = sort, route = route)
+            onSort = { code, size, sort, route ->
+                viewModel.findAllPayments(code = code, size = size, sort = sort, route = route)
             },
-            onFilter = { _, size, sort, route ->
-                viewModel.findAllPayments(size = size, sort = sort, route = route)
+            onFilter = { code, size, sort, route ->
+                viewModel.findAllPayments(code = code, size = size, sort = sort, route = route)
             },
-            onRefresh = { _, size, sort, route ->
-                viewModel.findAllPayments(size = size, sort = sort, route = route)
+            onRefresh = { code, size, sort, route ->
+                viewModel.findAllPayments(code = code, size = size, sort = sort, route = route)
             }
         )
         ObserveNetworkStateHandlerPayments(

@@ -8,6 +8,8 @@ data class PaymentResponseVO(
     var date: String? = "",
     var hour: String? = "",
     var code: Long? = 0,
+    var author: String? = "",
+    var assigned: String? = "",
     var typeOrder: TypeOrder? = null,
     var typePayment: PaymentType? = null,
     var discount: Boolean? = null,
