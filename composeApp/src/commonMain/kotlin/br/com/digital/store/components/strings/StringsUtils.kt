@@ -144,4 +144,9 @@ object StringsUtils {
     const val SATURDAY = "Sábado"
     const val DAYS_OF_FEES = "Dias da Taxa:"
     const val PERCENTAGE = "Porcentagem"
+    const val TYPE_ANALYSIS = "Tipo da Analise"
+    const val ANALISE_DAY = "Analise do Dia"
+    const val ANALISE_WEEK = "Analise da Semana"
+    const val ANALISE_MONTH = "Analise do Mês"
+    const val ANALISE_YEAR = "Analise do Ano"
 }

@@ -37,7 +37,7 @@ fun GetAnaliseDayScreen(
     ) {
         val viewModel: ResumeViewModel = getKoin().get()
         LaunchedEffect(key1 = Unit) {
-            viewModel.getAnalysisDay()
+            viewModel.getDetailsOfAnalysis()
         }
         ObserveNetworkStateHandlerGetAnaliseDay(
             viewModel = viewModel,
@@ -48,12 +48,14 @@ fun GetAnaliseDayScreen(
                         analiseDayVO = it,
                         onItemSelected = onItemSelected
                     ),
+                    label = viewModel.analiseDay,
                     onItemSelect = { itemSelected ->
                         observer = itemSelected
                     },
                     goToOrderScreen = goToOrderScreen,
-                    refreshPage = {
-                        viewModel.getAnalysisDay()
+                    refreshPage = { typeDetailsOfAnalysis ->
+                        viewModel.getDetailsOfAnalysis(type = typeDetailsOfAnalysis.first)
+                        viewModel.updateAnaliseDay(label = typeDetailsOfAnalysis.second)
                     }
                 )
             },
