@@ -8,7 +8,7 @@ fun ResumeShoppingCatScreen(
     pierChart: PierChart
 ) {
     if (pierChart.graphic != null) {
-        AnaliseDay(pierChart = pierChart)
+        AnaliseDay(pierChart = pierChart, enabled = false)
     } else {
         ResourceUnavailable()
     }

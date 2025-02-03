@@ -25,6 +25,7 @@ import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
 fun AnaliseDay(
     pierChart: PierChart,
     label: String = ANALISE_DAY,
+    enabled: Boolean = true,
     onItemSelect: (Pair<Boolean, String>) -> Unit = {},
     goToOrderScreen: () -> Unit = {},
     refreshPage: (Pair<TypeAnalysis, String>) -> Unit = {}
@@ -45,6 +46,7 @@ fun AnaliseDay(
             PierChartAnalise(
                 modifier = Modifier.weight(weight = WEIGHT_SIZE),
                 label = label,
+                enabled = enabled,
                 graphic = pierChart.graphic,
                 refreshPage = refreshPage
             )
