@@ -9,6 +9,7 @@ import br.com.digital.store.features.networking.resources.ObserveNetworkStateHan
 import br.com.digital.store.features.payment.data.repository.PaymentRepository
 import br.com.digital.store.features.payment.data.vo.PaymentsResponseVO
 import br.com.digital.store.features.payment.domain.converter.ConverterPayment
+import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import br.com.digital.store.utils.LocationRoute
 import br.com.digital.store.utils.NumbersUtils.NUMBER_ONE
 import br.com.digital.store.utils.NumbersUtils.NUMBER_SIXTY
@@ -35,6 +36,7 @@ class PaymentViewModel(
     var showEmptyList = mutableStateOf(value = true)
     
     fun findAllPayments(
+        code: String = EMPTY_TEXT,
         sort: String = this.sort,
         size: Int = this.sizeDefault,
         route: LocationRoute = LocationRoute.SEARCH
@@ -49,6 +51,7 @@ class PaymentViewModel(
         viewModelScope.launch {
             sizeDefault = size
             repository.findAllPayments(
+                code = code,
                 page = currentPage,
                 size = sizeDefault,
                 sort = sort
