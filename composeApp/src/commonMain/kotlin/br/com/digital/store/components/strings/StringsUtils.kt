@@ -8,7 +8,7 @@ object StringsUtils {
     const val ID = "Código"
     const val NAME = "Nome"
     const val PRICE = "Preço"
-    const val VALUE_FEE = "Valor da taxa"
+    const val VALUE_FEE = "Porcentagem da taxa"
     const val NEW_VALUE_FEE = "Novo valor da taxa"
     const val CREATE_NEW_FEE = "Criar nova taxa:"
     const val UPDATE_PERCENTAGE_FEE = "Atualizar porcentagem da taxa:"
