@@ -11,6 +11,8 @@ data class PaymentResponseDTO(
     var date: String? = "",
     var hour: String? = "",
     var code: Long? = 0,
+    var author: String? = "",
+    var assigned: String? = "",
     @SerialName("type_order")
     var typeOrder: TypeOrder? = null,
     @SerialName("type_payment")
@@ -19,6 +21,7 @@ data class PaymentResponseDTO(
     @SerialName("value_discount")
     var valueDiscount: Double? = null,
     var fee: Boolean? = null,
+    @SerialName("value_fee")
     var valueFee: Double? = null,
     var total: Double = 0.0
 )

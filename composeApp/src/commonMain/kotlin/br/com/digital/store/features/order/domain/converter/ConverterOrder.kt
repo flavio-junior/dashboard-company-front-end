@@ -125,6 +125,8 @@ class ConverterOrder {
             date = payment?.date,
             hour = payment?.hour,
             code = payment?.code,
+            author = payment?.author,
+            assigned = payment?.assigned,
             typeOrder = payment?.typeOrder,
             typePayment = payment?.typePayment,
             discount = payment?.discount,
