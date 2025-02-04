@@ -58,6 +58,7 @@ class ConverterOrder {
                 type = it.type,
                 status = it.status,
                 reservations = converterReservationsResponseDTOToVO(reservations = it.reservations),
+                fee = converterFeeResponseDTOToVO(fee = it.fee),
                 address = converterAddressResponseDTOToVO(address = it.address),
                 objects = converterObjectResponseDTOToVO(objects = it.objects),
                 quantity = it.quantity,
@@ -83,6 +84,7 @@ class ConverterOrder {
     ): FeeResponseOrderVO {
         return FeeResponseOrderVO(
             id = fee?.id,
+            percentage = fee?.percentage,
             assigned = fee?.assigned,
             author = converterAuthorResponseDTOToVO(fee = fee?.author)
         )

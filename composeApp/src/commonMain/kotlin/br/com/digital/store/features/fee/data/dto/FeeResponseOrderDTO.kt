@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FeeResponseOrderDTO(
-    val id: Long? = 0,
-    val percentage: Int? = 0,
+    val id: Long = 0,
+    val percentage: Int = 0,
     var assigned: Function? = null,
     var author: AuthorResponseDTO? = null
 )

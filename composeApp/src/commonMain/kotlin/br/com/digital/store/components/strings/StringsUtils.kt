@@ -149,4 +149,7 @@ object StringsUtils {
     const val ANALISE_WEEK = "Analise da Semana"
     const val ANALISE_MONTH = "Analise do Mês"
     const val ANALISE_YEAR = "Analise do Ano"
+    const val ORDER_WITH_FEE = "Pedido com Taxa"
+    const val REMOVE_FEE = "Remover taxa"
+    const val SAVE_ORDER_FEE = "Salvar pedido com taxa"
 }

@@ -22,6 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.Dialog
 import br.com.digital.store.components.strings.StringsUtils.ALERT
 import br.com.digital.store.components.strings.StringsUtils.CANCEL
+import br.com.digital.store.components.strings.StringsUtils.ORDER_WITH_FEE
+import br.com.digital.store.components.strings.StringsUtils.REMOVE_FEE
+import br.com.digital.store.components.strings.StringsUtils.SAVE_ORDER_FEE
 import br.com.digital.store.components.ui.Description
 import br.com.digital.store.components.ui.DropdownMenu
 import br.com.digital.store.components.ui.IconDefault
@@ -51,7 +54,8 @@ import br.com.digital.store.utils.onBorder
 fun ClosedOrderDialog(
     fee: FeeResponseOrderVO? = null,
     onDismissRequest: () -> Unit = {},
-    onConfirmation: (PaymentRequestDTO) -> Unit = {}
+    onConfirmation: (PaymentRequestDTO) -> Unit = {},
+    removeFee: () -> Unit = {}
 ) {
     var itemSelected: String by remember { mutableStateOf(value = EMPTY_TEXT) }
     var applyDiscount: Boolean by remember { mutableStateOf(value = false) }
@@ -114,10 +118,7 @@ fun ClosedOrderDialog(
                     applyDiscount = it
                 }
             )
-            //if (fee != null) {
-             Description(description = "Pedido com taxa!")
-             Description(description = fee?.percentage.toString())
-           // }
+            ConfigsFee(fee = fee, removeFee = removeFee)
             IsErrorMessage(isError = observer.first, message = observer.second)
             Row(
                 modifier = Modifier
@@ -200,5 +201,46 @@ fun ApplyDiscount(
             },
             modifier = Modifier.weight(weight = WEIGHT_SIZE)
         )
+    }
+}
+
+@Composable
+internal fun ConfigsFee(
+    fee: FeeResponseOrderVO? = null,
+    removeFee: () -> Unit = {}
+) {
+    var isEnabled by remember { mutableStateOf(value = true) }
+    if (fee?.id != null) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
+        ) {
+            Description(description = ORDER_WITH_FEE)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = Themes.colors.primary,
+                        uncheckedColor = Color.Gray,
+                        checkmarkColor = Themes.colors.background
+                    ),
+                    checked = isEnabled,
+                    onCheckedChange = { checked ->
+                        isEnabled = checked
+                    },
+                    modifier = Modifier
+                        .scale(scale = 2f)
+                        .size(size = Themes.size.spaceSize48)
+                )
+                if (isEnabled) {
+                    Description(description = SAVE_ORDER_FEE)
+                } else {
+                    removeFee()
+                    Description(description = REMOVE_FEE)
+                }
+            }
+        }
     }
 }
