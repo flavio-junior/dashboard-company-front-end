@@ -7,5 +7,6 @@ import kotlinx.serialization.Serializable
 data class PaymentRequestDTO(
     var type: PaymentType? = null,
     var discount: Boolean? = null,
-    var value: Double? = 0.0
+    var value: Double? = 0.0,
+    var remove: Boolean = false
 )

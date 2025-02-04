@@ -58,9 +58,6 @@ fun CloseOrder(
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)
                 viewModel.closeOrder(orderId = orderId, payment = it)
                 openDialog = false
-            },
-            removeFee = {
-
             }
         )
     }

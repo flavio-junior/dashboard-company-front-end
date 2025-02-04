@@ -54,11 +54,11 @@ import br.com.digital.store.utils.onBorder
 fun ClosedOrderDialog(
     fee: FeeResponseOrderVO? = null,
     onDismissRequest: () -> Unit = {},
-    onConfirmation: (PaymentRequestDTO) -> Unit = {},
-    removeFee: () -> Unit = {}
+    onConfirmation: (PaymentRequestDTO) -> Unit = {}
 ) {
     var itemSelected: String by remember { mutableStateOf(value = EMPTY_TEXT) }
     var applyDiscount: Boolean by remember { mutableStateOf(value = false) }
+    var remove: Boolean by remember { mutableStateOf(value = false) }
     var valueDiscount: String by remember { mutableStateOf(value = ZERO_DOUBLE) }
     var observer: Pair<Boolean, String> by remember {
         mutableStateOf(value = Pair(first = false, second = EMPTY_TEXT))
@@ -118,7 +118,12 @@ fun ClosedOrderDialog(
                     applyDiscount = it
                 }
             )
-            ConfigsFee(fee = fee, removeFee = removeFee)
+            ConfigsFee(
+                fee = fee,
+                removeFee = {
+                    remove = it
+                }
+            )
             IsErrorMessage(isError = observer.first, message = observer.second)
             Row(
                 modifier = Modifier
@@ -147,7 +152,8 @@ fun ClosedOrderDialog(
                                 typePaymentFactory(
                                     payment = itemSelected,
                                     discount = applyDiscount,
-                                    value = valueDiscount.toDouble()
+                                    value = valueDiscount.toDouble(),
+                                    remove = remove
                                 )
                             )
                         }
@@ -207,7 +213,7 @@ fun ApplyDiscount(
 @Composable
 internal fun ConfigsFee(
     fee: FeeResponseOrderVO? = null,
-    removeFee: () -> Unit = {}
+    removeFee: (Boolean) -> Unit = {}
 ) {
     var isEnabled by remember { mutableStateOf(value = true) }
     if (fee?.id != null) {
@@ -236,8 +242,9 @@ internal fun ConfigsFee(
                 )
                 if (isEnabled) {
                     Description(description = SAVE_ORDER_FEE)
+                    removeFee(false)
                 } else {
-                    removeFee()
+                    removeFee(true)
                     Description(description = REMOVE_FEE)
                 }
             }

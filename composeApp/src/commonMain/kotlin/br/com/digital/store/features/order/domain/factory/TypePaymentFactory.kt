@@ -10,7 +10,8 @@ import br.com.digital.store.features.order.utils.OrderUtils.PIX
 fun typePaymentFactory(
     payment: String,
     discount: Boolean? = null,
-    value: Double? = 0.0
+    value: Double? = 0.0,
+    remove: Boolean = false
 ): PaymentRequestDTO {
     val response: Pair<Boolean, Double?> = if (discount == true) {
         Pair(first = true, second = value)
@@ -22,7 +23,8 @@ fun typePaymentFactory(
             PaymentRequestDTO(
                 type = PaymentType.CREDIT_CAD,
                 discount = response.first,
-                value = response.second
+                value = response.second,
+                remove = remove
             )
         }
 
@@ -30,7 +32,8 @@ fun typePaymentFactory(
             PaymentRequestDTO(
                 type = PaymentType.DEBIT_CAD,
                 discount = response.first,
-                value = response.second
+                value = response.second,
+                remove = remove
             )
         }
 
@@ -38,7 +41,8 @@ fun typePaymentFactory(
             PaymentRequestDTO(
                 type = PaymentType.MONEY,
                 discount = response.first,
-                value = response.second
+                value = response.second,
+                remove = remove
             )
         }
 
@@ -46,7 +50,8 @@ fun typePaymentFactory(
             PaymentRequestDTO(
                 type = PaymentType.PIX,
                 discount = response.first,
-                value = response.second
+                value = response.second,
+                remove = remove
             )
         }
 
