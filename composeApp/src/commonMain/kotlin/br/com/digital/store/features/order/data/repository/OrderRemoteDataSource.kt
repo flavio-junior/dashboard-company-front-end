@@ -172,11 +172,15 @@ class OrderRemoteDataSource(
 
     override fun closeOrder(
         orderId: Long,
+        force: Boolean,
         payment: PaymentRequestDTO
     ): Flow<ObserveNetworkStateHandler<OrderResponseDTO>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "api/dashboard/company/orders/v1/payment/$orderId")
+                url {
+                    path("api/dashboard/company/orders/v1/payment/$orderId")
+                    parameters.append("force", force.toString())
+                }
                 headers {
                     append(name = HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }

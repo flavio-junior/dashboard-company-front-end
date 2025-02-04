@@ -60,6 +60,7 @@ interface OrderRepository {
 
     fun closeOrder(
         orderId: Long,
+        force: Boolean = false,
         payment: PaymentRequestDTO
     ): Flow<ObserveNetworkStateHandler<OrderResponseDTO>>
 }

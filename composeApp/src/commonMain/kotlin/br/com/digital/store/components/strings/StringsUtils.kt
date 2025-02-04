@@ -152,4 +152,6 @@ object StringsUtils {
     const val ORDER_WITH_FEE = "Pedido com Taxa"
     const val REMOVE_FEE = "Remover taxa"
     const val SAVE_ORDER_FEE = "Salvar pedido com taxa"
+    const val EXTRA = "Extra"
+    const val FORCE_CLOSING_ORDER = "Forçar fechamento do pedido"
 }

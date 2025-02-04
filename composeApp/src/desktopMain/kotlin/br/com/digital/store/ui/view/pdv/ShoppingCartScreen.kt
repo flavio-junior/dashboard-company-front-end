@@ -138,7 +138,7 @@ fun ShoppingCartScreen(
                             order = OrderRequestDTO(
                                 type = TypeOrder.SHOPPING_CART,
                                 objects = objectsToSave.toList(),
-                                payment = it
+                                payment = it.first
                             )
                         )
                     }

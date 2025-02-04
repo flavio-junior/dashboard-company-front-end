@@ -22,6 +22,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.Dialog
 import br.com.digital.store.components.strings.StringsUtils.ALERT
 import br.com.digital.store.components.strings.StringsUtils.CANCEL
+import br.com.digital.store.components.strings.StringsUtils.EXTRA
+import br.com.digital.store.components.strings.StringsUtils.FORCE_CLOSING_ORDER
 import br.com.digital.store.components.strings.StringsUtils.ORDER_WITH_FEE
 import br.com.digital.store.components.strings.StringsUtils.REMOVE_FEE
 import br.com.digital.store.components.strings.StringsUtils.SAVE_ORDER_FEE
@@ -54,11 +56,13 @@ import br.com.digital.store.utils.onBorder
 fun ClosedOrderDialog(
     fee: FeeResponseOrderVO? = null,
     onDismissRequest: () -> Unit = {},
-    onConfirmation: (PaymentRequestDTO) -> Unit = {}
+    force: Boolean = false,
+    onConfirmation: (Pair<PaymentRequestDTO, Boolean>) -> Unit = {}
 ) {
     var itemSelected: String by remember { mutableStateOf(value = EMPTY_TEXT) }
     var applyDiscount: Boolean by remember { mutableStateOf(value = false) }
     var remove: Boolean by remember { mutableStateOf(value = false) }
+    var forceClosingOrder: Boolean by remember { mutableStateOf(value = false) }
     var valueDiscount: String by remember { mutableStateOf(value = ZERO_DOUBLE) }
     var observer: Pair<Boolean, String> by remember {
         mutableStateOf(value = Pair(first = false, second = EMPTY_TEXT))
@@ -124,6 +128,12 @@ fun ClosedOrderDialog(
                     remove = it
                 }
             )
+            ForceClosingOrder(
+                force = force,
+                forceClosingOrder = {
+                    forceClosingOrder = it
+                }
+            )
             IsErrorMessage(isError = observer.first, message = observer.second)
             Row(
                 modifier = Modifier
@@ -149,11 +159,15 @@ fun ClosedOrderDialog(
                         } else {
                             observer = Pair(first = false, second = EMPTY_TEXT)
                             onConfirmation(
-                                typePaymentFactory(
-                                    payment = itemSelected,
-                                    discount = applyDiscount,
-                                    value = valueDiscount.toDouble(),
-                                    remove = remove
+                                Pair(
+                                    first =
+                                    typePaymentFactory(
+                                        payment = itemSelected,
+                                        discount = applyDiscount,
+                                        value = valueDiscount.toDouble(),
+                                        remove = remove
+                                    ),
+                                    second = forceClosingOrder
                                 )
                             )
                         }
@@ -246,6 +260,47 @@ internal fun ConfigsFee(
                 } else {
                     removeFee(true)
                     Description(description = REMOVE_FEE)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+internal fun ForceClosingOrder(
+    force: Boolean = false,
+    forceClosingOrder: (Boolean) -> Unit = {}
+) {
+    if (force) {
+        var isEnabled by remember { mutableStateOf(value = false) }
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
+        ) {
+            Description(description = EXTRA)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = Themes.colors.primary,
+                        uncheckedColor = Color.Gray,
+                        checkmarkColor = Themes.colors.background
+                    ),
+                    checked = isEnabled,
+                    onCheckedChange = { checked ->
+                        isEnabled = checked
+                    },
+                    modifier = Modifier
+                        .scale(scale = 2f)
+                        .size(size = Themes.size.spaceSize48)
+                )
+                Description(description = FORCE_CLOSING_ORDER)
+                if (isEnabled) {
+                    forceClosingOrder(true)
+                } else {
+                    forceClosingOrder(false)
                 }
             }
         }

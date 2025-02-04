@@ -268,11 +268,12 @@ class OrderViewModel(
 
     fun closeOrder(
         orderId: Long,
+        force: Boolean = false,
         payment: PaymentRequestDTO
     ) {
         CoroutineScope(context = Dispatchers.IO).launch {
             try {
-                repository.closeOrder(orderId = orderId, payment = payment)
+                repository.closeOrder(orderId = orderId, force = force, payment = payment)
                     .collect { response ->
                         when (response) {
                             is ObserveNetworkStateHandler.Loading -> {

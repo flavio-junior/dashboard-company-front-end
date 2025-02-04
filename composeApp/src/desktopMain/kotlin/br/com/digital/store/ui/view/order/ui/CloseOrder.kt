@@ -51,12 +51,13 @@ fun CloseOrder(
     if (openDialog) {
         ClosedOrderDialog(
             fee = fee,
+            force = true,
             onDismissRequest = {
                 openDialog = false
             },
             onConfirmation = {
                 observer = Triple(first = true, second = false, third = EMPTY_TEXT)
-                viewModel.closeOrder(orderId = orderId, payment = it)
+                viewModel.closeOrder(orderId = orderId, force = it.second, payment = it.first)
                 openDialog = false
             }
         )
