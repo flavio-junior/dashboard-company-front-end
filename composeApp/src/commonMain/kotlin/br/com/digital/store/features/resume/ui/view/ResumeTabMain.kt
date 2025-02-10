@@ -9,13 +9,11 @@ fun ResumeTabMain(
     index: Int,
     pierChart: PierChart = PierChart(),
     onItemSelected: (Pair<PierChart, Int>) -> Unit = {},
-    goToOrderScreen: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     when (index) {
         NumbersUtils.NUMBER_ZERO -> GetAnaliseDayScreen(
             onItemSelected = onItemSelected,
-            goToOrderScreen = goToOrderScreen,
             goToAlternativeRoutes = goToAlternativeRoutes
         )
 

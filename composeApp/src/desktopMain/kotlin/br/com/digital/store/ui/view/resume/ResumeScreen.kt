@@ -5,7 +5,6 @@ import br.com.digital.store.components.strings.StringsUtils.RESUME
 import br.com.digital.store.domain.factory.availableServices
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.resume.ui.view.ResumeTabs
-import br.com.digital.store.navigation.RouteApp
 import br.com.digital.store.ui.view.shared.BodyPage
 import br.com.digital.store.ui.view.shared.Services
 import br.com.digital.store.utils.TypeLayout
@@ -25,12 +24,7 @@ fun ResumeScreen(
                 goToBackScreen = goToBackScreen,
                 goToNextScreen = goToNextScreen
             )
-            ResumeTabs(
-                goToOrderScreen = {
-                    goToNextScreen(RouteApp.Order.item)
-                },
-                goToAlternativeRoutes = goToAlternativeRoutes
-            )
+            ResumeTabs(goToAlternativeRoutes = goToAlternativeRoutes)
         }
     )
 }

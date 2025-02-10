@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import br.com.digital.store.components.strings.StringsUtils.MONTH
 import br.com.digital.store.components.ui.LoadingData
 import br.com.digital.store.components.ui.ObserveNetworkStateHandler
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
@@ -17,6 +18,7 @@ import br.com.digital.store.features.networking.resources.ObserveNetworkStateHan
 import br.com.digital.store.features.networking.resources.reloadViewModels
 import br.com.digital.store.features.resume.data.vo.AnaliseDayVO
 import br.com.digital.store.features.resume.domain.factory.ResumeFactory
+import br.com.digital.store.features.resume.domain.type.TypeAnalysis
 import br.com.digital.store.features.resume.ui.viewmodel.ResumeViewModel
 import br.com.digital.store.theme.Themes
 import org.koin.mp.KoinPlatform.getKoin
@@ -24,7 +26,6 @@ import org.koin.mp.KoinPlatform.getKoin
 @Composable
 fun GetAnaliseDayScreen(
     onItemSelected: (Pair<PierChart, Int>) -> Unit = {},
-    goToOrderScreen: () -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     var observer: Pair<Boolean, String?> by remember {
@@ -52,7 +53,10 @@ fun GetAnaliseDayScreen(
                     onItemSelect = { itemSelected ->
                         observer = itemSelected
                     },
-                    goToOrderScreen = goToOrderScreen,
+                    findAllAnaliseWeek = {
+                        viewModel.analiseDay = MONTH
+                        viewModel.getDetailsOfAnalysis(type = TypeAnalysis.MONTH)
+                    },
                     refreshPage = { typeDetailsOfAnalysis ->
                         viewModel.getDetailsOfAnalysis(type = typeDetailsOfAnalysis.first)
                         viewModel.updateAnaliseDay(label = typeDetailsOfAnalysis.second)

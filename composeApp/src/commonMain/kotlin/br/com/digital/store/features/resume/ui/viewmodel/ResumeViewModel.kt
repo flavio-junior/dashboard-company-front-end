@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.digital.store.components.strings.StringsUtils.ANALISE_DAY
+import br.com.digital.store.components.strings.StringsUtils.DAY
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import br.com.digital.store.features.resume.data.dto.TypeAnalysisRequestDTO
 import br.com.digital.store.features.resume.data.repository.ResumeRepository
@@ -20,7 +20,7 @@ class ResumeViewModel(
     private val converterResume: ConverterResume
 ) : ViewModel() {
 
-    var analiseDay = ANALISE_DAY
+    var analiseDay = DAY
 
     private val _getAnalysisDay =
         mutableStateOf<ObserveNetworkStateHandler<AnaliseDayVO>>(

@@ -1,10 +1,14 @@
 package br.com.digital.store.features.resume.ui.view
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -62,7 +66,13 @@ fun PierChartAnalise(
         )
     )
     val textSize = textLayoutResult.size
-    Box(modifier = modifier.fillMaxHeight()) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .fillMaxHeight()
+            .verticalScroll(state = rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
+    ) {
         if (enabled) {
             var itemSelected: String by remember { mutableStateOf(value = label) }
             DropdownMenu(
@@ -74,14 +84,15 @@ fun PierChartAnalise(
                     val converterAnalise = analiseDayFactory(label = it)
                     refreshPage(Pair(first = converterAnalise, second = it))
                 },
-                modifier = Modifier.align(alignment = Alignment.TopStart)
+                modifier = Modifier
+                    .align(alignment = Alignment.Start)
+                    .width(width = Themes.size.spaceSize200)
             )
         } else {
             Title(title = viewModel.analiseDay)
         }
         Canvas(
             modifier = Modifier
-                .align(alignment = Alignment.Center)
                 .size(size = radiusOuter * 2f)
                 .padding(all = Themes.size.spaceSize36)
         ) {
