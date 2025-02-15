@@ -111,10 +111,29 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = NameSpace.PACKAGE_NAME
-            packageVersion = "1.0.0"
+            packageVersion = project.properties["desktop.versionName"]?.toString()
             windows {
                 iconFile.set(project.file("src/desktopMain/resources/icons/logo.ico"))
             }
         }
     }
 }
+
+
+tasks.register("generateVersion") {
+    doLast {
+        val versionName = project.properties["desktop.versionName"]?.toString() ?: "1.0.0"
+        val versionFile = file("src/commonMain/kotlin/br/com/digital/store/Version.kt")
+        versionFile.writeText(
+            """
+            package br.com.digital.store
+
+            object Version {
+                const val VERSION_NAME = "$versionName"
+            }
+            """.trimIndent()
+        )
+    }
+}
+
+tasks.getByName("compileKotlinDesktop").dependsOn("generateVersion")

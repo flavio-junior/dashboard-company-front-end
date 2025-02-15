@@ -47,6 +47,9 @@ private fun navigateBetweenDashboardScreen(
         ItemNavigation.SETTINGS.name ->
             navGraph.navigate(route = RouteApp.Fee.item)
 
+        ItemNavigation.CHECK_UPDATES.name ->
+            navGraph.navigate(route = RouteApp.CheckUpdates.item)
+
         ItemNavigation.SIGN_IN.name ->
             navGraph.navigate(route = RouteApp.SignIn.item)
     }

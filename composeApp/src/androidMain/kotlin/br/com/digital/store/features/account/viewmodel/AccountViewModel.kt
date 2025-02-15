@@ -12,6 +12,7 @@ import br.com.digital.store.features.account.data.repository.AccountRepository
 import br.com.digital.store.features.account.data.repository.local.LocalStorage
 import br.com.digital.store.features.account.data.vo.TokenResponseVO
 import br.com.digital.store.features.account.domain.converter.ConverterToken
+import br.com.digital.store.features.networking.resources.DescriptionError
 import br.com.digital.store.features.networking.resources.ObserveNetworkStateHandler
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -58,7 +59,8 @@ class AccountViewModel(
                     }
             }
         } else {
-            _signIn.value = ObserveNetworkStateHandler.Error(e = INVALID_EMAIL)
+            _signIn.value =
+                ObserveNetworkStateHandler.Error(e = DescriptionError(message = INVALID_EMAIL))
         }
     }
 

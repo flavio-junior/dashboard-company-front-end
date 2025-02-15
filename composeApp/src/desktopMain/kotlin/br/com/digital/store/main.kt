@@ -29,6 +29,7 @@ import br.com.digital.store.features.reservation.di.reservationModule
 import br.com.digital.store.features.resume.di.resumeModule
 import br.com.digital.store.navigation.Navigation
 import br.com.digital.store.theme.Themes
+import br.com.digital.store.features.settings.di.settingsModule
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.startKoin
 
@@ -48,6 +49,7 @@ fun main() {
                 reservationModule,
                 resumeModule,
                 productModule,
+                settingsModule,
                 paymentModule,
                 reportModule
             )

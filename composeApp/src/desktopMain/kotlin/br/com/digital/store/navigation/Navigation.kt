@@ -19,7 +19,8 @@ import br.com.digital.store.ui.view.product.ProductScreen
 import br.com.digital.store.ui.view.report.ReportScreen
 import br.com.digital.store.ui.view.reservation.ReservationScreen
 import br.com.digital.store.ui.view.resume.ResumeScreen
-import br.com.digital.store.ui.view.settings.SettingsScreen
+import br.com.digital.store.ui.view.settings.ui.CheckUpdatesSystemScreen
+import br.com.digital.store.ui.view.settings.ui.SettingsScreen
 import br.com.digital.store.ui.view.user.UserConfigScreen
 
 @Composable
@@ -293,6 +294,21 @@ fun NavGraphBuilder.settingsNavigation(
                     navController = navController,
                     currentScreen = RouteApp.Fee.item,
                     alternativeRoutes = it
+                )
+            }
+        )
+    }
+
+    composable(RouteApp.CheckUpdates.item) {
+        CheckUpdatesSystemScreen(
+            goToBackScreen = {
+                navController.popBackStack()
+            },
+            goToNextScreen = {
+                goToNextScreen(
+                    navHostController = navController,
+                    currentScreen = RouteApp.Fee.item,
+                    nextScreen = it
                 )
             }
         )

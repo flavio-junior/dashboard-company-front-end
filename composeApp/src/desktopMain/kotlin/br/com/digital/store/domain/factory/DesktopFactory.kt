@@ -15,6 +15,7 @@ import br.com.digital.store.components.strings.StringsUtils.REPORTS
 import br.com.digital.store.components.strings.StringsUtils.RESERVATIONS
 import br.com.digital.store.components.strings.StringsUtils.RESUME
 import br.com.digital.store.components.strings.StringsUtils.SETTINGS
+import br.com.digital.store.components.strings.StringsUtils.UPDATES
 import br.com.digital.store.composeapp.generated.resources.Res
 import br.com.digital.store.composeapp.generated.resources.box
 import br.com.digital.store.composeapp.generated.resources.data_usage
@@ -163,6 +164,11 @@ val settings = listOf(
         icon = Res.drawable.shopping_cart,
         label = FEES,
         route = ItemNavigation.FEE.name
+    ),
+    ItemService(
+        icon = Res.drawable.settings,
+        label = UPDATES,
+        route = ItemNavigation.CHECK_UPDATES.name
     ),
     ItemService(
         icon = Res.drawable.box,
