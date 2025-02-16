@@ -122,7 +122,7 @@ compose.desktop {
 
 tasks.register("generateVersion") {
     doLast {
-        val versionName = project.properties["desktop.versionName"]?.toString() ?: "1.0.0"
+        val versionName = project.properties["desktop.versionName"]?.toString()
         val versionFile = file("src/commonMain/kotlin/br/com/digital/store/Version.kt")
         versionFile.writeText(
             """

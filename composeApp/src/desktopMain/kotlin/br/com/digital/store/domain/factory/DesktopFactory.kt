@@ -161,14 +161,14 @@ val settings = listOf(
         route = ItemNavigation.DASHBOARD.name
     ),
     ItemService(
-        icon = Res.drawable.shopping_cart,
-        label = FEES,
-        route = ItemNavigation.FEE.name
-    ),
-    ItemService(
         icon = Res.drawable.settings,
         label = UPDATES,
         route = ItemNavigation.CHECK_UPDATES.name
+    ),
+    ItemService(
+        icon = Res.drawable.shopping_cart,
+        label = FEES,
+        route = ItemNavigation.FEE.name
     ),
     ItemService(
         icon = Res.drawable.box,
