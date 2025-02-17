@@ -39,12 +39,9 @@ fun VerifyAlreadyExistsUpdatesScreen(
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     val viewModel: SettingsViewModel = getKoin().get()
-    LaunchedEffect(
-        key1 = Unit,
-        block = {
-            viewModel.checkUpdates(version = Version.VERSION_NAME)
-        }
-    )
+    LaunchedEffect(key1 = Unit) {
+        viewModel.checkUpdates(version = Version.VERSION_NAME)
+    }
     Column(
         modifier = Modifier
             .padding(
@@ -57,7 +54,7 @@ fun VerifyAlreadyExistsUpdatesScreen(
     ) {
         ObserveNetworkStateHandlerVerifyAlreadyExistsUpdatesScreen(
             viewModel = viewModel,
-            goToAlternativeRoutes = goToAlternativeRoutes,
+            goToAlternativeRoutes = goToAlternativeRoutes
         )
     }
 }
@@ -81,9 +78,9 @@ private fun ObserveNetworkStateHandlerVerifyAlreadyExistsUpdatesScreen(
             reloadViewModels()
         },
         onSuccess = {
-            Title(title = AVAILABLE_UPDATES)
-                val result = it.result
-                if (result?.status == true) {
+            if (it.result != null) {
+                Title(title = AVAILABLE_UPDATES)
+                if (it.result.status) {
                     Description(description = "$STATUS: $UPDATED_SYSTEM")
                 } else {
                     Description(description = "$STATUS: $OUTDATED_SYSTEM")
@@ -95,10 +92,11 @@ private fun ObserveNetworkStateHandlerVerifyAlreadyExistsUpdatesScreen(
                             count = 1
                         ),
                         goToNextScreen = {
-                            openUrlInBrowser(url = result?.url ?: EMPTY_TEXT)
+                            openUrlInBrowser(url = it.result.url ?: EMPTY_TEXT)
                         }
                     )
                 }
+            }
         }
     )
 }
