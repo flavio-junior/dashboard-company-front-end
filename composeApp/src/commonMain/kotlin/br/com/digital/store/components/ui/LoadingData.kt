@@ -16,7 +16,9 @@ import br.com.digital.store.components.strings.StringsUtils.LOADING
 import br.com.digital.store.theme.Themes
 
 @Composable
-fun LoadingData() {
+fun LoadingData(
+    label: String = LOADING
+) {
     Box(
         modifier = Modifier
             .background(color = Themes.colors.background)
@@ -35,7 +37,7 @@ fun LoadingData() {
                 strokeWidth = Themes.size.spaceSize4
             )
             Spacer(modifier = Modifier.size(size = Themes.size.spaceSize32))
-            Title(title = LOADING)
+            Title(title = label)
         }
     }
 }

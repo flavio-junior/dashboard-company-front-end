@@ -126,6 +126,7 @@ object StringsUtils {
     const val UPDATES = "Atualizações"
     const val AVAILABLE_UPDATES = "Atualizações Disponíveis"
     const val DOWNLOAD_UPDATES = "Baixar atualizações"
+    const val DOWNLOADING_UPDATES = "Baixando Atualizações"
     const val OUTDATED_SYSTEM = "Sistema desatualizado!"
     const val UPDATED_SYSTEM = "Sistema atualizado!"
     const val EMPLOYEES = "Funcionários"
