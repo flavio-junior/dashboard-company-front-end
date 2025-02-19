@@ -22,7 +22,6 @@ object OrderUtils {
     const val CANCEL_ORDER = "Cancelar Pedido"
     const val INCREMENT_ITEM = "Adicionar itens ao pedido?"
     const val UPDATE_STATUS_DELIVERY = "Atualizar Status de Entrega?"
-    const val UPDATE_STATUS_ITEM = "Atualizar Status do Item?"
     const val DELETE_OBJECT = "Apagar Item do Pedido?"
     const val ADD_MORE_ITEMS_ORDER = "Adicionar Itens no Pedido"
     const val ADD_RESERVATIONS = "Adicionar Reservas"

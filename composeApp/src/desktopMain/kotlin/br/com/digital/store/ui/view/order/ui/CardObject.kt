@@ -29,8 +29,6 @@ import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.factory.objectFactory
-import br.com.digital.store.features.order.domain.factory.statusDeliveryStatus
-import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.features.order.utils.OrderUtils.ADD_MORE_ITEMS_ORDER
 import br.com.digital.store.theme.CommonColors.ITEM_SELECTED
 import br.com.digital.store.theme.Themes
@@ -44,7 +42,6 @@ import kotlinx.coroutines.launch
 fun Object(
     orderResponseVO: OrderResponseVO,
     objects: List<ObjectResponseVO>,
-    type: TypeOrder? = null,
     onItemSelected: (Pair<OrderResponseVO, Int>) -> Unit = {},
     objectSelected: (Pair<Long, ObjectResponseVO>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
@@ -54,7 +51,6 @@ fun Object(
         ListObject(
             orderResponseVO = orderResponseVO,
             objects = objects,
-            type = type,
             objectSelected = objectSelected,
             addMoreItems = onItemSelected,
             goToAlternativeRoutes = goToAlternativeRoutes,
@@ -68,7 +64,6 @@ private fun ListObject(
     orderResponseVO: OrderResponseVO,
     modifier: Modifier = Modifier,
     objects: List<ObjectResponseVO>,
-    type: TypeOrder? = null,
     objectSelected: (Pair<Long, ObjectResponseVO>) -> Unit = {},
     addMoreItems: (Pair<OrderResponseVO, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
@@ -122,8 +117,6 @@ private fun ListObject(
         )
         FooterOrder(
             orderResponseVO = orderResponseVO,
-            status = statusDeliveryStatus(status = orderResponseVO.address?.status),
-            type = type,
             goToAlternativeRoutes = goToAlternativeRoutes,
             onRefresh = onRefresh,
             modifier = Modifier.weight(weight = WEIGHT_SIZE)

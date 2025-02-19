@@ -14,7 +14,6 @@ import br.com.digital.store.composeapp.generated.resources.print
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
 import br.com.digital.store.features.order.domain.status.ObjectStatus
-import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.ui.view.components.ui.SelectPrint
 import br.com.digital.store.ui.view.components.utils.ThermalPrinter
@@ -26,8 +25,6 @@ import java.io.ByteArrayInputStream
 fun FooterOrder(
     modifier: Modifier = Modifier,
     orderResponseVO: OrderResponseVO,
-    status: String,
-    type: TypeOrder? = null,
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {},
     onRefresh: () -> Unit = {}
 ) {
@@ -39,18 +36,6 @@ fun FooterOrder(
     ItemObject(
         modifier = Modifier.padding(top = Themes.size.spaceSize8),
         body = {
-            if (type != null) {
-                UpdateStatusDelivery(
-                    orderId = orderResponseVO.id,
-                    modifier = modifier,
-                    status = status,
-                    goToAlternativeRoutes = goToAlternativeRoutes,
-                    onRefresh = onRefresh,
-                    onError = {
-                        observer = it
-                    }
-                )
-            }
             DeleteOrder(
                 orderId = orderResponseVO.id,
                 modifier = modifier,

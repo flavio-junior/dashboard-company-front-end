@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import br.com.digital.store.features.networking.resources.AlternativesRoutes
 import br.com.digital.store.features.order.data.vo.ObjectResponseVO
 import br.com.digital.store.features.order.data.vo.OrderResponseVO
-import br.com.digital.store.features.order.domain.type.TypeOrder
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.NumbersUtils.NUMBER_THREE
 
@@ -46,7 +45,6 @@ fun DeliveryDetailsScreen(
             Object(
                 orderResponseVO = orderResponseVO,
                 objects = it,
-                type = TypeOrder.DELIVERY,
                 onItemSelected = onItemSelected,
                 objectSelected = objectSelected,
                 goToAlternativeRoutes = goToAlternativeRoutes,
