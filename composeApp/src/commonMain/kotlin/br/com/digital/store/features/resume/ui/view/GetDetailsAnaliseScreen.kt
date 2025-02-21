@@ -24,7 +24,7 @@ import br.com.digital.store.theme.Themes
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
-fun GetAnaliseDayScreen(
+fun GetDetailsAnaliseScreen(
     onItemSelected: (Pair<PierChart, Int>) -> Unit = {},
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
@@ -60,6 +60,9 @@ fun GetAnaliseDayScreen(
                     refreshPage = { typeDetailsOfAnalysis ->
                         viewModel.getDetailsOfAnalysis(type = typeDetailsOfAnalysis.first)
                         viewModel.updateAnaliseDay(label = typeDetailsOfAnalysis.second)
+                    },
+                    getSpecificDay = { details ->
+                        viewModel.getDetailsOfAnalysis(type = details.first, startDate = details.second)
                     }
                 )
             },

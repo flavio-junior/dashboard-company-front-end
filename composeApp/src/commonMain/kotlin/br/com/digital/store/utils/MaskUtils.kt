@@ -19,3 +19,16 @@ private fun formatNumberWithThousandsSeparator(value: Double): String {
     val decimalPart = if (parts.size > 1) parts[1].padEnd(length = 2, padChar = '0') else "00"
     return "$integerPart.$decimalPart"
 }
+
+fun formatDateInput(
+    input: String
+): String {
+    val digits = input.filter { it.isDigit() }
+    val builder = StringBuilder()
+
+    for (i in digits.indices) {
+        if (i == 4 || i == 6) builder.append('-')
+        if (i < 8) builder.append(digits[i])
+    }
+    return builder.toString()
+}

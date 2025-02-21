@@ -23,7 +23,8 @@ fun AnaliseDay(
     enabled: Boolean = true,
     onItemSelect: (Pair<Boolean, String>) -> Unit = {},
     refreshPage: (Pair<TypeAnalysis, String>) -> Unit = {},
-    findAllAnaliseWeek: () -> Unit = {}
+    findAllAnaliseWeek: () -> Unit = {},
+    getSpecificDay: (Triple<TypeAnalysis, String, String?>) -> Unit = {}
 ) {
     var animationPlayed by remember { mutableStateOf(value = false) }
     LaunchedEffect(key1 = true) {
@@ -43,7 +44,8 @@ fun AnaliseDay(
                 label = label,
                 enabled = enabled,
                 graphic = pierChart.graphic,
-                refreshPage = refreshPage
+                refreshPage = refreshPage,
+                getSpecificDay = getSpecificDay
             )
             DetailsAnalise(
                 modifier = Modifier.weight(weight = WEIGHT_SIZE),

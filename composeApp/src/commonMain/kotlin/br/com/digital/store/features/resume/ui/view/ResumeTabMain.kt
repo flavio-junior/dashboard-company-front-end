@@ -12,7 +12,7 @@ fun ResumeTabMain(
     goToAlternativeRoutes: (AlternativesRoutes?) -> Unit = {}
 ) {
     when (index) {
-        NumbersUtils.NUMBER_ZERO -> GetAnaliseDayScreen(
+        NumbersUtils.NUMBER_ZERO -> GetDetailsAnaliseScreen(
             onItemSelected = onItemSelected,
             goToAlternativeRoutes = goToAlternativeRoutes
         )

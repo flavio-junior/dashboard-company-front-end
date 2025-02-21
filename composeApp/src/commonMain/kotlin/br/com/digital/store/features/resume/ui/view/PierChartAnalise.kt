@@ -3,10 +3,11 @@ package br.com.digital.store.features.resume.ui.view
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -27,9 +28,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import br.com.digital.store.components.strings.StringsUtils.TYPE_ANALYSIS
+import br.com.digital.store.components.strings.StringsUtils.RESUME
 import br.com.digital.store.components.ui.DropdownMenu
+import br.com.digital.store.components.ui.IconDefault
 import br.com.digital.store.components.ui.Title
+import br.com.digital.store.composeapp.generated.resources.Res
+import br.com.digital.store.composeapp.generated.resources.filter_list
 import br.com.digital.store.features.resume.domain.factory.analiseDayFactory
 import br.com.digital.store.features.resume.domain.type.TypeAnalysis
 import br.com.digital.store.features.resume.ui.viewmodel.ResumeViewModel
@@ -40,6 +44,8 @@ import br.com.digital.store.theme.FontSize.fontSize36
 import br.com.digital.store.theme.SpaceSize.spaceSize48
 import br.com.digital.store.theme.Themes
 import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
+import br.com.digital.store.utils.CommonUtils.WEIGHT_SIZE
+import br.com.digital.store.utils.onBorder
 import org.koin.mp.KoinPlatform.getKoin
 import kotlin.math.cos
 import kotlin.math.sin
@@ -51,7 +57,8 @@ fun PierChartAnalise(
     enabled: Boolean = true,
     radiusOuter: Dp = Themes.size.spaceSize250,
     graphic: Graphic? = null,
-    refreshPage: (Pair<TypeAnalysis, String>) -> Unit = {}
+    refreshPage: (Pair<TypeAnalysis, String>) -> Unit = {},
+    getSpecificDay: (Triple<TypeAnalysis, String, String?>) -> Unit = {}
 ) {
     val viewModel: ResumeViewModel = getKoin().get()
     val titleGraphic = graphic?.graphic
@@ -74,19 +81,10 @@ fun PierChartAnalise(
         verticalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize16)
     ) {
         if (enabled) {
-            var itemSelected: String by remember { mutableStateOf(value = label) }
-            DropdownMenu(
-                selectedValue = itemSelected,
-                items = listAnalise,
-                label = TYPE_ANALYSIS,
-                onValueChangedEvent = {
-                    itemSelected = it
-                    val converterAnalise = analiseDayFactory(label = it)
-                    refreshPage(Pair(first = converterAnalise, second = it))
-                },
-                modifier = Modifier
-                    .align(alignment = Alignment.Start)
-                    .width(width = Themes.size.spaceSize200)
+            FilterPierChart(
+                label = label,
+                refreshPage = refreshPage,
+                getSpecificDay = getSpecificDay
             )
         } else {
             Title(title = viewModel.analiseDay)
@@ -152,5 +150,74 @@ fun PierChartAnalise(
                 )
             )
         }
+    }
+}
+
+@Composable
+fun FilterPierChart(
+    label: String,
+    refreshPage: (Pair<TypeAnalysis, String>) -> Unit = {},
+    getSpecificDay: (Triple<TypeAnalysis, String, String?>) -> Unit = {}
+) {
+    var itemSelected: String by remember { mutableStateOf(value = label) }
+    var openDialog: Boolean by remember { mutableStateOf(value = false) }
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(space = Themes.size.spaceSize36),
+        modifier = Modifier.padding(end = Themes.size.spaceSize36)
+    ) {
+        DropdownMenu(
+            selectedValue = itemSelected,
+            items = listAnalise,
+            label = RESUME,
+            onValueChangedEvent = {
+                itemSelected = it
+                val converterAnalise = analiseDayFactory(label = it)
+                refreshPage(Pair(first = converterAnalise, second = it))
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(weight = WEIGHT_SIZE)
+        )
+        IconDefault(
+            icon = Res.drawable.filter_list,
+            modifier = Modifier
+                .onBorder(
+                    color = Themes.colors.primary,
+                    spaceSize = Themes.size.spaceSize16,
+                    width = Themes.size.spaceSize2
+                )
+                .size(size = Themes.size.spaceSize64)
+                .padding(all = Themes.size.spaceSize8),
+            onClick = {
+                openDialog = true
+            }
+        )
+    }
+    if (openDialog) {
+        FilterBetweenDates(
+            onDismissRequest = {
+                openDialog = false
+            },
+            onDateSelected = {
+                openDialog = false
+                getSpecificDay(
+                    Triple(
+                        first = TypeAnalysis.DAY,
+                        second = it,
+                        third = null
+                    )
+                )
+            },
+            onDatesSelected = {
+                openDialog = false
+                getSpecificDay(
+                    Triple(
+                        first = TypeAnalysis.DAY,
+                        second = it.first,
+                        third = it.second
+                    )
+                )
+            }
+        )
     }
 }

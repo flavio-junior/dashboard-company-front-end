@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface ResumeRepository {
     fun getDetailsOfAnalysis(
-        date: String,
+        startDate: String? = null,
+        endDate: String? = null,
         type: TypeAnalysisRequestDTO
     ): Flow<ObserveNetworkStateHandler<AnaliseDayDTO>>
 }

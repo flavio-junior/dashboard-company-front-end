@@ -24,14 +24,27 @@ class ResumeRemoteDataSource(
     }
 
     override fun getDetailsOfAnalysis(
-        date: String,
+        startDate: String?,
+        endDate: String?,
         type: TypeAnalysisRequestDTO
     ): Flow<ObserveNetworkStateHandler<AnaliseDayDTO>> {
         return toResultFlow {
             httpClient.post {
                 url {
                     path("/api/dashboard/company/payment/v1/details/analysis")
-                    parameters.append(name = "date", value = date)
+                    if (startDate != null) {
+                        parameters.append(name = "date", value = startDate)
+                    }
+                    if (startDate != null && endDate != null) {
+                        parameters.append(
+                            name = "start",
+                            value = startDate
+                        )
+                        parameters.append(
+                            name = "end",
+                            value = endDate
+                        )
+                    }
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")

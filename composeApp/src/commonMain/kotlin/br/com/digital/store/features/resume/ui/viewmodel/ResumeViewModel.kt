@@ -11,7 +11,6 @@ import br.com.digital.store.features.resume.data.repository.ResumeRepository
 import br.com.digital.store.features.resume.data.vo.AnaliseDayVO
 import br.com.digital.store.features.resume.domain.converter.ConverterResume
 import br.com.digital.store.features.resume.domain.type.TypeAnalysis
-import br.com.digital.store.utils.CommonUtils.EMPTY_TEXT
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -36,12 +35,16 @@ class ResumeViewModel(
     }
 
     fun getDetailsOfAnalysis(
-        date: String? = null,
+        startDate: String? = null,
+        endDate: String? = null,
         type: TypeAnalysis = TypeAnalysis.DAY
     ) {
+        if (startDate != null) {
+            updateAnaliseDay(label = DAY)
+        }
         viewModelScope.launch {
             repository.getDetailsOfAnalysis(
-                date = date ?: EMPTY_TEXT,
+                startDate = startDate,
                 type = TypeAnalysisRequestDTO(type = type)
             )
                 .onStart {
