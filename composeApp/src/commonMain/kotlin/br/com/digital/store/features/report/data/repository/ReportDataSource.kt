@@ -34,7 +34,7 @@ class ReportDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/report/v1/find/all")
+                    path("/api/digital/order/report/v1/find/all")
                     parameters.append(name = "page", value = page.toString())
                     parameters.append(name = "size", value = size.toString())
                     parameters.append(name = "sort", value = sort)
@@ -51,7 +51,7 @@ class ReportDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.post {
-                url(urlString = "/api/dashboard/company/report/v1")
+                url(urlString = "/api/digital/order/report/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -65,7 +65,7 @@ class ReportDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.delete {
-                url(urlString = "/api/dashboard/company/report/v1/$reportId")
+                url(urlString = "/api/digital/order/report/v1/$reportId")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }

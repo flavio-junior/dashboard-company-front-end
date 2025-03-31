@@ -39,7 +39,7 @@ class CategoryRemoteDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/categories/v1")
+                    path("/api/digital/order/categories/v1")
                     parameters.append("name", name)
                     parameters.append("page", page.toString())
                     parameters.append("size", size.toString())
@@ -57,7 +57,7 @@ class CategoryRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<List<CategoryResponseDTO>>> {
         return toResultFlow {
             httpClient.get {
-                url(urlString = "/api/dashboard/company/categories/v1/find/category/by/${name.name}")
+                url(urlString = "/api/digital/order/categories/v1/find/category/by/${name.name}")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -68,7 +68,7 @@ class CategoryRemoteDataSource(
     override fun createNewCategory(category: CategoryRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.post {
-                url(urlString = "/api/dashboard/company/categories/v1")
+                url(urlString = "/api/digital/order/categories/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -80,7 +80,7 @@ class CategoryRemoteDataSource(
     override fun editCategory(category: EditCategoryRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "/api/dashboard/company/categories/v1")
+                url(urlString = "/api/digital/order/categories/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -92,7 +92,7 @@ class CategoryRemoteDataSource(
     override fun deleteCategory(id: Long): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.delete {
-                url(urlString = "/api/dashboard/company/categories/v1/$id")
+                url(urlString = "/api/digital/order/categories/v1/$id")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }

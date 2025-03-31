@@ -41,7 +41,7 @@ class ProductRemoteDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/products/v1")
+                    path("/api/digital/order/products/v1")
                     parameters.append("name", name)
                     parameters.append("page", page.toString())
                     parameters.append("size", size.toString())
@@ -60,7 +60,7 @@ class ProductRemoteDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/products/v1/find/product/by/$name")
+                    path("/api/digital/order/products/v1/find/product/by/$name")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
@@ -72,7 +72,7 @@ class ProductRemoteDataSource(
     override fun createNewProduct(product: ProductRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.post {
-                url(urlString = "/api/dashboard/company/products/v1")
+                url(urlString = "/api/digital/order/products/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -84,7 +84,7 @@ class ProductRemoteDataSource(
     override fun updateProduct(product: UpdateProductRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "/api/dashboard/company/products/v1")
+                url(urlString = "/api/digital/order/products/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -99,7 +99,7 @@ class ProductRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.patch {
-                url(urlString = "/api/dashboard/company/products/v1/update/price/product/$id")
+                url(urlString = "/api/digital/order/products/v1/update/price/product/$id")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -114,7 +114,7 @@ class ProductRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.patch {
-                url(urlString = "/api/dashboard/company/products/v1/restock/product/$id")
+                url(urlString = "/api/digital/order/products/v1/restock/product/$id")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -126,7 +126,7 @@ class ProductRemoteDataSource(
     override fun deleteProduct(id: Long): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.delete {
-                url(urlString = "/api/dashboard/company/products/v1/$id")
+                url(urlString = "/api/digital/order/products/v1/$id")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }

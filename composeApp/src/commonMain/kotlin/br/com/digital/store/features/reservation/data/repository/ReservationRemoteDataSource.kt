@@ -39,7 +39,7 @@ class ReservationRemoteDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/reservations/v1")
+                    path("/api/digital/order/reservations/v1")
                     parameters.append("name", name)
                     parameters.append("page", page.toString())
                     parameters.append("size", size.toString())
@@ -58,7 +58,7 @@ class ReservationRemoteDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/reservations/v1/find/reservation/by/$name")
+                    path("/api/digital/order/reservations/v1/find/reservation/by/$name")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
@@ -70,7 +70,7 @@ class ReservationRemoteDataSource(
     override fun createNewReservation(reservation: ReservationRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.post {
-                url(urlString = "/api/dashboard/company/reservations/v1")
+                url(urlString = "/api/digital/order/reservations/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -84,7 +84,7 @@ class ReservationRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.post {
-                url(urlString = "/api/dashboard/company/reservations/v1/generate/reservations")
+                url(urlString = "/api/digital/order/reservations/v1/generate/reservations")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -96,7 +96,7 @@ class ReservationRemoteDataSource(
     override fun editReservation(reservation: EditReservationRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "/api/dashboard/company/reservations/v1")
+                url(urlString = "/api/digital/order/reservations/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -108,7 +108,7 @@ class ReservationRemoteDataSource(
     override fun deleteReservation(id: Long): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.delete {
-                url(urlString = "/api/dashboard/company/reservations/v1/$id")
+                url(urlString = "/api/digital/order/reservations/v1/$id")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }

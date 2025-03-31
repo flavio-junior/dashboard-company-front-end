@@ -40,7 +40,7 @@ class FoodRemoteDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/foods/v1")
+                    path("/api/digital/order/foods/v1")
                     parameters.append("name", name)
                     parameters.append("page", page.toString())
                     parameters.append("size", size.toString())
@@ -57,7 +57,7 @@ class FoodRemoteDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/foods/v1/find/food/by/$name")
+                    path("/api/digital/order/foods/v1/find/food/by/$name")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
@@ -69,7 +69,7 @@ class FoodRemoteDataSource(
     override fun createNewFood(food: FoodRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.post {
-                url(urlString = "/api/dashboard/company/foods/v1")
+                url(urlString = "/api/digital/order/foods/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -81,7 +81,7 @@ class FoodRemoteDataSource(
     override fun updateFood(food: UpdateFoodRequestDTO): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "/api/dashboard/company/foods/v1")
+                url(urlString = "/api/digital/order/foods/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -96,7 +96,7 @@ class FoodRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.patch {
-                url(urlString = "/api/dashboard/company/foods/v1/update/price/food/$id")
+                url(urlString = "/api/digital/order/foods/v1/update/price/food/$id")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -108,7 +108,7 @@ class FoodRemoteDataSource(
     override fun deleteFood(id: Long): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.delete {
-                url(urlString = "/api/dashboard/company/foods/v1/$id")
+                url(urlString = "/api/digital/order/foods/v1/$id")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }

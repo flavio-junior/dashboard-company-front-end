@@ -27,7 +27,7 @@ class EmployeeRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<List<EmployeeResponseDTO>>> {
         return toResultFlow {
             httpClient.get {
-                url(urlString = "/api/dashboard/company/employees/v1/find/employee/by/${name.name}")
+                url(urlString = "/api/digital/order/employees/v1/find/employee/by/${name.name}")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }

@@ -32,7 +32,7 @@ class FeeRemoteDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/fees/v1")
+                    path("/api/digital/order/fees/v1")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
@@ -47,7 +47,7 @@ class FeeRemoteDataSource(
         return toResultFlow {
             httpClient.post {
                 url {
-                    path("/api/dashboard/company/fees/v1")
+                    path("/api/digital/order/fees/v1")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
@@ -64,7 +64,7 @@ class FeeRemoteDataSource(
         return toResultFlow {
             httpClient.post {
                 url {
-                    path("/api/dashboard/company/fees/v1/add/days/fee/$id")
+                    path("/api/digital/order/fees/v1/add/days/fee/$id")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
@@ -81,7 +81,7 @@ class FeeRemoteDataSource(
         return toResultFlow {
             httpClient.patch {
                 url {
-                    path("/api/dashboard/company/fees/v1/update/price/fee/$feeId")
+                    path("/api/digital/order/fees/v1/update/price/fee/$feeId")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
@@ -98,7 +98,7 @@ class FeeRemoteDataSource(
         return toResultFlow {
             httpClient.delete {
                 url {
-                    path("/api/dashboard/company/fees/v1/fee/$feeId/$dayId")
+                    path("/api/digital/order/fees/v1/fee/$feeId/$dayId")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
@@ -113,7 +113,7 @@ class FeeRemoteDataSource(
         return toResultFlow {
             httpClient.delete {
                 url {
-                    path("/api/dashboard/company/fees/v1/$feeId")
+                    path("/api/digital/order/fees/v1/$feeId")
                 }
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")

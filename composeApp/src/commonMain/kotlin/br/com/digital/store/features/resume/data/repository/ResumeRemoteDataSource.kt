@@ -31,7 +31,7 @@ class ResumeRemoteDataSource(
         return toResultFlow {
             httpClient.post {
                 url {
-                    path("/api/dashboard/company/payment/v1/details/analysis")
+                    path("/api/digital/order/payment/v1/details/analysis")
                     if (startDate != null) {
                         parameters.append(name = "date", value = startDate)
                     }

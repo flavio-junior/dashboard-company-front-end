@@ -42,7 +42,7 @@ class OrderRemoteDataSource(
         return toResultFlow {
             httpClient.get {
                 url {
-                    path("/api/dashboard/company/orders/v1/open")
+                    path("/api/digital/order/orders/v1/open")
                     parameters.append("page", page.toString())
                     parameters.append("size", size.toString())
                     parameters.append("sort", sort)
@@ -59,7 +59,7 @@ class OrderRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<OrderResponseDTO>> {
         return toResultFlow {
             httpClient.post {
-                url(urlString = "/api/dashboard/company/orders/v1")
+                url(urlString = "/api/digital/order/orders/v1")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -75,7 +75,7 @@ class OrderRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "/api/dashboard/company/orders/v1/$orderId/update/object/$objectId")
+                url(urlString = "/api/digital/order/orders/v1/$orderId/update/object/$objectId")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -91,7 +91,7 @@ class OrderRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "/api/dashboard/company/orders/v1/$orderId/update/address/$addressId")
+                url(urlString = "/api/digital/order/orders/v1/$orderId/update/address/$addressId")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -106,7 +106,7 @@ class OrderRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.put {
-                url(urlString = "/api/dashboard/company/orders/v1/$orderId/update/status/delivery")
+                url(urlString = "/api/digital/order/orders/v1/$orderId/update/status/delivery")
                 headers {
                     append(name = HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -121,7 +121,7 @@ class OrderRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.post {
-                url(urlString = "/api/dashboard/company/orders/v1/${orderId}/increment/more/objects/order")
+                url(urlString = "/api/digital/order/orders/v1/${orderId}/increment/more/objects/order")
                 headers {
                     append(name = HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -136,7 +136,7 @@ class OrderRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.post {
-                url(urlString = "/api/dashboard/company/orders/v1/${orderId}/increment/more/reservations/order")
+                url(urlString = "/api/digital/order/orders/v1/${orderId}/increment/more/reservations/order")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -151,7 +151,7 @@ class OrderRemoteDataSource(
     ): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.delete {
-                url(urlString = "/api/dashboard/company/orders/v1/${orderId}/remove/reservation/${reservationId}")
+                url(urlString = "/api/digital/order/orders/v1/${orderId}/remove/reservation/${reservationId}")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -162,7 +162,7 @@ class OrderRemoteDataSource(
     override fun deleteOrder(id: Long): Flow<ObserveNetworkStateHandler<Unit>> {
         return toResultFlow {
             httpClient.delete {
-                url(urlString = "/api/dashboard/company/orders/v1/$id")
+                url(urlString = "/api/digital/order/orders/v1/$id")
                 headers {
                     append(HttpHeaders.Authorization, value = "Bearer $accessToken")
                 }
@@ -178,7 +178,7 @@ class OrderRemoteDataSource(
         return toResultFlow {
             httpClient.put {
                 url {
-                    path("api/dashboard/company/orders/v1/payment/$orderId")
+                    path("api/digital/order/orders/v1/payment/$orderId")
                     parameters.append("force", force.toString())
                 }
                 headers {
