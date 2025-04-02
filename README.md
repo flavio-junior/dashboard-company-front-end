@@ -1,5 +1,4 @@
-# Documentation of Project | dashboard-company
-
+# Documentation of Project |  Digital Order - Mobile App in KMP
 - **Specifications:**
   - **Programming language used: ` Kotlin `**
   - **Kotlin Version: ` 1.9.25 `**
